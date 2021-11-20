@@ -2,9 +2,10 @@
 
 You can use the [editor on GitHub](https://github.com/emersonjleon/emersonjleon/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
 
-[acordes](acordes.html)
-[fixed points](fp.md)
-[fuego fractal](fp.html)
+- [acordes](acordes.html)
+- [synthetizer](synth.html)
+- [fuego fractal](fuegofractal.html)
+- [fixed points](fp.html)
 
 
 Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
