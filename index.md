@@ -6,7 +6,7 @@ You can use the [editor on GitHub](https://github.com/emersonjleon/emersonjleon/
 - [synthetizer](synth.html)
 - [fuego fractal](fuegofractal.html)
 - [fixed points](fp.html)
-- [https://emersonleon.w3spaces.com/index.html]
+- [blog](https://emersonleon.w3spaces.com/index.html)
 
 
 Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
