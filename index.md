@@ -2,8 +2,9 @@
 
 You can use the [editor on GitHub](https://github.com/emersonjleon/emersonjleon/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
 
-- [acordes](acordes.html)
+- [math](math.md)
 - [synthetizer](synth.html)
+- [acordes](acordes.html)
 - [fuego fractal](fuegofractal.html)
 - [fixed points](fp.html)
 - [blog](https://emersonleon.w3spaces.com/index.html)
