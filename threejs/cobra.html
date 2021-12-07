@@ -1,0 +1,1533 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Escena</title>
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+    </style>
+</head>
+
+<body>
+    <script src="js/three.js"></script>
+    <script src="js/controls/OrbitControls.js"></script>
+    <script src="js/csg.js"></script>
+    <script src="js/THREE.CSG.js"></script>
+    <script src="js/WebGL.js"></script>
+    <script>
+        if (WEBGL.isWebGLAvailable() === false) {
+
+            document.body.appendChild(WEBGL.getWebGLErrorMessage());
+
+        }
+        var scene, aspect, camera, renderer, controls;
+        init();
+        animate();
+
+        function init() {
+            if (WEBGL.isWebGLAvailable() === false) {
+                document.body.appendChild(WEBGL.getWebGLErrorMessage());
+            }
+            //INICIALIZACIÓN
+            scene = new THREE.Scene();
+            aspect = window.innerWidth / window.innerHeight;
+            camera = new THREE.PerspectiveCamera(75, aspect, 0.1, 1000);
+            renderer = new THREE.WebGLRenderer();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.body.appendChild(renderer.domElement);
+            controls = new THREE.OrbitControls(camera, renderer.domElement);
+
+            //ELEMENTOS COMUNES
+            var size = 60;
+            var arrowSize = 1;
+            var divisions = size;
+            var origin = new THREE.Vector3(0, 0, 0);
+            var x = new THREE.Vector3(1, 0, 0);
+            var y = new THREE.Vector3(0, 1, 0);
+            var z = new THREE.Vector3(0, 0, 1);
+            var color = new THREE.Color(0x231100);
+            var colorV = new THREE.Color(0x5b3952);
+            var colorTinto = new THREE.Color(0x5b0000);
+            var colorM = new THREE.Color(0xdedede);
+            var colorB = new THREE.Color(0xffffff);
+            //  var colorPa = new THREE.Color(0xfccd6f);
+            var colorPa = new THREE.Color(0xfcb16f);
+            //var colorPa = new THREE.Color(0xf1f1f1);
+
+            //CREAR LAS GRILLAS PARA EL ESCENARIO
+            var axesHelper = new THREE.AxesHelper(arrowSize);
+            scene.add(axesHelper);
+
+            var gridHelperXZ = new THREE.GridHelper(size, divisions, color, color);
+            scene.add(gridHelperXZ);
+
+            //ROTARLAS PARA QUE QUEDEN EN EL ESPACIO ADECUADO
+            gridHelperXZ.rotateOnWorldAxis(y, THREE.Math.degToRad(90));
+
+            //CREAR ILUMINACIÓN
+            var ambient = new THREE.AmbientLight(0xfdecaa, 0.4);
+            scene.add(ambient);
+
+            var pointLight = new THREE.PointLight(0xffffbb, 1, 50);
+            pointLight.position.set(0, 10, -10);
+            scene.add(pointLight);
+
+            var pointLight2 = new THREE.PointLight(0xffffbb, 1, 50);
+            pointLight2.position.set(0, 10, 40);
+            scene.add(pointLight2);
+
+            var pointLight3 = new THREE.PointLight(0xffffbb, 1, 50);
+            pointLight3.position.set(0, 10, 95);
+            scene.add(pointLight3);
+
+            var pointLight4 = new THREE.PointLight(0xffffff, 2.5, 10);
+            pointLight4.position.set(0, -8, 94);
+            scene.add(pointLight4);
+
+
+
+
+            //CREAR LAS GEOMETRIAS
+            var boxGeometry = new THREE.BoxGeometry(30, 40, 200);
+            var boxGeometry2 = new THREE.BoxGeometry(28, 38, 200);
+            var plano = new THREE.PlaneGeometry(9, 30);
+            var plano2 = new THREE.PlaneGeometry(198, 4);
+            var plano3 = new THREE.PlaneGeometry(38, 4);
+            var planop = new THREE.PlaneGeometry(28, 198);
+            var planoPar = new THREE.PlaneGeometry(40, 200);
+            var planoFond = new THREE.PlaneGeometry(28, 33);
+            var sphereGeometry = new THREE.SphereGeometry(2.5, 25, 25);
+            var cylinderGeometry = new THREE.CylinderGeometry(2.5, 2.5, 8, 25);
+            var bombiGeometry = new THREE.SphereGeometry(1.5, 15, 15);
+            var puGeometry = new THREE.BoxGeometry(1, 30, 1);
+            var pu2Geometry = new THREE.BoxGeometry(1, 1, 10);
+            var puAGeometry = new THREE.BoxGeometry(6, 6, 200);
+            var puBGeometry = new THREE.BoxGeometry(5, 38, 6);
+            var puBPGeometry = new THREE.BoxGeometry(5.1, 4, 6.1);
+
+            var mycylinder = new THREE.CylinderGeometry(4, 5, 5, 30);
+            
+
+
+            //CREAR LOS MATERIALES
+            var materialPare = new THREE.MeshStandardMaterial({
+                color: colorB,
+                metalness: 0,
+                roughness: 0.8,
+
+            });
+            var materialPuertas = new THREE.MeshStandardMaterial({
+                color: colorPa,
+                metalness: 0,
+                roughness: 0.2,
+            });
+
+            var materialPiso = new THREE.MeshStandardMaterial({
+                color: colorTinto,
+                metalness: 0.3,
+                roughness: 0,
+            });
+            var metal = new THREE.MeshStandardMaterial({
+                color: colorM,
+                metalness: 0.8,
+                roughness: 0.5,
+
+            });
+            var Matninas = new THREE.MeshStandardMaterial({
+                color: colorV,
+                metalness: 0,
+                roughness: 0,
+                transparent: true,
+                opacity: 0.9
+            });
+            var Matnew = new THREE.MeshStandardMaterial({
+                color: colorTinto,
+                metalness: 0.3,
+                roughness: 0,
+                transparent: true,
+                opacity: 0.9
+            });
+
+            var materialbomb = new THREE.MeshBasicMaterial({
+                color: 0xffffaa
+            });
+
+            //TEXTURAS
+
+            var woodBase = new THREE.TextureLoader().load('textures/ColorMad.jpg');
+            var woodNormal = new THREE.TextureLoader().load('textures/NormalMad.jpg');
+            var woodMaterial = new THREE.MeshStandardMaterial({
+                map: woodBase,
+                normalMap: woodNormal
+            });
+
+            var patBase = new THREE.TextureLoader().load('textures/ColorPat.jpg');
+            var patNormal = new THREE.TextureLoader().load('textures/NormalPat.jpg');
+            var materialPared = new THREE.MeshStandardMaterial({
+                color: 0xffffff,
+                roughness: 0.8,
+                transparent: true,
+                opacity: 0.8,
+                map: patBase,
+                normalMap: patNormal
+            });
+            //EXP MIO
+
+            var box1 = new THREE.Mesh(boxGeometry);
+            var box2 = new THREE.Mesh(boxGeometry2);
+            box2.position.z = 1;
+            var box1CSG = THREE.CSG.fromMesh(box1);
+            var box2CSG = THREE.CSG.fromMesh(box2);
+            var result = box1CSG.subtract(box2CSG);
+            var pasillo = THREE.CSG.toMesh(result);
+            pasillo.material = materialPare;
+
+            var p1 = new THREE.Mesh(plano, materialPuertas);
+            p1.rotateY(1.5708);
+            p1.position.x = -13.8;
+            p1.position.y = -5;
+            p1.position.z = 90;
+
+            var p2 = new THREE.Mesh(plano, materialPuertas);
+            p2.rotateY(1.5708);
+            p2.position.x = -13.8;
+            p2.position.y = -5;
+            p2.position.z = 40;
+
+            var p3 = new THREE.Mesh(plano, materialPuertas);
+            p3.rotateY(-1.5708);
+            p3.position.x = 13.8;
+            p3.position.y = -5;
+            p3.position.z = 95;
+
+            var p5 = new THREE.Mesh(plano, materialPuertas);
+            p5.rotateY(-1.5708);
+            p5.position.x = 13.8;
+            p5.position.y = -5;
+            p5.position.z = 85;
+
+            var p4 = new THREE.Mesh(plano, materialPuertas);
+            p4.rotateY(-1.5708);
+            p4.position.x = 13.8;
+            p4.position.y = -5;
+            p4.position.z = 40;
+
+            var pb1 = new THREE.Mesh(plano2, materialPuertas);
+            pb1.rotateY(-1.5708);
+            pb1.position.x = 13.8;
+            pb1.position.y = -17;
+            pb1.position.z = 2;
+
+            var pb2 = new THREE.Mesh(plano2, materialPuertas);
+            pb2.rotateY(1.5708);
+            pb2.position.x = -13.8;
+            pb2.position.y = -17;
+            pb2.position.z = 2;
+
+            var pbf = new THREE.Mesh(plano3, materialPuertas);
+            pbf.position.y = -17;
+            pbf.position.z = -98.8;
+
+            var piso = new THREE.Mesh(planop, Matninas);
+            piso.rotateX(-1.5708);
+            piso.position.y = -18.9;
+            piso.position.z = 2;
+
+            var par1 = new THREE.Mesh(planoPar, materialPared);
+            par1.rotateY(-1.5708);
+            par1.rotateZ(-1.5708);
+            par1.position.x = 13.9;
+
+            var par2 = new THREE.Mesh(planoPar, materialPared);
+            par2.rotateY(1.5708);
+            par2.rotateZ(-1.5708);
+            par2.position.x = -13.9;
+
+            var parfo = new THREE.Mesh(planoFond, materialPared);
+            parfo.position.z = -98.9;
+
+
+            var coso = new THREE.Mesh(puGeometry, materialPuertas);
+            coso.position.z = 85;
+            coso.position.x = -13.9;
+            coso.position.y = -4;
+            var coso2 = new THREE.Mesh(puGeometry, materialPuertas);
+            coso2.position.z = 95;
+            coso2.position.x = -13.9;
+            coso2.position.y = -4;
+            var coso3 = new THREE.Mesh(puGeometry, materialPuertas);
+            coso3.position.z = 35;
+            coso3.position.x = -13.9;
+            coso3.position.y = -4;
+            var coso4 = new THREE.Mesh(puGeometry, materialPuertas);
+            coso4.position.z = 45;
+            coso4.position.x = -13.9;
+            coso4.position.y = -4;
+
+            var coso5 = new THREE.Mesh(puGeometry, materialPuertas);
+            coso5.position.z = 90;
+            coso5.position.x = 13.9;
+            coso5.position.y = -4;
+            var coso5b = new THREE.Mesh(puGeometry, materialPuertas);
+            coso5b.position.z = 80;
+            coso5b.position.x = 13.9;
+            coso5b.position.y = -4;
+            var coso6 = new THREE.Mesh(puGeometry, materialPuertas);
+            coso6.position.z = 100;
+            coso6.position.x = 13.9;
+            coso6.position.y = -4;
+            var coso7 = new THREE.Mesh(puGeometry, materialPuertas);
+            coso7.position.z = 35;
+            coso7.position.x = 13.9;
+            coso7.position.y = -4;
+            var coso8 = new THREE.Mesh(puGeometry, materialPuertas);
+            coso8.position.z = 45;
+            coso8.position.x = 13.9;
+            coso8.position.y = -4;
+
+            var cosa = new THREE.Mesh(pu2Geometry, materialPuertas);
+            cosa.position.z = 90;
+            cosa.position.x = -13.9;
+            cosa.position.y = 10.5;
+
+            var cosa1 = new THREE.Mesh(pu2Geometry, materialPuertas);
+            cosa1.position.z = 40;
+            cosa1.position.x = -13.9;
+            cosa1.position.y = 10.5;
+            var cosa2 = new THREE.Mesh(pu2Geometry, materialPuertas);
+            cosa2.position.z = 95;
+            cosa2.position.x = 13.9;
+            cosa2.position.y = 10.5;
+            var cosa2b = new THREE.Mesh(pu2Geometry, materialPuertas);
+            cosa2b.position.z = 85;
+            cosa2b.position.x = 13.9;
+            cosa2b.position.y = 10.5;
+            var cosa3 = new THREE.Mesh(pu2Geometry, materialPuertas);
+            cosa3.position.z = 40;
+            cosa3.position.x = 13.9;
+            cosa3.position.y = 10.5;
+
+            var cosAR = new THREE.Mesh(puAGeometry, materialPare);
+            cosAR.position.x = 13.9;
+            cosAR.position.y = 19;
+
+            var cosAR2 = new THREE.Mesh(puAGeometry, materialPare);
+            cosAR2.position.x = -13.9;
+            cosAR2.position.y = 19;
+
+
+            var bar = new THREE.Mesh(puBGeometry, materialPared);
+            bar.position.z = 65;
+            bar.position.x = -13.9;
+            bar.position.y = -2;
+
+            var bar2 = new THREE.Mesh(puBGeometry, materialPared);
+            bar2.position.z = 70;
+            bar2.position.x = 13.9;
+            bar2.position.y = -2;
+
+            var bar3 = new THREE.Mesh(puBGeometry, materialPared);
+            bar3.position.z = 25;
+            bar3.position.x = -13.9;
+            bar3.position.y = -2;
+
+            var bar4 = new THREE.Mesh(puBGeometry, materialPared);
+            bar4.position.z = 0;
+            bar4.position.x = -13.9;
+            bar4.position.y = -2;
+
+            var bar5 = new THREE.Mesh(puBGeometry, materialPared);
+            bar5.position.z = 10;
+            bar5.position.x = 13.9;
+            bar5.position.y = -2;
+
+            var bar6 = new THREE.Mesh(puBGeometry, materialPared);
+            bar6.position.z = -30;
+            bar6.position.x = 13.9;
+            bar6.position.y = -2;
+
+            var bara = new THREE.Mesh(puBPGeometry, materialPuertas);
+            bara.position.z = 65;
+            bara.position.x = -13.9;
+            bara.position.y = -17;
+
+            var bara2 = new THREE.Mesh(puBPGeometry, materialPuertas);
+            bara2.position.z = 70;
+            bara2.position.x = 13.9;
+            bara2.position.y = -17;
+
+            var bara3 = new THREE.Mesh(puBPGeometry, materialPuertas);
+            bara3.position.z = 25;
+            bara3.position.x = -13.9;
+            bara3.position.y = -17;
+
+            var bara4 = new THREE.Mesh(puBPGeometry, materialPuertas);
+            bara4.position.z = 0;
+            bara4.position.x = -13.9;
+            bara4.position.y = -17;
+
+            var bara5 = new THREE.Mesh(puBPGeometry, materialPuertas);
+            bara5.position.z = 10;
+            bara5.position.x = 13.9;
+            bara5.position.y = -17;
+
+            var bara6 = new THREE.Mesh(puBPGeometry, materialPuertas);
+            bara6.position.z = -30;
+            bara6.position.x = 13.9;
+            bara6.position.y = -17;
+
+            //Bombillos
+            var b1 = new THREE.Mesh(bombiGeometry, materialbomb);
+            b1.position.z = -10;
+            b1.position.y = 13;
+            var b2 = new THREE.Mesh(bombiGeometry, materialbomb);
+            b2.position.z = 40;
+            b2.position.y = 13;
+
+            var curve2D = new THREE.SplineCurve([
+                new THREE.Vector2(0, 20),
+                new THREE.Vector2(0, 13),
+            ]);
+
+            var material = new THREE.LineBasicMaterial({
+                color: 0x593d25
+            });
+            var resolution = 150;
+            var points = curve2D.getPoints(resolution);
+            var geometry = new THREE.BufferGeometry().setFromPoints(points);
+            var bc1 = new THREE.Line(geometry, material);
+            bc1.position.z = -10;
+            var bc2 = new THREE.Line(geometry, material);
+            bc2.position.z = 40;
+            scene.add(bc1);
+            scene.add(bc2);
+
+            var curveC1 = new THREE.CatmullRomCurve3([
+                new THREE.Vector3(-5, -10, 92),
+                new THREE.Vector3(-3, -8, 95),
+                new THREE.Vector3(0, -13, 95),
+                new THREE.Vector3(3, -8, 92),
+                new THREE.Vector3(5, -10, 92)
+
+            ])
+
+            var extrudeSettings = {
+                steps: 200,
+                bevelEnabled: false,
+                extrudePath: curveC1
+            };
+
+
+            var pts = [],
+                count = 70;
+
+            for (var i = 0; i < count; i++) {
+
+                var l = 0.3;
+
+                var a = 2 * i / count * Math.PI;
+
+                pts.push(new THREE.Vector4(Math.cos(a) * l, Math.sin(a) * l));
+
+            }
+
+            var shape = new THREE.Shape(pts);
+
+            var geoMan = new THREE.ExtrudeBufferGeometry(shape, extrudeSettings);
+            var manubrio = new THREE.Mesh(geoMan, metal);
+
+
+
+            //NInAS
+            var cilin = new THREE.Mesh(cylinderGeometry);
+            var esfe = new THREE.Mesh(sphereGeometry);
+            esfe.position.y = 3.5;
+
+            var cabeza = THREE.CSG.fromMesh(esfe);
+            var cuerpi = THREE.CSG.fromMesh(cilin);
+            var result = cabeza.union(cuerpi);
+            var nina1 = THREE.CSG.toMesh(result);
+            var nina2 = THREE.CSG.toMesh(result);
+            nina1.position.x = -4;
+            nina2.position.x = 4;
+            nina1.position.y = -12;
+            nina2.position.y = -12;
+            nina1.position.z = -30;
+            nina2.position.z = -30;
+            nina1.material = Matninas;
+            nina2.material = Matninas;
+
+
+           
+            yellowmaterial= new THREE.MeshBasicMaterial({ 
+                color: 0xaaaa00 , 
+                side: THREE.DoubleSide, 
+                transparent: true,
+                opacity: 0.7
+            });
+
+            orangematerial= new THREE.MeshBasicMaterial({ 
+                color: 0xbb7700 , 
+                side: THREE.DoubleSide, 
+                transparent: true,
+                opacity: 0.7
+            });
+
+            bluematerial= new THREE.MeshBasicMaterial({ 
+                color: 0x0022aa , 
+                side: THREE.DoubleSide, 
+                transparent: true,
+                opacity: 0.7
+            });
+
+            var geometry = new THREE.Geometry();
+            geometry.faces= [
+                new THREE.Face3(0, 1, 2),
+                new THREE.Face3(1, 3, 4),
+                new THREE.Face3(2, 4, 5),
+                new THREE.Face3(3, 6, 7),
+                new THREE.Face3(4, 7, 8),
+                new THREE.Face3(5, 8, 9),
+                new THREE.Face3(6, 10, 11),
+                new THREE.Face3(7, 11, 12),
+                new THREE.Face3(8, 12, 13),
+                new THREE.Face3(9, 13, 14),
+                new THREE.Face3(10, 15, 16),
+                new THREE.Face3(11, 16, 17),
+                new THREE.Face3(12, 17, 18),
+                new THREE.Face3(13, 18, 19),
+                new THREE.Face3(14, 19, 20),
+                new THREE.Face3(15, 21, 22),
+                new THREE.Face3(16, 22, 23),
+                new THREE.Face3(17, 23, 24),
+                new THREE.Face3(18, 24, 25),
+                new THREE.Face3(19, 25, 26),
+                new THREE.Face3(20, 26, 27),
+                new THREE.Face3(21, 28, 29),
+                new THREE.Face3(22, 29, 30),
+                new THREE.Face3(23, 30, 31),
+                new THREE.Face3(24, 31, 32),
+                new THREE.Face3(25, 32, 33),
+                new THREE.Face3(26, 33, 34),
+                new THREE.Face3(27, 34, 35),
+                new THREE.Face3(28, 36, 37),
+                new THREE.Face3(29, 37, 38),
+                new THREE.Face3(30, 38, 39),
+                new THREE.Face3(31, 39, 40),
+                new THREE.Face3(32, 40, 41),
+                new THREE.Face3(33, 41, 42),
+                new THREE.Face3(34, 42, 43),
+                new THREE.Face3(35, 43, 44),
+                new THREE.Face3(36, 45, 46),
+                new THREE.Face3(37, 46, 47),
+                new THREE.Face3(38, 47, 48),
+                new THREE.Face3(39, 48, 49),
+                new THREE.Face3(40, 49, 50),
+                new THREE.Face3(41, 50, 51),
+                new THREE.Face3(42, 51, 52),
+                new THREE.Face3(43, 52, 53),
+                new THREE.Face3(44, 53, 54),
+                new THREE.Face3(45, 55, 56),
+                new THREE.Face3(46, 56, 57),
+                new THREE.Face3(47, 57, 58),
+                new THREE.Face3(48, 58, 59),
+                new THREE.Face3(49, 59, 60),
+                new THREE.Face3(50, 60, 61),
+                new THREE.Face3(51, 61, 62),
+                new THREE.Face3(52, 62, 63),
+                new THREE.Face3(53, 63, 64),
+                new THREE.Face3(54, 64, 65),
+                new THREE.Face3(55, 66, 67),
+                new THREE.Face3(56, 67, 68),
+                new THREE.Face3(57, 68, 69),
+                new THREE.Face3(58, 69, 70),
+                new THREE.Face3(59, 70, 71),
+                new THREE.Face3(60, 71, 72),
+                new THREE.Face3(61, 72, 73),
+                new THREE.Face3(62, 73, 74),
+                new THREE.Face3(63, 74, 75),
+                new THREE.Face3(64, 75, 76),
+                new THREE.Face3(65, 76, 77),
+                new THREE.Face3(66, 78, 79),
+                new THREE.Face3(67, 79, 80),
+                new THREE.Face3(68, 80, 81),
+                new THREE.Face3(69, 81, 82),
+                new THREE.Face3(70, 82, 83),
+                new THREE.Face3(71, 83, 84),
+                new THREE.Face3(72, 84, 85),
+                new THREE.Face3(73, 85, 86),
+                new THREE.Face3(74, 86, 87),
+                new THREE.Face3(75, 87, 88),
+                new THREE.Face3(76, 88, 89),
+                new THREE.Face3(77, 89, 90),
+                new THREE.Face3(78, 91, 92),
+                new THREE.Face3(79, 92, 93),
+                new THREE.Face3(80, 93, 94),
+                new THREE.Face3(81, 94, 95),
+                new THREE.Face3(82, 95, 96),
+                new THREE.Face3(83, 96, 97),
+                new THREE.Face3(84, 97, 98),
+                new THREE.Face3(85, 98, 99),
+                new THREE.Face3(86, 99, 100),
+                new THREE.Face3(87, 100, 101),
+                new THREE.Face3(88, 101, 102),
+                new THREE.Face3(89, 102, 103),
+                new THREE.Face3(90, 103, 104),
+                new THREE.Face3(91, 105, 106),
+                new THREE.Face3(92, 106, 107),
+                new THREE.Face3(93, 107, 108),
+                new THREE.Face3(94, 108, 109),
+                new THREE.Face3(95, 109, 110),
+                new THREE.Face3(96, 110, 111),
+                new THREE.Face3(97, 111, 112),
+                new THREE.Face3(98, 112, 113),
+                new THREE.Face3(99, 113, 114),
+                new THREE.Face3(100, 114, 115),
+                new THREE.Face3(101, 115, 116),
+                new THREE.Face3(102, 116, 117),
+                new THREE.Face3(103, 117, 118),
+                new THREE.Face3(104, 118, 119),
+                new THREE.Face3(105, 120, 121),
+                new THREE.Face3(106, 121, 122),
+                new THREE.Face3(107, 122, 123),
+                new THREE.Face3(108, 123, 124),
+                new THREE.Face3(109, 124, 125),
+                new THREE.Face3(110, 125, 126),
+                new THREE.Face3(111, 126, 127),
+                new THREE.Face3(112, 127, 128),
+                new THREE.Face3(113, 128, 129),
+                new THREE.Face3(114, 129, 130),
+                new THREE.Face3(115, 130, 131),
+                new THREE.Face3(116, 131, 132),
+                new THREE.Face3(117, 132, 133),
+                new THREE.Face3(118, 133, 134),
+                new THREE.Face3(119, 134, 135),
+                new THREE.Face3(120, 136, 137),
+                new THREE.Face3(121, 137, 138),
+                new THREE.Face3(122, 138, 139),
+                new THREE.Face3(123, 139, 140),
+                new THREE.Face3(124, 140, 141),
+                new THREE.Face3(125, 141, 142),
+                new THREE.Face3(126, 142, 143),
+                new THREE.Face3(127, 143, 144),
+                new THREE.Face3(128, 144, 145),
+                new THREE.Face3(129, 145, 146),
+                new THREE.Face3(130, 146, 147),
+                new THREE.Face3(131, 147, 148),
+                new THREE.Face3(132, 148, 149),
+                new THREE.Face3(133, 149, 150),
+                new THREE.Face3(134, 150, 151),
+                new THREE.Face3(135, 151, 152),
+                new THREE.Face3(136, 153, 154),
+                new THREE.Face3(137, 154, 155),
+                new THREE.Face3(138, 155, 156),
+                new THREE.Face3(139, 156, 157),
+                new THREE.Face3(140, 157, 158),
+                new THREE.Face3(141, 158, 159),
+                new THREE.Face3(142, 159, 160),
+                new THREE.Face3(143, 160, 161),
+                new THREE.Face3(144, 161, 162),
+                new THREE.Face3(145, 162, 163),
+                new THREE.Face3(146, 163, 164),
+                new THREE.Face3(147, 164, 165),
+                new THREE.Face3(148, 165, 166),
+                new THREE.Face3(149, 166, 167),
+                new THREE.Face3(150, 167, 168),
+                new THREE.Face3(151, 168, 169),
+                new THREE.Face3(152, 169, 170),
+                new THREE.Face3(153, 171, 172),
+                new THREE.Face3(154, 172, 173),
+                new THREE.Face3(155, 173, 174),
+                new THREE.Face3(156, 174, 175),
+                new THREE.Face3(157, 175, 176),
+                new THREE.Face3(158, 176, 177),
+                new THREE.Face3(159, 177, 178),
+                new THREE.Face3(160, 178, 179),
+                new THREE.Face3(161, 179, 180),
+                new THREE.Face3(162, 180, 181),
+                new THREE.Face3(163, 181, 182),
+                new THREE.Face3(164, 182, 183),
+                new THREE.Face3(165, 183, 184),
+                new THREE.Face3(166, 184, 185),
+                new THREE.Face3(167, 185, 186),
+                new THREE.Face3(168, 186, 187),
+                new THREE.Face3(169, 187, 188),
+                new THREE.Face3(170, 188, 189),
+                new THREE.Face3(171, 190, 191),
+                new THREE.Face3(172, 191, 192),
+                new THREE.Face3(173, 192, 193),
+                new THREE.Face3(174, 193, 194),
+                new THREE.Face3(175, 194, 195),
+                new THREE.Face3(176, 195, 196),
+                new THREE.Face3(177, 196, 197),
+                new THREE.Face3(178, 197, 198),
+                new THREE.Face3(179, 198, 199),
+                new THREE.Face3(180, 199, 200),
+                new THREE.Face3(181, 200, 201),
+                new THREE.Face3(182, 201, 202),
+                new THREE.Face3(183, 202, 203),
+                new THREE.Face3(184, 203, 204),
+                new THREE.Face3(185, 204, 205),
+                new THREE.Face3(186, 205, 206),
+                new THREE.Face3(187, 206, 207),
+                new THREE.Face3(188, 207, 208),
+                new THREE.Face3(189, 208, 209),
+                new THREE.Face3(190, 210, 211),
+                new THREE.Face3(191, 211, 212),
+                new THREE.Face3(192, 212, 213),
+                new THREE.Face3(193, 213, 214),
+                new THREE.Face3(194, 214, 215),
+                new THREE.Face3(195, 215, 216),
+                new THREE.Face3(196, 216, 217),
+                new THREE.Face3(197, 217, 218),
+                new THREE.Face3(198, 218, 219),
+                new THREE.Face3(199, 219, 220),
+                new THREE.Face3(200, 220, 221),
+                new THREE.Face3(201, 221, 222),
+                new THREE.Face3(202, 222, 223),
+                new THREE.Face3(203, 223, 224),
+                new THREE.Face3(204, 224, 225),
+                new THREE.Face3(205, 225, 226),
+                new THREE.Face3(206, 226, 227),
+                new THREE.Face3(207, 227, 228),
+                new THREE.Face3(208, 228, 229),
+                new THREE.Face3(209, 229, 230),
+                new THREE.Face3(210, 231, 232),
+                new THREE.Face3(211, 232, 233),
+                new THREE.Face3(212, 233, 234),
+                new THREE.Face3(213, 234, 235),
+                new THREE.Face3(214, 235, 236),
+                new THREE.Face3(215, 236, 237),
+                new THREE.Face3(216, 237, 238),
+                new THREE.Face3(217, 238, 239),
+                new THREE.Face3(218, 239, 240),
+                new THREE.Face3(219, 240, 241),
+                new THREE.Face3(220, 241, 242),
+                new THREE.Face3(221, 242, 243),
+                new THREE.Face3(222, 243, 244),
+                new THREE.Face3(223, 244, 245),
+                new THREE.Face3(224, 245, 246),
+                new THREE.Face3(225, 246, 247),
+                new THREE.Face3(226, 247, 248),
+                new THREE.Face3(227, 248, 249),
+                new THREE.Face3(228, 249, 250),
+                new THREE.Face3(229, 250, 251),
+                new THREE.Face3(230, 251, 252),
+                new THREE.Face3(231, 253, 254),
+                new THREE.Face3(232, 254, 255),
+                new THREE.Face3(233, 255, 256),
+                new THREE.Face3(234, 256, 257),
+                new THREE.Face3(235, 257, 258),
+                new THREE.Face3(236, 258, 259),
+                new THREE.Face3(237, 259, 260),
+                new THREE.Face3(238, 260, 261),
+                new THREE.Face3(239, 261, 262),
+                new THREE.Face3(240, 262, 263),
+                new THREE.Face3(241, 263, 264),
+                new THREE.Face3(242, 264, 265),
+                new THREE.Face3(243, 265, 266),
+                new THREE.Face3(244, 266, 267),
+                new THREE.Face3(245, 267, 268),
+                new THREE.Face3(246, 268, 269),
+                new THREE.Face3(247, 269, 270),
+                new THREE.Face3(248, 270, 271),
+                new THREE.Face3(249, 271, 272),
+                new THREE.Face3(250, 272, 273),
+                new THREE.Face3(251, 273, 274),
+                new THREE.Face3(252, 274, 275),
+                new THREE.Face3(253, 276, 277),
+                new THREE.Face3(254, 277, 278),
+                new THREE.Face3(255, 278, 279),
+                new THREE.Face3(256, 279, 280),
+                new THREE.Face3(257, 280, 281),
+                new THREE.Face3(258, 281, 282),
+                new THREE.Face3(259, 282, 283),
+                new THREE.Face3(260, 283, 284),
+                new THREE.Face3(261, 284, 285),
+                new THREE.Face3(262, 285, 286),
+                new THREE.Face3(263, 286, 287),
+                new THREE.Face3(264, 287, 288),
+                new THREE.Face3(265, 288, 289),
+                new THREE.Face3(266, 289, 290),
+                new THREE.Face3(267, 290, 291),
+                new THREE.Face3(268, 291, 292),
+                new THREE.Face3(269, 292, 293),
+                new THREE.Face3(270, 293, 294),
+                new THREE.Face3(271, 294, 295),
+                new THREE.Face3(272, 295, 296),
+                new THREE.Face3(273, 296, 297),
+                new THREE.Face3(274, 297, 298),
+                new THREE.Face3(275, 298, 299),
+                new THREE.Face3(276, 300, 301),
+                new THREE.Face3(277, 301, 302),
+                new THREE.Face3(278, 302, 303),
+                new THREE.Face3(279, 303, 304),
+                new THREE.Face3(280, 304, 305),
+                new THREE.Face3(281, 305, 306),
+                new THREE.Face3(282, 306, 307),
+                new THREE.Face3(283, 307, 308),
+                new THREE.Face3(284, 308, 309),
+                new THREE.Face3(285, 309, 310),
+                new THREE.Face3(286, 310, 311),
+                new THREE.Face3(287, 311, 312),
+                new THREE.Face3(288, 312, 313),
+                new THREE.Face3(289, 313, 314),
+                new THREE.Face3(290, 314, 315),
+                new THREE.Face3(291, 315, 316),
+                new THREE.Face3(292, 316, 317),
+                new THREE.Face3(293, 317, 318),
+                new THREE.Face3(294, 318, 319),
+                new THREE.Face3(295, 319, 320),
+                new THREE.Face3(296, 320, 321),
+                new THREE.Face3(297, 321, 322),
+                new THREE.Face3(298, 322, 323),
+                new THREE.Face3(299, 323, 324),
+                new THREE.Face3(300, 325, 326),
+                new THREE.Face3(301, 326, 327),
+                new THREE.Face3(302, 327, 328),
+                new THREE.Face3(303, 328, 329),
+                new THREE.Face3(304, 329, 330),
+                new THREE.Face3(305, 330, 331),
+                new THREE.Face3(306, 331, 332),
+                new THREE.Face3(307, 332, 333),
+                new THREE.Face3(308, 333, 334),
+                new THREE.Face3(309, 334, 335),
+                new THREE.Face3(310, 335, 336),
+                new THREE.Face3(311, 336, 337),
+                new THREE.Face3(312, 337, 338),
+                new THREE.Face3(313, 338, 339),
+                new THREE.Face3(314, 339, 340),
+                new THREE.Face3(315, 340, 341),
+                new THREE.Face3(316, 341, 342),
+                new THREE.Face3(317, 342, 343),
+                new THREE.Face3(318, 343, 344),
+                new THREE.Face3(319, 344, 345),
+                new THREE.Face3(320, 345, 346),
+                new THREE.Face3(321, 346, 347),
+                new THREE.Face3(322, 347, 348),
+                new THREE.Face3(323, 348, 349),
+                new THREE.Face3(324, 349, 350),
+                new THREE.Face3(325, 351, 352),
+                new THREE.Face3(326, 352, 353),
+                new THREE.Face3(327, 353, 354),
+                new THREE.Face3(328, 354, 355),
+                new THREE.Face3(329, 355, 356),
+                new THREE.Face3(330, 356, 357),
+                new THREE.Face3(331, 357, 358),
+                new THREE.Face3(332, 358, 359),
+                new THREE.Face3(333, 359, 360),
+                new THREE.Face3(334, 360, 361),
+                new THREE.Face3(335, 361, 362),
+                new THREE.Face3(336, 362, 363),
+                new THREE.Face3(337, 363, 364),
+                new THREE.Face3(338, 364, 365),
+                new THREE.Face3(339, 365, 366),
+                new THREE.Face3(340, 366, 367),
+                new THREE.Face3(341, 367, 368),
+                new THREE.Face3(342, 368, 369),
+                new THREE.Face3(343, 369, 370),
+                new THREE.Face3(344, 370, 371),
+                new THREE.Face3(345, 371, 372),
+                new THREE.Face3(346, 372, 373),
+                new THREE.Face3(347, 373, 374),
+                new THREE.Face3(348, 374, 375),
+                new THREE.Face3(349, 375, 376),
+                new THREE.Face3(350, 376, 377),
+                new THREE.Face3(351, 378, 379),
+                new THREE.Face3(352, 379, 380),
+                new THREE.Face3(353, 380, 381),
+                new THREE.Face3(354, 381, 382),
+                new THREE.Face3(355, 382, 383),
+                new THREE.Face3(356, 383, 384),
+                new THREE.Face3(357, 384, 385),
+                new THREE.Face3(358, 385, 386),
+                new THREE.Face3(359, 386, 387),
+                new THREE.Face3(360, 387, 388),
+                new THREE.Face3(361, 388, 389),
+                new THREE.Face3(362, 389, 390),
+                new THREE.Face3(363, 390, 391),
+                new THREE.Face3(364, 391, 392),
+                new THREE.Face3(365, 392, 393),
+                new THREE.Face3(366, 393, 394),
+                new THREE.Face3(367, 394, 395),
+                new THREE.Face3(368, 395, 396),
+                new THREE.Face3(369, 396, 397),
+                new THREE.Face3(370, 397, 398),
+                new THREE.Face3(371, 398, 399),
+                new THREE.Face3(372, 399, 400),
+                new THREE.Face3(373, 400, 401),
+                new THREE.Face3(374, 401, 402),
+                new THREE.Face3(375, 402, 403),
+                new THREE.Face3(376, 403, 404),
+                new THREE.Face3(377, 404, 405),
+                new THREE.Face3(378, 406, 407),
+                new THREE.Face3(379, 407, 408),
+                new THREE.Face3(380, 408, 409),
+                new THREE.Face3(381, 409, 410),
+                new THREE.Face3(382, 410, 411),
+                new THREE.Face3(383, 411, 412),
+                new THREE.Face3(384, 412, 413),
+                new THREE.Face3(385, 413, 414),
+                new THREE.Face3(386, 414, 415),
+                new THREE.Face3(387, 415, 416),
+                new THREE.Face3(388, 416, 417),
+                new THREE.Face3(389, 417, 418),
+                new THREE.Face3(390, 418, 419),
+                new THREE.Face3(391, 419, 420),
+                new THREE.Face3(392, 420, 421),
+                new THREE.Face3(393, 421, 422),
+                new THREE.Face3(394, 422, 423),
+                new THREE.Face3(395, 423, 424),
+                new THREE.Face3(396, 424, 425),
+                new THREE.Face3(397, 425, 426),
+                new THREE.Face3(398, 426, 427),
+                new THREE.Face3(399, 427, 428),
+                new THREE.Face3(400, 428, 429),
+                new THREE.Face3(401, 429, 430),
+                new THREE.Face3(402, 430, 431),
+                new THREE.Face3(403, 431, 432),
+                new THREE.Face3(404, 432, 433),
+                new THREE.Face3(405, 433, 434),
+                new THREE.Face3(406, 435, 436),
+                new THREE.Face3(407, 436, 437),
+                new THREE.Face3(408, 437, 438),
+                new THREE.Face3(409, 438, 439),
+                new THREE.Face3(410, 439, 440),
+                new THREE.Face3(411, 440, 441),
+                new THREE.Face3(412, 441, 442),
+                new THREE.Face3(413, 442, 443),
+                new THREE.Face3(414, 443, 444),
+                new THREE.Face3(415, 444, 445),
+                new THREE.Face3(416, 445, 446),
+                new THREE.Face3(417, 446, 447),
+                new THREE.Face3(418, 447, 448),
+                new THREE.Face3(419, 448, 449),
+                new THREE.Face3(420, 449, 450),
+                new THREE.Face3(421, 450, 451),
+                new THREE.Face3(422, 451, 452),
+                new THREE.Face3(423, 452, 453),
+                new THREE.Face3(424, 453, 454),
+                new THREE.Face3(425, 454, 455),
+                new THREE.Face3(426, 455, 456),
+                new THREE.Face3(427, 456, 457),
+                new THREE.Face3(428, 457, 458),
+                new THREE.Face3(429, 458, 459),
+                new THREE.Face3(430, 459, 460),
+                new THREE.Face3(431, 460, 461),
+                new THREE.Face3(432, 461, 462),
+                new THREE.Face3(433, 462, 463),
+                new THREE.Face3(434, 463, 464),
+                new THREE.Face3(435, 465, 466),
+                new THREE.Face3(436, 466, 467),
+                new THREE.Face3(437, 467, 468),
+                new THREE.Face3(438, 468, 469),
+                new THREE.Face3(439, 469, 470),
+                new THREE.Face3(440, 470, 471),
+                new THREE.Face3(441, 471, 472),
+                new THREE.Face3(442, 472, 473),
+                new THREE.Face3(443, 473, 474),
+                new THREE.Face3(444, 474, 475),
+                new THREE.Face3(445, 475, 476),
+                new THREE.Face3(446, 476, 477),
+                new THREE.Face3(447, 477, 478),
+                new THREE.Face3(448, 478, 479),
+                new THREE.Face3(449, 479, 480),
+                new THREE.Face3(450, 480, 481),
+                new THREE.Face3(451, 481, 482),
+                new THREE.Face3(452, 482, 483),
+                new THREE.Face3(453, 483, 484),
+                new THREE.Face3(454, 484, 485),
+                new THREE.Face3(455, 485, 486),
+                new THREE.Face3(456, 486, 487),
+                new THREE.Face3(457, 487, 488),
+                new THREE.Face3(458, 488, 489),
+                new THREE.Face3(459, 489, 490),
+                new THREE.Face3(460, 490, 491),
+                new THREE.Face3(461, 491, 492),
+                new THREE.Face3(462, 492, 493),
+                new THREE.Face3(463, 493, 494),
+                new THREE.Face3(464, 494, 495)
+            ];
+            var geometry0 = new THREE.Geometry();
+            geometry0.vertices= [
+                new THREE.Vector3(1.0, 0.0, 0.0),
+                new THREE.Vector3(1.0373407407407407, 0.09799259259259259, 0.0),
+                new THREE.Vector3(1.0373407407407407, 0.0, 0.09799259259259259),
+                new THREE.Vector3(1.0693925925925927, 0.19194074074074075, 0.0),
+                new THREE.Vector3(1.0544592592592592, 0.08305925925925928, 0.08305925925925928),
+                new THREE.Vector3(1.0693925925925927, 0.0, 0.19194074074074075),
+                new THREE.Vector3(1.0962, 0.28180000000000005, 0.0),
+                new THREE.Vector3(1.0674000000000001, 0.16314074074074078, 0.0691925925925926),
+                new THREE.Vector3(1.0674, 0.0691925925925926, 0.16314074074074073),
+                new THREE.Vector3(1.0962, 0.0, 0.28180000000000005),
+                new THREE.Vector3(1.1178074074074074, 0.3675259259259259, 0.0),
+                new THREE.Vector3(1.0762074074074075, 0.24020000000000005, 0.05639259259259259),
+                new THREE.Vector3(1.0623407407407408, 0.13647407407407405, 0.13647407407407408),
+                new THREE.Vector3(1.0762074074074075, 0.0563925925925926, 0.24020000000000005),
+                new THREE.Vector3(1.1178074074074074, 0.0, 0.3675259259259259),
+                new THREE.Vector3(1.1342592592592593, 0.44907407407407407, 0.0),
+                new THREE.Vector3(1.080925925925926, 0.31419259259259263, 0.044659259259259274),
+                new THREE.Vector3(1.0542592592592592, 0.20180000000000003, 0.11194074074074076),
+                new THREE.Vector3(1.0542592592592592, 0.11194074074074074, 0.20180000000000003),
+                new THREE.Vector3(1.080925925925926, 0.044659259259259274, 0.3141925925925926),
+                new THREE.Vector3(1.1342592592592593, 0.0, 0.44907407407407407),
+                new THREE.Vector3(1.1456000000000004, 0.5264000000000001, 0.0),
+                new THREE.Vector3(1.0816000000000001, 0.3850740740740741, 0.033992592592592616),
+                new THREE.Vector3(1.0432, 0.265125925925926, 0.08954074074074078),
+                new THREE.Vector3(1.0304000000000004, 0.16660000000000005, 0.16660000000000008),
+                new THREE.Vector3(1.0432, 0.08954074074074078, 0.265125925925926),
+                new THREE.Vector3(1.0816000000000001, 0.03399259259259262, 0.3850740740740741),
+                new THREE.Vector3(1.1456000000000004, 0.0, 0.5264000000000001),
+                new THREE.Vector3(1.1518740740740743, 0.5994592592592592, 0.0),
+                new THREE.Vector3(1.0782740740740744, 0.4528000000000001, 0.0243925925925926),
+                new THREE.Vector3(1.0292074074074073, 0.3264074074074075, 0.06927407407407409),
+                new THREE.Vector3(1.0046740740740743, 0.220325925925926, 0.13460000000000005),
+                new THREE.Vector3(1.004674074074074, 0.13460000000000003, 0.22032592592592598),
+                new THREE.Vector3(1.0292074074074073, 0.0692740740740741, 0.3264074074074075),
+                new THREE.Vector3(1.0782740740740742, 0.024392592592592608, 0.4528000000000001),
+                new THREE.Vector3(1.1518740740740743, 0.0, 0.5994592592592592),
+                new THREE.Vector3(1.1531259259259254, 0.6682074074074073, 0.0),
+                new THREE.Vector3(1.0709925925925925, 0.5173259259259257, 0.015859259259259257),
+                new THREE.Vector3(1.0123259259259256, 0.38559999999999994, 0.05114074074074072),
+                new THREE.Vector3(0.9771259259259255, 0.273074074074074, 0.10580000000000002),
+                new THREE.Vector3(0.9653925925925921, 0.17979259259259256, 0.1797925925925926),
+                new THREE.Vector3(0.9771259259259255, 0.10580000000000002, 0.2730740740740741),
+                new THREE.Vector3(1.0123259259259256, 0.05114074074074072, 0.38559999999999994),
+                new THREE.Vector3(1.0709925925925923, 0.01585925925925926, 0.5173259259259259),
+                new THREE.Vector3(1.1531259259259254, 0.0, 0.6682074074074073),
+                new THREE.Vector3(1.1493999999999998, 0.7325999999999998, 0.0),
+                new THREE.Vector3(1.0597999999999996, 0.5786074074074073, 0.00839259259259259),
+                new THREE.Vector3(0.9925999999999997, 0.4426592592592593, 0.03514074074074072),
+                new THREE.Vector3(0.9477999999999998, 0.3248, 0.08020000000000001),
+                new THREE.Vector3(0.9253999999999998, 0.22507407407407404, 0.14352592592592592),
+                new THREE.Vector3(0.9253999999999998, 0.1435259259259259, 0.225074074074074),
+                new THREE.Vector3(0.9477999999999996, 0.08020000000000002, 0.3248),
+                new THREE.Vector3(0.9925999999999996, 0.03514074074074075, 0.44265925925925925),
+                new THREE.Vector3(1.0597999999999996, 0.008392592592592592, 0.5786074074074073),
+                new THREE.Vector3(1.1493999999999998, 0.0, 0.7325999999999998),
+                new THREE.Vector3(1.1407407407407404, 0.7925925925925924, 0.0),
+                new THREE.Vector3(1.0447407407407403, 0.6365999999999999, 0.0019925925925926066),
+                new THREE.Vector3(0.9700740740740739, 0.49754074074074073, 0.02127407407407408),
+                new THREE.Vector3(0.9167407407407406, 0.3754592592592592, 0.05780000000000002),
+                new THREE.Vector3(0.8847407407407406, 0.2704, 0.1115259259259259),
+                new THREE.Vector3(0.8740740740740738, 0.18240740740740738, 0.1824074074074074),
+                new THREE.Vector3(0.8847407407407406, 0.11152592592592593, 0.2704000000000001),
+                new THREE.Vector3(0.9167407407407405, 0.05780000000000002, 0.37545925925925927),
+                new THREE.Vector3(0.9700740740740739, 0.021274074074074077, 0.4975407407407407),
+                new THREE.Vector3(1.0447407407407405, 0.0019925925925926014, 0.6365999999999998),
+                new THREE.Vector3(1.1407407407407404, 0.0, 0.7925925925925924),
+                new THREE.Vector3(1.1271925925925923, 0.8481407407407405, 0.0),
+                new THREE.Vector3(1.025859259259259, 0.691259259259259, -0.003340740740740732),
+                new THREE.Vector3(0.9447925925925925, 0.5501999999999999, 0.009540740740740771),
+                new THREE.Vector3(0.8839925925925926, 0.4250074074074073, 0.03860000000000001),
+                new THREE.Vector3(0.8434592592592592, 0.3157259259259259, 0.0837925925925926),
+                new THREE.Vector3(0.8231925925925925, 0.22240000000000001, 0.14507407407407405),
+                new THREE.Vector3(0.8231925925925925, 0.14507407407407408, 0.22240000000000001),
+                new THREE.Vector3(0.8434592592592591, 0.08379259259259259, 0.31572592592592585),
+                new THREE.Vector3(0.8839925925925923, 0.038599999999999995, 0.42500740740740733),
+                new THREE.Vector3(0.9447925925925924, 0.009540740740740756, 0.5501999999999999),
+                new THREE.Vector3(1.025859259259259, -0.0033407407407407344, 0.691259259259259),
+                new THREE.Vector3(1.1271925925925923, 0.0, 0.8481407407407405),
+                new THREE.Vector3(1.1088, 0.8992000000000001, 0.0),
+                new THREE.Vector3(1.0031999999999999, 0.7425407407407406, -0.007607407407407394),
+                new THREE.Vector3(0.9168, 0.6005925925925925, -5.925925925923109e-05),
+                new THREE.Vector3(0.8495999999999999, 0.4734, 0.022600000000000016),
+                new THREE.Vector3(0.8016000000000001, 0.36100740740740744, 0.060325925925925956),
+                new THREE.Vector3(0.7727999999999999, 0.2634592592592593, 0.11307407407407408),
+                new THREE.Vector3(0.7632000000000001, 0.18080000000000007, 0.18080000000000004),
+                new THREE.Vector3(0.7727999999999998, 0.11307407407407408, 0.2634592592592593),
+                new THREE.Vector3(0.8016, 0.06032592592592598, 0.36100740740740744),
+                new THREE.Vector3(0.8495999999999999, 0.022600000000000044, 0.47339999999999993),
+                new THREE.Vector3(0.9167999999999998, -5.9259259259234615e-05, 0.6005925925925925),
+                new THREE.Vector3(1.0031999999999999, -0.007607407407407396, 0.7425407407407406),
+                new THREE.Vector3(1.1088, 0.0, 0.8992000000000001),
+                new THREE.Vector3(1.0856074074074074, 0.9457259259259259, 0.0),
+                new THREE.Vector3(0.9768074074074071, 0.7904, -0.010807407407407404),
+                new THREE.Vector3(0.8861407407407403, 0.648674074074074, -0.007525925925925912),
+                new THREE.Vector3(0.8136074074074073, 0.5205925925925925, 0.00980000000000004),
+                new THREE.Vector3(0.7592074074074072, 0.4061999999999999, 0.04112592592592593),
+                new THREE.Vector3(0.7229407407407407, 0.30554074074074067, 0.08640740740740738),
+                new THREE.Vector3(0.7048074074074073, 0.2186592592592593, 0.14560000000000003),
+                new THREE.Vector3(0.7048074074074073, 0.14560000000000006, 0.21865925925925925),
+                new THREE.Vector3(0.7229407407407404, 0.08640740740740739, 0.30554074074074067),
+                new THREE.Vector3(0.7592074074074073, 0.041125925925925955, 0.4062),
+                new THREE.Vector3(0.8136074074074072, 0.009800000000000045, 0.5205925925925924),
+                new THREE.Vector3(0.8861407407407405, -0.007525925925925915, 0.648674074074074),
+                new THREE.Vector3(0.9768074074074073, -0.010807407407407404, 0.7903999999999999),
+                new THREE.Vector3(1.0856074074074074, 0.0, 0.9457259259259259),
+                new THREE.Vector3(1.0576592592592593, 0.987674074074074, 0.0),
+                new THREE.Vector3(0.9467259259259259, 0.8347925925925926, -0.012940740740740744),
+                new THREE.Vector3(0.8528592592592592, 0.6944, -0.012859259259259239),
+                new THREE.Vector3(0.7760592592592591, 0.5665407407407406, 0.0002000000000000207),
+                new THREE.Vector3(0.7163259259259259, 0.45125925925925914, 0.02619259259259258),
+                new THREE.Vector3(0.6736592592592592, 0.3485999999999999, 0.06507407407407405),
+                new THREE.Vector3(0.6480592592592592, 0.2586074074074074, 0.11680000000000001),
+                new THREE.Vector3(0.6395259259259259, 0.18132592592592595, 0.18132592592592595),
+                new THREE.Vector3(0.6480592592592592, 0.11680000000000001, 0.2586074074074074),
+                new THREE.Vector3(0.6736592592592592, 0.06507407407407403, 0.3485999999999999),
+                new THREE.Vector3(0.716325925925926, 0.026192592592592615, 0.45125925925925925),
+                new THREE.Vector3(0.7760592592592592, 0.0002000000000000196, 0.5665407407407406),
+                new THREE.Vector3(0.8528592592592592, -0.012859259259259258, 0.6944000000000001),
+                new THREE.Vector3(0.946725925925926, -0.012940740740740739, 0.8347925925925926),
+                new THREE.Vector3(1.0576592592592593, 0.0, 0.987674074074074),
+                new THREE.Vector3(1.025, 1.025, 0.0),
+                new THREE.Vector3(0.913, 0.8756740740740739, -0.014007407407407399),
+                new THREE.Vector3(0.8170000000000001, 0.737725925925926, -0.016059259259259242),
+                new THREE.Vector3(0.737, 0.6112000000000002, -0.006199999999999953),
+                new THREE.Vector3(0.6729999999999999, 0.49614074074074066, 0.015525925925925957),
+                new THREE.Vector3(0.6249999999999999, 0.3925925925925926, 0.049074074074074096),
+                new THREE.Vector3(0.593, 0.3006, 0.0944000000000001),
+                new THREE.Vector3(0.577, 0.22020740740740744, 0.15145925925925927),
+                new THREE.Vector3(0.577, 0.1514592592592593, 0.22020740740740744),
+                new THREE.Vector3(0.593, 0.0944000000000001, 0.3006),
+                new THREE.Vector3(0.6249999999999999, 0.049074074074074096, 0.39259259259259255),
+                new THREE.Vector3(0.6729999999999999, 0.015525925925925964, 0.49614074074074055),
+                new THREE.Vector3(0.737, -0.006199999999999949, 0.6112000000000002),
+                new THREE.Vector3(0.817, -0.01605925925925924, 0.737725925925926),
+                new THREE.Vector3(0.9129999999999999, -0.014007407407407396, 0.875674074074074),
+                new THREE.Vector3(1.025, 0.0, 1.025),
+                new THREE.Vector3(0.9876740740740741, 1.0576592592592593, 0.0),
+                new THREE.Vector3(0.875674074074074, 0.913, -0.014007407407407399),
+                new THREE.Vector3(0.7786074074074075, 0.7786074074074074, -0.017125925925925906),
+                new THREE.Vector3(0.6964740740740742, 0.6545259259259258, -0.009399999999999978),
+                new THREE.Vector3(0.6292740740740741, 0.5408000000000001, 0.00912592592592595),
+                new THREE.Vector3(0.5770074074074073, 0.4374740740740739, 0.03840740740740738),
+                new THREE.Vector3(0.5396740740740742, 0.34459259259259256, 0.07840000000000005),
+                new THREE.Vector3(0.5172740740740741, 0.2622, 0.12905925925925932),
+                new THREE.Vector3(0.5098074074074074, 0.19034074074074075, 0.19034074074074073),
+                new THREE.Vector3(0.5172740740740742, 0.12905925925925932, 0.2622),
+                new THREE.Vector3(0.5396740740740742, 0.07840000000000005, 0.34459259259259256),
+                new THREE.Vector3(0.5770074074074073, 0.03840740740740743, 0.43747407407407396),
+                new THREE.Vector3(0.6292740740740741, 0.009125925925925954, 0.5408000000000002),
+                new THREE.Vector3(0.6964740740740741, -0.009399999999999964, 0.654525925925926),
+                new THREE.Vector3(0.7786074074074074, -0.0171259259259259, 0.7786074074074074),
+                new THREE.Vector3(0.875674074074074, -0.014007407407407399, 0.9129999999999999),
+                new THREE.Vector3(0.9876740740740741, 0.0, 1.0576592592592593),
+                new THREE.Vector3(0.9457259259259259, 1.0856074074074071, 0.0),
+                new THREE.Vector3(0.8347925925925926, 0.9467259259259259, -0.012940740740740735),
+                new THREE.Vector3(0.737725925925926, 0.817, -0.016059259259259228),
+                new THREE.Vector3(0.6545259259259261, 0.6964740740740742, -0.009399999999999981),
+                new THREE.Vector3(0.5851925925925926, 0.5851925925925925, 0.006992592592592606),
+                new THREE.Vector3(0.529725925925926, 0.4832000000000001, 0.03307407407407409),
+                new THREE.Vector3(0.48812592592592596, 0.3905407407407406, 0.06880000000000006),
+                new THREE.Vector3(0.46039259259259263, 0.30725925925925923, 0.11412592592592594),
+                new THREE.Vector3(0.44652592592592594, 0.2334, 0.16900740740740744),
+                new THREE.Vector3(0.44652592592592594, 0.16900740740740744, 0.2334),
+                new THREE.Vector3(0.46039259259259263, 0.11412592592592594, 0.3072592592592592),
+                new THREE.Vector3(0.48812592592592596, 0.06880000000000004, 0.39054074074074063),
+                new THREE.Vector3(0.5297259259259259, 0.03307407407407409, 0.4832),
+                new THREE.Vector3(0.5851925925925926, 0.0069925925925926335, 0.5851925925925927),
+                new THREE.Vector3(0.6545259259259261, -0.009399999999999978, 0.6964740740740741),
+                new THREE.Vector3(0.7377259259259259, -0.016059259259259245, 0.817),
+                new THREE.Vector3(0.8347925925925926, -0.012940740740740739, 0.9467259259259259),
+                new THREE.Vector3(0.9457259259259259, 0.0, 1.0856074074074071),
+                new THREE.Vector3(0.8992, 1.1088, 0.0),
+                new THREE.Vector3(0.7904, 0.9768074074074073, -0.010807407407407403),
+                new THREE.Vector3(0.6944, 0.8528592592592592, -0.012859259259259239),
+                new THREE.Vector3(0.6112000000000002, 0.737, -0.00619999999999996),
+                new THREE.Vector3(0.5408000000000002, 0.6292740740740741, 0.009125925925925968),
+                new THREE.Vector3(0.4832000000000002, 0.5297259259259259, 0.033074074074074124),
+                new THREE.Vector3(0.4384000000000001, 0.4384000000000001, 0.06560000000000007),
+                new THREE.Vector3(0.40640000000000015, 0.3553407407407407, 0.10665925925925934),
+                new THREE.Vector3(0.3872000000000001, 0.28059259259259267, 0.15620740740740746),
+                new THREE.Vector3(0.38080000000000014, 0.21420000000000003, 0.21420000000000003),
+                new THREE.Vector3(0.3872000000000002, 0.15620740740740746, 0.2805925925925926),
+                new THREE.Vector3(0.40640000000000015, 0.10665925925925931, 0.35534074074074073),
+                new THREE.Vector3(0.4384000000000002, 0.06560000000000007, 0.43840000000000007),
+                new THREE.Vector3(0.4832000000000002, 0.03307407407407413, 0.5297259259259259),
+                new THREE.Vector3(0.5408000000000002, 0.009125925925925996, 0.6292740740740741),
+                new THREE.Vector3(0.6112000000000002, -0.0061999999999999555, 0.737),
+                new THREE.Vector3(0.6944000000000001, -0.012859259259259223, 0.8528592592592592),
+                new THREE.Vector3(0.7904000000000001, -0.010807407407407398, 0.9768074074074073),
+                new THREE.Vector3(0.8992, 0.0, 1.1088),
+                new THREE.Vector3(0.8481407407407404, 1.1271925925925923, 0.0),
+                new THREE.Vector3(0.7425407407407406, 1.0031999999999996, -0.0076074074074073935),
+                new THREE.Vector3(0.648674074074074, 0.8861407407407405, -0.007525925925925915),
+                new THREE.Vector3(0.5665407407407406, 0.776059259259259, 0.00020000000000001896),
+                new THREE.Vector3(0.49614074074074066, 0.6729999999999999, 0.015525925925925957),
+                new THREE.Vector3(0.43747407407407396, 0.5770074074074074, 0.038407407407407466),
+                new THREE.Vector3(0.3905407407407405, 0.48812592592592585, 0.06880000000000004),
+                new THREE.Vector3(0.3553407407407407, 0.4064000000000001, 0.10665925925925931),
+                new THREE.Vector3(0.331874074074074, 0.331874074074074, 0.15194074074074077),
+                new THREE.Vector3(0.32014074074074067, 0.2645925925925926, 0.20459999999999998),
+                new THREE.Vector3(0.3201407407407406, 0.2046, 0.26459259259259255),
+                new THREE.Vector3(0.33187407407407393, 0.15194074074074077, 0.331874074074074),
+                new THREE.Vector3(0.3553407407407406, 0.10665925925925933, 0.40640000000000004),
+                new THREE.Vector3(0.3905407407407406, 0.06880000000000006, 0.48812592592592585),
+                new THREE.Vector3(0.43747407407407396, 0.03840740740740742, 0.5770074074074073),
+                new THREE.Vector3(0.49614074074074055, 0.015525925925925957, 0.6729999999999999),
+                new THREE.Vector3(0.5665407407407406, 0.00020000000000003348, 0.776059259259259),
+                new THREE.Vector3(0.6486740740740738, -0.007525925925925922, 0.8861407407407405),
+                new THREE.Vector3(0.7425407407407405, -0.007607407407407396, 1.0031999999999996),
+                new THREE.Vector3(0.8481407407407404, 0.0, 1.1271925925925923),
+                new THREE.Vector3(0.7925925925925925, 1.1407407407407404, 0.0),
+                new THREE.Vector3(0.691259259259259, 1.025859259259259, -0.003340740740740738),
+                new THREE.Vector3(0.6005925925925925, 0.9167999999999998, -5.925925925920507e-05),
+                new THREE.Vector3(0.5205925925925926, 0.8136074074074072, 0.009800000000000027),
+                new THREE.Vector3(0.4512592592592593, 0.7163259259259258, 0.026192592592592615),
+                new THREE.Vector3(0.3925925925925926, 0.6249999999999999, 0.04907407407407411),
+                new THREE.Vector3(0.3445925925925927, 0.5396740740740741, 0.07840000000000004),
+                new THREE.Vector3(0.3072592592592593, 0.4603925925925925, 0.11412592592592592),
+                new THREE.Vector3(0.2805925925925926, 0.3872000000000001, 0.1562074074074074),
+                new THREE.Vector3(0.2645925925925926, 0.32014074074074067, 0.20459999999999998),
+                new THREE.Vector3(0.25925925925925924, 0.25925925925925924, 0.25925925925925924),
+                new THREE.Vector3(0.2645925925925926, 0.20460000000000003, 0.3201407407407407),
+                new THREE.Vector3(0.28059259259259267, 0.1562074074074075, 0.3872000000000001),
+                new THREE.Vector3(0.30725925925925923, 0.11412592592592592, 0.4603925925925925),
+                new THREE.Vector3(0.3445925925925926, 0.07840000000000007, 0.539674074074074),
+                new THREE.Vector3(0.3925925925925926, 0.0490740740740741, 0.625),
+                new THREE.Vector3(0.45125925925925925, 0.026192592592592642, 0.7163259259259258),
+                new THREE.Vector3(0.5205925925925925, 0.009800000000000031, 0.8136074074074071),
+                new THREE.Vector3(0.6005925925925925, -5.925925925924502e-05, 0.9167999999999998),
+                new THREE.Vector3(0.6912592592592591, -0.0033407407407407275, 1.025859259259259),
+                new THREE.Vector3(0.7925925925925925, 0.0, 1.1407407407407404),
+                new THREE.Vector3(0.7325999999999999, 1.1493999999999998, 0.0),
+                new THREE.Vector3(0.6365999999999998, 1.0447407407407403, 0.001992592592592599),
+                new THREE.Vector3(0.5501999999999999, 0.9447925925925924, 0.009540740740740739),
+                new THREE.Vector3(0.47339999999999993, 0.8495999999999999, 0.02260000000000001),
+                new THREE.Vector3(0.40619999999999995, 0.7592074074074072, 0.041125925925925934),
+                new THREE.Vector3(0.3485999999999999, 0.6736592592592591, 0.06507407407407402),
+                new THREE.Vector3(0.3006, 0.593, 0.09440000000000008),
+                new THREE.Vector3(0.26220000000000004, 0.5172740740740741, 0.12905925925925932),
+                new THREE.Vector3(0.2334, 0.4465259259259259, 0.16900740740740744),
+                new THREE.Vector3(0.21420000000000003, 0.3808, 0.21420000000000003),
+                new THREE.Vector3(0.2046, 0.3201407407407406, 0.2645925925925925),
+                new THREE.Vector3(0.20459999999999998, 0.2645925925925925, 0.3201407407407406),
+                new THREE.Vector3(0.21419999999999995, 0.21419999999999997, 0.3808),
+                new THREE.Vector3(0.2334, 0.16900740740740747, 0.44652592592592594),
+                new THREE.Vector3(0.26220000000000004, 0.12905925925925932, 0.5172740740740741),
+                new THREE.Vector3(0.30060000000000003, 0.09440000000000008, 0.593),
+                new THREE.Vector3(0.3486, 0.06507407407407409, 0.6736592592592592),
+                new THREE.Vector3(0.4061999999999999, 0.041125925925925955, 0.7592074074074073),
+                new THREE.Vector3(0.47339999999999993, 0.022600000000000037, 0.8495999999999999),
+                new THREE.Vector3(0.5501999999999999, 0.009540740740740752, 0.9447925925925924),
+                new THREE.Vector3(0.6365999999999998, 0.0019925925925926014, 1.0447407407407405),
+                new THREE.Vector3(0.7325999999999999, 0.0, 1.1493999999999998),
+                new THREE.Vector3(0.6682074074074074, 1.1531259259259254, 0.0),
+                new THREE.Vector3(0.5786074074074073, 1.0597999999999996, 0.008392592592592582),
+                new THREE.Vector3(0.4975407407407407, 0.9700740740740738, 0.021274074074074063),
+                new THREE.Vector3(0.4250074074074074, 0.8839925925925924, 0.03859999999999998),
+                new THREE.Vector3(0.3610074074074074, 0.8015999999999999, 0.06032592592592595),
+                new THREE.Vector3(0.3055407407407407, 0.7229407407407407, 0.08640740740740735),
+                new THREE.Vector3(0.2586074074074074, 0.6480592592592592, 0.11680000000000001),
+                new THREE.Vector3(0.2202074074074074, 0.577, 0.1514592592592593),
+                new THREE.Vector3(0.19034074074074075, 0.5098074074074074, 0.19034074074074073),
+                new THREE.Vector3(0.1690074074074075, 0.44652592592592594, 0.23340000000000002),
+                new THREE.Vector3(0.15620740740740746, 0.3872000000000001, 0.28059259259259256),
+                new THREE.Vector3(0.1519407407407408, 0.331874074074074, 0.331874074074074),
+                new THREE.Vector3(0.15620740740740743, 0.2805925925925926, 0.38720000000000004),
+                new THREE.Vector3(0.16900740740740744, 0.23339999999999997, 0.44652592592592594),
+                new THREE.Vector3(0.19034074074074078, 0.19034074074074075, 0.5098074074074074),
+                new THREE.Vector3(0.2202074074074074, 0.1514592592592593, 0.577),
+                new THREE.Vector3(0.2586074074074074, 0.11680000000000006, 0.6480592592592592),
+                new THREE.Vector3(0.30554074074074067, 0.08640740740740738, 0.7229407407407407),
+                new THREE.Vector3(0.3610074074074074, 0.060325925925925936, 0.8015999999999999),
+                new THREE.Vector3(0.4250074074074074, 0.03860000000000004, 0.8839925925925924),
+                new THREE.Vector3(0.49754074074074073, 0.021274074074074084, 0.9700740740740739),
+                new THREE.Vector3(0.5786074074074073, 0.008392592592592597, 1.0597999999999996),
+                new THREE.Vector3(0.6682074074074074, 0.0, 1.1531259259259254),
+                new THREE.Vector3(0.5994592592592592, 1.1518740740740743, 0.0),
+                new THREE.Vector3(0.5173259259259259, 1.0709925925925923, 0.015859259259259254),
+                new THREE.Vector3(0.4426592592592592, 0.9925999999999998, 0.03514074074074074),
+                new THREE.Vector3(0.3754592592592592, 0.9167407407407406, 0.05780000000000002),
+                new THREE.Vector3(0.3157259259259259, 0.8434592592592591, 0.0837925925925926),
+                new THREE.Vector3(0.2634592592592593, 0.7727999999999999, 0.1130740740740741),
+                new THREE.Vector3(0.21865925925925925, 0.7048074074074073, 0.14560000000000006),
+                new THREE.Vector3(0.1813259259259259, 0.6395259259259259, 0.18132592592592595),
+                new THREE.Vector3(0.15145925925925927, 0.577, 0.22020740740740744),
+                new THREE.Vector3(0.12905925925925932, 0.5172740740740741, 0.2622),
+                new THREE.Vector3(0.1141259259259259, 0.4603925925925926, 0.3072592592592592),
+                new THREE.Vector3(0.10665925925925934, 0.4064000000000001, 0.35534074074074073),
+                new THREE.Vector3(0.10665925925925926, 0.3553407407407406, 0.40640000000000004),
+                new THREE.Vector3(0.11412592592592594, 0.30725925925925923, 0.4603925925925925),
+                new THREE.Vector3(0.12905925925925932, 0.26220000000000004, 0.5172740740740741),
+                new THREE.Vector3(0.15145925925925927, 0.2202074074074074, 0.577),
+                new THREE.Vector3(0.18132592592592592, 0.18132592592592595, 0.6395259259259259),
+                new THREE.Vector3(0.21865925925925925, 0.1456000000000001, 0.7048074074074073),
+                new THREE.Vector3(0.2634592592592593, 0.11307407407407408, 0.7727999999999999),
+                new THREE.Vector3(0.3157259259259259, 0.0837925925925926, 0.8434592592592591),
+                new THREE.Vector3(0.3754592592592592, 0.057800000000000046, 0.9167407407407406),
+                new THREE.Vector3(0.4426592592592592, 0.035140740740740736, 0.9925999999999997),
+                new THREE.Vector3(0.5173259259259259, 0.01585925925925926, 1.0709925925925923),
+                new THREE.Vector3(0.5994592592592592, 0.0, 1.1518740740740743),
+                new THREE.Vector3(0.5264000000000002, 1.1456, 0.0),
+                new THREE.Vector3(0.4528000000000001, 1.0782740740740742, 0.02439259259259262),
+                new THREE.Vector3(0.38559999999999994, 1.0123259259259256, 0.05114074074074074),
+                new THREE.Vector3(0.32480000000000003, 0.9477999999999999, 0.08020000000000002),
+                new THREE.Vector3(0.27040000000000003, 0.8847407407407405, 0.11152592592592595),
+                new THREE.Vector3(0.2224000000000001, 0.8231925925925925, 0.14507407407407405),
+                new THREE.Vector3(0.18080000000000007, 0.7631999999999999, 0.18080000000000004),
+                new THREE.Vector3(0.14560000000000012, 0.7048074074074073, 0.21865925925925925),
+                new THREE.Vector3(0.11680000000000011, 0.6480592592592592, 0.25860740740740745),
+                new THREE.Vector3(0.09440000000000011, 0.593, 0.3006),
+                new THREE.Vector3(0.07840000000000005, 0.5396740740740741, 0.3445925925925925),
+                new THREE.Vector3(0.06880000000000014, 0.48812592592592596, 0.39054074074074074),
+                new THREE.Vector3(0.0656000000000001, 0.4384000000000001, 0.43840000000000007),
+                new THREE.Vector3(0.06880000000000008, 0.39054074074074063, 0.48812592592592585),
+                new THREE.Vector3(0.07840000000000014, 0.3445925925925926, 0.5396740740740741),
+                new THREE.Vector3(0.0944000000000001, 0.3006, 0.593),
+                new THREE.Vector3(0.11680000000000007, 0.25860740740740745, 0.6480592592592592),
+                new THREE.Vector3(0.1456000000000001, 0.21865925925925925, 0.7048074074074073),
+                new THREE.Vector3(0.18080000000000004, 0.18080000000000007, 0.7631999999999999),
+                new THREE.Vector3(0.22240000000000013, 0.1450740740740741, 0.8231925925925925),
+                new THREE.Vector3(0.2704000000000001, 0.11152592592592597, 0.8847407407407406),
+                new THREE.Vector3(0.3248, 0.08020000000000001, 0.9477999999999998),
+                new THREE.Vector3(0.38560000000000005, 0.05114074074074075, 1.0123259259259256),
+                new THREE.Vector3(0.4528000000000001, 0.02439259259259261, 1.078274074074074),
+                new THREE.Vector3(0.5264000000000002, 0.0, 1.1456),
+                new THREE.Vector3(0.44907407407407407, 1.1342592592592593, 0.0),
+                new THREE.Vector3(0.3850740740740741, 1.0816000000000001, 0.03399259259259261),
+                new THREE.Vector3(0.3264074074074074, 1.0292074074074073, 0.06927407407407409),
+                new THREE.Vector3(0.273074074074074, 0.9771259259259256, 0.10580000000000002),
+                new THREE.Vector3(0.225074074074074, 0.9253999999999999, 0.14352592592592592),
+                new THREE.Vector3(0.1824074074074074, 0.8740740740740739, 0.1824074074074074),
+                new THREE.Vector3(0.14507407407407408, 0.8231925925925925, 0.22240000000000001),
+                new THREE.Vector3(0.11307407407407408, 0.7727999999999998, 0.2634592592592593),
+                new THREE.Vector3(0.08640740740740743, 0.7229407407407404, 0.30554074074074067),
+                new THREE.Vector3(0.0650740740740741, 0.6736592592592593, 0.3486),
+                new THREE.Vector3(0.049074074074074076, 0.6249999999999999, 0.39259259259259255),
+                new THREE.Vector3(0.038407407407407446, 0.5770074074074074, 0.43747407407407396),
+                new THREE.Vector3(0.03307407407407409, 0.5297259259259259, 0.4832000000000001),
+                new THREE.Vector3(0.0330740740740741, 0.48320000000000013, 0.5297259259259259),
+                new THREE.Vector3(0.038407407407407446, 0.437474074074074, 0.5770074074074074),
+                new THREE.Vector3(0.0490740740740741, 0.39259259259259255, 0.6249999999999999),
+                new THREE.Vector3(0.06507407407407415, 0.34859999999999997, 0.6736592592592592),
+                new THREE.Vector3(0.08640740740740743, 0.3055407407407408, 0.7229407407407407),
+                new THREE.Vector3(0.1130740740740741, 0.2634592592592593, 0.7727999999999999),
+                new THREE.Vector3(0.14507407407407408, 0.22240000000000004, 0.8231925925925925),
+                new THREE.Vector3(0.1824074074074074, 0.1824074074074074, 0.8740740740740738),
+                new THREE.Vector3(0.22507407407407404, 0.14352592592592595, 0.9253999999999998),
+                new THREE.Vector3(0.273074074074074, 0.10580000000000003, 0.9771259259259257),
+                new THREE.Vector3(0.3264074074074075, 0.06927407407407411, 1.0292074074074073),
+                new THREE.Vector3(0.3850740740740741, 0.033992592592592616, 1.0816000000000001),
+                new THREE.Vector3(0.44907407407407407, 0.0, 1.1342592592592593),
+                new THREE.Vector3(0.367525925925926, 1.1178074074074076, 0.0),
+                new THREE.Vector3(0.3141925925925927, 1.080925925925926, 0.04465925925925927),
+                new THREE.Vector3(0.265125925925926, 1.0432000000000001, 0.08954074074074077),
+                new THREE.Vector3(0.22032592592592595, 1.004674074074074, 0.13460000000000003),
+                new THREE.Vector3(0.1797925925925926, 0.9653925925925922, 0.17979259259259256),
+                new THREE.Vector3(0.14352592592592592, 0.9253999999999997, 0.225074074074074),
+                new THREE.Vector3(0.11152592592592593, 0.8847407407407406, 0.27040000000000003),
+                new THREE.Vector3(0.08379259259259259, 0.8434592592592591, 0.31572592592592585),
+                new THREE.Vector3(0.06032592592592593, 0.8016, 0.36100740740740744),
+                new THREE.Vector3(0.04112592592592592, 0.7592074074074072, 0.4061999999999999),
+                new THREE.Vector3(0.02619259259259262, 0.7163259259259259, 0.4512592592592592),
+                new THREE.Vector3(0.015525925925925957, 0.6729999999999999, 0.4961407407407406),
+                new THREE.Vector3(0.009125925925925968, 0.6292740740740741, 0.5408000000000002),
+                new THREE.Vector3(0.0069925925925926335, 0.5851925925925926, 0.5851925925925927),
+                new THREE.Vector3(0.009125925925925968, 0.5408000000000002, 0.6292740740740741),
+                new THREE.Vector3(0.015525925925925957, 0.4961407407407406, 0.6729999999999999),
+                new THREE.Vector3(0.0261925925925926, 0.4512592592592592, 0.7163259259259258),
+                new THREE.Vector3(0.04112592592592593, 0.4061999999999999, 0.7592074074074073),
+                new THREE.Vector3(0.06032592592592592, 0.3610074074074074, 0.8015999999999999),
+                new THREE.Vector3(0.08379259259259261, 0.3157259259259259, 0.8434592592592591),
+                new THREE.Vector3(0.11152592592592593, 0.2704000000000001, 0.8847407407407406),
+                new THREE.Vector3(0.1435259259259259, 0.225074074074074, 0.9253999999999998),
+                new THREE.Vector3(0.17979259259259256, 0.17979259259259256, 0.9653925925925924),
+                new THREE.Vector3(0.22032592592592598, 0.13460000000000005, 1.004674074074074),
+                new THREE.Vector3(0.265125925925926, 0.08954074074074077, 1.0432000000000001),
+                new THREE.Vector3(0.31419259259259263, 0.044659259259259274, 1.080925925925926),
+                new THREE.Vector3(0.367525925925926, 0.0, 1.1178074074074076),
+                new THREE.Vector3(0.28180000000000005, 1.0962, 0.0),
+                new THREE.Vector3(0.24020000000000005, 1.0762074074074075, 0.0563925925925926),
+                new THREE.Vector3(0.20180000000000006, 1.0542592592592595, 0.11194074074074076),
+                new THREE.Vector3(0.16660000000000008, 1.0304000000000002, 0.16660000000000005),
+                new THREE.Vector3(0.13460000000000005, 1.004674074074074, 0.220325925925926),
+                new THREE.Vector3(0.10580000000000002, 0.9771259259259256, 0.273074074074074),
+                new THREE.Vector3(0.08020000000000002, 0.9477999999999996, 0.3248),
+                new THREE.Vector3(0.057800000000000074, 0.9167407407407406, 0.3754592592592593),
+                new THREE.Vector3(0.038600000000000044, 0.8839925925925923, 0.4250074074074073),
+                new THREE.Vector3(0.022600000000000044, 0.8495999999999999, 0.47340000000000004),
+                new THREE.Vector3(0.009800000000000045, 0.8136074074074072, 0.5205925925925924),
+                new THREE.Vector3(0.00020000000000006124, 0.7760592592592592, 0.5665407407407407),
+                new THREE.Vector3(-0.0061999999999999555, 0.737, 0.6112000000000002),
+                new THREE.Vector3(-0.009399999999999978, 0.696474074074074, 0.654525925925926),
+                new THREE.Vector3(-0.00939999999999995, 0.654525925925926, 0.6964740740740741),
+                new THREE.Vector3(-0.0061999999999999555, 0.6112000000000001, 0.737),
+                new THREE.Vector3(0.00020000000000003348, 0.5665407407407406, 0.7760592592592591),
+                new THREE.Vector3(0.009800000000000059, 0.5205925925925925, 0.8136074074074071),
+                new THREE.Vector3(0.022600000000000037, 0.47339999999999993, 0.8495999999999999),
+                new THREE.Vector3(0.03860000000000005, 0.4250074074074074, 0.8839925925925924),
+                new THREE.Vector3(0.057800000000000046, 0.3754592592592592, 0.9167407407407406),
+                new THREE.Vector3(0.08020000000000002, 0.3248, 0.9477999999999998),
+                new THREE.Vector3(0.10580000000000003, 0.273074074074074, 0.9771259259259257),
+                new THREE.Vector3(0.13460000000000005, 0.22032592592592598, 1.004674074074074),
+                new THREE.Vector3(0.16660000000000008, 0.16660000000000008, 1.0304000000000002),
+                new THREE.Vector3(0.2018000000000001, 0.11194074074074079, 1.0542592592592595),
+                new THREE.Vector3(0.24020000000000005, 0.05639259259259262, 1.0762074074074075),
+                new THREE.Vector3(0.28180000000000005, 0.0, 1.0962),
+                new THREE.Vector3(0.19194074074074077, 1.0693925925925927, 0.0),
+                new THREE.Vector3(0.16314074074074078, 1.0674, 0.0691925925925926),
+                new THREE.Vector3(0.1364740740740741, 1.0623407407407408, 0.13647407407407408),
+                new THREE.Vector3(0.11194074074074079, 1.0542592592592592, 0.20180000000000006),
+                new THREE.Vector3(0.08954074074074078, 1.0432000000000001, 0.265125925925926),
+                new THREE.Vector3(0.0692740740740741, 1.0292074074074076, 0.3264074074074075),
+                new THREE.Vector3(0.051140740740740744, 1.0123259259259256, 0.3856),
+                new THREE.Vector3(0.035140740740740736, 0.9925999999999997, 0.44265925925925925),
+                new THREE.Vector3(0.021274074074074074, 0.9700740740740739, 0.4975407407407407),
+                new THREE.Vector3(0.009540740740740763, 0.9447925925925924, 0.5501999999999999),
+                new THREE.Vector3(-5.925925925926237e-05, 0.9167999999999998, 0.6005925925925925),
+                new THREE.Vector3(-0.007525925925925915, 0.8861407407407405, 0.6486740740740738),
+                new THREE.Vector3(-0.012859259259259258, 0.8528592592592592, 0.6944000000000001),
+                new THREE.Vector3(-0.016059259259259245, 0.817, 0.737725925925926),
+                new THREE.Vector3(-0.0171259259259259, 0.7786074074074074, 0.7786074074074073),
+                new THREE.Vector3(-0.01605925925925923, 0.7377259259259259, 0.817),
+                new THREE.Vector3(-0.012859259259259237, 0.6944000000000001, 0.8528592592592592),
+                new THREE.Vector3(-0.007525925925925908, 0.648674074074074, 0.8861407407407405),
+                new THREE.Vector3(-5.92592592592589e-05, 0.6005925925925925, 0.9167999999999998),
+                new THREE.Vector3(0.009540740740740752, 0.5501999999999999, 0.9447925925925924),
+                new THREE.Vector3(0.021274074074074098, 0.49754074074074073, 0.9700740740740739),
+                new THREE.Vector3(0.035140740740740736, 0.4426592592592592, 0.9925999999999997),
+                new THREE.Vector3(0.05114074074074074, 0.3856, 1.0123259259259256),
+                new THREE.Vector3(0.0692740740740741, 0.3264074074074074, 1.0292074074074073),
+                new THREE.Vector3(0.08954074074074077, 0.265125925925926, 1.0432000000000001),
+                new THREE.Vector3(0.11194074074074079, 0.2018000000000001, 1.0542592592592595),
+                new THREE.Vector3(0.1364740740740741, 0.1364740740740741, 1.0623407407407408),
+                new THREE.Vector3(0.16314074074074078, 0.06919259259259261, 1.0674000000000001),
+                new THREE.Vector3(0.19194074074074077, 0.0, 1.0693925925925927),
+                new THREE.Vector3(0.09799259259259259, 1.0373407407407407, 0.0),
+                new THREE.Vector3(0.08305925925925928, 1.0544592592592592, 0.08305925925925926),
+                new THREE.Vector3(0.06919259259259261, 1.0674000000000001, 0.16314074074074075),
+                new THREE.Vector3(0.05639259259259261, 1.0762074074074077, 0.24020000000000002),
+                new THREE.Vector3(0.04465925925925929, 1.080925925925926, 0.3141925925925926),
+                new THREE.Vector3(0.03399259259259261, 1.0816000000000001, 0.3850740740740741),
+                new THREE.Vector3(0.0243925925925926, 1.0782740740740742, 0.4528000000000001),
+                new THREE.Vector3(0.015859259259259267, 1.0709925925925923, 0.5173259259259259),
+                new THREE.Vector3(0.008392592592592592, 1.0597999999999996, 0.5786074074074072),
+                new THREE.Vector3(0.0019925925925925996, 1.0447407407407405, 0.6365999999999999),
+                new THREE.Vector3(-0.003340740740740729, 1.025859259259259, 0.691259259259259),
+                new THREE.Vector3(-0.0076074074074073995, 1.0031999999999999, 0.7425407407407406),
+                new THREE.Vector3(-0.010807407407407394, 0.9768074074074073, 0.7904),
+                new THREE.Vector3(-0.012940740740740732, 0.946725925925926, 0.8347925925925926),
+                new THREE.Vector3(-0.014007407407407396, 0.9129999999999999, 0.875674074074074),
+                new THREE.Vector3(-0.014007407407407392, 0.875674074074074, 0.9129999999999999),
+                new THREE.Vector3(-0.012940740740740732, 0.8347925925925925, 0.9467259259259259),
+                new THREE.Vector3(-0.010807407407407398, 0.7904000000000001, 0.9768074074074073),
+                new THREE.Vector3(-0.007607407407407389, 0.7425407407407405, 1.0031999999999996),
+                new THREE.Vector3(-0.0033407407407407275, 0.6912592592592591, 1.025859259259259),
+                new THREE.Vector3(0.0019925925925925944, 0.6365999999999998, 1.0447407407407405),
+                new THREE.Vector3(0.008392592592592597, 0.5786074074074073, 1.0597999999999999),
+                new THREE.Vector3(0.01585925925925926, 0.5173259259259257, 1.0709925925925923),
+                new THREE.Vector3(0.024392592592592605, 0.4528000000000001, 1.0782740740740742),
+                new THREE.Vector3(0.033992592592592616, 0.3850740740740741, 1.0816000000000001),
+                new THREE.Vector3(0.044659259259259274, 0.3141925925925927, 1.080925925925926),
+                new THREE.Vector3(0.05639259259259261, 0.24020000000000005, 1.0762074074074075),
+                new THREE.Vector3(0.06919259259259261, 0.16314074074074078, 1.0674000000000001),
+                new THREE.Vector3(0.08305925925925928, 0.08305925925925928, 1.0544592592592594),
+                new THREE.Vector3(0.09799259259259259, 0.0, 1.0373407407407407),
+                new THREE.Vector3(0.0, 1.0, 0.0),
+                new THREE.Vector3(0.0, 1.0373407407407407, 0.09799259259259259),
+                new THREE.Vector3(0.0, 1.0693925925925927, 0.19194074074074075),
+                new THREE.Vector3(0.0, 1.0962, 0.28180000000000005),
+                new THREE.Vector3(0.0, 1.1178074074074074, 0.3675259259259259),
+                new THREE.Vector3(0.0, 1.1342592592592593, 0.44907407407407407),
+                new THREE.Vector3(0.0, 1.1456000000000004, 0.5264000000000001),
+                new THREE.Vector3(0.0, 1.1518740740740743, 0.5994592592592592),
+                new THREE.Vector3(0.0, 1.1531259259259254, 0.6682074074074073),
+                new THREE.Vector3(0.0, 1.1493999999999998, 0.7325999999999998),
+                new THREE.Vector3(0.0, 1.1407407407407404, 0.7925925925925924),
+                new THREE.Vector3(0.0, 1.1271925925925923, 0.8481407407407405),
+                new THREE.Vector3(0.0, 1.1088, 0.8992000000000001),
+                new THREE.Vector3(0.0, 1.0856074074074074, 0.9457259259259259),
+                new THREE.Vector3(0.0, 1.0576592592592593, 0.987674074074074),
+                new THREE.Vector3(0.0, 1.025, 1.025),
+                new THREE.Vector3(0.0, 0.9876740740740741, 1.0576592592592593),
+                new THREE.Vector3(0.0, 0.9457259259259259, 1.0856074074074071),
+                new THREE.Vector3(0.0, 0.8992, 1.1088),
+                new THREE.Vector3(0.0, 0.8481407407407404, 1.1271925925925923),
+                new THREE.Vector3(0.0, 0.7925925925925925, 1.1407407407407404),
+                new THREE.Vector3(0.0, 0.7325999999999999, 1.1493999999999998),
+                new THREE.Vector3(0.0, 0.6682074074074074, 1.1531259259259254),
+                new THREE.Vector3(0.0, 0.5994592592592592, 1.1518740740740743),
+                new THREE.Vector3(0.0, 0.5264000000000002, 1.1456),
+                new THREE.Vector3(0.0, 0.44907407407407407, 1.1342592592592593),
+                new THREE.Vector3(0.0, 0.367525925925926, 1.1178074074074076),
+                new THREE.Vector3(0.0, 0.28180000000000005, 1.0962),
+                new THREE.Vector3(0.0, 0.19194074074074077, 1.0693925925925927),
+                new THREE.Vector3(0.0, 0.09799259259259259, 1.0373407407407407),
+                new THREE.Vector3(0.0, 0.0, 1.0)
+            ];
+            geometry0.faces= geometry.faces
+            var mesh= new THREE.Mesh( geometry0,  bluematerial);
+            scene.add(mesh);
+
+
+            //AGREGAR A LA ESCENA LOS DIFERENTES ELEMENTOS
+
+            scene.add(pasillo);
+            scene.add(p1);
+            scene.add(p2);
+            scene.add(p3);
+            scene.add(p4);
+            scene.add(p5);
+            scene.add(pb1);
+            scene.add(pb2);
+            scene.add(pbf);
+            scene.add(piso);
+            scene.add(manubrio);
+            scene.add(nina1);
+            scene.add(nina2);
+            scene.add(b1);
+            scene.add(b2);
+            scene.add(coso);
+            scene.add(coso2);
+            scene.add(coso3);
+            scene.add(coso4);
+            scene.add(coso5);
+            scene.add(coso5b);
+            scene.add(coso6);
+            scene.add(coso7);
+            scene.add(coso8);
+            scene.add(cosa);
+            scene.add(cosa1);
+            scene.add(cosa2);
+            scene.add(cosa2b);
+            scene.add(cosa3);
+
+            scene.add(cosAR);
+            scene.add(cosAR2);
+
+            scene.add(bar);
+            scene.add(bar2);
+            scene.add(bar3);
+            scene.add(bar4);
+            scene.add(bar5);
+            scene.add(bar6);
+            scene.add(bara);
+            scene.add(bara2);
+            scene.add(bara3);
+            scene.add(bara4);
+            scene.add(bara5);
+            scene.add(bara6);
+
+            scene.add(par1);
+            scene.add(par2);
+            scene.add(parfo);
+            //scene.add(nina1);
+
+            camera.position.x = 0;
+            camera.position.y = 1;
+            camera.position.z = 2.7;
+            camera.lookAt(origin);
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            controls.update();
+            render();
+        }
+
+        function render() {
+            renderer.render(scene, camera);
+        }
+    </script>
+<button id='button' style="left:12%; top:75% " onClick="grafosClick() "> <a href="index.html">back</a></button>
+
+</body>
+
+</html>
