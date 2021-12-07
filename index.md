@@ -7,6 +7,8 @@ You can use the [editor on GitHub](https://github.com/emersonjleon/emersonjleon/
 - [acordes](acordes.html)
 - [fuego fractal](fuegofractal.html)
 - [fixed points](fp.html)
+- [continuous boxspline](/threejs/bspline6c.html)
+- [continuous boxspline 2](/threejs/visual.html)
 - [blog](https://emersonleon.w3spaces.com/index.html)
 
 
