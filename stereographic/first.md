@@ -1,1 +1,2 @@
-![Image](3d-chessDM.jpg)
+# stairway
+![Image](3d-fig4.png)
