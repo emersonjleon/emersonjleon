@@ -7,6 +7,7 @@ You can use the [editor on GitHub](https://github.com/emersonjleon/emersonjleon/
 - [acordes](acordes.html)
 - [fuego fractal](fuegofractal.html)
 - [fixed points](fp.html)
+- [math and coffee](mathandcoffee.html)
 - [blog](https://emersonleon.w3spaces.com/index.html)
 
 ### 3d Visualization
