@@ -1,4 +1,4 @@
-###First Chip Firing computation:
+### First Chip Firing computation:
 
 We started with 16384 chips in one site on the grid graph.
 
