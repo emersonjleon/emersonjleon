@@ -11,8 +11,8 @@ at my github [splines]("https://github.com/emersonjleon/math"). Thanks to Gabrie
 - [spikes](/threejs/spikes.html)
 
 ### Chip firing:
-The simple dynamics of chipfiring allow to create very amazing patterns for large computational experiments. I thank to [Caroline Klivans]("https://www.dam.brown.edu/people/cklivans/chipfiring.html") for presenting these topics to me. 
+The simple dynamics of chipfiring allow to create very amazing patterns for large computational experiments. I thank to [Caroline Klivans](https://www.dam.brown.edu/people/cklivans/chipfiring.html) for presenting these topics to me. 
 
 - [link to visualizations](https://www.math.cmu.edu/~wes/sand.html)
-- [my first computation](/firstchipfiring.md)
+- [my first computation](firstchipfiring.md)
 
