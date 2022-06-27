@@ -1,6 +1,6 @@
 
 # Computer Visualization
-### splines:
+## splines:
 Using a homemade python tool and using three.js, I am exploring polynomial parameterizations of surfaces, splines and more. The python files are available 
 at my github [splines]("https://github.com/emersonjleon/math"). Thanks to Gabriela Sofía León for letting us use her three.js room.
 
@@ -10,7 +10,7 @@ at my github [splines]("https://github.com/emersonjleon/math"). Thanks to Gabrie
 - [waves](/threejs/redwaves.html)
 - [spikes](/threejs/spikes.html)
 
-### Chip firing:
+## Chip firing:
 The simple dynamics of chipfiring allow to create very amazing patterns for large computational experiments. I thank to [Caroline Klivans](https://www.dam.brown.edu/people/cklivans/chipfiring.html) for presenting these topics to me. 
 
 - [link to visualizations](https://www.math.cmu.edu/~wes/sand.html)
