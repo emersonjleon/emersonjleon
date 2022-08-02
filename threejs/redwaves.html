@@ -167,9 +167,9 @@
             var patBase = new THREE.TextureLoader().load('textures/ColorPat.jpg');
             var patNormal = new THREE.TextureLoader().load('textures/NormalPat.jpg');
             var materialPared = new THREE.MeshStandardMaterial({
-                color: 0xffffff,
+                color: 0xffffdd,
                 roughness: 0.8,
-                transparent: true,
+                //transparent: true,
                 opacity: 0.8,
                 //map: patBase,
                 //normalMap: patNormal
@@ -186,8 +186,8 @@
             var materialPiso = new THREE.MeshStandardMaterial({
                 //color: colorTinto,
                 metalness: 0.2,
-                transparent: true,
-                //roughness: 0,
+                //transparent: true,
+                roughness: 0.1
                 map: lightWoodBase,
                 normalMap: woodNormal,
             });
