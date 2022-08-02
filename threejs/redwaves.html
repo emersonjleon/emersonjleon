@@ -122,11 +122,7 @@
 
             });
             
-            var materialPiso = new THREE.MeshStandardMaterial({
-                color: colorTinto,
-                metalness: 0.3,
-                roughness: 0,
-            });
+            
             var metal = new THREE.MeshStandardMaterial({
                 color: colorM,
                 metalness: 0.8,
@@ -160,6 +156,13 @@
                 map: woodBase,
                 normalMap: woodNormal
             });
+            
+            var lightWoodBase = new THREE.TextureLoader().load('textures/lightWood.jpg');
+            //var woodNormal = new THREE.TextureLoader().load('textures/NormalMad.jpg');
+            var woodMaterial = new THREE.MeshStandardMaterial({
+                map: lightWoodBase,
+                normalMap: woodNormal
+            });
 
             var patBase = new THREE.TextureLoader().load('textures/ColorPat.jpg');
             var patNormal = new THREE.TextureLoader().load('textures/NormalPat.jpg');
@@ -180,6 +183,14 @@
                 normalMap: woodNormal,
             });
 
+            var materialPiso = new THREE.MeshStandardMaterial({
+                color: colorTinto,
+                metalness: 0.3,
+                roughness: 0,
+                map: lightWoodBase,
+                normalMap: woodNormal,
+            });
+            
             //EXP MIO
 
             var box1 = new THREE.Mesh(boxGeometry);
