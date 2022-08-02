@@ -121,12 +121,7 @@
                 roughness: 0.8,
 
             });
-            var materialPuertas = new THREE.MeshStandardMaterial({
-                color: colorPa,
-                metalness: 0,
-                roughness: 0.2,
-            });
-
+            
             var materialPiso = new THREE.MeshStandardMaterial({
                 color: colorTinto,
                 metalness: 0.3,
@@ -173,9 +168,18 @@
                 roughness: 0.8,
                 transparent: true,
                 opacity: 0.8,
-                map: patBase,
-                normalMap: patNormal
+                //map: patBase,
+                //normalMap: patNormal
             });
+            
+            var materialPuertas = new THREE.MeshStandardMaterial({
+                color: colorPa,
+                metalness: 0,
+                roughness: 0.2,
+                map: woodBase,
+                normalMap: woodNormal,
+            });
+
             //EXP MIO
 
             var box1 = new THREE.Mesh(boxGeometry);
