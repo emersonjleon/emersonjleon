@@ -9,6 +9,10 @@ You can use the [editor on GitHub](https://github.com/emersonjleon/emersonjleon/
 - [fixed points](fp.html)
 - [math and coffee](mathandcoffee.html)
 - [blog](https://emersonleon.w3spaces.com/index.html)
+- [sites](https://sites.google.com/view/emersonleon/math)
+- [blog](https://emersonleon.w3spaces.com/index.html)
+- [cyborg shaman](https://cyborgshaman.pythonanywhere.com)
+
 
 ### 3d Visualization
 
