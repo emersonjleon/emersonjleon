@@ -239,8 +239,8 @@
                 color: colorPa,
                 metalness: 0,
                 roughness: 0.2,
-                map: woodBase,
-                normalMap: woodNormal,
+                //map: woodBase,
+                //normalMap: woodNormal,
             });
 
             var materialPiso = new THREE.MeshStandardMaterial({
@@ -313,7 +313,7 @@
             par2.position.x = -(roomsizex-2.2)/2;
 
 	    //pared frontal
-            var parfo = new THREE.Mesh(planoFond, materialPared);
+            var parfo = new THREE.Mesh(planoFond, Proyeccion);
             parfo.position.z = -(roomsizez-2.2)/2;
 
 	    var parback = new THREE.Mesh(planoFond, materialPared);
