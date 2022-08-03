@@ -223,8 +223,8 @@
 		metalness: 0.2,
                 //transparent: true,
                 //opacity: 0.8,
-                map: patBase,
-                normalMap: patNormal
+                map: projBase,
+                //normalMap: patNormal
             });
             
 	    
@@ -265,7 +265,7 @@
             pasillo.material = materialPare;
 
 	    //puerta
-            var p2 = new THREE.Mesh(plano, materialPuertas);
+            var p2 = new THREE.Mesh(plano, matPuerta);
             p2.rotateY(1.5708);
             p2.position.x = -(roomsizex-2.4)/2;
             p2.position.y = -5;
