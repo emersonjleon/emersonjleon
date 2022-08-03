@@ -128,7 +128,7 @@
 	    //piso
             var planop = new THREE.PlaneGeometry(roomsizex-1, roomsizez-1);
 	    //paredes
-            var planoPar = new THREE.PlaneGeometry(roomsizey, roomsizez);
+            var planoPar = new THREE.PlaneGeometry(roomsizez, roomsizey);
             var planoFond = new THREE.PlaneGeometry(roomsizex-2, roomsizey-7);
 
             var sphereGeometry = new THREE.SphereGeometry(2.5, 25, 25);
@@ -268,7 +268,7 @@
 //pared izquierda
             var par2 = new THREE.Mesh(planoPar, materialParedPuerta);
             par2.rotateY(1.5708);
-            par2.rotateZ(-1.5708);
+            //par2.rotateZ(-1.5708);
             par2.position.x = -(roomsizex-2.2)/2;
 
 	    //pared frontal
@@ -279,7 +279,7 @@
 	    //pared derecha
             var par1 = new THREE.Mesh(planoPar, Proyeccion1);
             par1.rotateY(-1.5708);
-            par1.rotateZ(-1.5708);
+            //par1.rotateZ(-1.5708);
             par1.position.x = (roomsizex-2.2)/2;
 
 	    //pared posterior
@@ -298,7 +298,7 @@
 	    //puerta
             var p2 = new THREE.Mesh(plano, matPuerta);
             p2.rotateY(1.5708);
-            p2.position.x = -(roomsizex-2)/2;
+            p2.position.x = -(roomsizex-2.6)/2;
             p2.position.y = -5;
             p2.position.z = (roomsizez-20)/4;
 
