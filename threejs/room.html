@@ -206,7 +206,7 @@
             var patBase = new THREE.TextureLoader().load('textures/ColorPat.jpg');
             var patNormal = new THREE.TextureLoader().load('textures/NormalPat.jpg');
             
-            var materialTapiz = new THREE.MeshStandardMaterial({
+            var materialParedPuerta = new THREE.MeshStandardMaterial({
                 //color: 0xffffff,
                 roughness: 0.5,
 		metalness: 0.1,
@@ -217,7 +217,7 @@
             });
 
 	    var projBase = new THREE.TextureLoader().load('textures/gaugan_output.jpg');
-	    var materialProyeccion = new THREE.MeshStandardMaterial({
+	    var Proyeccion = new THREE.MeshStandardMaterial({
                 //color: 0xffffff,
                 roughness: 0.1,
 		metalness: 0.2,
@@ -307,7 +307,7 @@
             par1.position.x = (roomsizex-2.2)/2;
 
 	    //pared izquierda
-            var par2 = new THREE.Mesh(planoPar, materialTapiz);
+            var par2 = new THREE.Mesh(planoPar, materialParedPuerta);
             par2.rotateY(1.5708);
             par2.rotateZ(-1.5708);
             par2.position.x = -(roomsizex-2.2)/2;
