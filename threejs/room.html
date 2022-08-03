@@ -148,6 +148,12 @@
 
 
             //CREAR LOS MATERIALES
+	    //box
+            var materialPare = new THREE.MeshStandardMaterial({
+                color: 0xffffff,
+                roughness: 0.5,
+		metalness: 0.1,
+            });
             var materialPared = new THREE.MeshStandardMaterial({
                 color: colorB,
                 metalness: 0,
@@ -199,22 +205,23 @@
 
             var patBase = new THREE.TextureLoader().load('textures/ColorPat.jpg');
             var patNormal = new THREE.TextureLoader().load('textures/NormalPat.jpg');
-            var materialPare = new THREE.MeshStandardMaterial({
-                color: 0xffffff,
+            
+            var materialTapiz = new THREE.MeshStandardMaterial({
+                //color: 0xffffff,
                 roughness: 0.5,
 		metalness: 0.1,
-                //transparent: true,
-                //opacity: 0.8,
-                //map: patBase,
-                //normalMap: patNormal
+                transparent: true,
+                opacity: 0.8,
+                map: patBase,
+                normalMap: patNormal
             });
             
             var materialPuertas = new THREE.MeshStandardMaterial({
                 color: colorPa,
                 metalness: 0,
                 roughness: 0.2,
-                //map: woodBase,
-                //normalMap: woodNormal,
+                map: woodBase,
+                normalMap: woodNormal,
             });
 
             var materialPiso = new THREE.MeshStandardMaterial({
@@ -268,16 +275,19 @@
             pbfback.position.y = -17;
             pbfback.position.z = (roomsizez-2.4)/2;
 
-            var piso = new THREE.Mesh(planop, Matninas);
+            var piso = new THREE.Mesh(planop, materialPiso);
             piso.rotateX(-1.5708);
             piso.position.y = -18.9;
             //piso.position.z = 2;
 
+
+	    //pared derecha
             var par1 = new THREE.Mesh(planoPar, materialPared);
             par1.rotateY(-1.5708);
             par1.rotateZ(-1.5708);
             par1.position.x = (roomsizex-2.2)/2;
 
+	    //pared izquierda
             var par2 = new THREE.Mesh(planoPar, materialPared);
             par2.rotateY(1.5708);
             par2.rotateZ(-1.5708);
