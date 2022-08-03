@@ -217,7 +217,7 @@
             });
 
 	    var projBase = new THREE.TextureLoader().load('textures/gaugan_output.jpg');
-	    var Proyeccion = new THREE.MeshStandardMaterial({
+	    var Proyeccion1 = new THREE.MeshStandardMaterial({
                 //color: 0xffffff,
                 roughness: 0.1,
 		metalness: 0.2,
@@ -267,7 +267,7 @@
 	    //puerta
             var p2 = new THREE.Mesh(plano, matPuerta);
             p2.rotateY(1.5708);
-            p2.position.x = -(roomsizex-2.4)/2;
+            p2.position.x = -(roomsizex-2)/2;
             p2.position.y = -5;
             p2.position.z = (roomsizez-20)/4;
 
@@ -300,11 +300,6 @@
             //piso.position.z = 2;
 
 
-	    //pared derecha
-            var par1 = new THREE.Mesh(planoPar, materialPared);
-            par1.rotateY(-1.5708);
-            par1.rotateZ(-1.5708);
-            par1.position.x = (roomsizex-2.2)/2;
 
 	    //pared izquierda
             var par2 = new THREE.Mesh(planoPar, materialParedPuerta);
@@ -313,10 +308,18 @@
             par2.position.x = -(roomsizex-2.2)/2;
 
 	    //pared frontal
-            var parfo = new THREE.Mesh(planoFond, Proyeccion);
+            var parfo = new THREE.Mesh(planoFond, Proyeccion1);
             parfo.position.z = -(roomsizez-2.2)/2;
 
-	    var parback = new THREE.Mesh(planoFond, materialPared);
+
+	    //pared derecha
+            var par1 = new THREE.Mesh(planoPar, Proyeccion1);
+            par1.rotateY(-1.5708);
+            par1.rotateZ(-1.5708);
+            par1.position.x = (roomsizex-2.2)/2;
+
+	    //pared posterior
+	    var parback = new THREE.Mesh(planoFond, Proyeccion1);//materialPared
 	    parback.rotateY(2*1.5708);
             parback.position.z = (roomsizez-2.2)/2;
 
