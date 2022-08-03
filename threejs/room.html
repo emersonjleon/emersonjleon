@@ -215,8 +215,27 @@
                 map: patBase,
                 normalMap: patNormal
             });
+
+	    var projBase = new THREE.TextureLoader().load('textures/gaugan_output.jpg');
+	    var materialProyeccion = new THREE.MeshStandardMaterial({
+                //color: 0xffffff,
+                roughness: 0.1,
+		metalness: 0.2,
+                //transparent: true,
+                //opacity: 0.8,
+                map: patBase,
+                normalMap: patNormal
+            });
             
-            var materialPuertas = new THREE.MeshStandardMaterial({
+	    
+            var matPuerta = new THREE.MeshStandardMaterial({
+                color: colorPa,
+                metalness: 0,
+                roughness: 0.2,
+                map: woodBase,
+                normalMap: woodNormal,
+            });
+	    var materialPuertas = new THREE.MeshStandardMaterial({
                 color: colorPa,
                 metalness: 0,
                 roughness: 0.2,
@@ -288,11 +307,12 @@
             par1.position.x = (roomsizex-2.2)/2;
 
 	    //pared izquierda
-            var par2 = new THREE.Mesh(planoPar, materialPared);
+            var par2 = new THREE.Mesh(planoPar, materialTapiz);
             par2.rotateY(1.5708);
             par2.rotateZ(-1.5708);
             par2.position.x = -(roomsizex-2.2)/2;
 
+	    //pared frontal
             var parfo = new THREE.Mesh(planoFond, materialPared);
             parfo.position.z = -(roomsizez-2.2)/2;
 
