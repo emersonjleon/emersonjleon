@@ -20,7 +20,7 @@
 
 <body>
   <video id="video" loop style="display:none">
-    <source src="projection/strangeroom.mkv" type="video/mkv" codecs="H.264, vorbis">
+    <!--source src="projection/strangeroom.mkv" type="video/mkv" codecs="H.264, vorbis"-->
   </video>
 
   <!--video id="video" loop crossOrigin="anonymous" playsinline style="display:none">
@@ -45,9 +45,9 @@
 
       //tamaño de la habitación
       // ancho
-      var roomsizex = 80;//30
+      var roomsizex = 100;//30
       // largo
-      var roomsizez = 80;//200
+      var roomsizez = 50;//200
       // (alto, no cambiar) 
       var roomsizey = 40;//40 don't change this yet  
 
@@ -60,8 +60,9 @@
 
       //agregar video
       const video = document.getElementById( 'video' );
-      const videotexture = new THREE.VideoTexture( video );
-      var usevideo=1;//1 true, 0 false
+      //const videotexture = new THREE.VideoTexture( video );
+      var usevideo=  0 ;//1 true, 0 false
+      var videofile="projection/strangeroom.mkv"
       
       var scene, aspect, camera, renderer, controls;
       init();
@@ -279,8 +280,28 @@
 	  //material pared frontal
 	  var projBase1 = new THREE.TextureLoader().load(paredFrontalImagen);
 
+	  // in case of video
 	  if (usevideo==1){
-	      var frontalTexture=videotexture;
+	      video.src = videofile;
+	      video.load();
+	      video.play();
+
+	      videoImage = document.createElement( 'canvas' );
+	      videoImage.width = 480;
+	      videoImage.height = 204;
+	      
+	      videoImageContext = videoImage.getContext( '2d' );
+	      // background color if no video present
+	      videoImageContext.fillStyle = '#000000';
+	      videoImageContext.fillRect( 0, 0, videoImage.width, videoImage.height );
+	      
+
+	      
+	      videoTexture = new THREE.VideoTexture( videoImage );
+	      videoTexture.minFilter = THREE.LinearFilter;
+	      videoTexture.magFilter = THREE.LinearFilter;
+	
+	      var frontalTexture=videoTexture;
 	  } else {
 	      var frontalTexture=projBase1;
 	  }
@@ -694,18 +715,56 @@
           requestAnimationFrame(animate);
           controls.update();
           render();
+	  if (usevideo==1)  {
+	      update();
+	  }
       }
 
-      function render() {
+      //function render() {
 	  //cube[0].rotation.x += 0.01;
 	  //cube[0].rotation.y += 0.01;
 	  //cube[2].rotation.x += 0.01;
 	  //cube[2].rotation.y += 0.01;
 	  //cube.rotation.x += 0.01;
 	  //cube.rotation.y += 0.01;
-	  renderer.render(scene, camera);
+	  //renderer.render(scene, camera);
+      //}
+
+      function update()
+      {
+	  if ( keyboard.pressed("p") )
+	      video.play();
+	  
+	  if ( keyboard.pressed("space") )
+	      video.pause();
+	  
+	  if ( keyboard.pressed("s") ) // stop video
+	  {
+	      video.pause();
+	      video.currentTime = 0;
+	  }
+	  
+	  if ( keyboard.pressed("r") ) // rewind video
+	      video.currentTime = 0;
+	  
+	  //controls.update();
+	  //stats.update();
       }
 
+      function render() {
+	  if (usevideo==1)
+	  {	
+	      if ( video.readyState === video.HAVE_ENOUGH_DATA ) 
+	      {
+		  videoImageContext.drawImage( video, 0, 0 );
+		  if ( videoTexture ) 
+		      videoTexture.needsUpdate = true;
+	      }
+
+	  }
+      
+	  renderer.render( scene, camera );
+      }
 
       
 	  
