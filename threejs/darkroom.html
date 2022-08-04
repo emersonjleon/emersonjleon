@@ -44,7 +44,7 @@
 
       // Imágenes para proyectar en las paredes
       var paredFrontalImagen="projection/gaugan_output (3).jpg";
-      var paredDerechaImagen="projection/gaugan_output (3).jpg";
+      var paredDerechaImagen="projection/gaugan_output.jpg";
       //var paredIzquierdaImagen="";
       var paredAtrasImagen="projection/gaugan_output.jpg";
 
@@ -53,10 +53,10 @@
       animate();
 
       function init() {
-            if (WEBGL.isWebGLAvailable() === false) {
-                document.body.appendChild(WEBGL.getWebGLErrorMessage());
-            }
-            //INICIALIZACIÓN
+          if (WEBGL.isWebGLAvailable() === false) {
+              document.body.appendChild(WEBGL.getWebGLErrorMessage());
+          }
+          //INICIALIZACIÓN
           scene = new THREE.Scene();
           aspect = window.innerWidth / window.innerHeight;
           camera = new THREE.PerspectiveCamera(75, aspect, 0.1, 1000);
@@ -96,30 +96,58 @@
 
 	  
           //CREAR ILUMINACIÓN
-          var ambient = new THREE.AmbientLight(0xfdecaa, 0.2);
+          var ambient = new THREE.AmbientLight(0xfdecaa, 0.1);
           scene.add(ambient);
 
 	  //green light
-          var pointLight = new THREE.PointLight(0x00ff00, 1, 50);
+          var pointLight = new THREE.PointLight(0x00ff00, 3, 50);
           pointLight.position.set(roomsizex/2, -10, -roomsizez/2);
           scene.add(pointLight);
 
 	  //yellow light
-          var pointLight2 = new THREE.PointLight(0xffff00, 1, 50);
+          var pointLight2 = new THREE.PointLight(0xffff00, 3, 50);
           pointLight2.position.set(-roomsizex/2, -10, -roomsizez/2);
           scene.add(pointLight2);
 
 	  //red light
-          var pointLight3 = new THREE.PointLight(0xff0000, 1, 50);
+          var pointLight3 = new THREE.PointLight(0xff0000, 3, 50);
           pointLight3.position.set(roomsizex/2, 10, roomsizez/2);
           scene.add(pointLight3);
 
 	  //purple light
-          var pointLight4 = new THREE.PointLight(0xaa00aa, 2.5, 50);
+          var pointLight4 = new THREE.PointLight(0xaa00aa, 3, 50);
           pointLight4.position.set(-roomsizex/2, 0, roomsizez/2);
           scene.add(pointLight4);
+
 	  
 	  
+	  
+
+
+	  //cube
+	  //var cube = [];
+
+	  var geometry = new THREE.BoxGeometry();
+	  var material = new THREE.MeshLambertMaterial({
+	      color: 0x00ff00,
+	      wireframe: true,
+	  });
+	  
+	  // for (let i = 0; i < 3; i++) {
+	  //     cube[i] = new THREE.Mesh(geometry, material);
+	  //     cube[i].position.x = i;
+	  //     scene.add(cube[i]);
+	  // }
+	  
+	  for (let i = 0; i < 3; i++) {
+	      cube = new THREE.Mesh(geometry, material);
+	      cube.position.x = i;
+	      scene.add(cube);
+	  }
+	  
+
+
+
 	  
 
 	  
@@ -615,16 +643,42 @@
           camera.position.z = 2.7;
           camera.lookAt(origin);
       }
+
+      function lightsMove(){
+	  var moveup=1;
+	  if (pointLight2.intensity>5){
+	      moveup=0;
+	  } 
+	  if (pointLight2.intensity<0) {
+	      moveup=1;
+	  }
+	  if (moveup=0){
+	      pointLight2.intensity += -0.05;
+	  } else  {
+	      pointLight2.intensity += 0.05;
+	  }
+	  //requestAnimationFrame(animate);
+      }
       
       function animate() {
           requestAnimationFrame(animate);
           controls.update();
           render();
       }
-      
+
       function render() {
-          renderer.render(scene, camera);
+	  //cube[0].rotation.x += 0.01;
+	  //cube[0].rotation.y += 0.01;
+	  //cube[2].rotation.x += 0.01;
+	  //cube[2].rotation.y += 0.01;
+	  cube.rotation.x += 0.01;
+	  cube.rotation.y += 0.01;
+	  renderer.render(scene, camera);
       }
+
+
+      
+	  
     </script>
     <button id='button' style="left:12%; top:75% " onClick="grafosClick() "> <a href="index.html">back</a></button>
     
