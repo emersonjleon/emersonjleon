@@ -128,7 +128,7 @@
 	    //piso
             var planop = new THREE.PlaneGeometry(roomsizex-1, roomsizez-1);
 	    //paredes
-            var planoPar = new THREE.PlaneGeometry(roomsizey, roomsizez);
+            var planoPar = new THREE.PlaneGeometry(roomsizez, roomsizey);
             var planoFond = new THREE.PlaneGeometry(roomsizex-2, roomsizey-7);
 
             var sphereGeometry = new THREE.SphereGeometry(2.5, 25, 25);
@@ -200,7 +200,7 @@
             //var woodNormal = new THREE.TextureLoader().load('textures/NormalMad.jpg');
             var woodMaterial = new THREE.MeshStandardMaterial({
                 map: lightWoodBase,
-                normalMap: woodNormal
+                normalMap: lightWoodBase
             });
 
             var patBase = new THREE.TextureLoader().load('textures/ColorPat.jpg');
@@ -264,10 +264,41 @@
             var pasillo = THREE.CSG.toMesh(result);
             pasillo.material = materialPare;
 
+
+//pared izquierda
+            var par2 = new THREE.Mesh(planoPar, materialParedPuerta);
+            par2.rotateY(1.5708);
+            //par2.rotateZ(-1.5708);
+            par2.position.x = -(roomsizex-2.2)/2;
+
+	    //pared frontal
+            var parfo = new THREE.Mesh(planoFond, Proyeccion1);
+            parfo.position.z = -(roomsizez-2.2)/2;
+
+
+	    //pared derecha
+            var par1 = new THREE.Mesh(planoPar, Proyeccion1);
+            par1.rotateY(-1.5708);
+            //par1.rotateZ(-1.5708);
+            par1.position.x = (roomsizex-2.2)/2;
+
+	    //pared posterior
+	    var parback = new THREE.Mesh(planoFond, Proyeccion1);//materialPared
+	    parback.rotateY(2*1.5708);
+            parback.position.z = (roomsizez-2.2)/2;
+
+	    var parbacktop = new THREE.Mesh(planoFond, materialPare);
+	    parbacktop.rotateY(2*1.5708);
+            parbacktop.position.z = (roomsizez-1)/2;
+            parbacktop.position.y = 4;
+
+
+
+	    
 	    //puerta
             var p2 = new THREE.Mesh(plano, matPuerta);
             p2.rotateY(1.5708);
-            p2.position.x = -(roomsizex-2)/2;
+            p2.position.x = -(roomsizex-2.6)/2;
             p2.position.y = -5;
             p2.position.z = (roomsizez-20)/4;
 
@@ -301,33 +332,7 @@
 
 
 
-	    //pared izquierda
-            var par2 = new THREE.Mesh(planoPar, materialParedPuerta);
-            par2.rotateY(1.5708);
-            par2.rotateZ(-1.5708);
-            par2.position.x = -(roomsizex-2.2)/2;
-
-	    //pared frontal
-            var parfo = new THREE.Mesh(planoFond, Proyeccion1);
-            parfo.position.z = -(roomsizez-2.2)/2;
-
-
-	    //pared derecha
-            var par1 = new THREE.Mesh(planoPar, Proyeccion1);
-            par1.rotateY(-1.5708);
-            par1.rotateZ(-1.5708);
-            par1.position.x = (roomsizex-2.2)/2;
-
-	    //pared posterior
-	    var parback = new THREE.Mesh(planoFond, Proyeccion1);//materialPared
-	    parback.rotateY(2*1.5708);
-            parback.position.z = (roomsizez-2.2)/2;
-
-	    var parbacktop = new THREE.Mesh(planoFond, materialPare);
-	    parbacktop.rotateY(2*1.5708);
-            parbacktop.position.z = (roomsizez-1)/2;
-            parbacktop.position.y = 4;
-
+	    
 	    //borde vertical de la puerta
             var coso = new THREE.Mesh(puGeometry, materialPuertas);
             coso.position.z = 85;
