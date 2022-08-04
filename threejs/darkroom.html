@@ -58,9 +58,10 @@
       var paredIzquierdaImagen='textures/ColorPat.jpg';
       var paredAtrasImagen="projection/gaugan_output.jpg";
 
+      //agregar video
       const video = document.getElementById( 'video' );
       const videotexture = new THREE.VideoTexture( video );
-      var usevideo=1;//1 true, 0 false
+      var usevideo=0;//1 true, 0 false
       
       var scene, aspect, camera, renderer, controls;
       init();
@@ -281,7 +282,7 @@
 	  if (usevideo==1){
 	      var frontalTexture=videotexture;
 	  } else {
-	      var frontalTexture=projBase1
+	      var frontalTexture=projBase1;
 	  }
 	  
 	  var Proyeccion1 = new THREE.MeshStandardMaterial({
