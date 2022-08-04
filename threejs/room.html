@@ -5,7 +5,7 @@
     <title>Room</title>
  <link
     rel="shortcut icon"
-    href="{{ url_for('static', filename='cyborgshaman.jpg') }}"
+    href="../icos.png"
   />
 
     <style>
@@ -35,9 +35,9 @@
 
       //tamaño de la habitación
       // ancho
-      var roomsizex = 70;//30
+      var roomsizex = 80;//30
       // largo
-      var roomsizez = 70;//200
+      var roomsizez = 80;//200
       // (alto, no cambiar) 
       var roomsizey = 40;//40 don't change this yet  
 
@@ -45,7 +45,7 @@
       // Imágenes para proyectar en las paredes
       var paredFrontalImagen="projection/gaugan_output (3).jpg";
       var paredDerechaImagen="projection/gaugan_output (3).jpg";
-      //var paredIzquierdaImagen="";
+      var paredIzquierdaImagen='textures/ColorPat.jpg';
       var paredAtrasImagen="projection/gaugan_output.jpg";
 
       var scene, aspect, camera, renderer, controls;
@@ -208,7 +208,7 @@
 	  
 	  
 	  // material pared izquierda
-          var patBase = new THREE.TextureLoader().load('textures/ColorPat.jpg');
+          var patBase = new THREE.TextureLoader().load(paredIzquierdaImagen);
           var patNormal = new THREE.TextureLoader().load('textures/NormalPat.jpg');
           
           var materialParedPuerta = new THREE.MeshStandardMaterial({
@@ -234,7 +234,7 @@
           });
 	  
 	  //material pared derecha
-          var projBase2 = new THREE.TextureLoader().load('paredDerechaImagen');
+          var projBase2 = new THREE.TextureLoader().load(paredDerechaImagen);
 	  var Proyeccion2 = new THREE.MeshStandardMaterial({
               //color: 0xffffff,
               roughness: 0.1,
@@ -245,7 +245,7 @@
               //normalMap: patNormal
           });
 	  
-	  var projBase3 = new THREE.TextureLoader().load('projection/gaugan_output.jpg');
+	  var projBase3 = new THREE.TextureLoader().load(paredAtrasImagen);
 	  var Proyeccion3 = new THREE.MeshStandardMaterial({
               //color: 0xffffff,
               roughness: 0.1,

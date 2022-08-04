@@ -35,17 +35,17 @@
 
       //tamaño de la habitación
       // ancho
-      var roomsizex = 100;//30
+      var roomsizex = 80;//30
       // largo
-      var roomsizez = 100;//200
+      var roomsizez = 80;//200
       // (alto, no cambiar) 
       var roomsizey = 40;//40 don't change this yet  
 
 
       // Imágenes para proyectar en las paredes
       var paredFrontalImagen="projection/gaugan_output (3).jpg";
-      var paredDerechaImagen="projection/gaugan_output.jpg";
-      //var paredIzquierdaImagen="";
+      var paredDerechaImagen="projection/gaugan_output (3).jpg";
+      var paredIzquierdaImagen='textures/ColorPat.jpg';
       var paredAtrasImagen="projection/gaugan_output.jpg";
 
       var scene, aspect, camera, renderer, controls;
@@ -127,11 +127,11 @@
 	  //cube
 	  //var cube = [];
 
-	  var geometry = new THREE.BoxGeometry();
-	  var material = new THREE.MeshLambertMaterial({
-	      color: 0x00ff00,
-	      wireframe: true,
-	  });
+	  // var geometry = new THREE.BoxGeometry();
+	  // var material = new THREE.MeshLambertMaterial({
+	  //     color: 0x00aa00,
+	  //     wireframe: true,
+	  // });
 	  
 	  // for (let i = 0; i < 3; i++) {
 	  //     cube[i] = new THREE.Mesh(geometry, material);
@@ -141,8 +141,8 @@
 
 	  var nlights=5;
 	  for (let i = 1; i < nlights+1;  i++) {
-	      looplight = new THREE.PointLight(0x2299aa, 4, 40);
-	      looplight.position.set(-roomsizex/2+(i*roomsizex/(nlights+1)), 0, -roomsizez/2);
+	      looplight = new THREE.PointLight(0x2299aa, 4, 30);
+	      looplight.position.set(-roomsizex/2+(i*roomsizex/(nlights+1)), 0, 1 + roomsizez/2);
               scene.add(looplight);
 	      //cube = new THREE.Mesh(geometry, material);
 	      //cube.position.x = i;
@@ -248,7 +248,7 @@
 	  
 	  
 	  // material pared izquierda
-          var patBase = new THREE.TextureLoader().load('textures/ColorPat.jpg');
+          var patBase = new THREE.TextureLoader().load(paredIzquierdaImagen);
           var patNormal = new THREE.TextureLoader().load('textures/NormalPat.jpg');
           
           var materialParedPuerta = new THREE.MeshStandardMaterial({
@@ -274,7 +274,7 @@
           });
 	  
 	  //material pared derecha
-          var projBase2 = new THREE.TextureLoader().load('paredDerechaImagen');
+          var projBase2 = new THREE.TextureLoader().load(paredDerechaImagen);
 	  var Proyeccion2 = new THREE.MeshStandardMaterial({
               //color: 0xffffff,
               roughness: 0.1,
@@ -285,7 +285,7 @@
               //normalMap: patNormal
           });
 	  
-	  var projBase3 = new THREE.TextureLoader().load('projection/gaugan_output.jpg');
+	  var projBase3 = new THREE.TextureLoader().load(paredAtrasImagen);
 	  var Proyeccion3 = new THREE.MeshStandardMaterial({
               //color: 0xffffff,
               roughness: 0.1,
