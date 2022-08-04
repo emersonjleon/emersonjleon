@@ -19,6 +19,16 @@
 </head>
 
 <body>
+  <video id="video" autoplay style="display:none">
+    <source src="projection/strangeroom.mkv" type="video/mkv" codecs="H.264, vorbis">
+  </video>
+
+  <!--video id="video" loop crossOrigin="anonymous" playsinline style="display:none">
+    <source src="textures/sintel.ogv" type='video/ogg; codecs="theora, vorbis"'>
+      <source src="textures/sintel.mp4" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'>
+  </video-->
+  
+  
     <script src="js/three.js"></script>
     <script src="js/controls/OrbitControls.js"></script>
     <script src="js/csg.js"></script>
@@ -48,6 +58,10 @@
       var paredIzquierdaImagen='textures/ColorPat.jpg';
       var paredAtrasImagen="projection/gaugan_output.jpg";
 
+      const video = document.getElementById( 'video' );
+      const videotexture = new THREE.VideoTexture( video );
+      var usevideo=1;//1 true, 0 false
+      
       var scene, aspect, camera, renderer, controls;
       init();
       animate();
@@ -263,15 +277,24 @@
 	  
 	  //material pared frontal
 	  var projBase1 = new THREE.TextureLoader().load(paredFrontalImagen);
+
+	  if (usevideo==1){
+	      var frontalTexture=videotexture;
+	  } else {
+	      var frontalTexture=projBase1
+	  }
+	  
 	  var Proyeccion1 = new THREE.MeshStandardMaterial({
               //color: 0xffffff,
               roughness: 0.1,
 	      metalness: 0.2,
               transparent: true,
               opacity: 0.8,
-              map: projBase1,
+              map: frontalTexture,
               normalMap: patNormal
           });
+
+	  
 	  
 	  //material pared derecha
           var projBase2 = new THREE.TextureLoader().load(paredDerechaImagen);
