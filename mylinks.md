@@ -25,9 +25,9 @@ You can use the [editor on GitHub](https://github.com/emersonjleon/emersonjleon/
 - [spikes](/threejs/spikes.html)
 - [arana](/threejs/arana.html)
 - [strategy](stereographic/second.md)
-- [stairway](stereographic/first.md)
-- [room](threejs/room.html)
-- [dark room](threejs/darkroom.html)
+- [stairway](/stereographic/first.md)
+- [room](/threejs/room.html)
+- [dark room](/threejs/darkroom.html)
 
 ### Music
 - [synthetizer](music/synth.html)

@@ -96,8 +96,8 @@
 
 	  
           //CREAR ILUMINACIÓN
-          //var ambient = new THREE.AmbientLight(0xfdecaa, 0.4);
-          //scene.add(ambient);
+          var ambient = new THREE.AmbientLight(0xfdecaa, 0.2);
+          scene.add(ambient);
 
 	  //green light
           var pointLight = new THREE.PointLight(0x00ff00, 1, 50);
@@ -120,6 +120,8 @@
           scene.add(pointLight4);
 	  
 	  
+	  
+
 	  
 	  
           //CREAR LAS GEOMETRIAS
