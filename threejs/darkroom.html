@@ -2,10 +2,10 @@
 <html>
 
 <head>
-    <title>Room</title>
+    <title>Dark Room Cyborg Shaman</title>
  <link
     rel="shortcut icon"
-    href="{{ url_for('static', filename='cyborgshaman.jpg') }}"
+    href="../icos.png"
   />
 
     <style>
@@ -96,7 +96,7 @@
 
 	  
           //CREAR ILUMINACIÓN
-          var ambient = new THREE.AmbientLight(0xfdecaa, 0.1);
+          var ambient = new THREE.AmbientLight(0xfdecaa, 0.2);
           scene.add(ambient);
 
 	  //green light
@@ -106,7 +106,7 @@
 
 	  //yellow light
           var pointLight2 = new THREE.PointLight(0xffff00, 3, 50);
-          pointLight2.position.set(-roomsizex/2, -10, -roomsizez/2);
+          pointLight2.position.set(-roomsizex/2,- 10, -roomsizez/2);
           scene.add(pointLight2);
 
 	  //red light
@@ -116,7 +116,7 @@
 
 	  //purple light
           var pointLight4 = new THREE.PointLight(0xaa00aa, 3, 50);
-          pointLight4.position.set(-roomsizex/2, 0, roomsizez/2);
+          pointLight4.position.set(-roomsizex/2, 10, roomsizez/2);
           scene.add(pointLight4);
 
 	  
@@ -138,11 +138,15 @@
 	  //     cube[i].position.x = i;
 	  //     scene.add(cube[i]);
 	  // }
-	  
-	  for (let i = 0; i < 3; i++) {
-	      cube = new THREE.Mesh(geometry, material);
-	      cube.position.x = i;
-	      scene.add(cube);
+
+	  var nlights=5;
+	  for (let i = 1; i < nlights+1;  i++) {
+	      looplight = new THREE.PointLight(0x2299aa, 4, 40);
+	      looplight.position.set(-roomsizex/2+(i*roomsizex/(nlights+1)), 0, -roomsizez/2);
+              scene.add(looplight);
+	      //cube = new THREE.Mesh(geometry, material);
+	      //cube.position.x = i;
+	      //scene.add(cube);
 	  }
 	  
 
@@ -671,8 +675,8 @@
 	  //cube[0].rotation.y += 0.01;
 	  //cube[2].rotation.x += 0.01;
 	  //cube[2].rotation.y += 0.01;
-	  cube.rotation.x += 0.01;
-	  cube.rotation.y += 0.01;
+	  //cube.rotation.x += 0.01;
+	  //cube.rotation.y += 0.01;
 	  renderer.render(scene, camera);
       }
 
