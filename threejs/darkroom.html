@@ -35,16 +35,16 @@
 
       //tamaño de la habitación
       // ancho
-      var roomsizex = 20;//30
+      var roomsizex = 100;//30
+      // largo
+      var roomsizez = 100;//200
       // (alto, no cambiar) 
       var roomsizey = 40;//40 don't change this yet  
-      // largo
-      var roomsizez = 20;//200
 
 
       // Imágenes para proyectar en las paredes
       var paredFrontalImagen="projection/gaugan_output (3).jpg";
-      var paredDerechaImagen="projection/gaugan_output.jpg";
+      var paredDerechaImagen="projection/gaugan_output (3).jpg";
       //var paredIzquierdaImagen="";
       var paredAtrasImagen="projection/gaugan_output.jpg";
 
@@ -92,25 +92,31 @@
 	  
           //ROTARLAS PARA QUE QUEDEN EN EL ESPACIO ADECUADO
           gridHelperXZ.rotateOnWorldAxis(y, THREE.Math.degToRad(90));
+
+
 	  
           //CREAR ILUMINACIÓN
-          var ambient = new THREE.AmbientLight(0xfdecaa, 0.4);
-          scene.add(ambient);
-	  
-          var pointLight = new THREE.PointLight(0xffffbb, 1, 50);
-          pointLight.position.set(0, 10, -15);
+          //var ambient = new THREE.AmbientLight(0xfdecaa, 0.4);
+          //scene.add(ambient);
+
+	  //green light
+          var pointLight = new THREE.PointLight(0x00ff00, 1, 50);
+          pointLight.position.set(roomsizex/2, -10, -roomsizez/2);
           scene.add(pointLight);
-	  
-          var pointLight2 = new THREE.PointLight(0xffffbb, 1, 50);
-          pointLight2.position.set(0, 10, 15);
+
+	  //yellow light
+          var pointLight2 = new THREE.PointLight(0xffff00, 1, 50);
+          pointLight2.position.set(-roomsizex/2, -10, -roomsizez/2);
           scene.add(pointLight2);
-	  
-          var pointLight3 = new THREE.PointLight(0xffffbb, 1, 50);
-          pointLight3.position.set(0, 10, 95);
+
+	  //red light
+          var pointLight3 = new THREE.PointLight(0xff0000, 1, 50);
+          pointLight3.position.set(roomsizex/2, 10, roomsizez/2);
           scene.add(pointLight3);
-	  
-          var pointLight4 = new THREE.PointLight(0xffffff, 2.5, 10);
-          pointLight4.position.set(0, -8, 94);
+
+	  //purple light
+          var pointLight4 = new THREE.PointLight(0xaa00aa, 2.5, 50);
+          pointLight4.position.set(-roomsizex/2, 0, roomsizez/2);
           scene.add(pointLight4);
 	  
 	  
@@ -241,7 +247,7 @@
 	      metalness: 0.2,
               //transparent: true,
               //opacity: 0.8,
-              map: projBase1,
+              map: projBase2,
               //normalMap: patNormal
           });
 	  
@@ -252,7 +258,7 @@
 	      metalness: 0.2,
               //transparent: true,
               //opacity: 0.8,
-              map: projBase1,
+              map: projBase3,
               //normalMap: patNormal
           });
 	  
@@ -497,8 +503,8 @@
           bc2.position.z = 15;
 
 	  // para sostener los bombillos
-	  scene.add(bc1);
-          scene.add(bc2);
+	  //scene.add(bc1);
+          //scene.add(bc2);
 	  
           var curveC1 = new THREE.CatmullRomCurve3([
               new THREE.Vector3(-5, -10, 92),
