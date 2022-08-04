@@ -19,7 +19,7 @@
 </head>
 
 <body>
-  <video id="video" autoplay style="display:none">
+  <video id="video" loop style="display:none">
     <source src="projection/strangeroom.mkv" type="video/mkv" codecs="H.264, vorbis">
   </video>
 
@@ -156,7 +156,7 @@
 	  var nlights=5;
 	  for (let i = 1; i < nlights+1;  i++) {
 	      looplight = new THREE.PointLight(0x2299aa, 4, 30);
-	      looplight.position.set(-roomsizex/2+(i*roomsizex/(nlights+1)), 18, -(roomsizez-4)/2);
+	      looplight.position.set(-roomsizex/2+(i*roomsizex/(nlights+1)), 15, -(roomsizez-4)/2);
               scene.add(looplight);
 	      //cube = new THREE.Mesh(geometry, material);
 	      //cube.position.x = i;
