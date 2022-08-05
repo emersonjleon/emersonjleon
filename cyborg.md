@@ -14,15 +14,15 @@
 - [GauGAN](http://gaugan.org/gaugan2)
 
 ### Programación
-- [github](https://github.com/emersonjleon/cyborgchaman) de Cyborg Shaman (acá puede descargarse la versión actual)
 - [esta página](https://github.com/emersonjleon/emersonjleon/blob/gh-pages/cyborg.md)
 - [md help](help.md)
+- [github](https://github.com/emersonjleon/cyborgchaman) de Cyborg Shaman (acá puede descargarse la versión actual)
 - [pythonanywhere](https://pythonanywhere.com)
 - [animacion html](animation/animation.html)
 - [animation 2](animationmaster/index.html)
 
 
-### Visualización
+### Visualización (three.js)
 
 - [splines](/threejs/bspline6c.html)
 - [geometría](/threejs/spikes.html)
