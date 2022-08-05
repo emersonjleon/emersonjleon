@@ -5,7 +5,7 @@
 ### Procesamiento de lenguaje:
 - [openAI](https://openai.com/api)
 - [Cyborg Shaman](https://cyborgshaman.pythonanywhere.com) creador de historias utilizando open AI (requiere claves)
-- [Link] al localhost de Cyborg Shaman (requiere servidor activo y la misma red wifi)
+- [http://localhost:3030/] al localhost de Cyborg Shaman (requiere servidor activo y la misma red wifi)
 
 ### Imagenes
 - [Dall-E mini](https://huggingface.co/spaces/dalle-mini/dalle-mini)
@@ -15,7 +15,7 @@
 
 ### Programación
 - [github](https://github.com/emersonjleon/cyborgchaman) de Cyborg Shaman (acá puede descargarse la versión actual)
-- [esta misma página](https://github.com/emersonjleon/emersonjleon/blob/gh-pages/cyborg.md)
+- [esta página](https://github.com/emersonjleon/emersonjleon/blob/gh-pages/cyborg.md)
 - [md help](help.md)
 - [pythonanywhere](https://pythonanywhere.com)
 - [animacion html](animation/animation.html)
@@ -28,7 +28,8 @@
 - [geometría](/threejs/spikes.html)
 - [araña](/threejs/arana.html)
 - [room](/threejs/room.html)
-- [dark room](/threejs/darkroom.html)
+- [room 2](/threejs/darkroom.html)
+- [room 3](/threejs/projectionroom.html)
 
 ### Música
 - [synthetizer](music/synth.html)
