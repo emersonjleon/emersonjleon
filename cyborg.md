@@ -15,27 +15,26 @@
 
 ### Programación
 - [github](https://github.com/emersonjleon/cyborgchaman) de Cyborg Shaman (acá puede descargarse la versión actual)
-- [Esta misma página](https://github.com/emersonjleon/emersonjleon/blob/gh-pages/cyborg.md)
+- [esta misma página](https://github.com/emersonjleon/emersonjleon/blob/gh-pages/cyborg.md)
 - [md help](help.md)
 - [pythonanywhere](https://pythonanywhere.com)
-
-
-- [html](animation/animation.html)
-- [animation](animationmaster/index.html)
+- [animacion html](animation/animation.html)
+- [animation 2](animationmaster/index.html)
 
 
 ### Visualización
 
-- [Visualización matemática](/threejs/bspline6c.html)
+- [visualización matemática](/threejs/bspline6c.html)
 - [spikes](/threejs/spikes.html)
-- [Araña](/threejs/arana.html)
+- [araña](/threejs/arana.html)
 - [room](/threejs/room.html)
 - [dark room](/threejs/darkroom.html)
 
-### Music
+### Música
 - [synthetizer](music/synth.html)
 - [acordes](music/acordes.html)
 
-
-
+### Otros links
+- [Tercer Piso Danza](https://www.tercerpisodanza.com/)
+- [Idartes](idartes.gov.co)
 
