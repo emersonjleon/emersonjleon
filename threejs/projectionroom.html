@@ -45,9 +45,9 @@
 
       //tamaño de la habitación
       // ancho
-      var roomsizex = 100;//30
+      var roomsizex = 70;//30
       // largo
-      var roomsizez = 100;//200
+      var roomsizez = 70;//200
       // (alto, no cambiar) 
       var roomsizey = 40;//40 don't change this yet  
 
@@ -122,12 +122,12 @@
 
 	  //yellow light
           var pointLight2 = new THREE.PointLight(0xffff00, 3, 50);
-          pointLight2.position.set(-roomsizex/2,- 10, -roomsizez/2);
+          pointLight2.position.set(-roomsizex/2, 10, -roomsizez/2);
           scene.add(pointLight2);
 
 	  //red light
           var pointLight3 = new THREE.PointLight(0xff0000, 3, 50);
-          pointLight3.position.set(roomsizex/2, 10, roomsizez/2);
+          pointLight3.position.set(roomsizex/2, -10, roomsizez/2);
           scene.add(pointLight3);
 
 	  //purple light
