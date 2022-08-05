@@ -12,7 +12,7 @@ You can use the [editor on GitHub](https://github.com/emersonjleon/emersonjleon/
 
 ### Artificial Intelligence
 - [index](cyborg.html)
-- [cyborg shaman](https://cyborgshaman.pythonanywhere.com)
+- [Cyborg Shaman](https://cyborgshaman.pythonanywhere.com)
 - [openAI](https://openai.com/api)
 - [Dall-E mini](https://huggingface.co/spaces/dalle-mini/dalle-mini)
 - [GauGAN](http://gaugan.org/gaugan2)
