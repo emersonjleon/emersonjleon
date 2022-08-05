@@ -19,7 +19,7 @@
 </head>
 
 <body>
-  <video id="video" loop style="display:none">
+  <video id="video" width='800' height='500' loop style="display:none">
     <!--source src="projection/strangeroom.mkv" type="video/mkv" codecs="H.264, vorbis"-->
   </video>
 
@@ -112,7 +112,7 @@
 
 	  
           //CREAR ILUMINACIÓN
-          var ambient = new THREE.AmbientLight(0xfdecaa, 0.2);
+          var ambient = new THREE.AmbientLight(0x5588aa, 0.25);
           scene.add(ambient);
 
 	  //green light
@@ -312,7 +312,7 @@
 	      metalness: 0.2,
               transparent: true,
               opacity: 0.8,
-              map: frontalTexture,
+              map: projBase1,
               normalMap: patNormal
           });
 
@@ -326,7 +326,7 @@
 	      metalness: 0.2,
               //transparent: true,
               //opacity: 0.8,
-              map: projBase2,
+              map: frontalTexture,
               //normalMap: patNormal
           });
 
