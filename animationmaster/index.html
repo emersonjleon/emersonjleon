@@ -24,16 +24,16 @@
 
 	    #sprite{
                 position: absolute;
-                top: 550px;
+                top: 560px;
                 left: 300px;
                 width: 256px;
                 height: 256px;
                 background-image: url(walk.png);
-                animation: sprite .6s steps(6) infinite;
+                animation: spritewalk .6s steps(6) infinite;
                 z-index: 1;
             }
             
-            @keyframes sprite {
+            @keyframes spritewalk {
                 100%{
                     background-position: -1536px 0;
                 }
@@ -42,18 +42,18 @@
 
             #sprite2{
                 position: absolute;
-                top: 550px;
+                top: 600px;
                 left: 100px;
                 width: 164px;
                 height: 256px;
                 background-image: url(em-correr.png);
 		transform: scaleX(-1);
-                animation: sprite .3s steps(6) infinite;
+                animation: sprite2 .25s steps(6) infinite;
                 z-index: 0;
             }
             
             
-            @keyframes sprite {
+            @keyframes sprite2 {
                 100%{
                     background-position: -984px 0;
                 }

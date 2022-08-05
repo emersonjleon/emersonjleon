@@ -61,7 +61,7 @@
       //agregar video
       const video = document.getElementById( 'video' );
       //const videotexture = new THREE.VideoTexture( video );
-      var usevideo=  0 ;//1 true, 0 false
+      var usevideo=  1 ;//1 true, 0 false
       var videofile="projection/strangeroom.mkv"
       
       var scene, aspect, camera, renderer, controls;
@@ -714,10 +714,12 @@
       function animate() {
           requestAnimationFrame(animate);
           controls.update();
-          render();
 	  if (usevideo==1)  {
-	      update();
+	      videoTexture.needsUpdate=true;
+	      //update();
 	  }
+          render();
+	  
       }
 
       //function render() {
@@ -730,21 +732,21 @@
 	  //renderer.render(scene, camera);
       //}
 
-      function update()
+      document.onkeydown=function(e)
       {
-	  if ( keyboard.pressed("p") )
+	  if ( e.keyCode==112)//p
 	      video.play();
 	  
-	  if ( keyboard.pressed("space") )
+	  if ( e.keyCode==32 )// space
 	      video.pause();
 	  
-	  if ( keyboard.pressed("s") ) // stop video
+	  if ( e.keyCode==115 ) // s, stop video
 	  {
 	      video.pause();
 	      video.currentTime = 0;
 	  }
 	  
-	  if ( keyboard.pressed("r") ) // rewind video
+	  if ( e.keyCode==82 ) // rewind video
 	      video.currentTime = 0;
 	  
 	  //controls.update();

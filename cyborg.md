@@ -24,8 +24,8 @@
 
 ### Visualización
 
-- [visualización matemática](/threejs/bspline6c.html)
-- [spikes](/threejs/spikes.html)
+- [splines](/threejs/bspline6c.html)
+- [geometría](/threejs/spikes.html)
 - [araña](/threejs/arana.html)
 - [room](/threejs/room.html)
 - [dark room](/threejs/darkroom.html)
