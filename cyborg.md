@@ -5,23 +5,24 @@
 ### Procesamiento de lenguaje:
 - [openAI](https://openai.com/api){:target="_blank"}
 - [Cyborg Shaman](https://cyborgshaman.pythonanywhere.com){:target="_blank"} creador de historias utilizando open AI (requiere claves)
-<a href="http://google.com/" target="_blank">Hello, world!</a>
+
+[//]: # (comments are strange here...)
 
 ### Imagenes
-- [Dall-E mini](https://huggingface.co/spaces/dalle-mini/dalle-mini)
-- [Presentación visual](https://cyborgshaman.pythonanywhere.com/presentation) de la tecnología, usando imagenes generadas por Dall-E mini.
-- [Which face is real?](https://www.whichfaceisreal.com/index.php)
-- [GauGAN](http://gaugan.org/gaugan2)
+- [Dall-E mini](https://huggingface.co/spaces/dalle-mini/dalle-mini){:target="_blank"}
+- [Presentación visual](https://cyborgshaman.pythonanywhere.com/presentation){:target="_blank"} de la tecnología, usando imagenes generadas por Dall-E mini.
+- [Which face is real?](https://www.whichfaceisreal.com/index.php){:target="_blank"}
+- [GauGAN](http://gaugan.org/gaugan2){:target="_blank"}
 
 ### Programación
-- [esta página](https://github.com/emersonjleon/emersonjleon/blob/gh-pages/cyborg.md)
-- [md help](help.md)
-- [github](https://github.com/emersonjleon/cyborgchaman) de Cyborg Shaman (acá puede descargarse la versión actual)
-- [python playground](https://lwebapp.com/en/python-playground)
-- [my python playground](pyodide/pythononline.html)
-- [pythonanywhere](https://pythonanywhere.com)
-- [animacion html](animation/animation.html)
-- [animation 2](animationmaster/index.html)
+- [python playground](https://lwebapp.com/en/python-playground){:target="_blank"}
+- [my python playground](pyodide/pythononline.html){:target="_blank"}
+- [github](https://github.com/emersonjleon/cyborgchaman){:target="_blank"} de Cyborg Shaman (acá puede descargarse la versión actual)
+- [pythonanywhere](https://pythonanywhere.com){:target="_blank"}
+
+
+- [animacion html](animation/animation.html){:target="_blank"}
+- [animation 2](animationmaster/index.html){:target="_blank"}
 
 
 ### Visualización (three.js)
