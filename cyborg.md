@@ -27,18 +27,18 @@
 
 ### Visualización (three.js)
 
-- [splines](/threejs/bspline6c.html)
-- [geometría](/threejs/spikes.html)
-- [araña](/threejs/arana.html)
-- [room](/threejs/room.html)
-- [room 2](/threejs/darkroom.html)
-- [room 3](/threejs/projectionroom.html)
+- [splines](/threejs/bspline6c.html){:target="_blank"}
+- [geometría](/threejs/spikes.html){:target="_blank"}
+- [araña](/threejs/arana.html){:target="_blank"}
+- [room](/threejs/room.html){:target="_blank"}
+- [room 2](/threejs/darkroom.html){:target="_blank"}
+- [room 3](/threejs/projectionroom.html){:target="_blank"}
 
 ### Música
-- [synthetizer](music/synth.html)
-- [acordes](music/acordes.html)
+- [synthetizer](music/synth.html){:target="_blank"}
+- [acordes](music/acordes.html){:target="_blank"}
 
 ### Otros links
-- [Tercer Piso Danza](https://www.tercerpisodanza.com/)
-- [Idartes](idartes.gov.co)
+- [Tercer Piso Danza](https://www.tercerpisodanza.com/){:target="_blank"}
+- [Idartes](idartes.gov.co){:target="_blank"}
 
