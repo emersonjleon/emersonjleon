@@ -3,8 +3,8 @@
 ## Tecnología e Inteligencia Artificial
 
 ### Procesamiento de lenguaje:
-- [openAI](https://openai.com/api)
-- [Cyborg Shaman](https://cyborgshaman.pythonanywhere.com) creador de historias utilizando open AI (requiere claves)
+- [openAI](https://openai.com/api){:target="_blank"}
+- [Cyborg Shaman](https://cyborgshaman.pythonanywhere.com){:target="_blank"} creador de historias utilizando open AI (requiere claves)
 <a href="http://google.com/" target="_blank">Hello, world!</a>
 
 ### Imagenes
@@ -17,7 +17,8 @@
 - [esta página](https://github.com/emersonjleon/emersonjleon/blob/gh-pages/cyborg.md)
 - [md help](help.md)
 - [github](https://github.com/emersonjleon/cyborgchaman) de Cyborg Shaman (acá puede descargarse la versión actual)
-- [python playground](pyodide/pythononline.html)
+- [python playground](https://lwebapp.com/en/python-playground)
+- [my python playground](pyodide/pythononline.html)
 - [pythonanywhere](https://pythonanywhere.com)
 - [animacion html](animation/animation.html)
 - [animation 2](animationmaster/index.html)
