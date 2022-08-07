@@ -6,20 +6,24 @@
 
   <body>
     <p>
-      You can execute any Python code. Just enter something in the box below and
-      click the button.
+      You can execute any Python code. 
+      
     </p>
     <!--input id="code" value="sum([1, 2, 3, 4, 5])" /-->
-    <textarea id="code" name="historia" placeholder="Escribe aquí tu historia." rows="12" required> </textarea>
+    <textarea id="code"  placeholder="Escribe aquí tu programa" rows="20"  columns="50" required></textarea>
     
     <button onclick="evaluatePython()">Run</button>
     <br />
     <br />
     <div>Output:</div>
-    <textarea id="output" style="width: 100%;" rows="6" disabled></textarea>
+    <textarea id="output" style="width: 500;" rows="10" disabled></textarea>
+
+    <textarea id="myconsole" style="width: 500;" rows="15" disabled></textarea>
+
 
     <script>
       const output = document.getElementById("output");
+      const myconsole = document.getElementById("myconsole");
       const code = document.getElementById("code");
 
       function addToOutput(s) {
@@ -27,6 +31,7 @@
       }
 
       output.value = "Initializing...\n";
+
       // init Pyodide
       async function main() {
         let pyodide = await loadPyodide();
@@ -34,6 +39,18 @@
         return pyodide;
       }
       let pyodideReadyPromise = main();
+
+
+var logBackup = console.log;
+var logMessages = [];
+
+console.log = function() {
+    logMessages.push.apply(logMessages, arguments);
+    logBackup.apply(console, arguments);
+};
+for   
+myconsole.value += 
+};
 
       async function evaluatePython() {
         let pyodide = await pyodideReadyPromise;
