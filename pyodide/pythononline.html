@@ -47,10 +47,11 @@ var logMessages = [];
 console.log = function() {
     logMessages.push.apply(logMessages, arguments);
     logBackup.apply(console, arguments);
+    myconsole.value = logMessages;
 };
-for   
-myconsole.value += 
-};
+
+
+
 
       async function evaluatePython() {
         let pyodide = await pyodideReadyPromise;
