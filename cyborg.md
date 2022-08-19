@@ -2,9 +2,9 @@
 
 ## Tecnología e Inteligencia Artificial
 
-### Procesamiento de lenguaje:
-- [openAI](https://openai.com/api){:target="_blank"}
+### Procesamiento de lenguaje
 - [Cyborg Shaman](https://cyborgshaman.pythonanywhere.com){:target="_blank"} creador de historias utilizando open AI (requiere claves)
+- [openAI](https://openai.com/api){:target="_blank"}
 
 [//]: # (comments are strange here...)
 
@@ -15,15 +15,14 @@
 - [GauGAN](http://gaugan.org/gaugan2){:target="_blank"}
 
 ### Programación
-[//]: # (- [python playground]([//]: # (
+[//]: # (- [python playground]([//]: # ()
 [//]: # (- [my python playground](pyodide/pythononline.html){:target="_blank"})
-- [python online](https://www.online-python.com/){:target="_blank"}
+- [online python](https://www.online-python.com/){:target="_blank"}
+- [tutoriales w3schools](https://www.w3schools.com/js/default.asp){:target="_blank"} (python, javascript y más)
 - [github](https://github.com/emersonjleon/cyborgchaman){:target="_blank"} de Cyborg Shaman (acá puede descargarse la versión actual)
 - [pythonanywhere](https://pythonanywhere.com){:target="_blank"}
-
-
-- [animacion html](animation/animation.html){:target="_blank"}
-- [animation 2](animationmaster/index.html){:target="_blank"}
+- [animación html](animation/animation.html){:target="_blank"}
+- [animación 2](animationmaster/index.html){:target="_blank"}
 
 
 ### Visualización (three.js)
