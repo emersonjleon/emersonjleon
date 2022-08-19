@@ -15,8 +15,9 @@
 - [GauGAN](http://gaugan.org/gaugan2){:target="_blank"}
 
 ### Programación
-- [python playground](https://lwebapp.com/en/python-playground){:target="_blank"}
-- [my python playground](pyodide/pythononline.html){:target="_blank"}
+[//]: # (- [python playground]([//]: # (
+[//]: # (- [my python playground](pyodide/pythononline.html){:target="_blank"})
+- [python online](https://www.online-python.com/){:target="_blank"}
 - [github](https://github.com/emersonjleon/cyborgchaman){:target="_blank"} de Cyborg Shaman (acá puede descargarse la versión actual)
 - [pythonanywhere](https://pythonanywhere.com){:target="_blank"}
 
