@@ -53,9 +53,9 @@ print(f'el precio total de {a} panes y {b} bebidas es { miTotal(a,b) }')
 
 
 
-| se escribe | se obtiene | ejemplo                | resultado     |
-|------------|------------|------------------------|---------------|
-| `\'`       | `'`        | `'What\'s up?'`        | `What's up?`    |
-| `\"`       | `"`        | `"That's \"cool\""`    | `That's "cool"` |
-| `\\`       | `\`          | `'una montaña: /\\'` | `una montaña: /\` |
-| `\n`       | <br> (nueva linea)  | `"1\n2 3"`  | `1 <br>2 3`         |
+| se escribe   |  se obtiene  | ejemplo                | resultado     |
+|:------------:|:------------:|------------------------|---------------|
+|   `\'`       | `'`          | `'What\'s up?'`        | `What's up?`    |
+|   `\"`       | `"`          | `"That's \"cool\""`    | `That's "cool"` |
+|   `\\`       | `\`          | `'una montaña: /\\'` | `una montaña: /\` |
+|   `\n`       | <br> (nueva linea)  | `"1\n2 3"`  | `1 <br>2 3`         |
