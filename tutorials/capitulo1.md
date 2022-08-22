@@ -9,18 +9,18 @@ _Python_ es un lenguaje de programación. Existen muchos otros, pero hemos elegi
 
 En [online-python.com](https://www.online-python.com/){:target="_blank"} podemos correr online programas de python directamente desde el computador o teléfono móbil. Ahí tambien podemos guardar nuestros programas en archivos terminados en `.py`, que tambien pueden ser ejecutados localmente, después de haber instalado `python` en nuestro computador. 
 
-`
+{%highlight python%} 
+```
 # Nuestro primer programa python en español
 
 a = int(input('Ingrese el primer número: '))
 b = int(input('Ingrese el segundo número: '))
 
 print(f'la suma de {a} y {b}  es { a+b }')
-`
-
-{%highlight python%} 
-
+```
 {%endhighlight%}
+
+
 
 
 
@@ -48,5 +48,5 @@ print(f'el precio total de {a} panes y {b} bebidas es { miTotal(a,b) }')
 
 
 
-
+<iframe src="https://www.kaggle.com/embed/colinmorris/strings-and-dictionaries?cellIds=11&kernelSessionId=79384572" height="300" style="margin: 0 auto; width: 100%; max-width: 950px;" frameborder="0" scrolling="auto" title="Strings and Dictionaries"></iframe>
 
