@@ -51,17 +51,11 @@ print(f'el precio total de {a} panes y {b} bebidas es { miTotal(a,b) }')
 <!--iframe src="https://www.kaggle.com/embed/colinmorris/strings-and-dictionaries?cellIds=11&kernelSessionId=79384572" height="300" style="margin: 0 auto; width: 100%; max-width: 950px;" frameborder="0" scrolling="auto" title="Strings and Dictionaries"></iframe-->
 
 
-| Tables   |      Are      |  Cool |
-|----------|:-------------:|------:|
-| col 1 is |  left-aligned | $1600 |
-| col 2 is |    centered   |   $12 |
-| col 3 is | right-aligned |    $1 |
 
 
-|se escribe | se obtiene | ejemplo (código) | ejemplo (resultado) |
-|-----------|------------|--------------------------|--------------------------|
-| `\'`	    |  `'`       | `'restaurante Maria\'s'` | `restaurante Maria's`    |
-\"	"	"que \"chevere\""	que "chevere"
-\\	\       "Look, a mountain: /\\" | Look, a mountain: /\
-\n	(nueva linea)        "1\n2 3"	1
-2 3
+| se escribe | se obtiene | ejemplo                | resultado     |
+|------------|------------|------------------------|---------------|
+| `\'`       | `'`        | `'What\'s up?'`        | `What's up?`    |
+| `\"`       | `"`        | `"That's \"cool\""`    | `That's "cool"` |
+| `\\`       | `\`          | `'una montaña: /\\'` | `una montaña: /\` |
+| `\n`       | <br> (nueva linea)  | `"1\n2 3"`  | `1 <br>2 3`         |
