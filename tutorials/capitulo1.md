@@ -7,7 +7,7 @@ Un lenguaje de programación nos permite hablar con el computador, decirle lo qu
 
 Python es un lenguaje de programación. Existen muchos otros, pero hemos elegido python pues es uno de los más sencillos, con  y con mayor cantidad de usos
 
-
+{%highlight python%} 
 ```
 # Nuestro primer programa python en español
 
@@ -16,6 +16,7 @@ b = int(input('Ingrese el segundo número: '))
 
 print(f'la suma de {a} y {b}  es { a+b }')
 ```
+{%endhighlight%}
 
 Acá  hay un ejemplo en donde personalizamos la función suma y la llamamos 'miTotal'. Podríamos haberle puesto cualquier otro nombre
 
@@ -31,6 +32,6 @@ a = input('panes: ')
 b = input('bebida: ')
 
 # las cadenas que empiezan por f'...' son formateadas, lo que está al interior de 
-# corchetes {} se evalua
+# corchetes {} se evalua y se imprime en ese lugar.
 print(f'el precio total de {a} panes y {b} bebidas es { miTotal(a,b) }')
 ```
