@@ -5,9 +5,9 @@ Un lenguaje de programación nos permite hablar con el computador, decirle lo qu
 
 ## Primeras palabras en python
 
-_Python_ es un lenguaje de programación. Existen muchos otros, pero hemos elegido python pues es uno de los más sencillos, populares y con mayor cantidad de librerias disponibles, con todo tipo de aplicaciones.
+Python es un lenguaje de programación. Existen muchos otros, pero hemos elegido python pues es uno de los más sencillos, populares y con mayor cantidad de librerias disponibles, con todo tipo de aplicaciones.
 
-En [online-python.com](https://www.online-python.com/){:target="_blank"} podemos correr online programas de python directamente desde el computador o teléfono móbil. Ahí tambien podemos guardar nuestros programas en archivos terminados en `.py`, que tambien pueden ser ejecutados localmente, después de haber instalado `python` en nuestro computador. 
+En [online-python.com](https://www.online-python.com/){:target="_blank"} podemos correr programas de python directamente desde internet en el computador o teléfono móbil. Ahí tambien podemos guardar nuestros programas en archivos terminados en `.py`. Esto nos puede servir para  ejecutar los programas localmente, después de haber instalado `python3` en nuestro computador. 
 
 {%highlight python%} 
 ```
@@ -48,5 +48,20 @@ print(f'el precio total de {a} panes y {b} bebidas es { miTotal(a,b) }')
 
 
 
-<iframe src="https://www.kaggle.com/embed/colinmorris/strings-and-dictionaries?cellIds=11&kernelSessionId=79384572" height="300" style="margin: 0 auto; width: 100%; max-width: 950px;" frameborder="0" scrolling="auto" title="Strings and Dictionaries"></iframe>
+<!--iframe src="https://www.kaggle.com/embed/colinmorris/strings-and-dictionaries?cellIds=11&kernelSessionId=79384572" height="300" style="margin: 0 auto; width: 100%; max-width: 950px;" frameborder="0" scrolling="auto" title="Strings and Dictionaries"></iframe-->
 
+
+| Tables   |      Are      |  Cool |
+|----------|:-------------:|------:|
+| col 1 is |  left-aligned | $1600 |
+| col 2 is |    centered   |   $12 |
+| col 3 is | right-aligned |    $1 |
+
+
+|se escribe | se obtiene | ejemplo (código) | ejemplo (resultado) |
+|-----------|------------|--------------------------|--------------------------|
+| `\'`	    |  `'`       | `'restaurante Maria\'s'` | `restaurante Maria's`    |
+\"	"	"que \"chevere\""	que "chevere"
+\\	\       "Look, a mountain: /\\" | Look, a mountain: /\
+\n	(nueva linea)        "1\n2 3"	1
+2 3
