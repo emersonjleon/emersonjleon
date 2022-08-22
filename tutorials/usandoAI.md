@@ -14,6 +14,6 @@ Mediante la inteligencia artificial, ahora es posible decirle al computador: "ne
 
 ### Nuestro tutorial
 - [Primeras palabras en python](capitulo1.html)
-- [Usando la inteligencia artificial](usandoOpenAI.html)
+- [Usando la inteligencia artificial](usandoAI.html)
 - [Condicionales y funciones lógicas](capitulo2.html)
 ### Otras Páginas 
