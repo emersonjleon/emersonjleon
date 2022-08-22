@@ -41,7 +41,7 @@ print("Cuántos panes y cuántas bebidas? panes a 500, bebidas a 1000")
 a = input('panes: ')
 b = input('bebida: ')
 
-# las cadenas que empiezan por f (f'...') son formateadas, los corchetes {} indicanvalores a evaluar 
+# las cadenas formateadas (`f'...'`) evaluan los corchetes {} colocan ahí el resultado
 print(f'el precio total de {a} panes y {b} bebidas es { miTotal(a,b) }')
 ```
 {%endhighlight%}
@@ -58,4 +58,4 @@ print(f'el precio total de {a} panes y {b} bebidas es { miTotal(a,b) }')
 |   `\'`       | `'`          | `'What\'s up?'`        | `What's up?`    |
 |   `\"`       | `"`          | `"That's \"cool\""`    | `That's "cool"` |
 |   `\\`       | `\`          | `'una montaña: /\\'` | `una montaña: /\` |
-|   `\n`       | <br> (nueva linea)  | `"1\n2 3"`  | `1 <br>2 3`         |
+|   `\n`       | <br> (nueva linea)  | `"1\n2 3"`  | `1`  <br> `2 3`     |
