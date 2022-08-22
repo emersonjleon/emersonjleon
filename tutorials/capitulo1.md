@@ -5,9 +5,11 @@
 
 Un lenguaje de programación nos permite hablar con el computador, decirle lo que queremos que haga. Cada línea de código es un comando, y uniendo varias lineas podemos crear un programa. Todos los programas y aplicaciones que usamos a diario han sido programadas línea por línea. Podemos pensar que estos son los ladrillos que al unirse construyen el mundo virtual.
 
-Python es un lenguaje de programación. Existen muchos otros, pero hemos elegido python pues es uno de los más sencillos, con  y con mayor cantidad de usos
+Python es un lenguaje de programación. Existen muchos otros, pero hemos elegido python pues es uno de los más sencillos, populares y con mayor cantidad de librerias disponibles, con todo tipo de aplicaciones.
 
-{%highlight python%} 
+
+
+{%highlight python3%} 
 ```
 # Nuestro primer programa python en español
 
@@ -18,9 +20,16 @@ print(f'la suma de {a} y {b}  es { a+b }')
 ```
 {%endhighlight%}
 
+
+
+
 Acá  hay un ejemplo en donde personalizamos la función suma y la llamamos 'miTotal'. Podríamos haberle puesto cualquier otro nombre
 
 
+
+
+
+{%highlight python3%} 
 ```
 # Esta es una función que usaremos después. La llamaremos "miTotal". 
 def miTotal(a, b):
@@ -35,3 +44,9 @@ b = input('bebida: ')
 # corchetes {} se evalua y se imprime en ese lugar.
 print(f'el precio total de {a} panes y {b} bebidas es { miTotal(a,b) }')
 ```
+{%endhighlight%}
+
+
+
+
+
