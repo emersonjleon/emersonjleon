@@ -9,17 +9,18 @@ _Python_ es un lenguaje de programación. Existen muchos otros, pero hemos elegi
 
 En [online-python.com](https://www.online-python.com/){:target="_blank"} podemos correr online programas de python directamente desde el computador o teléfono móbil. Ahí tambien podemos guardar nuestros programas en archivos terminados en `.py`, que tambien pueden ser ejecutados localmente, después de haber instalado `python` en nuestro computador. 
 
-
-```
-{%highlight python3%} 
+`
 # Nuestro primer programa python en español
 
 a = int(input('Ingrese el primer número: '))
 b = int(input('Ingrese el segundo número: '))
 
 print(f'la suma de {a} y {b}  es { a+b }')
+`
+
+{%highlight python%} 
+
 {%endhighlight%}
-```
 
 
 
@@ -29,9 +30,8 @@ Acá  hay un ejemplo en donde personalizamos la función suma y la llamamos 'miT
 
 
 
-
+{%highlight python%} 
 ```
-{%highlight python3%} 
 # Esta es una función llamada "miTotal" que estamos definiendo 
 def miTotal(a, b):
     return (500*int(a) + 1000*int(b))
@@ -43,8 +43,8 @@ b = input('bebida: ')
 
 # las cadenas que empiezan por f (f'...') son formateadas, los corchetes {} indicanvalores a evaluar 
 print(f'el precio total de {a} panes y {b} bebidas es { miTotal(a,b) }')
-{%endhighlight%}
 ```
+{%endhighlight%}
 
 
 
