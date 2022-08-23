@@ -5,11 +5,9 @@
 En python estamos todo el tiempo manipulando diferentes tipos de objetos, como números, cadenas de caracteres, funciones, etc. En este capítulo explicaremos algunas nociones básicas de estos objetos. 
 
 
-### La función `type`
+### Los tipos de objetos `type`
 
-{%highlight python%} 
-```
-#principales tipos de objetos
+{%highlight python%}# Principales tipos de objetos
 a=1
 b='hola'
 c=3.45
@@ -18,12 +16,12 @@ e=[1,2,3]
 f={'comida':'arepa', 'bebida':'chocolate'}
 g=print
 h=int
-i=type('1')
+i=type
+j=type('1')
 
 
 for obj in [a, b, c, d, e, f, g, h, i, j]:
     print(obj, type(obj))
-```
 {%endhighlight%}
 
 
@@ -50,5 +48,5 @@ for obj in [a, b, c, d, e, f, g, h, i, j]:
 ### Valores de verdad `bool`
 
 
-### `lists` and `dicts`
+### Iterables `list` and `dict`
 

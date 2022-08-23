@@ -12,18 +12,39 @@ En [online-python.com](https://www.online-python.com/){:target="_blank"} podemos
 Al ingresar a [online-python.com](https://www.online-python.com/){:target="_blank"}, aparecerá un espacio de texto con un programa. Podemos correrlo oprimiendo **RUN**. También podemos modificarlo para hacer diferentes pruebas. En particular podemos cambiarlo por una versión simplificada en español:
 
 
-{%highlight python%} 
+{%highlight python%}
 # Nuestro primer programa python en español
 
 a = int(input('Ingrese el primer número: '))
-b = int(input('Ingrese el segundo número: '))
+b = int(input("Ingrese el segundo número: "))
 
 print(f'la suma de {a} y {b}  es { a+b }')
 {%endhighlight%}
 
-Este texto puede ser copiado y pegado en [online-python.com](https://www.online-python.com/){:target="_blank"}. Al presionar **Run** veremos que 
+Este texto puede ser copiado y pegado en [online-python.com](https://www.online-python.com/){:target="_blank"}. Al presionar **Run** veremos que el programa nos pide dos números y nos devuelve la suma. Veamos ahora algunas observaciónes de las palabras que aparecen en este programa. 
+
+- `input('cadena de texto')` es una función que nos muestra en pantalla una 'cadena de texto' que nosotros queramos, y dan como resultado otra cadena de texto que nosotros ingresamos por el teclado. En python, las cadenas de texto se escriben entre comillas `'...'` o `""`.
+- `int` (abrev. de _integer_) toma una cadena de texto e intenta convertirla en un número entero. Si la cadena no es numérica, se produce un error. Los errores son algo normal en el mundo de la programación, más sobre esto lo encontrarás en el [Capitulo 3](capitulo3.html).
+- Si escribimos `a=17`, estamos colocando un número entero 17 en la variable `a`.
+En lugar de escribir `a` podríamos haber elegido cualquier otro nombre para esta variable, como por ejemplo `valor1` o `primer_numero`. Se recomienda utilizar nombres expresivos y apropiados para facilitar la lectura del programa. Que cada persona que vea la variable sepa posiblemente de que estamos hablando. Se deben evitar los nombres de otras funciones y variables de python.
+- `a = int(input('Ingrese el primer número: '))`
+
+- Las cadenas formateadas `f'...'` no son tomados literalmente, sino que evaluan los elementos entre corchetes {} colocando ahí el resultado.
 
 
+
+
+
+
+
+### Ejemplos:
+
+{%highlight python%}
+# Programa que pregunta tu nombre y luego saluda
+
+nombre = input('Cuál es tu nombre? ')
+print(f'Es un gusto saludarte, { nombre }')
+{%endhighlight%}
 
 
 
@@ -33,21 +54,20 @@ Acá  hay un ejemplo en donde personalizamos la función suma y la llamamos 'miT
 
 
 
-{%highlight python%} 
-```
-# Esta es una función llamada "miTotal" que estamos definiendo 
+{%highlight python%}
+# Definiendo una función personalizada "miTotal"
+
 def miTotal(a, b):
     return (500*int(a) + 1000*int(b))
 
 print("Cuántos panes y cuántas bebidas? panes a 500, bebidas a 1000")
-
 a = input('panes: ')
 b = input('bebida: ')
 
-# las cadenas formateadas (`f'...'`) evaluan los corchetes {} colocan ahí el resultado
+# 
 print(f'el precio total de {a} panes y {b} bebidas es { miTotal(a,b) }')
-```
 {%endhighlight%}
+
 
 
 
