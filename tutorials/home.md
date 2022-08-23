@@ -9,8 +9,8 @@ Queremos hacer aquí una introducción al mundo de la programación, pero al mis
 
 ### Nuestro tutorial
 - [Primeras palabras en python](capitulo1.html)
-- [Corrigiendo errores](capitulo2.html)
-- [Tipos de objetos](capitulo3.html)
+- [Tipos de objetos](capitulo2.html)
+- [Corrigiendo errores](capitulo3.html)
 - [Condicionales y funciones lógicas](capitulo4.html)
 - [Loops e iteraciones](capitulo5.html)
 
