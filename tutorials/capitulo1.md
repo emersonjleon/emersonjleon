@@ -5,20 +5,23 @@ Un lenguaje de programación nos permite hablar con el computador, decirle lo qu
 
 ## Primeras palabras en python
 
-Python es un lenguaje de programación. Existen muchos otros, pero hemos elegido python pues es uno de los más sencillos, populares y con mayor cantidad de librerias disponibles, con todo tipo de aplicaciones.
+Python es un lenguaje de programación. Entre otros lenguajes, hemos elegido comenzar por python pues es uno de los más sencillos, populares y con mayor cantidad de librerias disponibles, con todo tipo de aplicaciones.
 
-En [online-python.com](https://www.online-python.com/){:target="_blank"} podemos correr programas de python directamente desde internet en el computador o teléfono móbil. Ahí tambien podemos guardar nuestros programas en archivos terminados en `.py`. Esto nos puede servir para  ejecutar los programas localmente, después de haber instalado `python3` en nuestro computador. 
+En [online-python.com](https://www.online-python.com/){:target="_blank"} podemos correr programas de python directamente desde internet en el computador o teléfono móbil. Ahí tambien podemos guardar nuestros programas en archivos terminados en `.py`. Esto nos puede servir para  ejecutar los programas localmente, después de haber instalado `python3` en nuestro computador.
+
+Al ingresar a [online-python.com](https://www.online-python.com/){:target="_blank"}, aparecerá un espacio de texto con un programa. Podemos correrlo oprimiendo **RUN**. También podemos modificarlo para hacer diferentes pruebas. En particular podemos cambiarlo por una versión simplificada en español:
+
 
 {%highlight python%} 
-```
 # Nuestro primer programa python en español
 
 a = int(input('Ingrese el primer número: '))
 b = int(input('Ingrese el segundo número: '))
 
 print(f'la suma de {a} y {b}  es { a+b }')
-```
 {%endhighlight%}
+
+Este texto puede ser copiado y pegado en [online-python.com](https://www.online-python.com/){:target="_blank"}. Al presionar **Run** veremos que 
 
 
 
