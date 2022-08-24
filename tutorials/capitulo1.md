@@ -23,6 +23,7 @@ print(f'la suma de {a} y {b}  es { a+b }')
 
 Este texto puede ser copiado y pegado en [online-python.com](https://www.online-python.com/){:target="_blank"}. Al presionar **Run** veremos que el programa nos pide dos números y nos devuelve la suma. Veamos ahora algunas observaciónes de las palabras que aparecen en este programa. 
 
+- Las líneas que comienzan con `#` no son evaluadas. Son llamadas _comentarios_. Ahí podemos escribir cualquier cosa que queramos, usualmente algo que nos ayude a entender nuestro programa. 
 - `input('cadena de texto')` es una función que nos muestra en pantalla una 'cadena de texto' que nosotros queramos, y dan como resultado otra cadena de texto que nosotros ingresamos por el teclado. En python, las cadenas de texto se escriben entre comillas `'...'` o `""`.
 - `int('(texto numérico)')` (abrev. de _integer_) toma una cadena de `'(texto numérico)'` e intenta convertirla en un número entero. Si la cadena no es numérica, se produce un error. Los errores son algo normal en el mundo de la programación, más sobre esto lo encontrarás en el [Capitulo 3](capitulo3.html).
 - Si escribimos `a=17`, estamos colocando un número entero (17) en la _variable_ `a`. En lugar de escribir `a` podríamos haber elegido cualquier otro nombre para esta variable, como por ejemplo `valor1` o `primer_numero`. Se recomienda utilizar nombres expresivos y apropiados para facilitar la lectura del programa. Que cada persona que vea la variable sepa posiblemente de que estamos hablando. Se deben evitar los nombres de otras funciones y variables de python. Es posible guardar todo tipo de objetos en las variables.
@@ -35,9 +36,9 @@ realiza las siguientes cosas:
 - Escribe en pantalla `Ingrese el primer número: ` y espera que ingresemos un texto.
 - Al ingresar por teclado una cadena (que es el resultado de la función `input`), transforma este valor en un número entero (mediante la función `int`). Si el texto ingresado no corresponde a un número entero, se genera un error `ValueError`
 
-- Guarda en la variable`a` el valor entero que se obtenga
+- Guarda en la variable `a` el valor entero que se obtenga de `input('Ingrese el primer número: '` (en caso que no se haya generado ningún error).
 
-De manera similar, la línea `b = int(input('Ingrese el segundo número: '))`
+Con esto, hemos decifrado lo que realiza nuestra primera línea de código! De manera similar, la línea `b = int(input('Ingrese el segundo número: '))` nos preguntará un segundo número, que debe ser entero.
 
 
 
@@ -88,16 +89,3 @@ print(f'el precio total de {a} panes y {b} bebidas es { miTotal(a,b) }')
 {%endhighlight%}
 
 
-
-
-<!--iframe src="https://www.kaggle.com/embed/colinmorris/strings-and-dictionaries?cellIds=11&kernelSessionId=79384572" height="300" style="margin: 0 auto; width: 100%; max-width: 950px;" frameborder="0" scrolling="auto" title="Strings and Dictionaries"></iframe-->
-
-
-
-
-| se escribe   |  se obtiene  | ejemplo                | resultado     |
-|:------------:|:------------:|------------------------|---------------|
-|   `\'`       | `'`          | `'What\'s up?'`        | `What's up?`    |
-|   `\"`       | `"`          | `"That's \"cool\""`    | `That's "cool"` |
-|   `\\`       | `\`          | `'una montaña: /\\'` | `una montaña: /\` |
-|   `\n`       | <br> (nueva linea)  | `"1\n2 3"`  | `1`  <br> `2 3`     |
