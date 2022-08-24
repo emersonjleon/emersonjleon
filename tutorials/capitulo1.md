@@ -5,8 +5,6 @@ Un lenguaje de programación nos permite hablar con el computador, decirle lo qu
 
 ## Primeras palabras en python
 
-
-
 En [online-python.com](https://www.online-python.com/){:target="_blank"} podemos correr programas de python directamente desde internet en el computador o teléfono móbil. Ahí tambien podemos guardar nuestros programas en archivos terminados en `.py`. Esto nos puede servir para  ejecutar los programas localmente, después de haber instalado `python3` en nuestro computador.
 
 Al ingresar a [online-python.com](https://www.online-python.com/){:target="_blank"}, aparecerá un espacio de texto con un programa. Podemos correrlo oprimiendo **RUN**. También podemos modificarlo para hacer diferentes pruebas. En particular podemos cambiarlo por una versión simplificada en español:
@@ -18,10 +16,10 @@ Al ingresar a [online-python.com](https://www.online-python.com/){:target="_blan
 a = int(input('Ingrese el primer número: '))
 b = int(input("Ingrese el segundo número: "))
 
-print(f'la suma de {a} y {b}  es { a+b }')
+print(f'La suma de {a} y {b}  es { a+b }')
 {%endhighlight%}
 
-Este texto puede ser copiado y pegado en [online-python.com](https://www.online-python.com/){:target="_blank"}. Al presionar **Run** veremos que el programa nos pide dos números y nos devuelve la suma. Veamos ahora algunas observaciónes de las palabras que aparecen en este programa. 
+Vamos a trabajar un poco sobre lo que hace este programa, que es lo que significa cada palabra que se encuentra ahí. Este texto puede ser copiado y pegado en [online-python.com](https://www.online-python.com/){:target="_blank"}. Al presionar **Run** veremos que el programa nos pide dos números y nos devuelve la suma. Veamos ahora algunas observaciónes de las palabras que aparecen en este programa. 
 
 - Las líneas que comienzan con `#` no son evaluadas. Son llamadas _comentarios_. Ahí podemos escribir cualquier cosa que queramos, usualmente algo que nos ayude a entender nuestro programa. 
 - `input('cadena de texto')` es una función que nos muestra en pantalla una 'cadena de texto' que nosotros queramos, y dan como resultado otra cadena de texto que nosotros ingresamos por el teclado. En python, las cadenas de texto se escriben entre comillas `'...'` o `""`.
@@ -43,13 +41,21 @@ Para la última línea tenemos las siguientes palabras:
 - Las 'cadenas de texto' son tomadas de forma literal para formar un objeto de tipo`str` (más sobre [tipos de objetos](capitulo2.html) en la siguiente sección). Es posible guardarlas en una variable. si escribimos  `mitexto='cadena de texto'`
 - Las cadenas formateadas `f'...'` no son tomados literalmente, sino que evaluan los elementos entre corchetes {} colocando ahí el resultado.
 
+De esta forma, la última línea `print(f'La suma de {a} y {b}  es { a+b }')` nos mostrará en la pantalla un texto que se obtiene al reemplazar `{a}` por el valor númerico guardado en `a` en la primera linea, `{b}` por el número guardado en `b` y { a+b } por el número que se obtiene al sumar `a` y `b`. Así, por ejemplo, si ingresamos en nuestro programa los números 23 y 34, el programa imprimirá
+
+`La suma de 23 y 34  es 57`
+
+- Es posible hacer todo tipo de operaciones matemáticas en python. La suma se forma con el símbolo `+`, la resta con `-`, la multiplicación con `*` y la división con `/`. En la siguiente sección veremos más detalles sobre números y sus operaciónes.
+
+Genial, con esto hemos repasado todas las palabras y expresiones de nuestro programa!
 
 
 
+### Más ejemplos:
+Aunque las explicaciónes anteriores pueden ayudarnos, lo mejor que podemos hacer para aprender es jugar con lo que hemos aprendido, modificar diferentes partes del programa y luego ejecutarlas para ver que pasa, e intentar crear nuevas líneas de código con las palabras que hemos aprendido a manejar. Encontraremos algunas sorpresas que pueden generar preguntas, y algunos errores que nos pueden explicar como funciona python. En la sección [Corrigiendo errores](capitulo3.html) veremos algunas modificaciónes a este primer programa, y algunos errores que pueden aparecer, junto con consejos para corregirlos
 
 
 
-### Ejemplos:
 
 {%highlight python%}
 # Programa que pregunta tu nombre y luego saluda
