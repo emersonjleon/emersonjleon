@@ -11,6 +11,7 @@
 ### Imagenes
 - [Dall-E mini](https://huggingface.co/spaces/dalle-mini/dalle-mini){:target="_blank"}
 - [Presentación visual](https://cyborgshaman.pythonanywhere.com/presentation){:target="_blank"} de la tecnología, usando imagenes generadas por Dall-E mini.
+- [Dream Studio](https://beta.dreamstudio.ai/dream)
 - [Which face is real?](https://www.whichfaceisreal.com/index.php){:target="_blank"}
 - [GauGAN](http://gaugan.org/gaugan2){:target="_blank"}
 

@@ -5,7 +5,7 @@ Un lenguaje de programación nos permite hablar con el computador, decirle lo qu
 
 ## Primeras palabras en python
 
-Python es un lenguaje de programación. Entre otros lenguajes, hemos elegido comenzar por python pues es uno de los más sencillos, populares y con mayor cantidad de librerias disponibles, con todo tipo de aplicaciones.
+
 
 En [online-python.com](https://www.online-python.com/){:target="_blank"} podemos correr programas de python directamente desde internet en el computador o teléfono móbil. Ahí tambien podemos guardar nuestros programas en archivos terminados en `.py`. Esto nos puede servir para  ejecutar los programas localmente, después de haber instalado `python3` en nuestro computador.
 
@@ -32,21 +32,15 @@ Con esta informacion encontramos que la línea
 `a = int(input('Ingrese el primer número: '))`
 realiza las siguientes cosas:
 - Escribe en pantalla `Ingrese el primer número: ` y espera que ingresemos un texto.
-- Al ingresar por teclado una cadena (que es el resultado de la función `input`), transforma este valor en un número entero (mediante la función `int`). Si el texto ingresado no corresponde a un número entero, se genera un error `ValueError`
+- Al ingresar por teclado una cadena (que es el resultado de la función `input`), transforma este valor en un número entero (mediante la función `int`). Si el texto ingresado no corresponde a un número entero, se genera un error `ValueError`. (Más información sobre errores en la sección [Corrigiendo errores](capitulo3.html))
 
 - Guarda en la variable `a` el valor entero que se obtenga de `input('Ingrese el primer número: '` (en caso que no se haya generado ningún error).
 
 Con esto, hemos decifrado lo que realiza nuestra primera línea de código! De manera similar, la línea `b = int(input('Ingrese el segundo número: '))` nos preguntará un segundo número, que debe ser entero.
 
-
-
-
-
-
-
-
-
-
+Para la última línea tenemos las siguientes palabras:
+- `print('cadena de texto') muestra en la pantalla nuestra `cadena de texto`. Es la forma básica para que el computador nos comparta información.
+- Las 'cadenas de texto' son tomadas de forma literal para formar un objeto de tipo`str` (más sobre [tipos de objetos](capitulo2.html) en la siguiente sección). Es posible guardarlas en una variable. si escribimos  `mitexto='cadena de texto'`
 - Las cadenas formateadas `f'...'` no son tomados literalmente, sino que evaluan los elementos entre corchetes {} colocando ahí el resultado.
 
 
