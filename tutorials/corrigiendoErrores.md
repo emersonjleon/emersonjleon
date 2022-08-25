@@ -5,7 +5,7 @@
 
 Lo mejor que podemos hacer para aprender algo es jugar. Y en ese juego, es normal cometer errores. Lo importante es aprender de ellos, para entenderlos y poco a poco corregirlos. Pero al comienzo es necesario hacer muchos experimentos y no tener miedo a cometer errores. Es mejor intentar diferentes ideas hasta que alguna funcione, que quedarnos sin hacer nada porque no sabemos que hacer. También la curiosidad puede mostrarnos cosas interesantes, todas las ideas son un camino hacia un nuevo descubrimiento.
 
-### Errores, comentarios y cadenas de texto
+### Palabras indefinidas, comentarios y cadenas de texto
 Vamos a hacer algunos experimentos y modificaciones a nuestro programa de la sección anterior. Por ejemplo, podemos agregarle una línea inicial así: 
 
 {%highlight python%}
@@ -34,9 +34,7 @@ Podemos evitar este error de varias maneras:
 - Generando una cadena entre comillas.  Si escribimos `'Hola, bienvenidos!'` o `"Hola, bienvenidos!"` estaremos formando un objeto válido en python. Una cadena (de tipo `str`). Si no la guardamos en ninguna parte, no pasará nada con esta cadena. (Aunque lo recomendable para comentarios es usar `#`.)
 - También es posible generar cadenas de varias líneas usando comillas triples. Por ejemplo
 
-{%highlight python%} 
-""" 
-Hola, bienvenidos!
+{%highlight python%} """Hola, bienvenidos!
 
 Este comentario es una cadena que ocupa varias líneas y se encuentra 
 encerrado en comillas triples.
@@ -45,22 +43,23 @@ Este programa no hace nada al ejecutarse.
 """
 {%endhighlight%}
 
-- Si lo que queremos que nuestra cadena sea mostrada en pantalla y no sea ignorada, podemos usar el comando `print`. Así, si escribimos `print(Hola, bienvenidos!)` en nuestra primera línea, el programa nos mostrará esto en pantalla. También es posible imprimir cadenas de varias líneas que usan comillas triples.
+- Si lo que queremos que nuestra cadena sea mostrada en pantalla y no sea ignorada, podemos usar el comando `print`. Así, si escribimos `print(Hola, bienvenidos!)`, el programa nos mostrará esto en pantalla durante la ejecución. También es posible imprimir las cadenas de varias líneas que usan comillas triples.
 
-Muy bien, ya sabemos como resolver este primer problema, de tipo `NameError`.
-
-
+Muy bien, logramos resolver este primer problema, de tipo `NameError`.
 
 
 
 
 
 
-Ahora, nos preguntamos para que sirve la palabra `int`. Para entender su función, podemos ver que pasa si la quitamos de la primera línea.
+
+###  Otros tipos de errores 
+Ahora, que pasaría si quitamos la palabra `int` de nuestro programa?
+Que nuevos tipos de errores podemos encontrar? Un primer intento de quitar `int` nos podria generar este programa. Cortalo y pegalo en [online-python.com](https://www.online-python.com/){:target="_blank"} para que compruebes lo que ocurre.
 
 
 {%highlight python%}
-# Nuestro primer programa python en español
+# Modificando nuestro primer programa python en español
 print(Hola, bienvenidos!)
 
 a = input('Ingrese el primer número: '))
