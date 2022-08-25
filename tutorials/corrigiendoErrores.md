@@ -9,7 +9,7 @@ Lo mejor que podemos hacer para aprender algo es jugar. Y en ese juego, es norma
 Vamos a hacer algunos experimentos y modificaciones a nuestro programa de la sección anterior. Por ejemplo, podemos agregarle una línea inicial así: 
 
 {%highlight python%}
-Hola, bienvenidos!
+Hola, bienvenidos
 # Nuestro primer programa python en español
 
 a = int(input('Ingrese el primer número: '))
@@ -21,16 +21,6 @@ print(f'La suma de {a} y {b}  es { a+b }')
 Que pasa cuando corremos este programa?
 
 En la pantalla leeremos el siguiente texto.
-```
-Traceback (most recent call last):
-  File "main.py", line 1
-    Hola, bienvenidos!
-                     ^
-SyntaxError: invalid syntax
-```
-Nos dice que hay un error de sintaxis (`SyntaxError`), pues en la línea 2 hay un símbolo `!` que no está utilizándose de la manera adecuada. El punto donde se encuentra el error  aparece sobre el símbolo `^`.  El error se puede evitar quitando este signo de exclamación. En [online-python.com](https://www.online-python.com/){:target="_blank"} las líneas de nuestro programa aparecen enumeradas para facilitar la busqueda. Esto es cierto también para la mayoría de editores de texto que nos pueden servir para escribir programas.
-
-Si quitamos el signo de exclamación y corremos de nuevo el programa, encontrariamos ahora el siguiente mensaje:
 
 
 ```
@@ -39,6 +29,8 @@ Si quitamos el signo de exclamación y corremos de nuevo el programa, encontrari
 NameError: name 'Hola' is not defined
 ```
 Lo que nos dice este mensaje es lo siguiente: En la línea 1 de nuestro archivo (que aquí se llama `main.py`, pero podemos cambiarle el nombre), donde dice `Hola, bienvenidos` se genera un error (llamado `NameError`) porque la palabra `'Hola'` no está definida.
+
+En [online-python.com](https://www.online-python.com/){:target="_blank"} las líneas de nuestro programa aparecen enumeradas para facilitar la busqueda. Esto es cierto también para la mayoría de editores de texto que nos pueden servir para escribir programas.
 
 Podemos evitar este error de varias maneras:
 - Mediante un comentario, usando el símbolo `#`. De esta manera, si escribimos `# Hola, bienvenidos!`, esta línea será ignorada.
@@ -54,9 +46,21 @@ Este programa no hace nada al ejecutarse.
 """
 {%endhighlight%}
 
-- Si lo que queremos que nuestra cadena sea mostrada en pantalla y no sea ignorada, podemos usar el comando `print`. Así, si escribimos `print('Hola, bienvenidos!')`, el programa nos mostrará esto en pantalla durante la ejecución. También es posible imprimir las cadenas de varias líneas que usan comillas triples.
+- Si lo que queremos que nuestra cadena sea mostrada en pantalla y no sea ignorada, podemos usar el comando `print`. Así, si escribimos `print('Hola, bienvenidos!')`, el programa nos mostrará `Hola, bienvenidos!` en pantalla durante la ejecución. También es posible imprimir las cadenas de varias líneas que usan comillas triples.
 
-Muy bien, logramos resolver este primer problema, de tipo `NameError`.
+Si por ejemplo escribimos `print(Hola, bienvenidos!)` obtendríamos el siguiente mensaje: 
+```
+Traceback (most recent call last):
+  File "main.py", line 1
+    print(Hola, bienvenidos!)
+                           ^
+SyntaxError: invalid syntax
+```
+Nos dice que hay un error de sintaxis (`SyntaxError`), pues en la línea 2 hay un símbolo `!` que no está utilizándose de la manera adecuada. El punto donde se encuentra el error  aparece sobre el símbolo `^`.  El error se puede evitar quitando este signo de exclamación `!` que en python tiene varios posibles usos, pero que no nos interesan en este momento. Simplemente queremos imprimir una cadena y para esto es necesario que coloquemos comillas `""` o `''` al rededor de nuestro mensaje. 
+
+
+
+Muy bien, ya sabemos como resolver estos primeros problemas y escribir nuestro mensaje "Hola, bienvenidos!".
 
 
 
@@ -67,8 +71,9 @@ Muy bien, logramos resolver este primer problema, de tipo `NameError`.
 
 
 
-###  Otros tipos de errores 
-En el capítulo pasado vimos que la palabra `int` podía ser la fuente de errores al ejecutar nuestro programa. Por ejemplo, alguno de ustedes pudo haber obtenido el siguiente error
+###  Otros tipos de errores y analizando `int`
+En la [sección anterior](primerasPalabras.html)
+ vimos que la función `int` podría ser la fuente de algunos errores al ejecutar nuestro programa. Por ejemplo, alguno de ustedes pudo haber obtenido algo como lo siguiente:
 
 ```
 Ingrese el primer número: 
@@ -81,10 +86,13 @@ ValueError: invalid literal for int() with base 10: 'infinito'
 Este mensaje nos dice que tenemos un error (`ValueError`) en la linea 3, donde dice
  `a = int(input('Ingrese el primer número: '))`, pues la función `int()` recibió un numeral invalido `'infinito'`. Esto ocurre porque python no sabe convertir la cadena `'infinito'` en un número entero en base 10.
 
-Ahora, que pasaría si quitamos la palabra `int` de nuestra línea 3?
+Incluso cadenas númericas con decimales como `'3,1416'`, `'-287.463'` pueden generar problemas de `ValueError`. (Para trabajar con números decimales necesitaríamos usar la función `'float'` en lugar de `'int'` y recordar usar un punto decimal `.` en vez de la coma, pues en python la coma `,` tiene otros usos.)
+Si la cadena que ingresamos muestra correctamente un numero entero, como `'17'`, `'287463'` o `'-8'`, no tendríamos ningun problema.
+
+Ahora, que pasaría si para evitar este tipo de errores quitamos la palabra `int` de nuestra línea 3?
 Que nuevos tipos de errores podemos encontrar?
 
-Un primer intento de quitar `int`  podria generar este programa. Cortalo y pegalo en [online-python.com](https://www.online-python.com/){:target="_blank"} para que compruebes lo que ocurre.
+- Un primer intento de quitar `int`  podria generar el siguiente programa. Podemos cortarlo y pegarlo en [online-python.com](https://www.online-python.com/){:target="_blank"} para ver lo que ocurre.
 
 
 {%highlight python%}
@@ -96,6 +104,20 @@ b = int(input("Ingrese el segundo número: "))
 
 print(f'La suma de {a} y {b}  es { a+b }')
 {%endhighlight%}
+
+En ese caso obtendríamos lo siguiente:
+
+```
+Traceback (most recent call last):
+  File "main.py", line 1
+    Hola, bienvenidos!
+                     ^
+SyntaxError: invalid syntax
+```
+Nos dice que hay un error de sintaxis (`SyntaxError`), pues en la línea 2 hay un símbolo `!` que no está utilizándose de la manera adecuada. El punto donde se encuentra el error  aparece sobre el símbolo `^`.  El error se puede evitar quitando este signo de exclamación. 
+
+Si quitamos el signo de exclamación y corremos de nuevo el programa, encontrariamos ahora el siguiente mensaje:
+
 
 - Si corremos el anterior programa obtenemos el siguiente error:
 ```
