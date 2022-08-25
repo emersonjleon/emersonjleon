@@ -1,10 +1,11 @@
-# Tutoriales Cyborg 
+## Tutoriales Cyborg 
 ### Programación e inteligencia artificial
 
-## Corrigiendo errores:
+# Corrigiendo errores:
 
 Lo mejor que podemos hacer para aprender algo es jugar. Y en ese juego, es normal cometer errores. Lo importante es aprender de ellos, para entenderlos y poco a poco corregirlos. Pero al comienzo es necesario hacer muchos experimentos y no tener miedo a cometer errores. Es mejor intentar diferentes ideas hasta que alguna funcione, que quedarnos sin hacer nada porque no sabemos que hacer. También la curiosidad puede mostrarnos cosas interesantes, todas las ideas son un camino hacia un nuevo descubrimiento.
 
+### Errores, comentarios y cadenas de texto
 Vamos a hacer algunos experimentos y modificaciones a nuestro programa de la sección anterior. Por ejemplo, podemos agregarle una línea inicial así: 
 
 {%highlight python%}
@@ -33,19 +34,27 @@ Podemos evitar este error de varias maneras:
 - Generando una cadena, encerrando entre comillas nuestro texto.  Si escribimos `'Hola, bienvenidos!'` o `"Hola, bienvenidos!"` estaremos formando un objeto válido en python. Una cadena (de tipo `str`). Si no la guardamos en ninguna parte, no pasará nada con esta cadena.
 - También es posible generar cadenas de varias líneas usando comillas triples. Por ejemplo
 
-```
+{%highlight python%} 
 """ 
 Hola, bienvenidos!
 
-Este es nuestro primer programa python en español.
 Este comentario es una cadena que ocupa varias líneas, y se encuentra 
 encerrado en comillas triples.
+
+Este programa no hace nada al ejecutarse.
 """
-```
+{%endhighlight%}
 
 - Si lo que queremos que nuestra cadena sea mostrada en pantalla y no sea ignorada, podemos usar el comando `print`. Así, si escribimos `print(Hola, bienvenidos!)` en nuestra primera línea, el programa nos mostrará esto en pantalla. También es posible imprimir cadenas de varias líneas.
 
 Muy bien, ya sabemos como resolver este primer problema, de tipo `NameError`.
+
+
+
+
+
+
+
 
 Ahora, nos preguntamos por la palabra `int`. Para entender su función, podemos ver que pasa si la quitamos de la primera línea.
 
@@ -80,7 +89,7 @@ TypeError: can only concatenate str (not "int") to str
 El error `TypeError` es causado porque en la línea 7, donde sumamos `a+b`, el tipo de las variables `a` y `b` no es compatible. En la siguiente sección aprenderemos un poco mas sobre [tipos de objetos](tiposdeObjetos.html).
 La función `input` genera siempre cadenas de tipo `str`, mientras que la función `int` transforma otros objetos en números enteros de tipo `int`.
 
-Una manera de corregir esto es eliminando la palabra `int`en ambas líneas.
+Una manera de corregir esto es eliminando la palabra `int` en ambas líneas.
 
 {%highlight python%}
 # Nuestro primer programa python en español
