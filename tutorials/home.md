@@ -12,8 +12,8 @@ También queremos dar algunas indicaciones para facilitar el trabajo usando la i
 
 ### Nuestro tutorial de python
 - [Primeras palabras en python](primerasPalabras.html)
-- [Tipos de objetos](tiposdeObjetos.html)
 - [Corrigiendo errores](corrigiendoErrores.html)
+- [Tipos de objetos](tiposdeObjetos.html)
 - [Condicionales y funciones lógicas](condicionalesyLogica.html)
 - [Loops e iteraciones](loopseIteraciones.html)
 
