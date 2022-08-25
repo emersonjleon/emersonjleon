@@ -27,25 +27,25 @@ Traceback (most recent call last):
     Hola, bienvenidos
 NameError: name 'Hola' is not defined
 ```
-Lo que nos dice este mensaje es lo siguiente: En la línea 1 de nuestro archivo (que aquí se llama `main.py`, pero podemos cambiarle el nombre), donde dice `Hola, bienvenidos` hay un error (llamado `NameError`) porque la palabra `'Hola'` no está definida.
+Lo que nos dice este mensaje es lo siguiente: En la línea 1 de nuestro archivo (que aquí se llama `main.py`, pero podemos cambiarle el nombre), donde dice `Hola, bienvenidos` se genera un error (llamado `NameError`) porque la palabra `'Hola'` no está definida.
 
 Podemos evitar este error de varias maneras:
 - Mediante un comentario, usando el símbolo `#`. De esta manera, si escribimos `# Hola, bienvenidos!`, esta línea será ignorada.
-- Generando una cadena, encerrando entre comillas nuestro texto.  Si escribimos `'Hola, bienvenidos!'` o `"Hola, bienvenidos!"` estaremos formando un objeto válido en python. Una cadena (de tipo `str`). Si no la guardamos en ninguna parte, no pasará nada con esta cadena.
+- Generando una cadena entre comillas.  Si escribimos `'Hola, bienvenidos!'` o `"Hola, bienvenidos!"` estaremos formando un objeto válido en python. Una cadena (de tipo `str`). Si no la guardamos en ninguna parte, no pasará nada con esta cadena. (Aunque lo recomendable para comentarios es usar `#`.)
 - También es posible generar cadenas de varias líneas usando comillas triples. Por ejemplo
 
 {%highlight python%} 
 """ 
 Hola, bienvenidos!
 
-Este comentario es una cadena que ocupa varias líneas, y se encuentra 
+Este comentario es una cadena que ocupa varias líneas y se encuentra 
 encerrado en comillas triples.
 
 Este programa no hace nada al ejecutarse.
 """
 {%endhighlight%}
 
-- Si lo que queremos que nuestra cadena sea mostrada en pantalla y no sea ignorada, podemos usar el comando `print`. Así, si escribimos `print(Hola, bienvenidos!)` en nuestra primera línea, el programa nos mostrará esto en pantalla. También es posible imprimir cadenas de varias líneas.
+- Si lo que queremos que nuestra cadena sea mostrada en pantalla y no sea ignorada, podemos usar el comando `print`. Así, si escribimos `print(Hola, bienvenidos!)` en nuestra primera línea, el programa nos mostrará esto en pantalla. También es posible imprimir cadenas de varias líneas que usan comillas triples.
 
 Muy bien, ya sabemos como resolver este primer problema, de tipo `NameError`.
 
@@ -56,7 +56,7 @@ Muy bien, ya sabemos como resolver este primer problema, de tipo `NameError`.
 
 
 
-Ahora, nos preguntamos por la palabra `int`. Para entender su función, podemos ver que pasa si la quitamos de la primera línea.
+Ahora, nos preguntamos para que sirve la palabra `int`. Para entender su función, podemos ver que pasa si la quitamos de la primera línea.
 
 
 {%highlight python%}
@@ -77,9 +77,9 @@ File "main.py", line 4
                                            ^
 SyntaxError: unmatched ')'
 ```
-Nos dice que hay un error de sintaxis (`SyntaxError`), pues hay un paréntesis que no está debidamente emparejado. El error se corrige simplemente quitando el último paréntesis (que aparece sobre el símbolo `^`).
+Nos dice que hay un error de sintaxis (`SyntaxError`), pues hay un paréntesis que no está debidamente emparejado. El error se corrige simplemente quitando el último paréntesis (que aparece sobre el símbolo `^`). No pasa nada si cometemos errores. Esto ocurre todo el tiempo.
 
-Luego de quitar este paréntesis, al corre el programa, es posible que obtengamos el siguiente error: 
+Luego de quitar este paréntesis, al correr el programa, es posible que obtengamos el siguiente error: 
 
 ```
 File "main.py", line 7, in <module>
