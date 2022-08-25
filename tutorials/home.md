@@ -23,4 +23,4 @@ También queremos dar algunas indicaciones para facilitar el trabajo usando la i
 
 ### Otros tutoriales
 - [w3schools](https://www.w3schools.com/js/default.asp){:target="_blank"} (javascript and python)
-- 
+- [Tutorial de python en español](https://docs.python.org/es/3/tutorial/){:target="_blank"}

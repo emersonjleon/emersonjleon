@@ -3,9 +3,9 @@
 
 ## Corrigiendo errores:
 
-Lo mejor que podemos hacer para aprender algo es jugar. Y en ese juego, es normal cometer errores. Lo importante es aprender de ellos, para corregirlos y poco a poco evitarlos. Pero al comienzo es necesario hacer muchos experimentos y no tener miedo a cometer errores. Es mejor intentar diferentes ideas hasta que alguna funcione, que quedarnos sin hacer nada porque no sabemos que hacer. También la curiosidad puede mostrarnos cosas interesantes, todas las ideas son un camino hacia un nuevo descubrimiento.
+Lo mejor que podemos hacer para aprender algo es jugar. Y en ese juego, es normal cometer errores. Lo importante es aprender de ellos, para entenderlos y poco a poco corregirlos. Pero al comienzo es necesario hacer muchos experimentos y no tener miedo a cometer errores. Es mejor intentar diferentes ideas hasta que alguna funcione, que quedarnos sin hacer nada porque no sabemos que hacer. También la curiosidad puede mostrarnos cosas interesantes, todas las ideas son un camino hacia un nuevo descubrimiento.
 
-Por ejemplo, podemos comenzar con nuestro programa de la sección anterior, y agregar una línea inicial:
+Vamos a hacer algunos experimentos y modificaciones a nuestro programa de la sección anterior. Por ejemplo, podemos agregarle una línea inicial así: 
 
 {%highlight python%}
 Hola, bienvenidos!
@@ -20,7 +20,8 @@ print(f'La suma de {a} y {b}  es { a+b }')
 Que pasa cuando corremos este programa?
 
 En la pantalla leeremos el siguiente texto.
-```Traceback (most recent call last):
+```
+Traceback (most recent call last):
   File "main.py", line 1, in <module>
     Hola, bienvenidos
 NameError: name 'Hola' is not defined
@@ -31,6 +32,7 @@ Podemos evitar este error de varias maneras:
 - Mediante un comentario, usando el símbolo `#`. De esta manera, si escribimos `# Hola, bienvenidos!`, esta línea será ignorada.
 - Generando una cadena, encerrando entre comillas nuestro texto.  Si escribimos `'Hola, bienvenidos!'` o `"Hola, bienvenidos!"` estaremos formando un objeto válido en python. Una cadena (de tipo `str`). Si no la guardamos en ninguna parte, no pasará nada con esta cadena.
 - También es posible generar cadenas de varias líneas usando comillas triples. Por ejemplo
+
 ```
 """ 
 Hola, bienvenidos!
@@ -40,6 +42,7 @@ Este comentario es una cadena que ocupa varias líneas, y se encuentra
 encerrado en comillas triples.
 """
 ```
+
 - Si lo que queremos que nuestra cadena sea mostrada en pantalla y no sea ignorada, podemos usar el comando `print`. Así, si escribimos `print(Hola, bienvenidos!)` en nuestra primera línea, el programa nos mostrará esto en pantalla. También es posible imprimir cadenas de varias líneas.
 
 Muy bien, ya sabemos como resolver este primer problema, de tipo `NameError`.
@@ -59,7 +62,8 @@ print(f'La suma de {a} y {b}  es { a+b }')
 
 Si corremos el anterior programa obtenemos el siguiente error:
 
-```File "main.py", line 4
+```
+File "main.py", line 4
     a = input('Ingrese el primer número: '))
                                            ^
 SyntaxError: unmatched ')'
@@ -68,7 +72,8 @@ Nos dice que hay un error de sintaxis (`SyntaxError`), pues hay un paréntesis q
 
 Luego de quitar este paréntesis, al corre el programa, es posible que obtengamos el siguiente error: 
 
-```File "main.py", line 7, in <module>
+```
+File "main.py", line 7, in <module>
     print(f'La suma de {a} y {b}  es { a+b }')
 TypeError: can only concatenate str (not "int") to str
 ```
