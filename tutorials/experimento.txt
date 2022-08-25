@@ -1,0 +1,106 @@
+queremos escribir un programa que ayude a coordinar los horarios de diferentes personas y elegir un horario adecuado para un evento. Para esto debemos seguir los siguientes pasos:
+1. elegir un lenguaje de programación adecuado. Hemos elegido Python por su legibilidad y porque nos permite realizar prototipos muy rápidamente.
+2. pensar en un algoritmo para elegir el horario.
+3. escribir el código para implementingar el algoritmo.
+4. probar el programa para asegurarnos de que funciona de manera adecuada.
+
+Para el código, necesitamos los siguientes pasos:
+1. solicitar los horarios de las personas
+2. almacenar los horarios en una lista
+3. ordenar la lista de horarios
+4. imprimir la lista de horarios
+
+El algoritmo para el primer paso sería el siguiente:
+1. solicitar el número de personas a las que se les solicitará el horario
+2. crear un bucle que solicite el horario de cada persona y lo almacene en una lista
+3. imprimir la lista de horarios
+
+El código para implementar este algoritmo sería el siguiente:
+
+n = int(input("¿Cuántas personas necesitas consultar? "))
+
+horarios = []
+
+for i in range(n):
+   horario = input("¿Cuál es su horario? ")
+   horarios.append(horario)
+
+print(horarios)
+
+
+############################
+//create a javascript form with a table of buttons, with columns for everyday of the week and several clickable buttons that change color when clicked, requesting to indicate the avaliable time of a person.
+//the form should allow to submit the data and send it to the server.
+
+var myForm = document.getElementById("myForm");
+
+function onSubmit() {
+    var day = document.getElementById("day");
+    var morning = document.getElementById("morning");
+    var afternoon = document.getElementById("afternoon");
+    var evening = document.getElementById("evening");
+
+    var data = {
+        day: day.value,
+        morning: morning.value,
+        afternoon: afternoon.value,
+        evening: evening.value
+    };
+
+    $.ajax({
+        type: 'POST',
+        url: '/myform',
+        data: data,
+        success: function(data) {
+            console.log('success', data);
+        },
+        error: function(data) {
+            console.log('error', data);
+        }
+    });
+}
+
+myForm.addEventListener("submit", function(e) {
+    e.preventDefault();
+    onSubmit();
+});
+
+\\The corresponding html is the following:
+
+<form id="myForm">
+    <table>
+        <tr>
+            <td>Day</td>
+            <td>
+                <select id="day">
+                    <option>Monday</option>
+                    <option>Tuesday</option>
+                    <option>Wednesday</option>
+                    <option>Thursday</option>
+                    <option>Friday</option>
+                    <option>Saturday</option>
+                    <option>Sunday</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Morning</td>
+            <td>
+                <button type="button" id="morning">Available</button>
+            </td>
+        </tr>
+        <tr>
+            <td>Afternoon</td>
+            <td>
+                <button type="button" id="afternoon">Available</button>
+            </td>
+        </tr>
+        <tr>
+            <td>Evening</td>
+            <td>
+                <button type="button" id="evening">Available</button>
+            </td>
+        </tr>
+    </table>
+    <input type="submit" value="Submit">
+</form>
