@@ -51,13 +51,27 @@ Ahora, nos preguntamos por la palabra `int`. Para entender su función, podemos 
 # Nuestro primer programa python en español
 print(Hola, bienvenidos!)
 
-a = input('Ingrese el primer número: ')
+a = input('Ingrese el primer número: '))
 b = int(input("Ingrese el segundo número: "))
 
 print(f'La suma de {a} y {b}  es { a+b }')
 {%endhighlight%}
 
-si corremos el anterior programa es posible que obtengamos el siguiente error
+Si corremos el anterior programa obtenemos el siguiente error:
+
+```File "main.py", line 4
+    a = input('Ingrese el primer número: '))
+                                           ^
+SyntaxError: unmatched ')'
+```
+Nos dice que hay un error de sintaxis (`SyntaxError`), pues hay un paréntesis que no está debidamente emparejado. El error se corrige simplemente quitando el último paréntesis (que aparece sobre el símbolo `^`). Luego de quitar este paréntesis, al corre el programa, es posible que obtengamos el siguiente error: 
+
+```File "main.py", line 7, in <module>
+    print(f'La suma de {a} y {b}  es { a+b }')
+TypeError: can only concatenate str (not "int") to str
+```
+
+
 
 
 {%highlight python%}
