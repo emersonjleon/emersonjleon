@@ -53,38 +53,7 @@ Genial, con esto hemos repasado todas las palabras y expresiones de nuestro prog
 
 
 ### Más ejemplos:
-Aunque las explicaciónes anteriores pueden ayudarnos, lo mejor que podemos hacer para aprender es jugar con lo que hemos aprendido, modificar diferentes partes del programa y luego ejecutarlas para ver que pasa, e intentar crear nuevas líneas de código con las palabras que hemos aprendido a manejar. Encontraremos algunas sorpresas que pueden generar preguntas, y algunos errores que nos pueden explicar como funciona python. En la sección [Corrigiendo errores](corrigiendoErrores.html) veremos algunas modificaciónes a este primer programa, y algunos errores que pueden aparecer, junto con consejos para corregirlos
+Aunque las explicaciónes anteriores pueden ayudarnos, lo mejor que podemos hacer para aprender es jugar con lo que hemos aprendido, modificar diferentes partes del programa y luego ejecutarlas para ver que pasa, e intentar crear nuevas líneas de código con las palabras que hemos aprendido a manejar. Encontraremos algunas sorpresas que pueden generar preguntas, y algunos errores que nos pueden explicar como funciona python. En la siguiente sección [Corrigiendo errores](corrigiendoErrores.html) veremos algunas modificaciónes a este primer programa, y algunos errores que pueden aparecer, junto con consejos para corregirlos.
 
-
-
-
-{%highlight python%}
-# Programa que pregunta tu nombre y luego saluda
-
-nombre = input('Cuál es tu nombre? ')
-print(f'Es un gusto saludarte, { nombre }')
-{%endhighlight%}
-
-
-
-
-Acá  hay un ejemplo en donde personalizamos la función suma y la llamamos 'miTotal'. Podríamos haberle puesto cualquier otro nombre
-
-
-
-
-{%highlight python%}
-# Definiendo una función personalizada "miTotal"
-
-def miTotal(a, b):
-    return (500*int(a) + 1000*int(b))
-
-print("Cuántos panes y cuántas bebidas? panes a 500, bebidas a 1000")
-a = input('panes: ')
-b = input('bebida: ')
-
-# 
-print(f'el precio total de {a} panes y {b} bebidas es { miTotal(a,b) }')
-{%endhighlight%}
 
 

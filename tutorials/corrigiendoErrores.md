@@ -64,14 +64,30 @@ Si corremos el anterior programa obtenemos el siguiente error:
                                            ^
 SyntaxError: unmatched ')'
 ```
-Nos dice que hay un error de sintaxis (`SyntaxError`), pues hay un paréntesis que no está debidamente emparejado. El error se corrige simplemente quitando el último paréntesis (que aparece sobre el símbolo `^`). Luego de quitar este paréntesis, al corre el programa, es posible que obtengamos el siguiente error: 
+Nos dice que hay un error de sintaxis (`SyntaxError`), pues hay un paréntesis que no está debidamente emparejado. El error se corrige simplemente quitando el último paréntesis (que aparece sobre el símbolo `^`).
+
+Luego de quitar este paréntesis, al corre el programa, es posible que obtengamos el siguiente error: 
 
 ```File "main.py", line 7, in <module>
     print(f'La suma de {a} y {b}  es { a+b }')
 TypeError: can only concatenate str (not "int") to str
 ```
+El error `TypeError` es causado porque en la línea 7, donde sumamos `a+b`, el tipo de las variables `a` y `b` no es compatible. En la siguiente sección aprenderemos un poco mas sobre [tipos de objetos](tiposdeObjetos.html).
+La función `input` genera siempre cadenas de tipo `str`, mientras que la función `int` transforma otros objetos en números enteros de tipo `int`.
 
+Una manera de corregir esto es eliminando la palabra `int`en ambas líneas.
 
+{%highlight python%}
+# Nuestro primer programa python en español
+print(Hola, bienvenidos!)
+
+a = input('Ingrese el primer número: ')
+b = input("Ingrese el segundo número: ")
+
+print(f'La suma de {a} y {b}  es { a+b }')
+{%endhighlight%}
+
+Si corremos el siguiente programa
 
 
 {%highlight python%}
