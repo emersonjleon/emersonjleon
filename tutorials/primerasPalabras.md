@@ -46,7 +46,7 @@ De esta forma, la última línea `print(f'La suma de {a} y {b}  es { a+b }')` no
 
 `La suma de 23 y 34  es 57`
 
-- Es posible hacer todo tipo de operaciones matemáticas en python. La suma se forma con el símbolo `+`, la resta con `-`, la multiplicación con `*` y la división con `/`. En la siguiente sección veremos más detalles sobre números y sus operaciónes.
+- Es posible hacer todo tipo de operaciones matemáticas en python. La suma se forma con el símbolo `+`, la resta con `-`, la multiplicación con `*` y la división con `/`. En la sección [Tipos de objetos](tiposdeObjetos.html) veremos más detalles sobre números y sus operaciónes.
 
 Genial, con esto hemos repasado todas las palabras y expresiones de nuestro programa!
 

@@ -34,7 +34,7 @@ En [online-python.com](https://www.online-python.com/){:target="_blank"} las lí
 
 Podemos evitar este error de varias maneras:
 - Mediante un comentario, usando el símbolo `#`. De esta manera, si escribimos `# Hola, bienvenidos!`, esta línea será ignorada.
-- Generando una cadena entre comillas.  Si escribimos `'Hola, bienvenidos!'` o `"Hola, bienvenidos!"` estaremos formando un objeto válido en python. Una cadena (de tipo `str`). Si no la guardamos en ninguna parte, no pasará nada con esta cadena. (Aunque lo recomendable para comentarios es usar `#`.)
+- Generando una cadena entre comillas.  Si escribimos `'Hola, bienvenidos!'` o `"Hola, bienvenidos!"` estaremos formando un objeto válido en python, una cadena (de tipo `str`). Si no la guardamos en ninguna parte, no pasará nada con esta cadena. (Aunque lo recomendable para crear comentarios es usar `#`.)
 - También es posible generar cadenas de varias líneas usando comillas triples. Por ejemplo
 
 {%highlight python%} """Hola, bienvenidos!
