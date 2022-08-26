@@ -1,13 +1,11 @@
-# Tutoriales Cyborg 
+## [Tutoriales Cyborg](home.html) 
 ### Programación e inteligencia artificial
 
-Un lenguaje de programación nos permite hablar con el computador, decirle lo que queremos que haga. Cada línea de código es un comando, y uniendo varias lineas podemos crear un programa. Todos los programas y aplicaciones que usamos a diario han sido programadas línea por línea. Podemos pensar que estos son los ladrillos que al unirse construyen el mundo virtual.
+# Primeras palabras en python
+Un lenguaje de programación nos permite hablar con el computador, decirle lo que queremos que haga. Cada línea de código es un comando, y uniendo varias lineas podemos crear un programa. Todos los programas y aplicaciones que usamos a diario han sido programadas línea por línea. Podemos pensar que estos son los ladrillos que al unirse construyen el mundo virtual. Y para aprender un lenguaje debemos comenzar por aprender el significado de algunas palabras y construir nuestras primeras frases. 
 
-## Primeras palabras en python
-
-En [online-python.com](https://www.online-python.com/){:target="_blank"} podemos correr programas de python directamente desde internet en el computador o teléfono móbil. Ahí tambien podemos guardar nuestros programas en archivos terminados en `.py`. Esto nos puede servir para  ejecutar los programas localmente, después de haber instalado `python3` en nuestro computador. Por el momento no tenemos que instalar nada para hacer nuestros primeros experimentos online.
-
-Al ingresar a [online-python.com](https://www.online-python.com/){:target="_blank"}, aparecerá un espacio de texto con un programa. Podemos correrlo oprimiendo **RUN**. También podemos modificarlo para hacer diferentes pruebas. En particular podemos cambiarlo por una versión simplificada en español:
+Para empezar vamos a visitar la página  [online-python.com](https://www.online-python.com/){:target="_blank"}, donde podemos correr programas de python directamente desde internet en el computador o teléfono móbil sin necesidad de instalar nada. 
+Al ingresar a [online-python.com](https://www.online-python.com/){:target="_blank"}, aparecerá un espacio de texto con un programa. Podemos correrlo oprimiendo **`RUN`**. También podemos modificarlo para hacer diferentes pruebas. En particular podemos cambiarlo por una versión simplificada en español:
 
 
 {%highlight python%}

@@ -1,11 +1,14 @@
-# Tutoriales Cyborg 
+## [Tutoriales Cyborg](home.html) 
 ### Programación e inteligencia artificial
 
-## Tipos de objetos
-En python estamos todo el tiempo manipulando diferentes tipos de objetos, como números, cadenas de caracteres, funciones, etc. En este capítulo explicaremos algunas nociones básicas de estos objetos. 
+# Tipos de objetos
+En python estamos todo el tiempo manipulando diferentes tipos de objetos, como números, cadenas de caracteres, funciones, etc. En este capítulo explicaremos algunas nociones básicas de estos objetos. Cada objeto tiene sus características y funciones particulares, así que es importante conocerlos para poder aprovechar todas sus funciones.
 
 
 ### Algunos tipos de objetos 
+El siguiente programa define varios objetos diferentes. En la parte final, le decimos que para cada uno de los objetos que hemos definido nos imprima el objeto, junto con el tipo del objeto, que podemos investigar mediante la función `type`, que para cada objeto `obj` nos devuelve su tipo de objeto al escribir `type(obj)`.
+
+Si ves cosas que no entiendes en este programa, no te preocupes, que lo estaremos explicando durante esta sección. 
 
 {%highlight python%}# Principales tipos de objetos
 a=1
@@ -23,6 +26,8 @@ j=type('1')
 for obj in [a, b, c, d, e, f, g, h, i, j]:
     print(obj, type(obj))
 {%endhighlight%}
+
+Ve a 
 
 
 

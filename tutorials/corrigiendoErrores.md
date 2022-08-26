@@ -1,7 +1,7 @@
-## Tutoriales Cyborg 
+## [Tutoriales Cyborg](home.html) 
 ### Programación e inteligencia artificial
 
-# Corrigiendo errores:
+# Corrigiendo errores
 
 Lo mejor que podemos hacer para aprender algo es jugar. Y en ese juego, es normal cometer errores. Lo importante es aprender de ellos, para entenderlos y poco a poco corregirlos. Pero al comienzo es necesario hacer muchos experimentos y no tener miedo a cometer errores. Es mejor intentar diferentes ideas hasta que alguna funcione, que quedarnos sin hacer nada porque no sabemos que hacer. También la curiosidad puede mostrarnos cosas interesantes, todas las ideas son un camino hacia un nuevo descubrimiento.
 
