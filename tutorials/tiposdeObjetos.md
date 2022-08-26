@@ -77,7 +77,7 @@ En el siguiente link puedes aprender mucho más sobre [números](https://docs.py
 ### Cadenas `str`
 
 En las secciones anteriores ya hemos hablado un poco de cadenas. Estas son de tipo 
-`str`. Ellas guardan el texto que escribimos de forma bastante natural, aunque existen algunos caracteres que pueden generar sorpresas. Aquí una tabla de algunas particularidades que usualmente involucran el caracter `\`.
+`str`. Ellas guardan el texto que escribimos de forma bastante natural, aunque existen algunos caracteres que pueden generar sorpresas. Aquí una tabla de algunas particularidades que usualmente involucran el carácter `\`.
 
 | se escribe     |  se obtiene      | ejemplo              | resultado     |
 |:--------------:|:----------------:|----------------------|---------------|
@@ -169,4 +169,4 @@ print(type(miTotal))
 
 Para aprender más sobre funciones puedes ir [aquí](https://docs.python.org/es/3/tutorial/controlflow.html#defining-functions).
 
-Hay muchas cosas por aprender! Espero que con paciencia puedan continuar investigando y creando programas con otras funciones de python. También pueden descubrir cosas interesantes en nuestra sección [Usando la inteligencia artificial](usandoAI.html) y en google pueden encontrar ayuda sobre todos los temas que quieran. La tecnología se encuentrá a nuestro alcance!
+Hay muchas cosas por aprender! Espero que con paciencia puedan continuar investigando y creando programas con otras funciones de python. También pueden descubrir cosas interesantes en nuestra sección [Usando la inteligencia artificial](usandoAI.html) y en google pueden encontrar ayuda sobre todos los temas que quieran. La tecnología se encuentra a nuestro alcance!
