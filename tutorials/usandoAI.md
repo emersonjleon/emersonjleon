@@ -9,8 +9,8 @@ En la programación clásica es necesario conocer los diferentes comandos de un 
 
 Mediante la inteligencia artificial, ahora es posible decirle al computador: "necesito un programa en lenguaje python que realize la siguiente tarea..." Esto es toda una revolución en el mundo de la programación.
 
-Por ejemplo, los siguientes programas fueron generados en [openAI](https://openai.com/api){:target="_blank"}, colocando la primera frase como comentario, y pidiendo a partir de ahí. Si hasta ahora estás comenzando a aprender a programar, los ejemplos pueden contener conceptos que aún no conoces. No te preocupes, esta es una oportunidad para investigar mas funciones de nuestro lenguaje. 
-
+Por ejemplo, los siguientes programas fueron generados en [openAI](https://openai.com/api){:target="_blank"}. 
+Para poder hacer esto, puedes ingresar a [openAI](https://openai.com/api){:target="_blank"} y registrarte usando tu e-mail o cuenta de google. Luego ingresa a la zona de _playground_ que es donde puedes hacer experimentos. Aquí tu ingresas un texto y al oprimir el boton **Submit**, la inteligencia artificial GPT-3 continuará el texto y hará lo que le pidas. Es posible pedirle todo tipo de cosas, como hacer el resumen de un texto, traducir, inventar historias, crear títulos para una historia, y mucho mas. Acá la usaremos para crear programas en python, colocando la primera frase como comentario, y pidiendo a partir de ahí que complete el texto del programa. Si hasta ahora estás comenzando a aprender a programar, los ejemplos pueden contener conceptos que aún no conoces. No te preocupes, esta es una oportunidad para investigar mas funciones de nuestro lenguaje. 
 
 
 {%highlight python%}# Programa de python que pregunta un número y determina si es primo o no.
