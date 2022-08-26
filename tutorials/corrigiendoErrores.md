@@ -56,8 +56,7 @@ Traceback (most recent call last):
                            ^
 SyntaxError: invalid syntax
 ```
-Nos dice que hay un error de sintaxis (`SyntaxError`), pues en la línea 2 hay un símbolo `!` que no está utilizándose de la manera adecuada. El punto donde se encuentra el error  aparece sobre el símbolo `^`.  El error se puede evitar quitando este signo de exclamación `!` que en python tiene varios posibles usos, pero que no nos interesan en este momento. Simplemente queremos imprimir una cadena y para esto es necesario que coloquemos comillas `""` o `''` al rededor de nuestro mensaje. 
-
+Nos dice que hay un error de sintaxis (`SyntaxError`), pues en la línea 2 hay un símbolo `!` que no está utilizándose de la manera adecuada. El punto donde se encuentra el error  aparece sobre el símbolo `^`.  El error se puede evitar quitando este signo de exclamación `!` que en python tiene varios posibles usos, pero que no nos interesan en este momento. Simplemente queremos imprimir una cadena y para esto es necesario que coloquemos comillas `""` o `''` al rededor de nuestro mensaje. Por lo tanto, la manera correcta de imprimir nuestro mensaje es `print('Hola, bienvenidos!')`.
 
 
 Muy bien, ya sabemos como resolver estos primeros problemas y escribir nuestro mensaje "Hola, bienvenidos!".
@@ -87,10 +86,10 @@ Este mensaje nos dice que tenemos un error (`ValueError`) en la linea 3, donde d
  `a = int(input('Ingrese el primer número: '))`, pues la función `int()` recibió un numeral invalido `'infinito'`. Esto ocurre porque python no sabe convertir la cadena `'infinito'` en un número entero en base 10.
 
 Incluso cadenas númericas con decimales como `'3,1416'`, `'-287.463'` pueden generar problemas de `ValueError`. (Para trabajar con números decimales necesitaríamos usar la función `'float'` en lugar de `'int'` y recordar usar un punto decimal `.` en vez de la coma, pues en python la coma `,` tiene otros usos.)
-Si la cadena que ingresamos muestra correctamente un numero entero, como `'17'`, `'287463'` o `'-8'`, no tendríamos ningun problema.
+Si la cadena que ingresamos muestra correctamente un numero entero, como `'17'`, `'287463'` o `'-8'`, no tendríamos ningun problema. En la sección [Tipos de objetos](tiposdeObjetos.html) hablaremos un poco más sobre objetos numéricos de tipo `int` y `float`.
 
 Ahora, que pasaría si para evitar este tipo de errores quitamos la palabra `int` de nuestra línea 3?
-Que nuevos tipos de errores podemos encontrar?
+Qué nuevos tipos de errores podemos encontrar? Qué podemos aprender de todo esto?
 
 - Un primer intento de quitar `int`  podria generar el siguiente programa. Podemos cortarlo y pegarlo en [online-python.com](https://www.online-python.com/){:target="_blank"} para ver lo que ocurre.
 
