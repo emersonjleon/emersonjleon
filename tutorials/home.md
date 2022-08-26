@@ -13,8 +13,8 @@ También queremos dar algunas indicaciones para facilitar el trabajo usando la i
 - [Primeras palabras en python](primerasPalabras.html)
 - [Corrigiendo errores](corrigiendoErrores.html)
 - [Tipos de objetos](tiposdeObjetos.html)
-[//]: # - [Condicionales y funciones lógicas](condicionalesyLogica.html)
-[//]: # - [Loops e iteraciones](loopseIteraciones.html)
+[//]: #( - [Condicionales y funciones lógicas](condicionalesyLogica.html))
+[//]: #( - [Loops e iteraciones](loopseIteraciones.html))
 
 ### Programando con Inteligencia Artificial
 - [Usando la inteligencia artificial](usandoAI.html)
