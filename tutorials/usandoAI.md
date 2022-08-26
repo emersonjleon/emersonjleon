@@ -1,5 +1,5 @@
-# Tutoriales Cyborg 
-## Programación e inteligencia artificial
+## Tutoriales Cyborg
+### [Programación e inteligencia artificial](home.html) 
 
 ### Introducción
 
@@ -9,9 +9,11 @@ En la programación clásica es necesario conocer los diferentes comandos de un 
 
 Mediante la inteligencia artificial, ahora es posible decirle al computador: "necesito un programa en lenguaje python que realize la siguiente tarea..." Esto es toda una revolución en el mundo de la programación.
 
-Por ejemplo, los siguientes programas fueron generados en [openAI](https://openai.com/api){:target="_blank"}. 
+
+Los siguientes programas fueron generados en [openAI](https://openai.com/api){:target="_blank"}. 
 Para poder hacer esto, puedes ingresar a [openAI](https://openai.com/api){:target="_blank"} y registrarte usando tu e-mail o cuenta de google. Luego ingresa a la zona de _playground_ que es donde puedes hacer experimentos. Aquí tu ingresas un texto y al oprimir el boton **Submit**, la inteligencia artificial GPT-3 continuará el texto y hará lo que le pidas. Es posible pedirle todo tipo de cosas, como hacer el resumen de un texto, traducir, inventar historias, crear títulos para una historia, y mucho mas. Acá la usaremos para crear programas en python, colocando la primera frase como comentario, y pidiendo a partir de ahí que complete el texto del programa. Si hasta ahora estás comenzando a aprender a programar, los siguientes ejemplos pueden contener conceptos que aún no conoces. No te preocupes, esta es una oportunidad para investigar mas funciones de nuestro lenguaje. 
 
+Por ejemplo, colocando `# Programa de python que pregunta un número y determina si es primo o no.` en el _playground_ obtuvimos el siguiente programa.
 
 {%highlight python%}# Programa de python que pregunta un número y determina si es primo o no.
 
@@ -28,8 +30,7 @@ else:
 		print("El número introducido es primo.")
 {%endhighlight%}
 
-Este programa usa condicionales mediante la palabras `if` y `else`. También utiliza iteraciones mediante la palabra `for`. Estos conceptos son muy importantes en programación. (Aquí)[https://docs.python.org/es/3/tutorial/controlflow.html]{:target="_blank"} puedes aprender más sobre estos temas y otras cosas que puedes hacer en python.
-
+Este programa usa condicionales mediante la palabras `if` y `else`. También utiliza iteraciones mediante la palabra `for` y la funcion `range`. Estos conceptos son muy importantes en programación. [Aquí](https://docs.python.org/es/3/tutorial/controlflow.html){:target="_blank"} puedes aprender más sobre estos temas y más.
 
 {%highlight python%}# Programa de python que calcula todos los divisores de un número n.
 
@@ -106,4 +107,4 @@ Este último programa es interesante, pues define una función llamada `binary(x
 Para terminar, te dejo un par de videos que muestran como esta inteligencia artificial puede lograr programas sorprendentes, usando **codex**. 
 
 - [Creating a Space Game with OpenAI Codex](https://www.youtube.com/watch?v=Zm9B-DvwOgw){:target="_blank"}
-- [Uso una IA para PROGRAMAR el JUEGO del Wordle! (y funciona) | CODEX](https://www.youtube.com/watch?v=FQqwynsDs7A){:target="_blank"}
+- [Uso una IA para PROGRAMAR el JUEGO del Wordle (y funciona). CODEX](https://www.youtube.com/watch?v=FQqwynsDs7A){:target="_blank"}
