@@ -72,7 +72,7 @@ Muy bien, ya sabemos como resolver estos primeros problemas y escribir nuestro m
 
 ###  Otros tipos de errores y analizando `int`
 En la [sección anterior](primerasPalabras.html)
- vimos que la función `int` podría ser la fuente de algunos errores al ejecutar nuestro programa. Por ejemplo, alguno de ustedes pudo haber obtenido algo como lo siguiente:
+ vimos que la función `int` podría ser la fuente de algunos errores al ejecutar nuestro programa. Por ejemplo, alguno de ustedes pudo haber obtenido algo como lo siguiente.
 
 ```
 Ingrese el primer número: 
@@ -105,7 +105,7 @@ print(f'La suma de {a} y {b}  es { a+b }')
 {%endhighlight%}
 
 
-- Si corremos el anterior programa obtenemos el siguiente error:
+- Si corremos el anterior programa obtenemos el siguiente error.
 ```
 File "main.py", line 4
     a = input('Ingrese el primer número: '))
@@ -136,7 +136,7 @@ b = input("Ingrese el segundo número: ")
 print(f'La suma de {a} y {b}  es { a+b }')
 {%endhighlight%}
 
-Este programa nos puede dar resultados inesperados como el siguiente:
+Este programa nos puede dar resultados inesperados como el siguiente.
 
 ```
 Hola, bienvenidos!
@@ -146,7 +146,8 @@ Ingrese el segundo número:
 34
 La suma de 12 y 34  es 1234
 ```
-Lo bueno es que ya no obtenemos ningún error y podemos ingresar todo tipo de texto. Otro posible resultado de nuestro programa podría ser así:
+
+Podemos ver que esta no es una suma normal... Algo diferente está ocurriendo. Lo bueno es que ya no obtenemos ningún error al ingresar todo tipo de texto. Por ejemplo, podríamos obtener lo siguiente. 
 
 ```
 Hola, bienvenidos!
@@ -161,10 +162,10 @@ La suma de coco y banano  es cocobanano
 
 Te invitamos a que realices mas experimentos con estos programas!
 
-##Mas ejemplos
+## Mas ejemplos
 Con esto que has aprendido, ya estás listo para crear tus primeros programas. ¿Qué otros experimentos se te ocurren? Yo se que hasta ahora estamos comenzando, pero es bueno practicar lo que hemos aprendido, crear tus primeras frases y ser creativos. 
 
-Acá hay algunos ejemplos de programas sencillos que te podrían dar más ideas. Modifícalos a tu antojo.
+Acá hay ejemplos de dos programas sencillos que te podrían dar más ideas para practicar lo que aprendiste. Modifícalos a tu antojo y diviértete.
 
 {%highlight python%}
 # Programa que pregunta tu nombre y luego saluda
@@ -177,8 +178,27 @@ print(f'Es un gusto saludarte, { nombre }')
 
 
 
+{%highlight python%} 
+# Programa de python que calcula el precio de un pedido, preguntando cuantos panes y cuantas bebidas se consumieron.
 
+#calcular precio de panes
+precio_pan = float(input("Introduzca el precio de un pan: "))
+numero_panes = int(input("Introduzca el número de panes: "))
+total_panes = precio_pan*numero_panes
 
+#calcular precio de bebidas
+precio_bebida = float(input("Introduzca el precio de una bebida: "))
+numero_bebidas = int(input("Introduzca el número de bebidas: "))
+total_bebidas = precio_bebida*numero_bebidas
+
+#calcular precio total del pedido
+total = total_panes+total_bebidas
+
+#mostrar resultado
+print("El precio total del pedido es:", total)
+{%endhighlight%}
+
+Este último programa fue generado usando la inteligencia artificial de [openAI](https://openai.com/api){:target="_blank"}, para ver más ejemplos y crear tus propios programas usando la inteligencia artificial, mira nuestra sección [Usando la inteligencia artificial](usandoAI.html).
 
 
 
