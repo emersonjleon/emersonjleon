@@ -62,7 +62,7 @@ print(j, type(j))
 
 
 
-
+[tutorial de python](https://docs.python.org/es/3/tutorial/introduction.html#numbers)
 
 ### Cadenas `str`
 
@@ -82,12 +82,19 @@ En las secciones anteriores ya hemos hablado un poco de cadenas. Estas son de ti
 |   `\n`         | <br> (nueva línea)  | `"1\n2 3"`        | `1`  <br> `2 3`   |
 
 
+[tutorial de python](https://docs.python.org/es/3/tutorial/introduction.html#strings)
+
+
 ### Valores de verdad `bool`
 
 
 ### Iterables `list` and `dict`
 
 
+
+[listas](https://docs.python.org/es/3/tutorial/introduction.html#lists)
+
+[diccionarios](https://docs.python.org/es/3/tutorial/datastructures.html#dictionaries)
 
 
 
