@@ -88,8 +88,8 @@ Este mensaje nos dice que tenemos un error (`ValueError`) en la linea 3, donde d
 Incluso cadenas numéricas con decimales como `'3,1416'`, `'-287.463'` pueden generar problemas de `ValueError`. (Para trabajar con números decimales necesitaríamos usar la función `'float'` en lugar de `'int'` y recordar usar un punto decimal `.` en vez de la coma, pues en python la coma `,` tiene otros usos.)
 Si la cadena que ingresamos muestra correctamente un numero entero, como `'17'`, `'287463'` o `'-8'`, no tendríamos ningún problema. En la sección [Tipos de objetos](tiposdeObjetos.html) hablaremos un poco más sobre objetos numéricos de tipo `int` y `float`.
 
-- Ahora, que pasaría si para evitar este tipo de errores quitamos la palabra `int` de nuestra línea 3?
-Qué nuevos tipos de errores podemos encontrar? Qué podemos aprender de todo esto?
+- Ahora, ¿qué pasaría si para evitar este tipo de errores quitamos la palabra `int` de nuestra línea 3?
+¿Qué nuevos tipos de errores podemos encontrar? ¿Qué podemos aprender de todo esto?
 
 Un primer intento de quitar `int`  podría generar el siguiente programa. Podemos cortarlo y pegarlo en [online-python.com](https://www.online-python.com/){:target="_blank"} para ver lo que ocurre.
 
@@ -157,19 +157,19 @@ banano
 La suma de coco y banano  es cocobanano
 ```
 
-Qué está pasando aquí? Ahora las variables `a` y `b` están recibiendo el resultado de la función `input`, que es siempre una cadena. Y cuando le pedimos que realice la operación `a+b` python entiende que debe realizar una suma de cadenas, una _concatenación_. Es decir, el resultado de `a+b` es una cadena que se forma poniendo primero los caracteres de la cadena `a` y luego los de `b`.
+¿Qué está pasando aquí? Ahora las variables `a` y `b` están recibiendo el resultado de la función `input`, que es siempre una cadena. Y cuando le pedimos que realice la operación `a+b` python entiende que debe realizar una suma de cadenas, una _concatenación_. Es decir, el resultado de `a+b` es una cadena que se forma poniendo primero los caracteres de la cadena `a` y luego los de `b`.
 
 Te invitamos a que realices mas experimentos con estos programas!
 
 ##Mas ejemplos
-Con esto que has aprendido, ya estás listo para crear tus primeros programas. Qué otros experimentos se te ocurren? Yo se que hasta ahora estamos comenzando, pero es bueno practicar lo que hemos aprendido, crear tus primeras frases y ser creativos. 
+Con esto que has aprendido, ya estás listo para crear tus primeros programas. ¿Qué otros experimentos se te ocurren? Yo se que hasta ahora estamos comenzando, pero es bueno practicar lo que hemos aprendido, crear tus primeras frases y ser creativos. 
 
 Acá hay algunos ejemplos de programas sencillos que te podrían dar más ideas. Modifícalos a tu antojo.
 
 {%highlight python%}
 # Programa que pregunta tu nombre y luego saluda
 
-nombre = input('Cuál es tu nombre? ')
+nombre = input('¿Cuál es tu nombre? ')
 print(f'Es un gusto saludarte, { nombre }')
 {%endhighlight%}
 

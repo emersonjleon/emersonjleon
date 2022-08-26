@@ -42,9 +42,13 @@ True <class 'bool'>
 <class 'str'> <class 'type'>
 ```
 
-Lo que nos dice este código es que el número 1 es de _clase_ `int`, la cadena 'hola' de clase `str`, el número 3.45 de clase `float`, y así sucesivamente. Lo que hace este programa cuando le decimos {%highlight python%}for obj in [a, b, c, d, e, f, g, h, i, j]:{%endhighlight%}
+Lo que nos dice este código es que el número 1 es de _clase_ `int`, la cadena 'hola' de clase `str`, el número 3.45 de clase `float`, y así sucesivamente. Algunas cosas parecen confusas por el momento, pero vamos a revisarlas con paciencia. Cuando mencionamos el _tipo_ de un objeto, nos referimos a la _clase_ del objeto, que obtenemos al usar la función `type`, estos dos conceptos son similares.
 
+Lo que hace este programa cuando le decimos
+{%highlight python%}for obj in [a, b, c, d, e, f, g, h, i, j]:
     print(obj, type(obj))
+{%endhighlight%}
+
 es equivalente a decirle
 {%highlight python%}print(a, type(a))
 print(b, type(b))
@@ -55,6 +59,9 @@ print(c, type(c))
    .
 print(j, type(j))
 {%endhighlight%}
+
+Al igual que `[1,2,3]`, el objeto `[a, b, c, d, e, f, g, h, i, j]` es un a lista. Un objeto tipo `list` (¿puedes comprobar esto usando python?)
+
 
 
 ### Números enteros `int` y decimales `float`
@@ -131,12 +138,12 @@ Acá  hay un ejemplo en donde personalizamos la función suma y la llamamos 'miT
 def miTotal(a, b):
     return (500*int(a) + 1000*int(b))
 
-print("Cuántos panes y cuántas bebidas? Panes a 500, Bebidas a 1000")
-a = input('panes: ')
-b = input('bebida: ')
+print("¿Cuántos panes y cuántas bebidas pidieron? Panes a 500, Bebidas a 1000")
+a = input('Panes: ')
+b = input('Bebida: ')
 
 # 
-print(f'el precio total de {a} panes y {b} bebidas es { miTotal(a,b) }')
+print(f'El precio total de {a} panes y {b} bebidas es { miTotal(a,b) }')
 print(type(miTotal))
 {%endhighlight%}
 
