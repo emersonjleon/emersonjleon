@@ -1,5 +1,5 @@
-## [Tutoriales Cyborg](home.html) 
-### Programación e inteligencia artificial
+## Tutoriales Cyborg
+### [Programación e inteligencia artificial](home.html) 
 
 # Tipos de objetos
 En python estamos todo el tiempo manipulando diferentes tipos de objetos, como números, cadenas de caracteres, funciones, etc. En este capítulo explicaremos algunas nociones básicas de estos objetos. Cada objeto tiene sus características y funciones particulares, así que es importante conocerlos para poder aprovechar todas sus funciones.
@@ -66,13 +66,20 @@ print(j, type(j))
 
 ### Cadenas `str`
 
+En las secciones anteriores ya hemos hablado un poco de cadenas. Estas son de tipo 
+
+
+
+
+
+
 
 | se escribe     |  se obtiene      | ejemplo              | resultado     |
 |:--------------:|:----------------:|----------------------|---------------|
 |   `\'`         | `'`              | `'What\'s up?'`      | `What's up?`    |
 |   `\"`         | `"`              | `"That's \"cool\""`  | `That's "cool"` |
 |   `\\`         | `\`              | `'una montaña: /\\'` | `una montaña: /\` |
-|   `\n`         | <br> (nueva linea)  | `"1\n2 3"`        | `1`  <br> `2 3`   |
+|   `\n`         | <br> (nueva línea)  | `"1\n2 3"`        | `1`  <br> `2 3`   |
 
 
 ### Valores de verdad `bool`
@@ -80,6 +87,51 @@ print(j, type(j))
 
 ### Iterables `list` and `dict`
 
+
+
+
+
+
+
 ### Funciones
+
+
+
+
+
+
+
+Al cargar la página de [online-python.com](https://www.online-python.com/){:target="_blank"} posiblemente te encontraste con este programa:
+```
+# Online Python - IDE, Editor, Compiler, Interpreter
+
+def sum(a, b):
+    return (a + b)
+
+a = int(input('Enter 1st number: '))
+b = int(input('Enter 2nd number: '))
+
+print(f'Sum of {a} and {b} is {sum(a, b)}')
+```
+Aunque es similar al programa con el que comenzamos, hay algo especial aquí, que es el uso de la palabra `def`. Esta palabra nos permite definir nuestras propias funciones. 
+
+
+Acá  hay un ejemplo en donde personalizamos la función suma y la llamamos 'miTotal'. Le incluimos las funciones `int` ahí, y la usamos para calcular el precio de unos desayunos. En lugar de 'miTotal' podríamos haberle puesto cualquier otro nombre para nuestra función.
+
+{%highlight python%}
+# Definiendo una función personalizada "miTotal"
+
+def miTotal(a, b):
+    return (500*int(a) + 1000*int(b))
+
+print("Cuántos panes y cuántas bebidas? Panes a 500, Bebidas a 1000")
+a = input('panes: ')
+b = input('bebida: ')
+
+# 
+print(f'el precio total de {a} panes y {b} bebidas es { miTotal(a,b) }')
+print(type(miTotal))
+{%endhighlight%}
+
 
 ### Objetos tipo `type`
