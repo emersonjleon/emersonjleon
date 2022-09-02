@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/emersonjleon/assets/css/style.css?v=9d6868b659e86375cf3d000ebe00c33624b7f3c3">
+    <link rel="stylesheet" href="cyborg.css">
+    <!-- start custom head snippets, customize with your own _includes/head-custom.html file -->
+
+<!-- Setup theme-color -->
+<!-- start theme color meta headers -->
+<meta name="theme-color" content="#151515">
+<meta name="msapplication-navbutton-color" content="#151515">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<!-- end theme color meta headers -->
+
+
+<!-- Setup Google Analytics -->
+
+
+
+<!-- You can set your favicon here -->
+<!-- link rel="shortcut icon" type="image/x-icon" href="/emersonjleon/favicon.ico" -->
+
+<!-- end custom head snippets -->
+
+
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Cyborg Shaman | emersonjleon</title>
+<meta name="generator" content="Jekyll v3.9.2" />
+<meta property="og:title" content="Cyborg Shaman" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Config files for my GitHub profile." />
+<meta property="og:description" content="Config files for my GitHub profile." />
+<link rel="canonical" href="https://emersonjleon.github.io/emersonjleon/cyborg.html" />
+<meta property="og:url" content="https://emersonjleon.github.io/emersonjleon/cyborg.html" />
+<meta property="og:site_name" content="emersonjleon" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Cyborg Shaman" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Config files for my GitHub profile.","headline":"Cyborg Shaman","url":"https://emersonjleon.github.io/emersonjleon/cyborg.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+  </head>
+
+  <body>
+
+    <header>
+      <div class="container">
+        <a id="a-title" href="/emersonjleon/">
+          <h1>emersonjleon</h1>
+        </a>
+        <h2>Config files for my GitHub profile.</h2>
+
+        <section id="downloads">
+          
+          <a href="https://github.com/emersonjleon/emersonjleon" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
+        </section>
+      </div>
+    </header>
+
+    <div class="container">
+      <section id="main_content">
+        <h1 id="cyborg-shaman">Cyborg Shaman</h1>
+
+<h2 id="tecnología-e-inteligencia-artificial">Tecnología e Inteligencia Artificial</h2>
+
+<h3 id="procesamiento-de-lenguaje">Procesamiento de lenguaje</h3>
+<ul>
+  <li><a href="https://cyborgshaman.pythonanywhere.com" target="_blank">Cyborg Shaman</a> creador de historias utilizando open AI (requiere claves)</li>
+  <li><a href="https://openai.com/api" target="_blank">openAI</a></li>
+</ul>
+
+<h3 id="imagenes">Imagenes</h3>
+<ul>
+  <li><a href="https://huggingface.co/spaces/dalle-mini/dalle-mini" target="_blank">Dall-E mini</a></li>
+  <li><a href="https://cyborgshaman.pythonanywhere.com/presentation" target="_blank">Presentación visual</a> de la tecnología, usando imagenes generadas por Dall-E mini.</li>
+  <li><a href="https://beta.dreamstudio.ai/dream">Dream Studio</a></li>
+  <li><a href="https://www.whichfaceisreal.com/index.php" target="_blank">Which face is real?</a></li>
+  <li><a href="http://gaugan.org/gaugan2" target="_blank">GauGAN</a></li>
+</ul>
+
+<h3 id="programación">Programación</h3>
+<ul>
+  <li><a href="https://www.online-python.com/" target="_blank">online python</a></li>
+  <li><a href="tutorials/home.html" target="_blank">tutoriales cyborg</a> Nuestros tutoriales de programación e inteligencia artificial</li>
+  <li><a href="https://www.w3schools.com/js/default.asp" target="_blank">w3schools tutorials</a> (python, javascript y más)</li>
+  <li><a href="https://github.com/emersonjleon/cyborgchaman" target="_blank">github</a> de Cyborg Shaman (acá puede descargarse la versión actual)</li>
+  <li><a href="https://pythonanywhere.com" target="_blank">pythonanywhere</a></li>
+  <li><a href="/emersonjleon/animation/animation.html" target="_blank">animación html</a></li>
+  <li><a href="/emersonjleon/animationmaster/index.html" target="_blank">animación 2</a></li>
+</ul>
+
+<h3 id="visualización-threejs">Visualización (three.js)</h3>
+
+<ul>
+  <li><a href="/emersonjleon/threejs/bspline6c.html" target="_blank">splines</a></li>
+  <li><a href="/emersonjleon/threejs/spikes.html" target="_blank">geometría</a></li>
+  <li><a href="/emersonjleon/threejs/arana.html" target="_blank">araña</a></li>
+  <li><a href="/emersonjleon/threejs/room.html" target="_blank">room</a></li>
+  <li><a href="/emersonjleon/threejs/darkroom.html" target="_blank">room 2</a></li>
+  <li><a href="/emersonjleon/threejs/projectionroom.html" target="_blank">room 3</a></li>
+</ul>
+
+<h3 id="música">Música</h3>
+<ul>
+  <li><a href="/emersonjleon/music/synth.html" target="_blank">synthetizer</a></li>
+  <li><a href="/emersonjleon/music/acordes.html" target="_blank">acordes</a></li>
+</ul>
+
+<h3 id="otros-links">Otros links</h3>
+<ul>
+  <li><a href="https://www.tercerpisodanza.com/" target="_blank">Tercer Piso Danza</a></li>
+  <li><a href="idartes.gov.co" target="_blank">Idartes</a></li>
+</ul>
+
+
+      </section>
+    </div>
+  </body>
+</html>
