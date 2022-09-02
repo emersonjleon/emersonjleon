@@ -121,8 +121,8 @@ input[type="submit"] {
   font-family: "Exo";
 
   background-image: url("little_cyborg_shaman_meditating_on_a_futuristic_galaxy.png");
-  width: cover;
-  height: 40%;
+  width: 100%;
+  height: 80%;
   background-position: 50% 50%;
   
 }
