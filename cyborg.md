@@ -22,6 +22,7 @@
 - [tutoriales cyborg](tutorials/home.html){:target="_blank"} Nuestros tutoriales de programación e inteligencia artificial
 - [w3schools tutorials](https://www.w3schools.com/js/default.asp){:target="_blank"} (python, javascript y más)
 - [github](https://github.com/emersonjleon/cyborgchaman){:target="_blank"} de Cyborg Shaman (acá puede descargarse la versión actual)
+- [El Cyborg Chamán](cyborgchaman.mkv){:target="_blank"}
 - [pythonanywhere](https://pythonanywhere.com){:target="_blank"}
 - [animación html](animation/animation.html){:target="_blank"}
 - [animación 2](animationmaster/index.html){:target="_blank"}
