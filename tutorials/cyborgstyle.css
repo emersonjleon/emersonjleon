@@ -65,10 +65,10 @@
 body{
     margin:0;
     padding:0;
-    background:#182222 url("../images/bkg.png") 0 0;
+    background:#152020 url("../images/bkg.png") 0 0;
     color:#ccf;
-    font-size:16px;
-    line-height:1.5;
+    font-size:14px;
+    line-height:1.2;
     
 }
 .container{
