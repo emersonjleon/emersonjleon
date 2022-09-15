@@ -1,0 +1,286 @@
+
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="cyborgstyle.css">
+    <!-- start custom head snippets, customize with your own _includes/head-custom.html file -->
+
+<!-- Setup theme-color -->
+<!-- start theme color meta headers -->
+<meta name="theme-color" content="#151515">
+<meta name="msapplication-navbutton-color" content="#151515">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<!-- end theme color meta headers -->
+
+
+<!-- Setup Google Analytics -->
+
+
+
+<!-- You can set your favicon here -->
+<!-- link rel="shortcut icon" type="image/x-icon" href="/emersonjleon/favicon.ico" -->
+
+<!-- end custom head snippets -->
+
+
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Tutoriales Cyborg | emersonjleon</title>
+<meta name="generator" content="Jekyll v3.9.2" />
+<meta property="og:title" content="Tutoriales Cyborg" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Config files for my GitHub profile." />
+<meta property="og:description" content="Config files for my GitHub profile." />
+<link rel="canonical" href="https://emersonjleon.github.io/emersonjleon/tutorials/home.html" />
+<meta property="og:url" content="https://emersonjleon.github.io/emersonjleon/tutorials/home.html" />
+<meta property="og:site_name" content="emersonjleon" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Tutoriales Cyborg" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Config files for my GitHub profile.","headline":"Tutoriales Cyborg","url":"https://emersonjleon.github.io/emersonjleon/tutorials/home.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link href='https://fonts.googleapis.com/css?family=Exo' rel='stylesheet'>
+
+  <style>
+    body {
+	font-family: 'Exo';font-size: 22px;
+    }
+  </style>
+
+
+
+
+
+  <link  rel="icon"  href="../style/littleshaman.png"  />
+
+  </head>
+
+  <body>
+
+
+    <div class="encabezado" class="header">
+      <section id="main_content">
+		<p style="margin-top:1cm;"></p>
+
+	      	<a href="https://elcyborgchaman.pythonanywhere.com" target='_blank'> <img style="margin-top:1cm;" src="cyborgshaman.jpg" width="80" height="80" cursor="default"   /> </a>
+
+		<h1 id="tutoriales-cyborg">El Cyborg Chamán</h1>
+		<p style="margin-bottom:3cm;"></p>
+
+		<h2 style="margin-top:-2cm;" id="programación-e-inteligencia-artificial" ><a href="home.html">Tutoriales cyborg</a></h2>
+		
+      </div>  
+
+    <div class="container">
+
+
+<h1 id="tipos-de-objetos">Tipos de objetos</h1>
+<p>En python estamos todo el tiempo manipulando diferentes tipos de objetos, como números, cadenas de caracteres, funciones, etc. En este capítulo explicaremos algunas nociones básicas de estos objetos. Cada objeto tiene sus características y funciones particulares, así que es importante conocerlos para poder aprovechar todas sus funciones.</p>
+
+<h3 id="algunos-tipos-de-objetos">Algunos tipos de objetos</h3>
+<p>El siguiente programa define varios objetos diferentes. En la parte final, le decimos que para cada uno de los objetos que hemos definido nos imprima el objeto, junto con el tipo del objeto, que podemos investigar mediante la función <code class="language-plaintext highlighter-rouge">type</code>, que para cada objeto <code class="language-plaintext highlighter-rouge">obj</code> nos dice que clase de objeto es, escribiendo <code class="language-plaintext highlighter-rouge">type(obj)</code>.</p>
+
+<p>Si ves cosas que no entiendes en este programa, no te preocupes, que lo estaremos explicando durante esta sección.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="c1"># Principales tipos de objetos
+</span><span class="n">a</span><span class="o">=</span><span class="mi">1</span>
+<span class="n">b</span><span class="o">=</span><span class="s">'hola'</span>
+<span class="n">c</span><span class="o">=</span><span class="mf">3.45</span>
+<span class="n">d</span><span class="o">=</span><span class="bp">True</span>
+<span class="n">e</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
+<span class="n">f</span><span class="o">=</span><span class="p">{</span><span class="s">'comida'</span><span class="p">:</span><span class="s">'arepa'</span><span class="p">,</span> <span class="s">'bebida'</span><span class="p">:</span><span class="s">'chocolate'</span><span class="p">}</span>
+<span class="n">g</span><span class="o">=</span><span class="k">print</span>
+<span class="n">h</span><span class="o">=</span><span class="nb">int</span>
+<span class="n">i</span><span class="o">=</span><span class="nb">type</span>
+<span class="n">j</span><span class="o">=</span><span class="nb">type</span><span class="p">(</span><span class="s">'1'</span><span class="p">)</span>
+
+
+<span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="p">[</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]:</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">obj</span><span class="p">))</span></code></pre></figure>
+
+<p>Ve a <a href="https://www.online-python.com/" target="_blank">online-python.com</a>, y ejecuta el código anterior. Si lo haces, obtendrás lo siguiente:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1 &lt;class 'int'&gt;
+hola &lt;class 'str'&gt;
+3.45 &lt;class 'float'&gt;
+True &lt;class 'bool'&gt;
+[1, 2, 3] &lt;class 'list'&gt;
+{'comida': 'arepa', 'bebida': 'chocolate'} &lt;class 'dict'&gt;
+&lt;built-in function print&gt; &lt;class 'builtin_function_or_method'&gt;
+&lt;class 'int'&gt; &lt;class 'type'&gt;
+&lt;class 'type'&gt; &lt;class 'type'&gt;
+&lt;class 'str'&gt; &lt;class 'type'&gt;
+</code></pre></div></div>
+
+<p>Lo que nos dice este código es que el número 1 es de <em>clase</em> <code class="language-plaintext highlighter-rouge">int</code>, la cadena ‘hola’ de clase <code class="language-plaintext highlighter-rouge">str</code>, el número 3.45 de clase <code class="language-plaintext highlighter-rouge">float</code>, y así sucesivamente. Algunas cosas parecen confusas por el momento, pero vamos a revisarlas con paciencia. Cuando mencionamos el <em>tipo</em> de un objeto, nos referimos a la <em>clase</em> del objeto, que obtenemos al usar la función <code class="language-plaintext highlighter-rouge">type</code>, estos dos conceptos son similares.</p>
+
+<p>Lo que hace este programa cuando le decimos</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="p">[</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]:</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">obj</span><span class="p">))</span></code></pre></figure>
+
+<p>es equivalente a decirle</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">print</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">a</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">b</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">b</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">c</span><span class="p">))</span>
+   <span class="p">.</span>
+   <span class="p">.</span>
+   <span class="p">.</span>
+<span class="k">print</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">j</span><span class="p">))</span></code></pre></figure>
+
+<p>Al igual que <code class="language-plaintext highlighter-rouge">[1,2,3]</code>, el objeto <code class="language-plaintext highlighter-rouge">[a, b, c, d, e, f, g, h, i, j]</code> es un a lista. Un objeto tipo <code class="language-plaintext highlighter-rouge">list</code> (¿puedes comprobar esto usando python?)
+<a href="https://docs.python.org/es/3/tutorial/controlflow.html" target="_blank">Aquí</a> puedes aprender más sobre el uso del comando <code class="language-plaintext highlighter-rouge">for</code>.</p>
+
+<h3 id="números-enteros-int-y-decimales-float">Números enteros <code class="language-plaintext highlighter-rouge">int</code> y decimales <code class="language-plaintext highlighter-rouge">float</code></h3>
+
+<p>Ya hemos hablado un poco sobre los números enteros <code class="language-plaintext highlighter-rouge">int</code>. De manera similar, es posible trabajar con decimales con <code class="language-plaintext highlighter-rouge">float</code>. Por ejemplo, la división de dos enteros <code class="language-plaintext highlighter-rouge">int</code> nos da como resultado un número tipo <code class="language-plaintext highlighter-rouge">float</code>. (¿puedes comprobar esto usando python?)</p>
+
+<p>En el siguiente link puedes aprender mucho más sobre <a href="https://docs.python.org/es/3/tutorial/introduction.html#numbers">números</a></p>
+
+<h3 id="cadenas-str">Cadenas <code class="language-plaintext highlighter-rouge">str</code></h3>
+
+<p>En las secciones anteriores ya hemos hablado un poco de cadenas. Estas son de tipo 
+<code class="language-plaintext highlighter-rouge">str</code>. Ellas guardan el texto que escribimos de forma bastante natural, aunque existen algunos caracteres que pueden generar sorpresas. Aquí una tabla de algunas particularidades que usualmente involucran el carácter <code class="language-plaintext highlighter-rouge">\</code>.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">se escribe</th>
+      <th style="text-align: center">se obtiene</th>
+      <th>ejemplo</th>
+      <th>resultado</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">\'</code></td>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">'</code></td>
+      <td><code class="language-plaintext highlighter-rouge">'What\'s up?'</code></td>
+      <td><code class="language-plaintext highlighter-rouge">What's up?</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">\"</code></td>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">"</code></td>
+      <td><code class="language-plaintext highlighter-rouge">"That's \"cool\""</code></td>
+      <td><code class="language-plaintext highlighter-rouge">That's "cool"</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">\\</code></td>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">\</code></td>
+      <td><code class="language-plaintext highlighter-rouge">'una montaña: /\\'</code></td>
+      <td><code class="language-plaintext highlighter-rouge">una montaña: /\</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><code class="language-plaintext highlighter-rouge">\n</code></td>
+      <td style="text-align: center"><br /> (nueva línea)</td>
+      <td><code class="language-plaintext highlighter-rouge">"1\n2 3"</code></td>
+      <td><code class="language-plaintext highlighter-rouge">1</code>  <br /> <code class="language-plaintext highlighter-rouge">2 3</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>En el siguiente link puedes aprender mucho más sobre <a href="https://docs.python.org/es/3/tutorial/introduction.html#strings" target="_blank">cadenas</a>.</p>
+
+<h3 id="valores-de-verdad-bool">Valores de verdad <code class="language-plaintext highlighter-rouge">bool</code></h3>
+<p>Existen dos valores Booleanos: verdadero y falso. En python se escriben <code class="language-plaintext highlighter-rouge">True</code> y <code class="language-plaintext highlighter-rouge">False</code> (las mayúsculas son importantes). También podemos hacer test que nos dan como resultado verdadero o falso. <code class="language-plaintext highlighter-rouge">True</code> y <code class="language-plaintext highlighter-rouge">False</code> son objetos tipo <code class="language-plaintext highlighter-rouge">bool</code></p>
+
+<p>Por ejemplo, si escribimos <code class="language-plaintext highlighter-rouge">5==5</code> estamos preguntando si 5 es igual a 5 y nos da como resultado <code class="language-plaintext highlighter-rouge">True</code>, mientras que <code class="language-plaintext highlighter-rouge">1+1==3</code> nos da como resultado <code class="language-plaintext highlighter-rouge">False</code>. Esto quiere decir que <code class="language-plaintext highlighter-rouge">==</code> es una forma de comparar dos valores y decidir si son iguales. Esto no debe confundirse con las asignaciones de variables usando un solo <code class="language-plaintext highlighter-rouge">=</code>.</p>
+
+<p>También podemos preguntar si <code class="language-plaintext highlighter-rouge">2&lt;5</code>, lo que nos producirá como resultado <code class="language-plaintext highlighter-rouge">True</code>. ¿Cuál será el resultado de <code class="language-plaintext highlighter-rouge">3+3&lt;5</code>? Puedes averiguarlo en python escribiendo <code class="language-plaintext highlighter-rouge">print(3+3&lt;5)</code> y corriendo el programa.</p>
+
+<p>Los valores <em>booleanos</em> son muy importantes en python, pues nos permiten ejecutar código si cierta condición es verdadera, y ejecutar otros comandos en caso que la condición sea falsa. Para esto, utilizamos las palabras <code class="language-plaintext highlighter-rouge">if</code> y <code class="language-plaintext highlighter-rouge">else</code>. Un ejemplo es el siguiente.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"> 
+<span class="c1"># Usando condicionales con las palabras if y else.
+</span><span class="n">numero</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s">"Introduce un número: "</span><span class="p">))</span>
+<span class="k">if</span> <span class="n">numero</span><span class="o">&gt;</span><span class="mi">10</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">'tu numero es mayor que 10'</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">'tu numero es menor o igual a 10'</span><span class="p">)</span></code></pre></figure>
+
+<p><a href="https://docs.python.org/es/3/tutorial/controlflow.html" target="_blank">Aquí</a> puedes aprender más sobre estos temas y más.</p>
+
+<h3 id="listas-tipo-list-y-diccionarios-tipo-dict">Listas tipo <code class="language-plaintext highlighter-rouge">list</code> y diccionarios tipo <code class="language-plaintext highlighter-rouge">dict</code></h3>
+<p>Hay muchos más objetos en python. Ya vimos algunas listas, como <code class="language-plaintext highlighter-rouge">[1,2,3]</code>. En nuestro ejemplo inicial vimos un objeto tipo <code class="language-plaintext highlighter-rouge">dict</code> que es llamado un diccionario.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"> <span class="c1"># Creando y usando un diccionario.
+</span><span class="n">desayuno</span> <span class="o">=</span> <span class="p">{</span><span class="s">'comida'</span><span class="p">:</span><span class="s">'arepa'</span><span class="p">,</span> <span class="s">'bebida'</span><span class="p">:</span><span class="s">'chocolate'</span><span class="p">}</span>
+<span class="k">print</span><span class="p">(</span><span class="n">desayuno</span><span class="p">[</span><span class="s">'comida'</span><span class="p">])</span>
+<span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">'La bebida de mi desayuno fue </span><span class="si">{</span><span class="n">desayuno</span><span class="p">[</span><span class="s">'bebida'</span><span class="p">]</span><span class="si">}</span><span class="s">.'</span><span class="p">)</span></code></pre></figure>
+
+<p>Acá puedes aprender más sobre <a href="https://docs.python.org/es/3/tutorial/introduction.html#lists" target="_blank">listas</a> y <a href="https://docs.python.org/es/3/tutorial/datastructures.html#dictionaries" target="_blank">diccionarios</a>.</p>
+
+<h3 id="funciones">Funciones</h3>
+<p>En el programa inicial de esta función descubrimos que la función <code class="language-plaintext highlighter-rouge">print</code> es una función tipo <code class="language-plaintext highlighter-rouge">'builtin_function_or_method'</code>. ¿Qué ocurrió cuando intentamos mostrar print (mediante <code class="language-plaintext highlighter-rouge">print(print)</code>)?</p>
+
+<p>Al cargar la página de <a href="https://www.online-python.com/" target="_blank">online-python.com</a> posiblemente te encontraste con este programa:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Online Python - IDE, Editor, Compiler, Interpreter
+
+def sum(a, b):
+    return (a + b)
+
+a = int(input('Enter 1st number: '))
+b = int(input('Enter 2nd number: '))
+
+print(f'Sum of {a} and {b} is {sum(a, b)}')
+</code></pre></div></div>
+
+<p>Aquí ellos definen la función <code class="language-plaintext highlighter-rouge">sum</code>. Aunque <code class="language-plaintext highlighter-rouge">sum</code> también es una función tipo <code class="language-plaintext highlighter-rouge">'builtin_function_or_method'</code>, al redefinirla, obtendremos otro tipo de función.</p>
+
+<p>Aunque es similar al programa con el que comenzamos, hay algo especial aquí, que es el uso de la palabra <code class="language-plaintext highlighter-rouge">def</code>. Esta palabra nos permite definir nuestras propias funciones.</p>
+
+<p>Acá  hay un ejemplo en donde personalizamos la función suma y la llamamos ‘miTotal’. Le incluimos las funciones <code class="language-plaintext highlighter-rouge">int</code> ahí, y la usamos para calcular el precio de unos desayunos. En lugar de ‘miTotal’ podríamos haberle puesto cualquier otro nombre para nuestra función.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="c1"># Definiendo una función personalizada "miTotal"
+</span>
+<span class="k">def</span> <span class="nf">miTotal</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="mi">500</span><span class="o">*</span><span class="nb">int</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1000</span><span class="o">*</span><span class="nb">int</span><span class="p">(</span><span class="n">b</span><span class="p">))</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s">"¿Cuántos panes y cuántas bebidas pidieron? Panes a 500, Bebidas a 1000"</span><span class="p">)</span>
+<span class="n">a</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s">'Panes: '</span><span class="p">)</span>
+<span class="n">b</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s">'Bebida: '</span><span class="p">)</span>
+
+<span class="c1"># 
+</span><span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">'El precio total de </span><span class="si">{</span><span class="n">a</span><span class="si">}</span><span class="s"> panes y </span><span class="si">{</span><span class="n">b</span><span class="si">}</span><span class="s"> bebidas es </span><span class="si">{</span> <span class="n">miTotal</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">)</span> <span class="si">}</span><span class="s">'</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">miTotal</span><span class="p">))</span></code></pre></figure>
+
+<p>Para aprender más sobre funciones puedes ir <a href="https://docs.python.org/es/3/tutorial/controlflow.html#defining-functions">aquí</a>.</p>
+
+<p>Hay muchas cosas por aprender! Espero que con paciencia puedan continuar investigando y creando programas con otras funciones de python. También pueden descubrir cosas interesantes en nuestra sección <a href="usandoAI.html">Usando la inteligencia artificial</a> y en google pueden encontrar ayuda sobre todos los temas que quieran. La tecnología se encuentra a nuestro alcance!</p>
+
+
+
+
+
+
+      
+      <h3 id="nuestro-tutorial-de-python">Nuestro tutorial de python</h3>
+      <ul>
+	<li><a href="primerasPalabras.html">Primeras palabras en python</a></li>
+	<li><a href="corrigiendoErrores.html">Corrigiendo errores</a></li>
+	<li><a href="tiposdeObjetos.html">Tipos de objetos</a></li>
+      </ul>
+      
+      <h3 id="programando-con-inteligencia-artificial">Programando con Inteligencia Artificial</h3>
+      <ul>
+	<li><a href="usandoAI.html">Usando la inteligencia artificial</a></li>
+      </ul>
+      
+      <h3 id="otros-tutoriales">Otros tutoriales</h3>
+      <ul>
+	<li><a href="https://docs.python.org/es/3/tutorial/" target="_blank">Tutorial de python en español</a></li>
+	<li><a href="https://www.w3schools.com/python/default.asp" target="_blank">w3schools</a> (python, javascript y más)</li>
+	<li><a href="https://pythones.net/" target="_blank">pythones.net</a> (tutorial en videos)</li>
+	<li><a href="https://colab.research.google.com/" target="_blank">colab</a></li>
+      </ul>
+
+      </section>
+    </div>
+  </body>
+</html>

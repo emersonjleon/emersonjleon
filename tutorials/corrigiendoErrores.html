@@ -1,0 +1,284 @@
+
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="cyborgstyle.css">
+    <!-- start custom head snippets, customize with your own _includes/head-custom.html file -->
+
+<!-- Setup theme-color -->
+<!-- start theme color meta headers -->
+<meta name="theme-color" content="#151515">
+<meta name="msapplication-navbutton-color" content="#151515">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<!-- end theme color meta headers -->
+
+
+<!-- Setup Google Analytics -->
+
+
+
+<!-- You can set your favicon here -->
+<!-- link rel="shortcut icon" type="image/x-icon" href="/emersonjleon/favicon.ico" -->
+
+<!-- end custom head snippets -->
+
+
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Tutoriales Cyborg | emersonjleon</title>
+<meta name="generator" content="Jekyll v3.9.2" />
+<meta property="og:title" content="Tutoriales Cyborg" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Config files for my GitHub profile." />
+<meta property="og:description" content="Config files for my GitHub profile." />
+<link rel="canonical" href="https://emersonjleon.github.io/emersonjleon/tutorials/home.html" />
+<meta property="og:url" content="https://emersonjleon.github.io/emersonjleon/tutorials/home.html" />
+<meta property="og:site_name" content="emersonjleon" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Tutoriales Cyborg" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Config files for my GitHub profile.","headline":"Tutoriales Cyborg","url":"https://emersonjleon.github.io/emersonjleon/tutorials/home.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link href='https://fonts.googleapis.com/css?family=Exo' rel='stylesheet'>
+
+  <style>
+    body {
+	font-family: 'Exo';font-size: 22px;
+    }
+  </style>
+
+
+
+
+
+  <link  rel="icon"  href="../style/littleshaman.png"  />
+
+  </head>
+
+  <body>
+
+
+    <div class="encabezado" class="header">
+      <section id="main_content">
+		<p style="margin-top:1cm;"></p>
+
+	      	<a href="https://elcyborgchaman.pythonanywhere.com" target='_blank'> <img style="margin-top:1cm;" src="cyborgshaman.jpg" width="80" height="80" cursor="default"   /> </a>
+
+		<h1 id="tutoriales-cyborg">El Cyborg Chamán</h1>
+		<p style="margin-bottom:3cm;"></p>
+
+		<h2 style="margin-top:-2cm;" id="programación-e-inteligencia-artificial" ><a href="home.html">Tutoriales cyborg</a></h2>
+		
+      </div>  
+
+    <div class="container">
+
+<h1 id="corrigiendo-errores">Corrigiendo errores</h1>
+
+<p>Lo mejor que podemos hacer para aprender algo es jugar. Y en ese juego, es normal cometer errores. Lo importante es aprender de ellos, para entenderlos y poco a poco corregirlos. Pero al comienzo es necesario hacer muchos experimentos y no tener miedo a cometer errores. Es mejor intentar diferentes ideas hasta que alguna funcione, que quedarnos sin hacer nada porque no sabemos que hacer. También la curiosidad puede mostrarnos cosas interesantes, todas las ideas son un camino hacia un nuevo descubrimiento.</p>
+
+<h3 id="palabras-indefinidas-comentarios-y-cadenas-de-texto">Palabras indefinidas, comentarios y cadenas de texto</h3>
+<p>Vamos a hacer algunos experimentos y modificaciones a nuestro programa de la sección anterior. Por ejemplo, podemos agregarle una línea inicial así:</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="n">Hola</span><span class="p">,</span> <span class="n">bienvenidos</span>
+<span class="c1"># Nuestro primer programa python en español
+</span>
+<span class="n">a</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s">'Ingrese el primer número: '</span><span class="p">))</span>
+<span class="n">b</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s">"Ingrese el segundo número: "</span><span class="p">))</span>
+
+<span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">'La suma de </span><span class="si">{</span><span class="n">a</span><span class="si">}</span><span class="s"> y </span><span class="si">{</span><span class="n">b</span><span class="si">}</span><span class="s">  es </span><span class="si">{</span> <span class="n">a</span><span class="o">+</span><span class="n">b</span> <span class="si">}</span><span class="s">'</span><span class="p">)</span></code></pre></figure>
+
+<p>Que pasa cuando corremos este programa?</p>
+
+<p>En la pantalla leeremos el siguiente texto.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  File "main.py", line 1, in &lt;module&gt;
+    Hola, bienvenidos
+NameError: name 'Hola' is not defined
+</code></pre></div></div>
+<p>Lo que nos dice este mensaje es lo siguiente: En la línea 1 de nuestro archivo (que aquí se llama <code class="language-plaintext highlighter-rouge">main.py</code>, pero podemos cambiarle el nombre), donde dice <code class="language-plaintext highlighter-rouge">Hola, bienvenidos</code> se genera un error (llamado <code class="language-plaintext highlighter-rouge">NameError</code>) porque la palabra <code class="language-plaintext highlighter-rouge">'Hola'</code> no está definida.</p>
+
+<p>En <a href="https://www.online-python.com/" target="_blank">online-python.com</a> las líneas de nuestro programa aparecen enumeradas para facilitar la busqueda. Esto es cierto también para la mayoría de editores de texto que nos pueden servir para escribir programas.</p>
+
+<p>Podemos evitar este error de varias maneras:</p>
+<ul>
+  <li>Mediante un comentario, usando el símbolo <code class="language-plaintext highlighter-rouge">#</code>. De esta manera, si escribimos <code class="language-plaintext highlighter-rouge"># Hola, bienvenidos!</code>, esta línea será ignorada.</li>
+  <li>Generando una cadena entre comillas.  Si escribimos <code class="language-plaintext highlighter-rouge">'Hola, bienvenidos!'</code> o <code class="language-plaintext highlighter-rouge">"Hola, bienvenidos!"</code> estaremos formando un objeto válido en python, una cadena (de tipo <code class="language-plaintext highlighter-rouge">str</code>). Si no la guardamos en ninguna parte, no pasará nada con esta cadena. (Aunque lo recomendable para crear comentarios es usar <code class="language-plaintext highlighter-rouge">#</code>.)</li>
+  <li>También es posible generar cadenas de varias líneas usando comillas triples. Por ejemplo</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"> <span class="s">"""Hola, bienvenidos!
+
+Este comentario es una cadena que ocupa varias líneas y se encuentra 
+encerrado en comillas triples.
+
+Este programa no hace nada al ejecutarse.
+"""</span></code></pre></figure>
+
+<ul>
+  <li>Si lo que queremos que nuestra cadena sea mostrada en pantalla y no sea ignorada, podemos usar el comando <code class="language-plaintext highlighter-rouge">print</code>. Así, si escribimos <code class="language-plaintext highlighter-rouge">print('Hola, bienvenidos!')</code>, el programa nos mostrará <code class="language-plaintext highlighter-rouge">Hola, bienvenidos!</code> en pantalla durante la ejecución. También es posible imprimir las cadenas de varias líneas que usan comillas triples.</li>
+</ul>
+
+<p>Si por ejemplo escribimos <code class="language-plaintext highlighter-rouge">print(Hola, bienvenidos!)</code> obtendríamos el siguiente mensaje:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Traceback (most recent call last):
+  File "main.py", line 1
+    print(Hola, bienvenidos!)
+                           ^
+SyntaxError: invalid syntax
+</code></pre></div></div>
+<p>Nos dice que hay un error de sintaxis (<code class="language-plaintext highlighter-rouge">SyntaxError</code>), pues en la línea 2 hay un símbolo <code class="language-plaintext highlighter-rouge">!</code> que no está utilizándose de la manera adecuada. El punto donde se encuentra el error  aparece sobre el símbolo <code class="language-plaintext highlighter-rouge">^</code>.  El error se puede evitar quitando este signo de exclamación <code class="language-plaintext highlighter-rouge">!</code> que en python tiene varios posibles usos, pero que no nos interesan en este momento. Simplemente queremos imprimir una cadena y para esto es necesario que coloquemos comillas <code class="language-plaintext highlighter-rouge">""</code> o <code class="language-plaintext highlighter-rouge">''</code> al rededor de nuestro mensaje. Por lo tanto, la manera correcta de imprimir nuestro mensaje es <code class="language-plaintext highlighter-rouge">print('Hola, bienvenidos!')</code>.</p>
+
+<p>Muy bien, ya sabemos como resolver estos primeros problemas y escribir nuestro mensaje “Hola, bienvenidos!”.</p>
+
+<h3 id="otros-tipos-de-errores-y-analizando-int">Otros tipos de errores y analizando <code class="language-plaintext highlighter-rouge">int</code></h3>
+<p>En la <a href="primerasPalabras.html">sección anterior</a>
+ vimos que la función <code class="language-plaintext highlighter-rouge">int</code> podría ser la fuente de algunos errores al ejecutar nuestro programa. Por ejemplo, alguno de ustedes pudo haber obtenido algo como lo siguiente.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Ingrese el primer número: 
+infinito
+Traceback (most recent call last):
+  File "main.py", line 3, in &lt;module&gt;
+    a = int(input('Ingrese el primer número: '))
+ValueError: invalid literal for int() with base 10: 'infinito'
+</code></pre></div></div>
+<p>Este mensaje nos dice que tenemos un error (<code class="language-plaintext highlighter-rouge">ValueError</code>) en la linea 3, donde dice
+ <code class="language-plaintext highlighter-rouge">a = int(input('Ingrese el primer número: '))</code>, pues la función <code class="language-plaintext highlighter-rouge">int()</code> recibió un numeral invalido <code class="language-plaintext highlighter-rouge">'infinito'</code>. Esto ocurre porque python no sabe convertir la cadena <code class="language-plaintext highlighter-rouge">'infinito'</code> en un número entero en base 10.</p>
+
+<p>Incluso cadenas numéricas con decimales como <code class="language-plaintext highlighter-rouge">'3,1416'</code>, <code class="language-plaintext highlighter-rouge">'-287.463'</code> pueden generar problemas de <code class="language-plaintext highlighter-rouge">ValueError</code>. (Para trabajar con números decimales necesitaríamos usar la función <code class="language-plaintext highlighter-rouge">'float'</code> en lugar de <code class="language-plaintext highlighter-rouge">'int'</code> y recordar usar un punto decimal <code class="language-plaintext highlighter-rouge">.</code> en vez de la coma, pues en python la coma <code class="language-plaintext highlighter-rouge">,</code> tiene otros usos.)
+Si la cadena que ingresamos muestra correctamente un numero entero, como <code class="language-plaintext highlighter-rouge">'17'</code>, <code class="language-plaintext highlighter-rouge">'287463'</code> o <code class="language-plaintext highlighter-rouge">'-8'</code>, no tendríamos ningún problema. En la sección <a href="tiposdeObjetos.html">Tipos de objetos</a> hablaremos un poco más sobre objetos numéricos de tipo <code class="language-plaintext highlighter-rouge">int</code> y <code class="language-plaintext highlighter-rouge">float</code>.</p>
+
+<ul>
+  <li>Ahora, ¿qué pasaría si para evitar este tipo de errores quitamos la palabra <code class="language-plaintext highlighter-rouge">int</code> de nuestra línea 3?
+¿Qué nuevos tipos de errores podemos encontrar? ¿Qué podemos aprender de todo esto?</li>
+</ul>
+
+<p>Un primer intento de quitar <code class="language-plaintext highlighter-rouge">int</code>  podría generar el siguiente programa. Podemos cortarlo y pegarlo en <a href="https://www.online-python.com/" target="_blank">online-python.com</a> para ver lo que ocurre.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="c1"># Modificando nuestro primer programa python en español
+</span><span class="k">print</span><span class="p">(</span><span class="s">'Hola, bienvenidos!'</span><span class="p">)</span>
+
+<span class="n">a</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s">'Ingrese el primer número: '</span><span class="p">))</span>
+<span class="n">b</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s">"Ingrese el segundo número: "</span><span class="p">))</span>
+
+<span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">'La suma de </span><span class="si">{</span><span class="n">a</span><span class="si">}</span><span class="s"> y </span><span class="si">{</span><span class="n">b</span><span class="si">}</span><span class="s">  es </span><span class="si">{</span> <span class="n">a</span><span class="o">+</span><span class="n">b</span> <span class="si">}</span><span class="s">'</span><span class="p">)</span></code></pre></figure>
+
+<ul>
+  <li>Si corremos el anterior programa obtenemos el siguiente error.
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>File "main.py", line 4
+  a = input('Ingrese el primer número: '))
+                                         ^
+SyntaxError: unmatched ')'
+</code></pre></div>    </div>
+    <p>Nos dice que hay un error de sintaxis (<code class="language-plaintext highlighter-rouge">SyntaxError</code>), pues hay un paréntesis que no está debidamente emparejado. El error se corrige simplemente quitando el último paréntesis (que aparece sobre el símbolo <code class="language-plaintext highlighter-rouge">^</code>). No pasa nada si cometemos errores. Es normal, esto ocurre todo el tiempo cuando estamos programando.</p>
+  </li>
+  <li>Luego de quitar este paréntesis, al correr el programa, es posible que obtengamos el siguiente error:</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>File "main.py", line 7, in &lt;module&gt;
+    print(f'La suma de {a} y {b}  es { a+b }')
+TypeError: can only concatenate str (not "int") to str
+</code></pre></div></div>
+<p>Este error (<code class="language-plaintext highlighter-rouge">TypeError</code>) es causado porque en la línea 7, donde sumamos <code class="language-plaintext highlighter-rouge">a+b</code>, el tipo de las variables <code class="language-plaintext highlighter-rouge">a</code> y <code class="language-plaintext highlighter-rouge">b</code> no es compatible. En la siguiente sección aprenderemos un poco mas sobre los <a href="tiposdeObjetos.html">tipos de objetos</a>.
+La función <code class="language-plaintext highlighter-rouge">input</code> genera siempre cadenas de tipo <code class="language-plaintext highlighter-rouge">str</code>, mientras que la función <code class="language-plaintext highlighter-rouge">int</code> transforma otros objetos en números enteros de tipo <code class="language-plaintext highlighter-rouge">int</code>.</p>
+
+<p>Una manera de corregir esto es eliminando la palabra <code class="language-plaintext highlighter-rouge">int</code> en ambas líneas. Así obtenemos el siguiente programa:</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="c1"># Modificando nuestro primer programa python en español
+</span><span class="k">print</span><span class="p">(</span><span class="s">'Hola, bienvenidos!'</span><span class="p">)</span>
+
+<span class="n">a</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s">'Ingrese el primer número: '</span><span class="p">)</span>
+<span class="n">b</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s">"Ingrese el segundo número: "</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">'La suma de </span><span class="si">{</span><span class="n">a</span><span class="si">}</span><span class="s"> y </span><span class="si">{</span><span class="n">b</span><span class="si">}</span><span class="s">  es </span><span class="si">{</span> <span class="n">a</span><span class="o">+</span><span class="n">b</span> <span class="si">}</span><span class="s">'</span><span class="p">)</span></code></pre></figure>
+
+<p>Este programa nos puede dar resultados inesperados como el siguiente.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Hola, bienvenidos!
+Ingrese el primer número: 
+12
+Ingrese el segundo número: 
+34
+La suma de 12 y 34  es 1234
+</code></pre></div></div>
+
+<p>Podemos ver que esta no es una suma normal… Algo diferente está ocurriendo. Lo bueno es que ya no obtenemos ningún error al ingresar todo tipo de texto. Por ejemplo, podríamos obtener lo siguiente.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Hola, bienvenidos!
+Ingrese el primer número: 
+coco
+Ingrese el segundo número: 
+banano
+La suma de coco y banano  es cocobanano
+</code></pre></div></div>
+
+<p>¿Qué está pasando aquí? Ahora las variables <code class="language-plaintext highlighter-rouge">a</code> y <code class="language-plaintext highlighter-rouge">b</code> están recibiendo el resultado de la función <code class="language-plaintext highlighter-rouge">input</code>, que es siempre una cadena. Y cuando le pedimos que realice la operación <code class="language-plaintext highlighter-rouge">a+b</code> python entiende que debe realizar una suma de cadenas, una <em>concatenación</em>. Es decir, el resultado de <code class="language-plaintext highlighter-rouge">a+b</code> es una cadena que se forma poniendo primero los caracteres de la cadena <code class="language-plaintext highlighter-rouge">a</code> y luego los de <code class="language-plaintext highlighter-rouge">b</code>.</p>
+
+<p>Te invitamos a que realices mas experimentos con estos programas!</p>
+
+<h2 id="mas-ejemplos">Mas ejemplos</h2>
+<p>Con esto que has aprendido, ya estás listo para crear tus primeros programas. ¿Qué otros experimentos se te ocurren? Yo se que hasta ahora estamos comenzando, pero es bueno practicar lo que hemos aprendido, crear tus primeras frases y ser creativos.</p>
+
+<p>Acá hay ejemplos de dos programas sencillos que te podrían dar más ideas para practicar lo que aprendiste. Modifícalos a tu antojo y diviértete.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="c1"># Programa que pregunta tu nombre y luego saluda
+</span>
+<span class="n">nombre</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s">'¿Cuál es tu nombre? '</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">'Es un gusto saludarte, </span><span class="si">{</span> <span class="n">nombre</span> <span class="si">}</span><span class="s">'</span><span class="p">)</span></code></pre></figure>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"> 
+<span class="c1"># Programa de python que calcula el precio de un pedido, preguntando cuantos panes y cuantas bebidas se consumieron.
+</span>
+<span class="c1">#calcular precio de panes
+</span><span class="n">precio_pan</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s">"Introduzca el precio de un pan: "</span><span class="p">))</span>
+<span class="n">numero_panes</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s">"Introduzca el número de panes: "</span><span class="p">))</span>
+<span class="n">total_panes</span> <span class="o">=</span> <span class="n">precio_pan</span><span class="o">*</span><span class="n">numero_panes</span>
+
+<span class="c1">#calcular precio de bebidas
+</span><span class="n">precio_bebida</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s">"Introduzca el precio de una bebida: "</span><span class="p">))</span>
+<span class="n">numero_bebidas</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s">"Introduzca el número de bebidas: "</span><span class="p">))</span>
+<span class="n">total_bebidas</span> <span class="o">=</span> <span class="n">precio_bebida</span><span class="o">*</span><span class="n">numero_bebidas</span>
+
+<span class="c1">#calcular precio total del pedido
+</span><span class="n">total</span> <span class="o">=</span> <span class="n">total_panes</span><span class="o">+</span><span class="n">total_bebidas</span>
+
+<span class="c1">#mostrar resultado
+</span><span class="k">print</span><span class="p">(</span><span class="s">"El precio total del pedido es:"</span><span class="p">,</span> <span class="n">total</span><span class="p">)</span></code></pre></figure>
+
+<p>Este último programa fue generado usando la inteligencia artificial de <a href="https://openai.com/api" target="_blank">openAI</a>, para ver más ejemplos y crear tus propios programas usando la inteligencia artificial, mira nuestra sección <a href="usandoAI.html">Usando la inteligencia artificial</a>.</p>
+
+
+
+
+
+
+
+
+      
+      <h3 id="nuestro-tutorial-de-python">Nuestro tutorial de python</h3>
+      <ul>
+	<li><a href="primerasPalabras.html">Primeras palabras en python</a></li>
+	<li><a href="corrigiendoErrores.html">Corrigiendo errores</a></li>
+	<li><a href="tiposdeObjetos.html">Tipos de objetos</a></li>
+      </ul>
+      
+      <h3 id="programando-con-inteligencia-artificial">Programando con Inteligencia Artificial</h3>
+      <ul>
+	<li><a href="usandoAI.html">Usando la inteligencia artificial</a></li>
+      </ul>
+      
+      <h3 id="otros-tutoriales">Otros tutoriales</h3>
+      <ul>
+	<li><a href="https://docs.python.org/es/3/tutorial/" target="_blank">Tutorial de python en español</a></li>
+	<li><a href="https://www.w3schools.com/python/default.asp" target="_blank">w3schools</a> (python, javascript y más)</li>
+	<li><a href="https://pythones.net/" target="_blank">pythones.net</a> (tutorial en videos)</li>
+	<li><a href="https://colab.research.google.com/" target="_blank">colab</a></li>
+      </ul>
+
+      </section>
+    </div>
+  </body>
+</html>

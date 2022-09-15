@@ -36,8 +36,8 @@ realiza las siguientes cosas:
 Con esto, hemos descifrado lo que realiza nuestra primera línea de código! De manera similar, la línea `b = int(input('Ingrese el segundo número: '))` nos preguntará un segundo número, que debe ser entero.
 
 Para la última línea tenemos las siguientes palabras:
-- `print('cadena de texto') muestra en la pantalla nuestra `cadena de texto`. Es la forma básica para que el computador nos comparta información.
-- Las 'cadenas de texto' son tomadas de forma literal para formar un objeto de tipo`str` (más sobre [tipos de objetos](capitulo2.html) en la siguiente sección). Es posible guardarlas en una variable. si escribimos  `mitexto='cadena de texto'`
+- `print('cadena de texto')` muestra en la pantalla nuestra `cadena de texto`. Es la forma básica para que el computador nos comparta información.
+- Las 'cadenas de texto' son tomadas de forma literal para formar un objeto de tipo `str` (más sobre [tipos de objetos](capitulo2.html) en la siguiente sección). Es posible guardarlas en una variable. si escribimos  `mitexto='cadena de texto'`
 - Las cadenas formateadas `f'...'` no son tomados literalmente, sino que evalúan los elementos entre corchetes {} colocando ahí el resultado.
 
 De esta forma, la última línea `print(f'La suma de {a} y {b}  es { a+b }')` nos mostrará en la pantalla un texto que se obtiene al reemplazar `{a}` por el valor númerico guardado en `a` en la primera línea, `{b}` por el número guardado en `b` y { a+b } por el número que se obtiene al sumar `a` y `b`. Así, por ejemplo, si ingresamos en nuestro programa los números 23 y 34, el programa imprimirá
