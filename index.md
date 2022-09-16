@@ -42,7 +42,12 @@ You can use the [editor on GitHub](https://github.com/emersonjleon/emersonjleon/
 - [pythonanywhere](https://pythonanywhere.com)
 - [animation](/animation/animation.html)
 - [github](https://github.com/emersonjleon/cyborgchaman){:target="_blank"} de Cyborg Shaman (acá puede descargarse la versión actual)
+- [video cyborg chamán](cyborgchaman.mkv){:target="_blank"}
+
 - [animación html](animation/animation.html){:target="_blank"}
+- [pythonanywhere](https://pythonanywhere.com){:target="_blank"}
+- [online python](https://www.online-python.com/){:target="_blank"}
+
 
 ### Visualización 
 
