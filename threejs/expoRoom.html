@@ -19,22 +19,15 @@
 </head>
 
 <body>
-  <video id="video" width='1366' height='768' loop style="display:none">
-    <!--source src="projection/strangeroom.mkv" type="video/mkv" codecs="H.264, vorbis"-->
-  </video>
-
-  <!--video id="video" loop crossOrigin="anonymous" playsinline style="display:none">
-    <source src="textures/sintel.ogv" type='video/ogg; codecs="theora, vorbis"'>
-      <source src="textures/sintel.mp4" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'>
-  </video-->
+  <video id="video" width='1366' height='768' loop style="display:none"></video>
   
   
     <script src="js/three.js"></script>
-    <!-- <script src="js/controls/OrbitControls.js"></script> -->
+    <script src="js/controls/OrbitControls.js"></script>
     <script src="js/csg.js"></script>
     <script src="js/THREE.CSG.js"></script>
     <script src="js/WebGL.js"></script>
- <script src="https://gist.github.com/XanderLuciano/5ce51976fd18beffdc118fd29b547c05.js"></script>
+ <!-- <script src="https://gist.github.com/XanderLuciano/5ce51976fd18beffdc118fd29b547c05.js"></script> -->
     <script>
 
       if (WEBGL.isWebGLAvailable() === false) {
@@ -80,6 +73,8 @@
           renderer.setSize(window.innerWidth, window.innerHeight);
           document.body.appendChild(renderer.domElement);
           controls = new THREE.OrbitControls(camera, renderer.domElement);
+
+	  controls.panSpeed= 2;
 	  
           //ELEMENTOS COMUNES
 	  var pihalf=THREE.Math.degToRad(90);
