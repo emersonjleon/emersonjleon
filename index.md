@@ -25,6 +25,8 @@ You can use the [editor on GitHub](https://github.com/emersonjleon/emersonjleon/
 - [stairway](stereographic/first.md)
 - [room](/threejs/room.html)
 - [dark room](/threejs/darkroom.html)
+- [Exposition room](/threejs/expoRoom.html)
+- [Gabi room](/threejs/escenaluz.html)
 
 [//]: # (comments are strange here...)
 
