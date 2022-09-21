@@ -93,6 +93,7 @@
           var colorB = new THREE.Color(0xffffff);
           //  var colorPa = new THREE.Color(0xfccd6f);
           var colorPa = new THREE.Color(0xfcb16f);
+          var colorVerde = new THREE.Color(0x069132);
           //var colorPa = new THREE.Color(0xf1f1f1);
 	  
           //CREAR LAS GRILLAS PARA EL ESCENARIO
@@ -186,6 +187,8 @@
           var boxGeometry = new THREE.BoxGeometry(roomsizex, 40, roomsizez);
           var boxGeometry2 = new THREE.BoxGeometry(roomsizex-2, 38, roomsizez);
 	  var blackBox = new THREE.BoxGeometry(roomsizex+10, 40+10, roomsizez+10);
+
+          var planoVerde = new THREE.PlaneGeometry(200, 200);
 	  //puerta
           var plano = new THREE.PlaneGeometry(9, 30);
 	  //madera pared
@@ -372,6 +375,13 @@
               //map: woodBase,
               //normalMap: woodNormal,
           });
+	  var materialVerde = new THREE.MeshStandardMaterial({
+              color: colorVerde,
+              metalness: 0,
+              roughness: 0.6,
+              //map: woodBase,
+              //normalMap: woodNormal,
+          });
 	  
           var materialPiso = new THREE.MeshStandardMaterial({
               //color: colorTinto,
@@ -396,6 +406,14 @@
 	  var box3 = new THREE.Mesh(blackBox);
           box3.material= materialPareNegra;
 	  
+	  //piso verde
+          var pV = new THREE.Mesh(planoVerde, materialVerde);
+          pV.rotateX(1.5708);
+          //par2.rotateZ(-1.5708);
+          par2.position.y = -200;
+	  scene.add(pV);
+
+
 	  //pared izquierda
           var par2 = new THREE.Mesh(planoPar, materialParedPuerta);
           par2.rotateY(1.5708);
