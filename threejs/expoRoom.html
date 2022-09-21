@@ -115,8 +115,8 @@
 	  scene.add(hemiLight);
 
 
-	  var sunLight = new THREE.SpotLight(0xffff88, 1, 2000,0.5,0);
-          sunLight.position.set(3*roomsizex, 50*roomsizex, 2*roomsizez);
+	  var sunLight = new THREE.SpotLight(0xffff88, 1, 5000, 0.5,0);
+          sunLight.position.set(300, 500, 200);
           scene.add(sunLight);
 
 
@@ -188,7 +188,7 @@
           var boxGeometry2 = new THREE.BoxGeometry(roomsizex-2, 38, roomsizez);
 	  var blackBox = new THREE.BoxGeometry(roomsizex+10, 40+10, roomsizez+10);
 
-          var planoVerde = new THREE.PlaneGeometry(200, 200);
+          var planoVerde = new THREE.PlaneGeometry(2000, 2000);
 	  //puerta
           var plano = new THREE.PlaneGeometry(9, 30);
 	  //madera pared
