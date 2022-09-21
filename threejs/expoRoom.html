@@ -408,7 +408,7 @@
 	  
 	  //piso verde
           var pV = new THREE.Mesh(planoVerde, materialVerde);
-          pV.rotateX(1.5708);
+          pV.rotateX(-1.5708);
           //par2.rotateZ(-1.5708);
           pV.position.y = -200;
 	  scene.add(pV);
@@ -704,9 +704,7 @@
 
 	  //piso
           scene.add(piso);
-	  piso.position.y=-40;
-	  scene.add(piso);
-
+	  
           scene.add(manubrio);
           scene.add(b1);
           scene.add(b2);
