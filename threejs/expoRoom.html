@@ -771,6 +771,22 @@
 	  //stats.update();
       }
 
+
+      function toggleVideoView()
+      {
+	  var isvideoplaying=0;
+	  if ( isvideoplaying==0 ) // s, stop video
+	  {
+	      video.play();
+	      isvideoplaying=1;
+	  } else {
+	      video.pause();
+	      isvideoplaying=0;
+	  }
+	  
+      }
+
+      
       function render() {
 	  if (usevideo==1)
 	  {	
@@ -789,7 +805,7 @@
       
 	  
     </script>
-    <button id='button' style="left:12%; top:75%; z-index: 10;" onClick="video.play() "> p </button>
+    <button id='button' style="left:12%; top:75%; z-index: 10;" onClick="toggleVideoView() "> p </button>
     
 </body>
 
