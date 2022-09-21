@@ -207,6 +207,11 @@
               roughness: 0.5,
 	      metalness: 0.1,
           });
+          var materialPareNegra = new THREE.MeshStandardMaterial({
+              color: 0x010101,
+              roughness: 0.5,
+	      metalness: 0.1,
+          });
           var materialPared = new THREE.MeshStandardMaterial({
               color: colorB,
               metalness: 0,
@@ -373,7 +378,7 @@
           var box2CSG = THREE.CSG.fromMesh(box2);
           var result = box1CSG.subtract(box2CSG);
           var pasillo = THREE.CSG.toMesh(result);
-          pasillo.material = materialPare;
+          pasillo.material = materialPareNegra;
 	  
 	  
 	  //pared izquierda
@@ -685,7 +690,7 @@
 
 	  
           camera.position.x = 0;
-          camera.position.y = 1;
+          camera.position.y = 10;
           camera.position.z = 2.7;
           camera.lookAt(origin);
       }
