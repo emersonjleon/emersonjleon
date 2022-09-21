@@ -172,6 +172,7 @@
 	  
           var boxGeometry = new THREE.BoxGeometry(roomsizex, 40, roomsizez);
           var boxGeometry2 = new THREE.BoxGeometry(roomsizex-2, 38, roomsizez);
+	  var blackBox = new THREE.BoxGeometry(roomsizex+1, 40+1, roomsizez+1);
 	  //puerta
           var plano = new THREE.PlaneGeometry(9, 30);
 	  //madera pared
@@ -378,8 +379,9 @@
           var box2CSG = THREE.CSG.fromMesh(box2);
           var result = box1CSG.subtract(box2CSG);
           var pasillo = THREE.CSG.toMesh(result);
-          pasillo.material = materialPareNegra;
-	  
+          pasillo.material = materialPare;
+	  var box3 = new THREE.Mesh(blackBox);
+          box3.material= materialPareNegra;
 	  
 	  //pared izquierda
           var par2 = new THREE.Mesh(planoPar, materialParedPuerta);
