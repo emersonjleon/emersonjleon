@@ -822,10 +822,12 @@
 	      video.play();
 	      isvideoplaying=1;
 	  }
-	  else if( isvideoplaying==0 ) // pause video
-	  {
-	      video.pause();
-	      isvideoplaying=0;
+	  else {
+	      if( isvideoplaying==1 ) // pause video
+	      {
+		  video.pause();
+		  isvideoplaying=0;
+	      }
 	  }
 	  
       }
