@@ -112,12 +112,21 @@
           scene.add(ambient);
 	  hemiLight = new THREE.HemisphereLight( 0x0000ff, 0x008800, 0.6 );
 	  scene.add(hemiLight);
+
+
+	  var sunLight = new THREE.PointLight(0xffff88, 3, 500);
+          suntLight.position.set(5*roomsizex, 10*roomsizex, 2*roomsizez);
+          scene.add(pointLight);
+
+
 	  
 	  //green light
           var pointLight = new THREE.PointLight(0x00ff00, 3, 50);
           pointLight.position.set(roomsizex/2, -10, -roomsizez/2);
           scene.add(pointLight);
 
+	  
+	  
 	  //yellow light
           var pointLight2 = new THREE.PointLight(0xffff00, 3, 50);
           pointLight2.position.set(-roomsizex/2, 10, -roomsizez/2);
