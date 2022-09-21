@@ -107,7 +107,7 @@
 
 	  
           //CREAR ILUMINACIÓN
-          var ambient = new THREE.AmbientLight(0x5588aa, 0.6);
+          var ambient = new THREE.AmbientLight(0xbbbbff, 0.8);
           scene.add(ambient);
 
 	  //green light
@@ -172,7 +172,7 @@
 	  
           var boxGeometry = new THREE.BoxGeometry(roomsizex, 40, roomsizez);
           var boxGeometry2 = new THREE.BoxGeometry(roomsizex-2, 38, roomsizez);
-	  var blackBox = new THREE.BoxGeometry(roomsizex+1, 40+1, roomsizez+1);
+	  var blackBox = new THREE.BoxGeometry(roomsizex+10, 40+10, roomsizez+10);
 	  //puerta
           var plano = new THREE.PlaneGeometry(9, 30);
 	  //madera pared
