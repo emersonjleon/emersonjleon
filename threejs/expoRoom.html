@@ -163,8 +163,9 @@
 	  // }
 
 	  var nlights=5;
+	  looplight = new THREE.PointLight(0x2299aa, 4, 30);
 	  for (let i = 1; i < nlights+1;  i++) {
-	      looplight = new THREE.PointLight(0x2299aa, 4, 30);
+	      
 	      looplight.position.set((roomsizex-5)/2,9, -roomsizez/2+(i*roomsizez/(nlights+1)));
               scene.add(looplight);
 	      //cube = new THREE.Mesh(geometry, material);
@@ -703,7 +704,13 @@
           scene.add(bara4);
 
 	  
-          camera.position.x = 0;
+
+
+
+
+
+
+	  camera.position.x = 0;
           camera.position.y = 1;
           camera.position.z = 120;
           camera.lookAt(origin);
