@@ -108,14 +108,14 @@
 
 	  
           //CREAR ILUMINACIÓN
-          var ambient = new THREE.AmbientLight(0xbbbbff, 0.8);
+          var ambient = new THREE.AmbientLight(0xbbbbff, 0.3);
           scene.add(ambient);
 	  hemiLight = new THREE.HemisphereLight( 0x0000ff, 0x008800, 0.6 );
 	  scene.add(hemiLight);
 
 
-	  var sunLight = new THREE.PointLight(0xffff88, 3, 50);
-          sunLight.position.set(5*roomsizex, 10*roomsizex, 2*roomsizez);
+	  var sunLight = new THREE.SpotLight(0xffff88, 1, 2000,0.5,0);
+          sunLight.position.set(3*roomsizex, 50*roomsizex, 2*roomsizez);
           scene.add(sunLight);
 
 
