@@ -108,7 +108,7 @@
 
 	  
           //CREAR ILUMINACIÓN
-          var ambient = new THREE.AmbientLight(0xbbbbff, 0.3);
+          var ambient = new THREE.AmbientLight(0xbbbbff, 0.5);
           scene.add(ambient);
 	  hemiLight = new THREE.HemisphereLight( 0x0000ff, 0x008800, 0.6 );
 	  scene.add(hemiLight);
@@ -789,7 +789,7 @@
       
 	  
     </script>
-    <button id='button' style="left:12%; top:75% " onClick="grafosClick() "> <a href="index.html">back</a></button>
+    <button id='button' style="left:12%; top:75%; z-index: 10;" onClick="video.play() "> p </button>
     
 </body>
 
