@@ -27,7 +27,7 @@ You can use the [editor on GitHub](https://github.com/emersonjleon/emersonjleon/
 - [dark room](/threejs/darkroom.html)
 - [Exposition room](/threejs/expoRoom.html)
 - [Gabi room](/threejs/escenaluz.html)
-- [Trabajos Gabi](/TrabajosCG/index.html)
+- [Trabajos Gabi](/TrabajosCG/aaINICIO.html)
 
 [//]: # (comments are strange here...)
 
@@ -37,7 +37,8 @@ You can use the [editor on GitHub](https://github.com/emersonjleon/emersonjleon/
 - [acordes](music/acordes.html)
 
 ### For the Future
-- [github](https://github.com/emersonjleon/cyborgchaman){:target="_blank"} de Cyborg Shaman (acá puede descargarse la versión actual)- [math](math.md)
+- [github](https://github.com/emersonjleon/cyborgchaman){:target="_blank"} de Cyborg Shaman (acá puede descargarse la versión actual)
+- [math](math.md)
 - [fuego fractal](fuegofractal.html)
 - [fixed points](mylinks.html)
 - [math and coffee beans](mathandcoffee.html)
