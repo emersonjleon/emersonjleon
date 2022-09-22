@@ -100,7 +100,7 @@
           var colorB = new THREE.Color(0xffffff);
           //  var colorPa = new THREE.Color(0xfccd6f);
           var colorPa = new THREE.Color(0xfcb16f);
-          var colorVerde = new THREE.Color(0x069132);
+          var colorVerde = new THREE.Color(0x044102);
           //var colorPa = new THREE.Color(0xf1f1f1);
 	  
           //CREAR LAS GRILLAS PARA EL ESCENARIO
@@ -202,7 +202,7 @@
           var boxGeometry2 = new THREE.BoxGeometry(roomsizex-2, 38, roomsizez);
 	  var blackBox = new THREE.BoxGeometry(roomsizex+10, 40+10, roomsizez+10);
 
-          var planoVerde = new THREE.PlaneGeometry(4000, 4000);
+          var planoVerde = new THREE.PlaneGeometry(6000, 6000);
 	  //puerta
           var plano = new THREE.PlaneGeometry(9, 30);
 	  //madera pared
@@ -218,6 +218,7 @@
           var sphereGeometry = new THREE.SphereGeometry(2.5, 25, 25);
           var cylinderGeometry = new THREE.CylinderGeometry(2.5, 2.5, 8, 25);
           var bombiGeometry = new THREE.SphereGeometry(1.5, 15, 15);
+	  var bombiGeometry2 = new THREE.SphereGeometry(20, 15, 15);
 	  //marcos de puertas
           var puGeometry = new THREE.BoxGeometry(1, 30, 1);
           var pu2Geometry = new THREE.BoxGeometry(1, 1, 10);
@@ -612,7 +613,9 @@
           var b2 = new THREE.Mesh(bombiGeometry, materialbomb);
           b2.position.z = 15;
           b2.position.y = 13;
-	  
+          var bmoon = new THREE.Mesh(bombiGeometry2, materialbomb);
+          b1.position.set(300, 500, 200);
+          
 	  
           var curve2D = new THREE.SplineCurve([
               new THREE.Vector2(0, 20),
@@ -722,6 +725,7 @@
           scene.add(manubrio);
           scene.add(b1);
           scene.add(b2);
+          scene.add(bmoon);
           scene.add(coso3);
           scene.add(coso4);
           scene.add(cosa1);
