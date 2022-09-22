@@ -27,6 +27,7 @@ You can use the [editor on GitHub](https://github.com/emersonjleon/emersonjleon/
 - [dark room](/threejs/darkroom.html)
 - [Exposition room](/threejs/expoRoom.html)
 - [Gabi room](/threejs/escenaluz.html)
+- [Trabajos Gabi](/TrabajosCG/index.html)
 
 [//]: # (comments are strange here...)
 
