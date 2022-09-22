@@ -115,7 +115,14 @@
 
 
 	  
-          //CREAR ILUMINACIÓN
+          //cielo estrellado: Gabi, mundo.html
+          var fondo1 = new THREE.CubeTextureLoader()
+              .setPath('textures/FONDO2/')
+              .load(['px.png', 'nx.png', 'py.png', 'ny.png', 'pz.png', 'nz.png']);
+          fondo1.format = THREE.RGBFormat;
+          scene.background = fondo1;
+
+	  //CREAR ILUMINACIÓN
           var ambient = new THREE.AmbientLight(0xbbbbff, 0.5);
           scene.add(ambient);
 	  hemiLight = new THREE.HemisphereLight( 0x0000ff, 0x008800, 0.6 );
