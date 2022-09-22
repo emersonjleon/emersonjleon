@@ -204,7 +204,7 @@
           var boxGeometry = new THREE.BoxGeometry(roomsizex, 40, roomsizez);
           var boxGeometry2 = new THREE.BoxGeometry(roomsizex-2, 38, roomsizez);
 	  var blackBox = new THREE.BoxGeometry(roomsizex+10, 40+10, roomsizez+10);
-	  var blackBoxsmall = new THREE.BoxGeometry(2, 2, 10);
+	  var blackBoxsmall = new THREE.BoxGeometry(4, 4, 2);
 
           var planoVerde = new THREE.PlaneGeometry(6000, 6000);
 	  //puerta
@@ -426,7 +426,7 @@
           box3.material= materialPareNegra;
 	  var boxsmall = new THREE.Mesh(blackBoxsmall);	  
 	  boxsmall.material= materialPareNegra;
-	  boxsmall.position.set(0.3*roomsizex, 0, 0.5*roomsizez);
+	  boxsmall.position.set(0.2*roomsizex, 0, 0.5*roomsizez);
           
 	  //piso verde
           var pV = new THREE.Mesh(planoVerde, materialVerde);
@@ -756,7 +756,7 @@
 
 	  camera.position.x = 0;
           camera.position.y = 1;
-          camera.position.z = 120;
+          camera.position.z = 10;
           camera.lookAt(origin);
       }
 
