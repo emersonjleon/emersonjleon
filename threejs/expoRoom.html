@@ -219,7 +219,7 @@
           var sphereGeometry = new THREE.SphereGeometry(2.5, 25, 25);
           var cylinderGeometry = new THREE.CylinderGeometry(2.5, 2.5, 8, 25);
           var bombiGeometry = new THREE.SphereGeometry(1.5, 15, 15);
-	  var bombiGeometry2 = new THREE.SphereGeometry(20, 15, 15);
+	  var bombiGeometryMoon = new THREE.SphereGeometry(30, 15, 15);
 	  //marcos de puertas
           var puGeometry = new THREE.BoxGeometry(1, 30, 1);
           var pu2Geometry = new THREE.BoxGeometry(1, 1, 10);
@@ -617,8 +617,8 @@
           var b2 = new THREE.Mesh(bombiGeometry, materialbomb);
           b2.position.z = 15;
           b2.position.y = 13;
-          var bmoon = new THREE.Mesh(bombiGeometry2, materialbomb);
-          b1.position.set(300, 500, 200);
+          var bmoon = new THREE.Mesh(bombiGeometryMoon, materialbomb);
+          bmoon.position.set(300, 500, 200);
           
 	  
           var curve2D = new THREE.SplineCurve([
