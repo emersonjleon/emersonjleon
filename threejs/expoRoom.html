@@ -201,6 +201,7 @@
           var boxGeometry = new THREE.BoxGeometry(roomsizex, 40, roomsizez);
           var boxGeometry2 = new THREE.BoxGeometry(roomsizex-2, 38, roomsizez);
 	  var blackBox = new THREE.BoxGeometry(roomsizex+10, 40+10, roomsizez+10);
+	  var blackBox = new THREE.BoxGeometry(2, 2, 1);
 
           var planoVerde = new THREE.PlaneGeometry(6000, 6000);
 	  //puerta
@@ -420,7 +421,10 @@
           pasillo.material = materialPare;
 	  var box3 = new THREE.Mesh(blackBox);
           box3.material= materialPareNegra;
-	  
+	  var box4 = new THREE.Mesh(blackBox2);	  b
+	  box4.material= materialPareNegra;
+	  box4.position.set(-roomsizex/2, 0.5, roomsizez/4);
+          
 	  //piso verde
           var pV = new THREE.Mesh(planoVerde, materialVerde);
           pV.rotateX(-1.5708);
@@ -706,6 +710,7 @@
 	  
           scene.add(pasillo);
 	  scene.add(box3);
+	  scene.add(box4);
 	  //pared
           scene.add(par1);
           scene.add(par2);
