@@ -123,10 +123,13 @@
           scene.background = fondo1;
 
 	  //CREAR ILUMINACIÓN
-          var ambient = new THREE.AmbientLight(0xbbbbff, 0.5);
+          var ambient = new THREE.AmbientLight(0xbbbbff, 0.4);
           scene.add(ambient);
-	  hemiLight = new THREE.HemisphereLight( 0x0000ff, 0x008800, 0.6 );
-	  scene.add(hemiLight);
+          var ambientout = new THREE.AmbientLight(0xbbbbff, 0.1);
+	  ambientout.position.set(300,500,200)
+          scene.add(ambientout);
+	  // hemiLight = new THREE.HemisphereLight( 0x0000ff, 0x008800, 0.6 );
+	  // scene.add(hemiLight);
 
 
 	  var sunLight = new THREE.SpotLight(0xffff88, 1, 1000, 1.5, 0.5);
