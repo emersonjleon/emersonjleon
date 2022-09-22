@@ -129,7 +129,7 @@
 	  scene.add(hemiLight);
 
 
-	  var sunLight = new THREE.SpotLight(0xffff88, 1, 5000, 1, 0.5);
+	  var sunLight = new THREE.SpotLight(0xffff88, 1, 1000, 1, 0.5);
           sunLight.position.set(300, 500, 200);
           scene.add(sunLight);
 
@@ -429,7 +429,7 @@
           var pV = new THREE.Mesh(planoVerde, materialVerde);
           pV.rotateX(-1.5708);
           //par2.rotateZ(-1.5708);
-          pV.position.y = -100;
+          pV.position.y = -50;
 	  scene.add(pV);
 
 
