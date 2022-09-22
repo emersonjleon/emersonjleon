@@ -202,7 +202,7 @@
           var boxGeometry2 = new THREE.BoxGeometry(roomsizex-2, 38, roomsizez);
 	  var blackBox = new THREE.BoxGeometry(roomsizex+10, 40+10, roomsizez+10);
 
-          var planoVerde = new THREE.PlaneGeometry(2000, 2000);
+          var planoVerde = new THREE.PlaneGeometry(4000, 4000);
 	  //puerta
           var plano = new THREE.PlaneGeometry(9, 30);
 	  //madera pared
@@ -424,7 +424,7 @@
           var pV = new THREE.Mesh(planoVerde, materialVerde);
           pV.rotateX(-1.5708);
           //par2.rotateZ(-1.5708);
-          pV.position.y = -200;
+          pV.position.y = -100;
 	  scene.add(pV);
 
 
