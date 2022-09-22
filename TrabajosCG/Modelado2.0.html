@@ -1,0 +1,1328 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title> MASCARA </title>
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            
+        }
+    </style>
+</head>
+
+ <body>
+        <div id="info">MASCARA<br/>
+            Gabriela Leon Guerrero .<br/>
+            Santiago Forero Zapata.<br/>
+
+        </div>
+    <script src="js/three.js"></script>
+    <script src="js/controls/OrbitControls.js"></script>
+    <script>
+        var scene, aspect, camera, renderer, controls;
+        var startTime = Date.now();
+        var fan;
+        var strip;
+        var tapa;
+        var camera, scene, renderer,
+            light1, light2, light3, light4,
+            object, stats;
+
+        var clock = new THREE.Clock();
+
+        class TRIANGLE_FAN {
+            constructor(Geometria) {
+                this.geometria = Geometria;
+                console.log(this.geometria);
+            }
+            draw() {
+                for (var i = 2; i < this.geometria.vertices.length; i++) {
+                    this.geometria.faces.push(new THREE.Face3(0, i - 1, i));
+                }
+                this.geometria.computeFaceNormals();
+                var materialFan = new THREE.MeshBasicMaterial({
+                    color: 0x3333DD,
+                    side: THREE.DoubleSide
+                });
+                var fan = new THREE.Mesh(this.geometria, materialFan);
+                scene.add(fan);
+            }
+        }
+
+        class TRIANGLE_STRIP {
+            constructor(Geometria) {
+                this.geometria = Geometria;
+                console.log(this.geometria);
+            }
+            draw() {
+                for (var i = 2; i < this.geometria.vertices.length; i++) {
+                    this.geometria.faces.push(new THREE.Face3(i - 2, i - 1, i));
+                }
+                this.geometria.computeFaceNormals();
+                var materialStrip = new THREE.MeshPhongMaterial({
+                    color: 0x3333DD,
+                    side: THREE.DoubleSide
+                });
+                var strip = new THREE.Mesh(this.geometria, materialStrip);
+                scene.add(strip);
+            }
+        }
+
+        init();
+        animate();
+
+
+        function init() {
+            scene = new THREE.Scene();
+            aspect = window.innerWidth / window.innerHeight;
+            camera = new THREE.PerspectiveCamera(45, aspect, 0.1, 1000);
+            renderer = new THREE.WebGLRenderer();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.body.appendChild(renderer.domElement);
+            controls = new THREE.OrbitControls(camera, renderer.domElement);
+
+            var size = 10;
+            var arrowSize = 1;
+            var divisions = size;
+            var origin = new THREE.Vector3(0, 0, 0);
+            var x = new THREE.Vector3(1, 0, 0);
+            var y = new THREE.Vector3(0, 1, 0);
+            var z = new THREE.Vector3(0, 0, 1);
+            var color1 = new THREE.Color(0xFFFFFF);
+            var color2 = new THREE.Color(0x333333);
+            var colorR = new THREE.Color(0xAA3333);
+            var colorG = new THREE.Color(0x33AA33);
+            var colorB = new THREE.Color(0x333366);
+
+            //CREAR LAS GRILLAS PARA EL ESCENARIO
+            var axesHelper = new THREE.AxesHelper(size);
+            var gridHelperXY = new THREE.GridHelper(size, divisions, color1, color1);
+            var gridHelperXZ = new THREE.GridHelper(size, divisions, color2, color2);
+            var gridHelperYZ = new THREE.GridHelper(size, divisions, color2, color2);
+
+            //ROTARLAS PARA QUE QUEDEN EN EL ESPACIO ADECUADO
+            gridHelperXY.rotateOnWorldAxis(x, THREE.Math.degToRad(90));
+            gridHelperXZ.rotateOnWorldAxis(y, THREE.Math.degToRad(90));
+            gridHelperYZ.rotateOnWorldAxis(z, THREE.Math.degToRad(90));
+
+            //CREAR LAS FLECHAS QUE INDICAN LOS EJES DE COORDENADAS 3D
+            var arrowX = new THREE.ArrowHelper(x, origin, arrowSize, colorR);
+            var arrowY = new THREE.ArrowHelper(y, origin, arrowSize, colorG);
+            var arrowZ = new THREE.ArrowHelper(z, origin, arrowSize, colorB);
+
+            //CREAR ILUMINACIÓN
+            var ambient = new THREE.AmbientLight(0xffffff, 2);
+            scene.add(ambient);
+
+            var pointLight = new THREE.PointLight(0xffffff, 1, 100);
+            pointLight.position.set(-50, 55, 115);
+            scene.add(pointLight);
+            var pointLight2 = new THREE.PointLight(0xffffff, 1, 100);
+            pointLight.position.set(15, 5, 15);
+            scene.add(pointLight2);
+
+            var spotLight = new THREE.SpotLight(0xffffff);
+            spotLight.position.set(-30, 50, -10);
+            scene.add(spotLight);
+
+            //var spotLightHelper = new THREE.SpotLightHelper( spotLight );
+            //scene.add( spotLightHelper );
+            var light = new THREE.HemisphereLight(0xffffbb, 0x080820, 1);
+            //var helper = new THREE.HemisphereLightHelper( light, 100 );
+            //scene.add( helper );
+
+            var sphere = new THREE.SphereBufferGeometry(0.5, 16, 8);
+
+            //lights
+
+            light1 = new THREE.PointLight(0xff0040, 2, 100);
+            light1.add(new THREE.Mesh(sphere, new THREE.MeshBasicMaterial({
+                color: 0xff0040
+            })));
+            scene.add(light1);
+
+            light2 = new THREE.PointLight(0x0040ff, 2, 100);
+            light2.add(new THREE.Mesh(sphere, new THREE.MeshBasicMaterial({
+                color: 0x0040ff
+            })));
+            scene.add(light2);
+
+            light3 = new THREE.PointLight(0x80ff80, 2, 100);
+            light3.add(new THREE.Mesh(sphere, new THREE.MeshBasicMaterial({
+                color: 0x80ff80
+            })));
+            scene.add(light3);
+
+            light4 = new THREE.PointLight(0xffaa00, 2, 100);
+            light4.add(new THREE.Mesh(sphere, new THREE.MeshBasicMaterial({
+                color: 0xffaa00
+            })));
+            scene.add(light4);
+
+
+
+            //CREAR LAS GEOMETRÍAS
+
+            var geoTriangulo = new THREE.Geometry();
+            var Triangulo = new THREE.Geometry();
+
+            //VERTICES
+
+            var v0 = new THREE.Vector3(0, 0.27, 55.72);
+            var v1 = new THREE.Vector3(0, -8.61, 49.85);
+            var v2 = new THREE.Vector3(0, -13.18, 43.11);
+            var v3 = new THREE.Vector3(0, -12.99, 37.49);
+            var v4 = new THREE.Vector3(0, -12.79, 31.85);
+            var v5 = new THREE.Vector3(0, -13.01, 29.69);
+            var v6 = new THREE.Vector3(0, -15.36, 27.38);
+            var v7 = new THREE.Vector3(0, -17.59, 24.81);
+            var v8 = new THREE.Vector3(0, -20.8, 20, 5);
+            var v9 = new THREE.Vector3(0, -15.98, 17.73);
+            var v10 = new THREE.Vector3(0, -16.62, 14.69);
+            var v11 = new THREE.Vector3(0, -15.98, 11.62);
+            var v12 = new THREE.Vector3(0, 14.58, 11);
+            var v13 = new THREE.Vector3(0, -11.18, 15.46);
+            var v14 = new THREE.Vector3(0, -3.88, 10.53);
+            var v15 = new THREE.Vector3(0, 11.21, 6.2);
+            var v16 = new THREE.Vector3(0, -17.25, 7.19);
+            var v17 = new THREE.Vector3(0, -17.76, 4.63);
+            var v18 = new THREE.Vector3(0, -14.91, 4.53);
+            var v19 = new THREE.Vector3(0, -14.85, 0.28);
+            var v20 = new THREE.Vector3(0, 12.72, 3.16);
+            var v21 = new THREE.Vector3(0, -9.5, -2.83);
+            var v22 = new THREE.Vector3(0, -0.3, -1.96);
+            var v23 = new THREE.Vector3(0, 12.49, 1.59);
+            var v24 = new THREE.Vector3(0, 23.08, 7.56);
+            var v25 = new THREE.Vector3(0, 29.68, 16.08);
+            var v26 = new THREE.Vector3(0, 33.21, 26.54);
+            var v27 = new THREE.Vector3(0, 31.83, 36.28);
+            var v28 = new THREE.Vector3(0, 29.26, 42.85);
+            var v29 = new THREE.Vector3(0, 22.6, 52.87);
+            var v30 = new THREE.Vector3(0, 9.67, 56.69);
+            var v31 = new THREE.Vector3(-6.68, 10.36, 55.96);
+            var v32 = new THREE.Vector3(-5.83, 1.07, 55.02);
+            var v33 = new THREE.Vector3(-3.33, -8.54, 49.83);
+            var v34 = new THREE.Vector3(-2.28, -14.97, 38.34);
+            var v35 = new THREE.Vector3(-2.94, -14.42, 35.45);
+            var v36 = new THREE.Vector3(-1.89, -11.46, 31.28);
+            var v37 = new THREE.Vector3(-1.90, -11.53, 29.06);
+            var v38 = new THREE.Vector3(-2.6, -14.06, 27.19);
+            var v39 = new THREE.Vector3(-3.59, -15.85, 24.54);
+            var v40 = new THREE.Vector3(-4.06, -19.49, 20.71);
+            var v41 = new THREE.Vector3(-4.61, -15.02, 18.92);
+            var v42 = new THREE.Vector3(-4.59, -15.58, 15.06);
+            var v43 = new THREE.Vector3(-4.58, -14.8, 11.21);
+            var v44 = new THREE.Vector3(-4.54, -13.59, 10.47);
+            var v45 = new THREE.Vector3(-4.34, -10.28, 14.58);
+            var v46 = new THREE.Vector3(-5.16, -2.47, 11.64);
+            var v47 = new THREE.Vector3(-4.22, -10.53, 7.4);
+            var v48 = new THREE.Vector3(-5.16, -15.9, 7.55);
+            var v49 = new THREE.Vector3(-5.37, -16.34, 4.69);
+            var v50 = new THREE.Vector3(-4.55, -14.53, 3.61);
+            var v51 = new THREE.Vector3(-6.6, -16.58, 0.93);
+            var v52 = new THREE.Vector3(-6.56, -12.36, -4.39);
+            var v53 = new THREE.Vector3(-6.56, -10.19, -4.05);
+            var v54 = new THREE.Vector3(-4.4, -0.3, -1.96);
+            var v55 = new THREE.Vector3(-6.21, 12.83, 2.7);
+            var v56 = new THREE.Vector3(-5.85, 23.08, 9.28);
+            var v57 = new THREE.Vector3(-7.12, 28.49, 17.09);
+            var v58 = new THREE.Vector3(-7.93, 31.79, 26.43);
+            var v59 = new THREE.Vector3(-8.87, 30.69, 35.92);
+            var v60 = new THREE.Vector3(-7.91, 27.43, 43.45);
+            var v61 = new THREE.Vector3(-6.56, 21.78, 52.01);
+            var v62 = new THREE.Vector3(-11.28, 2.3, 52.23);
+            var v63 = new THREE.Vector3(-7.95, -7.8, 48.28);
+            var v64 = new THREE.Vector3(-6.86, -14.49, 36.82);
+            var v65 = new THREE.Vector3(-6.62, -14.66, 34.32);
+            var v66 = new THREE.Vector3(-6.12, -11.76, 32.8);
+            var v67 = new THREE.Vector3(-4.52, -10.77, 32.33);
+            var v68 = new THREE.Vector3(-3.33, -10.47, 30.38);
+            var v69 = new THREE.Vector3(-3.49, -10.42, 28.73);
+            var v70 = new THREE.Vector3(-3.13, -10.55, 27.33);
+            var v71 = new THREE.Vector3(-3.62, -10.9, 24.71);
+            var v72 = new THREE.Vector3(-3.95, -11.61, 21.46);
+            var v73 = new THREE.Vector3(-9.75, -12.06, 12.11);
+            var v74 = new THREE.Vector3(-8.51, -12.92, 10.2);
+            var v75 = new THREE.Vector3(-8.21, -11.73, 9.88);
+            var v76 = new THREE.Vector3(-7.98, -8.98, 11.1);
+            var v77 = new THREE.Vector3(-8.3, -8.88, 9.4);
+            var v78 = new THREE.Vector3(-8.57, -11.88, -9.4);
+            var v79 = new THREE.Vector3(-8.96, -12.3, 9.37);
+            var v80 = new THREE.Vector3(-10.53, -11.28, 8.87);
+            var v81 = new THREE.Vector3(-9.37, -11.98, -6.23);
+            var v82 = new THREE.Vector3(-11.54, -10.67, 1.95);
+            var v83 = new THREE.Vector3(-13.07, -7.36, 2.04);
+            var v84 = new THREE.Vector3(-14.66, 1.09, 2.36);
+            var v85 = new THREE.Vector3(-12.06, 12.67, 5.28);
+            var v86 = new THREE.Vector3(-10.35, 23.17, 11.64);
+            var v87 = new THREE.Vector3(-13.35, 25.52, 19.61);
+            var v88 = new THREE.Vector3(-14.98, 25.96, 26.82);
+            var v89 = new THREE.Vector3(-13.72, 25.08, 36.89);
+            var v90 = new THREE.Vector3(-12.55, 22.34, 46.19);
+            var v91 = new THREE.Vector3(-12.17, 10.63, 53.8);
+            var v92 = new THREE.Vector3(-16.11, 3.35, 46.69);
+            var v93 = new THREE.Vector3(-14.58, -4.34, 44);
+            var v94 = new THREE.Vector3(-14.85, -9.71, 37.64);
+            var v95 = new THREE.Vector3(-14.85, -9.71, 37.64);
+            var v96 = new THREE.Vector3(-10.72, -9.59, 32.15);
+            var v97 = new THREE.Vector3(-10.74, -10.79, 30.81);
+            var v98 = new THREE.Vector3(-6.42, -12.87, 31.26);
+            var v99 = new THREE.Vector3(-4.77, -10.09, 28.98);
+            var v100 = new THREE.Vector3(-4.59, -10.08, 29.7);
+            var v101 = new THREE.Vector3(-6.49, -10.33, 30.49);
+            var v102 = new THREE.Vector3(-9.82, -9.41, 30.21);
+            var v103 = new THREE.Vector3(-11.75, -7.23, 29.26);
+            var v104 = new THREE.Vector3(-11.31, -7.42, 28.67);
+            var v105 = new THREE.Vector3(-9.86, -9.95, 28.89);
+            var v106 = new THREE.Vector3(-7.06, -10.71, 28.92);
+            var v107 = new THREE.Vector3(-7.17, -11.83, 28.6);
+            var v108 = new THREE.Vector3(-7.39, -12.15, 27.02);
+            var v109 = new THREE.Vector3(-7.37, -10.79, 25.28);
+            var v110 = new THREE.Vector3(-10.21, -12.86, 22.74);
+            var v111 = new THREE.Vector3(-7.14, -14.48, 21.58);
+            var v112 = new THREE.Vector3(-10.99, -13.38, 12.53);
+            var v113 = new THREE.Vector3(-12.27, -11.21, 7.57);
+            var v114 = new THREE.Vector3(-13.36, -9.53, 11.04);
+            var v115 = new THREE.Vector3(-12.58, -10.35, 15.62);
+            var v116 = new THREE.Vector3(-15.71, -7.74, 4.21);
+            var v117 = new THREE.Vector3(-17.47, 6, 7.12);
+            var v118 = new THREE.Vector3(-19.76, 3.32, 8.21);
+            var v119 = new THREE.Vector3(-19.31, 12.41, 14.01);
+            var v120 = new THREE.Vector3(0, 0, 0);
+            var v121 = new THREE.Vector3(-17.21, 19.58, 17.12);
+            var v122 = new THREE.Vector3(-19.5, 16.32, 21.25);
+            var v123 = new THREE.Vector3(-17.9, 16.73, 28.94);
+            var v124 = new THREE.Vector3(-18.04, 15.5, 38.66);
+            var v125 = new THREE.Vector3(-16.77, 11.5, 47.88);
+            var v126 = new THREE.Vector3(-18.54, -0.45, 36.36);
+            var v127 = new THREE.Vector3(-17.35, -3.64, 33.72);
+            var v128 = new THREE.Vector3(-12.18, -7.17, 31.76);
+            var v129 = new THREE.Vector3(-13.01, -7.05, 29.33);
+            var v130 = new THREE.Vector3(-12.12, -7.29, 28.42);
+            var v131 = new THREE.Vector3(-12.51, -6.42, 27.43);
+            var v132 = new THREE.Vector3(-11.53, -10.57, 26.87);
+            var v133 = new THREE.Vector3(-10.45, -10.31, 28.62);
+            var v134 = new THREE.Vector3(-10.49, -9.64, 25.32);
+            var v135 = new THREE.Vector3(-13.62, -10.88, 22.64);
+            var v136 = new THREE.Vector3(-15.05, -9.19, 16.94);
+            var v137 = new THREE.Vector3(-15.73, -9, 11.67);
+            var v138 = new THREE.Vector3(-16.93, -5.15, 18.13);
+            var v139 = new THREE.Vector3(-17.84, -0.75, 17.8);
+            var v140 = new THREE.Vector3(-20.63, 11.48, 21.02);
+            var v141 = new THREE.Vector3(-18.58, 10.16, 28.82);
+            var v142 = new THREE.Vector3(-18.8, 7.02, 39.33);
+            var v143 = new THREE.Vector3(-17.26, -0.36, 30.13);
+            var v144 = new THREE.Vector3(-16.18, -2.92, 31.57);
+            var v145 = new THREE.Vector3(-16.35, -0.7, 25.81);
+            var v146 = new THREE.Vector3(-14.11, -6.19, 24.96);
+
+
+            geoTriangulo.vertices.push(v0);
+            geoTriangulo.vertices.push(v1);
+            geoTriangulo.vertices.push(v2);
+            geoTriangulo.vertices.push(v3);
+            geoTriangulo.vertices.push(v4);
+            geoTriangulo.vertices.push(v5);
+            geoTriangulo.vertices.push(v6);
+            geoTriangulo.vertices.push(v7);
+            geoTriangulo.vertices.push(v8);
+            geoTriangulo.vertices.push(v9);
+            geoTriangulo.vertices.push(v10);
+            geoTriangulo.vertices.push(v11);
+            geoTriangulo.vertices.push(v12);
+            geoTriangulo.vertices.push(v13);
+            geoTriangulo.vertices.push(v14);
+            geoTriangulo.vertices.push(v15);
+            geoTriangulo.vertices.push(v16);
+            geoTriangulo.vertices.push(v17);
+            geoTriangulo.vertices.push(v18);
+            geoTriangulo.vertices.push(v19);
+            geoTriangulo.vertices.push(v20);
+            geoTriangulo.vertices.push(v21);
+            geoTriangulo.vertices.push(v22);
+            geoTriangulo.vertices.push(v23);
+            geoTriangulo.vertices.push(v24);
+            geoTriangulo.vertices.push(v25);
+            geoTriangulo.vertices.push(v26);
+            geoTriangulo.vertices.push(v27);
+            geoTriangulo.vertices.push(v28);
+            geoTriangulo.vertices.push(v29);
+            geoTriangulo.vertices.push(v30);
+            geoTriangulo.vertices.push(v31);
+            geoTriangulo.vertices.push(v32);
+            geoTriangulo.vertices.push(v33);
+            geoTriangulo.vertices.push(v34);
+            geoTriangulo.vertices.push(v35);
+            geoTriangulo.vertices.push(v36);
+            geoTriangulo.vertices.push(v37);
+            geoTriangulo.vertices.push(v38);
+            geoTriangulo.vertices.push(v39);
+            geoTriangulo.vertices.push(v40);
+            geoTriangulo.vertices.push(v41);
+            geoTriangulo.vertices.push(v42);
+            geoTriangulo.vertices.push(v43);
+            geoTriangulo.vertices.push(v44);
+            geoTriangulo.vertices.push(v45);
+            geoTriangulo.vertices.push(v46);
+            geoTriangulo.vertices.push(v47);
+            geoTriangulo.vertices.push(v48);
+            geoTriangulo.vertices.push(v49);
+            geoTriangulo.vertices.push(v50);
+            geoTriangulo.vertices.push(v51);
+            geoTriangulo.vertices.push(v52);
+            geoTriangulo.vertices.push(v53);
+            geoTriangulo.vertices.push(v54);
+            geoTriangulo.vertices.push(v55);
+            geoTriangulo.vertices.push(v56);
+            geoTriangulo.vertices.push(v57);
+            geoTriangulo.vertices.push(v58);
+            geoTriangulo.vertices.push(v59);
+            geoTriangulo.vertices.push(v60);
+            geoTriangulo.vertices.push(v61);
+            geoTriangulo.vertices.push(v62);
+            geoTriangulo.vertices.push(v63);
+            geoTriangulo.vertices.push(v64);
+            geoTriangulo.vertices.push(v65);
+            geoTriangulo.vertices.push(v66);
+            geoTriangulo.vertices.push(v67);
+            geoTriangulo.vertices.push(v68);
+            geoTriangulo.vertices.push(v69);
+            geoTriangulo.vertices.push(v70);
+            geoTriangulo.vertices.push(v71);
+            geoTriangulo.vertices.push(v72);
+            geoTriangulo.vertices.push(v73);
+            geoTriangulo.vertices.push(v74);
+            geoTriangulo.vertices.push(v75);
+            geoTriangulo.vertices.push(v76);
+            geoTriangulo.vertices.push(v77);
+            geoTriangulo.vertices.push(v78);
+            geoTriangulo.vertices.push(v79);
+            geoTriangulo.vertices.push(v80);
+            geoTriangulo.vertices.push(v81);
+            geoTriangulo.vertices.push(v82);
+            geoTriangulo.vertices.push(v83);
+            geoTriangulo.vertices.push(v84);
+            geoTriangulo.vertices.push(v85);
+            geoTriangulo.vertices.push(v86);
+            geoTriangulo.vertices.push(v87);
+            geoTriangulo.vertices.push(v88);
+            geoTriangulo.vertices.push(v89);
+            geoTriangulo.vertices.push(v90);
+            geoTriangulo.vertices.push(v91);
+            geoTriangulo.vertices.push(v92);
+            geoTriangulo.vertices.push(v93);
+            geoTriangulo.vertices.push(v94);
+            geoTriangulo.vertices.push(v95);
+            geoTriangulo.vertices.push(v96);
+            geoTriangulo.vertices.push(v97);
+            geoTriangulo.vertices.push(v98);
+            geoTriangulo.vertices.push(v99);
+            geoTriangulo.vertices.push(v100);
+            geoTriangulo.vertices.push(v101);
+            geoTriangulo.vertices.push(v102);
+            geoTriangulo.vertices.push(v103);
+            geoTriangulo.vertices.push(v104);
+            geoTriangulo.vertices.push(v105);
+            geoTriangulo.vertices.push(v106);
+            geoTriangulo.vertices.push(v107);
+            geoTriangulo.vertices.push(v108);
+            geoTriangulo.vertices.push(v109);
+            geoTriangulo.vertices.push(v110);
+            geoTriangulo.vertices.push(v111);
+            geoTriangulo.vertices.push(v112);
+            geoTriangulo.vertices.push(v113);
+            geoTriangulo.vertices.push(v114);
+            geoTriangulo.vertices.push(v115);
+            geoTriangulo.vertices.push(v116);
+            geoTriangulo.vertices.push(v117);
+            geoTriangulo.vertices.push(v118);
+            geoTriangulo.vertices.push(v119);
+            geoTriangulo.vertices.push(v120);
+            geoTriangulo.vertices.push(v121);
+            geoTriangulo.vertices.push(v122);
+            geoTriangulo.vertices.push(v123);
+            geoTriangulo.vertices.push(v124);
+            geoTriangulo.vertices.push(v125);
+            geoTriangulo.vertices.push(v126);
+            geoTriangulo.vertices.push(v127);
+            geoTriangulo.vertices.push(v128);
+            geoTriangulo.vertices.push(v129);
+            geoTriangulo.vertices.push(v130);
+            geoTriangulo.vertices.push(v131);
+            geoTriangulo.vertices.push(v132);
+            geoTriangulo.vertices.push(v133);
+            geoTriangulo.vertices.push(v134);
+            geoTriangulo.vertices.push(v135);
+            geoTriangulo.vertices.push(v136);
+            geoTriangulo.vertices.push(v137);
+            geoTriangulo.vertices.push(v138);
+            geoTriangulo.vertices.push(v139);
+            geoTriangulo.vertices.push(v140);
+            geoTriangulo.vertices.push(v141);
+            geoTriangulo.vertices.push(v142);
+            geoTriangulo.vertices.push(v143);
+            geoTriangulo.vertices.push(v144);
+            geoTriangulo.vertices.push(v145);
+            geoTriangulo.vertices.push(v146);
+
+            
+            geoTriangulo.faces.push(new THREE.Face3(30, 29, 31));
+            geoTriangulo.faces.push(new THREE.Face3(30, 31, 0));
+            geoTriangulo.faces.push(new THREE.Face3(0, 32, 31));
+            geoTriangulo.faces.push(new THREE.Face3(31, 29, 61));
+            geoTriangulo.faces.push(new THREE.Face3(31, 91, 61));
+            geoTriangulo.faces.push(new THREE.Face3(31, 91, 32));
+            geoTriangulo.faces.push(new THREE.Face3(32, 91, 32));
+            geoTriangulo.faces.push(new THREE.Face3(32, 91, 62));
+            geoTriangulo.faces.push(new THREE.Face3(62, 32, 63));
+            geoTriangulo.faces.push(new THREE.Face3(63, 33, 32));
+            geoTriangulo.faces.push(new THREE.Face3(32, 0, 33));
+            geoTriangulo.faces.push(new THREE.Face3(0, 33, 1));
+            geoTriangulo.faces.push(new THREE.Face3(1, 33, 2));
+            geoTriangulo.faces.push(new THREE.Face3(2, 34, 33));
+            geoTriangulo.faces.push(new THREE.Face3(33, 63, 34));
+            geoTriangulo.faces.push(new THREE.Face3(34, 64, 63));
+            geoTriangulo.faces.push(new THREE.Face3(63, 64, 94));
+            geoTriangulo.faces.push(new THREE.Face3(94, 63, 93));
+            geoTriangulo.faces.push(new THREE.Face3(93, 63, 62));
+            geoTriangulo.faces.push(new THREE.Face3(62, 93, 92));
+            geoTriangulo.faces.push(new THREE.Face3(92, 62, 91));
+            geoTriangulo.faces.push(new THREE.Face3(91, 92, 125));
+            geoTriangulo.faces.push(new THREE.Face3(125, 92, 142));
+            geoTriangulo.faces.push(new THREE.Face3(142, 92, 126));
+            geoTriangulo.faces.push(new THREE.Face3(126, 92, 93));
+            geoTriangulo.faces.push(new THREE.Face3(93, 94, 126));
+            geoTriangulo.faces.push(new THREE.Face3(142, 125, 124));
+            geoTriangulo.faces.push(new THREE.Face3(124, 125, 90));
+            geoTriangulo.faces.push(new THREE.Face3(90, 125, 91));
+            geoTriangulo.faces.push(new THREE.Face3(90, 91, 61));
+            geoTriangulo.faces.push(new THREE.Face3(61, 90, 60));
+            geoTriangulo.faces.push(new THREE.Face3(61, 29, 60));
+            geoTriangulo.faces.push(new THREE.Face3(29, 60, 26));
+            geoTriangulo.faces.push(new THREE.Face3(28, 60, 59));
+            geoTriangulo.faces.push(new THREE.Face3(59, 60, 90));
+            geoTriangulo.faces.push(new THREE.Face3(89, 90, 59));
+            geoTriangulo.faces.push(new THREE.Face3(59, 58, 27));
+            geoTriangulo.faces.push(new THREE.Face3(27, 28, 59));
+            geoTriangulo.faces.push(new THREE.Face3(27, 26, 58));
+            geoTriangulo.faces.push(new THREE.Face3(58, 59, 88));
+            geoTriangulo.faces.push(new THREE.Face3(88, 59, 89));
+            geoTriangulo.faces.push(new THREE.Face3(89, 88, 123));
+            geoTriangulo.faces.push(new THREE.Face3(124, 89, 123));
+            geoTriangulo.faces.push(new THREE.Face3(123, 124, 141));
+            geoTriangulo.faces.push(new THREE.Face3(142, 124, 141));
+            geoTriangulo.faces.push(new THREE.Face3(142, 141, 143));
+            geoTriangulo.faces.push(new THREE.Face3(143, 126, 127));
+            geoTriangulo.faces.push(new THREE.Face3(127, 143, 144));
+            geoTriangulo.faces.push(new THREE.Face3(127, 126, 94));
+            geoTriangulo.faces.push(new THREE.Face3(94, 127, 128));
+            geoTriangulo.faces.push(new THREE.Face3(128, 127, 144));
+            geoTriangulo.faces.push(new THREE.Face3(144, 128, 129));
+            geoTriangulo.faces.push(new THREE.Face3(129, 144, 143));
+            geoTriangulo.faces.push(new THREE.Face3(143, 129, 130));
+            geoTriangulo.faces.push(new THREE.Face3(130, 143, 131));
+            geoTriangulo.faces.push(new THREE.Face3(131, 143, 145));
+            geoTriangulo.faces.push(new THREE.Face3(145, 131, 146));
+            geoTriangulo.faces.push(new THREE.Face3(145, 143, 141));
+            geoTriangulo.faces.push(new THREE.Face3(141, 145, 139));
+            geoTriangulo.faces.push(new THREE.Face3(139, 140, 141));
+            geoTriangulo.faces.push(new THREE.Face3(141, 140, 123));
+            geoTriangulo.faces.push(new THREE.Face3(123, 140, 122));
+            geoTriangulo.faces.push(new THREE.Face3(122, 123, 88));
+            geoTriangulo.faces.push(new THREE.Face3(88, 122, 121));
+            geoTriangulo.faces.push(new THREE.Face3(121, 88, 87));
+            geoTriangulo.faces.push(new THREE.Face3(87, 88, 58));
+            geoTriangulo.faces.push(new THREE.Face3(58, 87, 57));
+            geoTriangulo.faces.push(new THREE.Face3(57, 58, 25));
+            geoTriangulo.faces.push(new THREE.Face3(25, 26, 58));
+            geoTriangulo.faces.push(new THREE.Face3(25, 24, 56));
+            geoTriangulo.faces.push(new THREE.Face3(56, 57, 25));
+            geoTriangulo.faces.push(new THREE.Face3(55, 56, 24));
+            geoTriangulo.faces.push(new THREE.Face3(24, 23, 55));
+            geoTriangulo.faces.push(new THREE.Face3(55, 54, 23));
+            geoTriangulo.faces.push(new THREE.Face3(23, 22, 54));
+            geoTriangulo.faces.push(new THREE.Face3(54, 21, 22));
+            geoTriangulo.faces.push(new THREE.Face3(21, 54, 53));
+            geoTriangulo.faces.push(new THREE.Face3(53, 21, 20));
+            geoTriangulo.faces.push(new THREE.Face3(20, 19, 52));
+            geoTriangulo.faces.push(new THREE.Face3(52, 53, 20));
+            geoTriangulo.faces.push(new THREE.Face3(52, 19, 51));
+            geoTriangulo.faces.push(new THREE.Face3(51, 19, 50));
+            geoTriangulo.faces.push(new THREE.Face3(50, 18, 19));
+            geoTriangulo.faces.push(new THREE.Face3(18, 50, 49));
+            geoTriangulo.faces.push(new THREE.Face3(49, 18, 17));
+            geoTriangulo.faces.push(new THREE.Face3(17, 49, 16));
+            geoTriangulo.faces.push(new THREE.Face3(16, 49, 48));
+            geoTriangulo.faces.push(new THREE.Face3(47, 48, 16));
+            geoTriangulo.faces.push(new THREE.Face3(47, 78, 48));
+            geoTriangulo.faces.push(new THREE.Face3(77, 47, 78));
+            geoTriangulo.faces.push(new THREE.Face3(75, 74, 78));
+            geoTriangulo.faces.push(new THREE.Face3(75, 77, 78));
+            geoTriangulo.faces.push(new THREE.Face3(78, 74, 79));
+            geoTriangulo.faces.push(new THREE.Face3(79, 78, 48));
+            geoTriangulo.faces.push(new THREE.Face3(79, 48, 49));
+            geoTriangulo.faces.push(new THREE.Face3(49, 50, 79));
+            geoTriangulo.faces.push(new THREE.Face3(79, 50, 80));
+            geoTriangulo.faces.push(new THREE.Face3(80, 50, 81));
+            geoTriangulo.faces.push(new THREE.Face3(81, 50, 51));
+            geoTriangulo.faces.push(new THREE.Face3(51, 81, 52));
+            geoTriangulo.faces.push(new THREE.Face3(52, 81, 82));
+            geoTriangulo.faces.push(new THREE.Face3(82, 52, 53));
+            geoTriangulo.faces.push(new THREE.Face3(53, 82, 83));
+            geoTriangulo.faces.push(new THREE.Face3(53, 83, 84));
+            geoTriangulo.faces.push(new THREE.Face3(84, 53, 54));
+            geoTriangulo.faces.push(new THREE.Face3(54, 84, 85));
+            geoTriangulo.faces.push(new THREE.Face3(85, 54, 55));
+            geoTriangulo.faces.push(new THREE.Face3(55, 85, 56));
+            geoTriangulo.faces.push(new THREE.Face3(56, 85, 86));
+            geoTriangulo.faces.push(new THREE.Face3(86, 56, 87));
+            geoTriangulo.faces.push(new THREE.Face3(87, 56, 57));
+            geoTriangulo.faces.push(new THREE.Face3(86, 121, 87));
+            geoTriangulo.faces.push(new THREE.Face3(121, 86, 85));
+            geoTriangulo.faces.push(new THREE.Face3(85, 121, 119));
+            geoTriangulo.faces.push(new THREE.Face3(119, 85, 84));
+            geoTriangulo.faces.push(new THREE.Face3(84, 119, 118));
+            geoTriangulo.faces.push(new THREE.Face3(118, 84, 116));
+            geoTriangulo.faces.push(new THREE.Face3(116, 84, 83));
+            geoTriangulo.faces.push(new THREE.Face3(83, 82, 113));
+            geoTriangulo.faces.push(new THREE.Face3(113, 83, 116));
+            geoTriangulo.faces.push(new THREE.Face3(113, 82, 80));
+            geoTriangulo.faces.push(new THREE.Face3(80, 81, 82));
+            geoTriangulo.faces.push(new THREE.Face3(80, 74, 73));
+            geoTriangulo.faces.push(new THREE.Face3(73, 80, 112));
+            geoTriangulo.faces.push(new THREE.Face3(112, 80, 113));
+            geoTriangulo.faces.push(new THREE.Face3(75, 74, 44));
+            geoTriangulo.faces.push(new THREE.Face3(44, 74, 43));
+            geoTriangulo.faces.push(new THREE.Face3(43, 44, 11));
+            geoTriangulo.faces.push(new THREE.Face3(11, 12, 44));
+            geoTriangulo.faces.push(new THREE.Face3(11, 10, 42));
+            geoTriangulo.faces.push(new THREE.Face3(42, 11, 43));
+            geoTriangulo.faces.push(new THREE.Face3(43, 42, 74));
+            geoTriangulo.faces.push(new THREE.Face3(74, 73, 42));
+            geoTriangulo.faces.push(new THREE.Face3(42, 41, 73));
+            geoTriangulo.faces.push(new THREE.Face3(41, 42, 9));
+            geoTriangulo.faces.push(new THREE.Face3(9, 10, 42));
+            geoTriangulo.faces.push(new THREE.Face3(41, 40, 9));
+            geoTriangulo.faces.push(new THREE.Face3(9, 8, 40));
+            geoTriangulo.faces.push(new THREE.Face3(40, 39, 7));
+            geoTriangulo.faces.push(new THREE.Face3(7, 8, 40));
+            geoTriangulo.faces.push(new THREE.Face3(39, 38, 7));
+            geoTriangulo.faces.push(new THREE.Face3(7, 6, 38));
+            geoTriangulo.faces.push(new THREE.Face3(7, 6, 38));
+            geoTriangulo.faces.push(new THREE.Face3(5, 6, 38));
+            geoTriangulo.faces.push(new THREE.Face3(5, 4, 36));
+            geoTriangulo.faces.push(new THREE.Face3(36, 37, 5));
+            geoTriangulo.faces.push(new THREE.Face3(4, 3, 35));
+            geoTriangulo.faces.push(new THREE.Face3(35, 36, 4));
+            geoTriangulo.faces.push(new THREE.Face3(35, 34, 3));
+            geoTriangulo.faces.push(new THREE.Face3(3, 2, 34));
+            geoTriangulo.faces.push(new THREE.Face3(34, 35, 65));
+            geoTriangulo.faces.push(new THREE.Face3(65, 34, 64));
+            geoTriangulo.faces.push(new THREE.Face3(64, 65, 94));
+            geoTriangulo.faces.push(new THREE.Face3(94, 95, 65));
+            geoTriangulo.faces.push(new THREE.Face3(95, 128, 94));
+            geoTriangulo.faces.push(new THREE.Face3(95, 96, 128));
+            geoTriangulo.faces.push(new THREE.Face3(128, 129, 97));
+            geoTriangulo.faces.push(new THREE.Face3(97, 103, 129));
+            geoTriangulo.faces.push(new THREE.Face3(129, 104, 103));
+            geoTriangulo.faces.push(new THREE.Face3(104, 129, 130));
+            geoTriangulo.faces.push(new THREE.Face3(130, 104, 133));
+            geoTriangulo.faces.push(new THREE.Face3(133, 104, 105));
+            geoTriangulo.faces.push(new THREE.Face3(106, 107, 99));
+            geoTriangulo.faces.push(new THREE.Face3(99, 107, 69));
+            geoTriangulo.faces.push(new THREE.Face3(69, 99, 100));
+            geoTriangulo.faces.push(new THREE.Face3(100, 68, 69));
+            geoTriangulo.faces.push(new THREE.Face3(69, 100, 98));
+            geoTriangulo.faces.push(new THREE.Face3(98, 68, 100));
+            geoTriangulo.faces.push(new THREE.Face3(98, 101, 97));
+            geoTriangulo.faces.push(new THREE.Face3(103, 101, 97));
+            geoTriangulo.faces.push(new THREE.Face3(97, 128, 96));
+            geoTriangulo.faces.push(new THREE.Face3(96, 97, 66));
+            geoTriangulo.faces.push(new THREE.Face3(66, 97, 98));
+            geoTriangulo.faces.push(new THREE.Face3(98, 66, 68));
+            geoTriangulo.faces.push(new THREE.Face3(68, 67, 66));
+            geoTriangulo.faces.push(new THREE.Face3(65, 66, 96));
+            geoTriangulo.faces.push(new THREE.Face3(96, 95, 65));
+            geoTriangulo.faces.push(new THREE.Face3(35, 67, 65));
+            geoTriangulo.faces.push(new THREE.Face3(67, 36, 35));
+            geoTriangulo.faces.push(new THREE.Face3(67, 68, 36));
+            geoTriangulo.faces.push(new THREE.Face3(36, 68, 69));
+            geoTriangulo.faces.push(new THREE.Face3(69, 37, 36));
+            geoTriangulo.faces.push(new THREE.Face3(37, 38, 70));
+            geoTriangulo.faces.push(new THREE.Face3(70, 37, 69));
+            geoTriangulo.faces.push(new THREE.Face3(69, 70, 107));
+            geoTriangulo.faces.push(new THREE.Face3(107, 108, 70));
+            geoTriangulo.faces.push(new THREE.Face3(107, 108, 132));
+            geoTriangulo.faces.push(new THREE.Face3(132, 133, 107));
+            geoTriangulo.faces.push(new THREE.Face3(133, 132, 130));
+            geoTriangulo.faces.push(new THREE.Face3(130, 131, 132));
+            geoTriangulo.faces.push(new THREE.Face3(131, 132, 134));
+            geoTriangulo.faces.push(new THREE.Face3(134, 131, 146));
+            geoTriangulo.faces.push(new THREE.Face3(136, 138, 146));
+            geoTriangulo.faces.push(new THREE.Face3(146, 138, 145));
+            geoTriangulo.faces.push(new THREE.Face3(145, 138, 139));
+            geoTriangulo.faces.push(new THREE.Face3(139, 118, 140));
+            geoTriangulo.faces.push(new THREE.Face3(140, 141, 139));
+            geoTriangulo.faces.push(new THREE.Face3(140, 119, 118));
+            geoTriangulo.faces.push(new THREE.Face3(119, 140, 122));
+            geoTriangulo.faces.push(new THREE.Face3(122, 119, 121));
+            geoTriangulo.faces.push(new THREE.Face3(38, 39, 72));
+            geoTriangulo.faces.push(new THREE.Face3(72, 71, 38));
+            geoTriangulo.faces.push(new THREE.Face3(38, 70, 71));
+            geoTriangulo.faces.push(new THREE.Face3(71, 70, 109));
+            geoTriangulo.faces.push(new THREE.Face3(109, 108, 70));
+            geoTriangulo.faces.push(new THREE.Face3(108, 109, 132));
+            geoTriangulo.faces.push(new THREE.Face3(132, 134, 109));
+            geoTriangulo.faces.push(new THREE.Face3(109, 71, 110));
+            geoTriangulo.faces.push(new THREE.Face3(110, 109, 135));
+            geoTriangulo.faces.push(new THREE.Face3(135, 134, 109));
+            geoTriangulo.faces.push(new THREE.Face3(135, 134, 146));
+            geoTriangulo.faces.push(new THREE.Face3(146, 136, 135));
+            geoTriangulo.faces.push(new THREE.Face3(135, 136, 110));
+            geoTriangulo.faces.push(new THREE.Face3(110, 115, 136));
+            geoTriangulo.faces.push(new THREE.Face3(136, 137, 115));
+            geoTriangulo.faces.push(new THREE.Face3(115, 114, 137));
+            geoTriangulo.faces.push(new THREE.Face3(137, 136, 138));
+            geoTriangulo.faces.push(new THREE.Face3(117, 138, 137));
+            geoTriangulo.faces.push(new THREE.Face3(135, 116, 117));
+            geoTriangulo.faces.push(new THREE.Face3(117, 116, 118));
+            geoTriangulo.faces.push(new THREE.Face3(118, 117, 139));
+            geoTriangulo.faces.push(new THREE.Face3(139, 117, 138));
+            geoTriangulo.faces.push(new THREE.Face3(39, 40, 72));
+            geoTriangulo.faces.push(new THREE.Face3(72, 41, 71));
+            geoTriangulo.faces.push(new THREE.Face3(71, 111, 72));
+            geoTriangulo.faces.push(new THREE.Face3(111, 71, 110));
+            geoTriangulo.faces.push(new THREE.Face3(110, 112, 115));
+            geoTriangulo.faces.push(new THREE.Face3(115, 113, 112));
+            geoTriangulo.faces.push(new THREE.Face3(112, 111, 110));
+            geoTriangulo.faces.push(new THREE.Face3(113, 115, 114));
+            geoTriangulo.faces.push(new THREE.Face3(114, 116, 113));
+            geoTriangulo.faces.push(new THREE.Face3(114, 116, 137));
+            geoTriangulo.faces.push(new THREE.Face3(111, 73, 112));
+            geoTriangulo.faces.push(new THREE.Face3(73, 80, 74));
+            geoTriangulo.faces.push(new THREE.Face3(73, 72, 111));
+            geoTriangulo.faces.push(new THREE.Face3(72, 41, 73));
+              geoTriangulo.computeFaceNormals();
+
+            //REFLEJO
+            var r0 = new THREE.Vector3(0, 0.27, 55.72);
+            var r1 = new THREE.Vector3(0, -8.61, 49.85);
+            var r2 = new THREE.Vector3(0, -13.18, 43.11);
+            var r3 = new THREE.Vector3(0, -12.99, 37.49);
+            var r4 = new THREE.Vector3(0, -12.79, 31.85);
+            var r5 = new THREE.Vector3(0, -13.01, 29.69);
+            var r6 = new THREE.Vector3(0, -15.36, 27.38);
+            var r7 = new THREE.Vector3(0, -17.59, 24.81);
+            var r8 = new THREE.Vector3(0, -20.8, 20, 5);
+            var r9 = new THREE.Vector3(0, -15.98, 17.73);
+            var r10 = new THREE.Vector3(0, -16.62, 14.69);
+            var r11 = new THREE.Vector3(0, -15.98, 11.62);
+            var r12 = new THREE.Vector3(0, 14.58, 11);
+            var r13 = new THREE.Vector3(0, -11.18, 15.46);
+            var r14 = new THREE.Vector3(0, -3.88, 10.53);
+            var r15 = new THREE.Vector3(0, 11.21, 6.2);
+            var r16 = new THREE.Vector3(0, -17.25, 7.19);
+            var r17 = new THREE.Vector3(0, -17.76, 4.63);
+            var r18 = new THREE.Vector3(0, -14.91, 4.53);
+            var r19 = new THREE.Vector3(0, -14.85, 0.28);
+            var r20 = new THREE.Vector3(0, 12.72, 3.16);
+            var r21 = new THREE.Vector3(0, -9.5, -2.83);
+            var r22 = new THREE.Vector3(0, -0.3, -1.96);
+            var r23 = new THREE.Vector3(0, 12.49, 1.59);
+            var r24 = new THREE.Vector3(0, 23.08, 7.56);
+            var r25 = new THREE.Vector3(0, 29.68, 16.08);
+            var r26 = new THREE.Vector3(0, 33.21, 26.54);
+            var r27 = new THREE.Vector3(0, 31.83, 36.28);
+            var r28 = new THREE.Vector3(0, 29.26, 42.85);
+            var r29 = new THREE.Vector3(0, 22.6, 52.87);
+            var r30 = new THREE.Vector3(0, 9.67, 56.69);
+            var r31 = new THREE.Vector3(6.68, 10.36, 55.96);
+            var r32 = new THREE.Vector3(5.83, 1.07, 55.02);
+            var r33 = new THREE.Vector3(3.33, -8.54, 49.83);
+            var r34 = new THREE.Vector3(2.28, -14.97, 38.34);
+            var r35 = new THREE.Vector3(2.94, -14.42, 35.45);
+            var r36 = new THREE.Vector3(1.89, -11.46, 31.28);
+            var r37 = new THREE.Vector3(1.90, -11.53, 29.06);
+            var r38 = new THREE.Vector3(2.6, -14.06, 27.19);
+            var r39 = new THREE.Vector3(3.59, -15.85, 24.54);
+            var r40 = new THREE.Vector3(4.06, -19.49, 20.71);
+            var r41 = new THREE.Vector3(4.61, -15.02, 18.92);
+            var r42 = new THREE.Vector3(4.59, -15.58, 15.06);
+            var r43 = new THREE.Vector3(4.58, -14.8, 11.21);
+            var r44 = new THREE.Vector3(4.54, -13.59, 10.47);
+            var r45 = new THREE.Vector3(4.34, -10.28, 14.58);
+            var r46 = new THREE.Vector3(5.16, -2.47, 11.64);
+            var r47 = new THREE.Vector3(4.22, -10.53, 7.4);
+            var r48 = new THREE.Vector3(5.16, -15.9, 7.55);
+            var r49 = new THREE.Vector3(5.37, -16.34, 4.69);
+            var r50 = new THREE.Vector3(4.55, -14.53, 3.61);
+            var r51 = new THREE.Vector3(6.6, -16.58, 0.93);
+            var r52 = new THREE.Vector3(6.56, -12.36, -4.39);
+            var r53 = new THREE.Vector3(6.56, -10.19, -4.05);
+            var r54 = new THREE.Vector3(4.4, -0.3, -1.96);
+            var r55 = new THREE.Vector3(6.21, 12.83, 2.7);
+            var r56 = new THREE.Vector3(5.85, 23.08, 9.28);
+            var r57 = new THREE.Vector3(7.12, 28.49, 17.09);
+            var r58 = new THREE.Vector3(7.93, 31.79, 26.43);
+            var r59 = new THREE.Vector3(8.87, 30.69, 35.92);
+            var r60 = new THREE.Vector3(7.91, 27.43, 43.45);
+            var r61 = new THREE.Vector3(6.56, 21.78, 52.01);
+            var r62 = new THREE.Vector3(11.28, 2.3, 52.23);
+            var r63 = new THREE.Vector3(7.95, -7.8, 48.28);
+            var r64 = new THREE.Vector3(6.86, -14.49, 36.82);
+            var r65 = new THREE.Vector3(6.62, -14.66, 34.32);
+            var r66 = new THREE.Vector3(6.12, -11.76, 32.8);
+            var r67 = new THREE.Vector3(4.52, -10.77, 32.33);
+            var r68 = new THREE.Vector3(3.33, -10.47, 30.38);
+            var r69 = new THREE.Vector3(3.49, -10.42, 28.73);
+            var r70 = new THREE.Vector3(3.13, -10.55, 27.33);
+            var r71 = new THREE.Vector3(3.62, -10.9, 24.71);
+            var r72 = new THREE.Vector3(3.95, -11.61, 21.46);
+            var r73 = new THREE.Vector3(9.75, -12.06, 12.11);
+            var r74 = new THREE.Vector3(8.51, -12.92, 10.2);
+            var r75 = new THREE.Vector3(8.21, -11.73, 9.88);
+            var r76 = new THREE.Vector3(7.98, -8.98, 11.1);
+            var r77 = new THREE.Vector3(8.3, -8.88, 9.4);
+            var r78 = new THREE.Vector3(8.57, -11.88, -9.4);
+            var r79 = new THREE.Vector3(8.96, -12.3, 9.37);
+            var r80 = new THREE.Vector3(10.53, -11.28, 8.87);
+            var r81 = new THREE.Vector3(9.37, -11.98, -6.23);
+            var r82 = new THREE.Vector3(11.54, -10.67, 1.95);
+            var r83 = new THREE.Vector3(13.07, -7.36, 2.04);
+            var r84 = new THREE.Vector3(14.66, 1.09, 2.36);
+            var r85 = new THREE.Vector3(12.06, 12.67, 5.28);
+            var r86 = new THREE.Vector3(10.35, 23.17, 11.64);
+            var r87 = new THREE.Vector3(13.35, 25.52, 19.61);
+            var r88 = new THREE.Vector3(14.98, 25.96, 26.82);
+            var r89 = new THREE.Vector3(13.72, 25.08, 36.89);
+            var r90 = new THREE.Vector3(12.55, 22.34, 46.19);
+            var r91 = new THREE.Vector3(12.17, 10.63, 53.8);
+            var r92 = new THREE.Vector3(16.11, 3.35, 46.69);
+            var r93 = new THREE.Vector3(14.58, -4.34, 44);
+            var r94 = new THREE.Vector3(14.85, -9.71, 37.64);
+            var r95 = new THREE.Vector3(14.85, -9.71, 37.64);
+            var r96 = new THREE.Vector3(10.72, -9.59, 32.15);
+            var r97 = new THREE.Vector3(10.74, -10.79, 30.81);
+            var r98 = new THREE.Vector3(6.42, -12.87, 31.26);
+            var r99 = new THREE.Vector3(4.77, -10.09, 28.98);
+            var r100 = new THREE.Vector3(4.59, -10.08, 29.7);
+            var r101 = new THREE.Vector3(6.49, -10.33, 30.49);
+            var r102 = new THREE.Vector3(9.82, -9.41, 30.21);
+            var r103 = new THREE.Vector3(11.75, -7.23, 29.26);
+            var r104 = new THREE.Vector3(11.31, -7.42, 28.67);
+            var r105 = new THREE.Vector3(9.86, -9.95, 28.89);
+            var r106 = new THREE.Vector3(7.06, -10.71, 28.92);
+            var r107 = new THREE.Vector3(7.17, -11.83, 28.6);
+            var r108 = new THREE.Vector3(7.39, -12.15, 27.02);
+            var r109 = new THREE.Vector3(7.37, -10.79, 25.28);
+            var r110 = new THREE.Vector3(10.21, -12.86, 22.74);
+            var r111 = new THREE.Vector3(7.14, -14.48, 21.58);
+            var r112 = new THREE.Vector3(10.99, -13.38, 12.53);
+            var r113 = new THREE.Vector3(12.27, -11.21, 7.57);
+            var r114 = new THREE.Vector3(13.36, -9.53, 11.04);
+            var r115 = new THREE.Vector3(12.58, -10.35, 15.62);
+            var r116 = new THREE.Vector3(15.71, -7.74, 4.21);
+            var r117 = new THREE.Vector3(17.47, 6, 7.12);
+            var r118 = new THREE.Vector3(19.76, 3.32, 8.21);
+            var r119 = new THREE.Vector3(19.31, 12.41, 14.01);
+            var r120 = new THREE.Vector3(0, 0, 0);
+            var r121 = new THREE.Vector3(17.21, 19.58, 17.12);
+            var r122 = new THREE.Vector3(19.5, 16.32, 21.25);
+            var r123 = new THREE.Vector3(17.9, 16.73, 28.94);
+            var r124 = new THREE.Vector3(18.04, 15.5, 38.66);
+            var r125 = new THREE.Vector3(16.77, 11.5, 47.88);
+            var r126 = new THREE.Vector3(18.54, -0.45, 36.36);
+            var r127 = new THREE.Vector3(17.35, -3.64, 33.72);
+            var r128 = new THREE.Vector3(12.18, -7.17, 31.76);
+            var r129 = new THREE.Vector3(13.01, -7.05, 29.33);
+            var r130 = new THREE.Vector3(12.12, -7.29, 28.42);
+            var r131 = new THREE.Vector3(12.51, -6.42, 27.43);
+            var r132 = new THREE.Vector3(11.53, -10.57, 26.87);
+            var r133 = new THREE.Vector3(10.45, -10.31, 28.62);
+            var r134 = new THREE.Vector3(10.49, -9.64, 25.32);
+            var r135 = new THREE.Vector3(13.62, -10.88, 22.64);
+            var r136 = new THREE.Vector3(15.05, -9.19, 16.94);
+            var r137 = new THREE.Vector3(15.73, -9, 11.67);
+            var r138 = new THREE.Vector3(16.93, -5.15, 18.13);
+            var r139 = new THREE.Vector3(17.84, -0.75, 17.8);
+            var r140 = new THREE.Vector3(20.63, 11.48, 21.02);
+            var r141 = new THREE.Vector3(18.58, 10.16, 28.82);
+            var r142 = new THREE.Vector3(18.8, 7.02, 39.33);
+            var r143 = new THREE.Vector3(17.26, -0.36, 30.13);
+            var r144 = new THREE.Vector3(16.18, -2.92, 31.57);
+            var r145 = new THREE.Vector3(16.35, -0.7, 25.81);
+            var r146 = new THREE.Vector3(14.11, -6.19, 24.96);
+
+
+Triangulo.vertices.push(r0);
+          Triangulo.vertices.push(r1);
+          Triangulo.vertices.push(r2);
+          Triangulo.vertices.push(r3);
+          Triangulo.vertices.push(r4);
+          Triangulo.vertices.push(r5);
+          Triangulo.vertices.push(r6);
+          Triangulo.vertices.push(r7);
+          Triangulo.vertices.push(r8);
+          Triangulo.vertices.push(r9);
+          Triangulo.vertices.push(r10);
+          Triangulo.vertices.push(r11);
+          Triangulo.vertices.push(r12);
+          Triangulo.vertices.push(r13);
+          Triangulo.vertices.push(r14);
+          Triangulo.vertices.push(r15);
+          Triangulo.vertices.push(r16);
+          Triangulo.vertices.push(r17);
+          Triangulo.vertices.push(r18);
+          Triangulo.vertices.push(r19);
+          Triangulo.vertices.push(r20);
+          Triangulo.vertices.push(r21);
+          Triangulo.vertices.push(r22);
+          Triangulo.vertices.push(r23);
+          Triangulo.vertices.push(r24);
+          Triangulo.vertices.push(r25);
+          Triangulo.vertices.push(r26);
+          Triangulo.vertices.push(r27);
+          Triangulo.vertices.push(r28);
+          Triangulo.vertices.push(r29);
+          Triangulo.vertices.push(r30);
+          Triangulo.vertices.push(r31);
+          Triangulo.vertices.push(r32);
+          Triangulo.vertices.push(r33);
+          Triangulo.vertices.push(r34);
+          Triangulo.vertices.push(r35);
+          Triangulo.vertices.push(r36);
+          Triangulo.vertices.push(r37);
+          Triangulo.vertices.push(r38);
+          Triangulo.vertices.push(r39);
+          Triangulo.vertices.push(r40);
+          Triangulo.vertices.push(r41);
+          Triangulo.vertices.push(r42);
+          Triangulo.vertices.push(r43);
+          Triangulo.vertices.push(r44);
+          Triangulo.vertices.push(r45);
+          Triangulo.vertices.push(r46);
+          Triangulo.vertices.push(r47);
+          Triangulo.vertices.push(r48);
+          Triangulo.vertices.push(r49);
+          Triangulo.vertices.push(r50);
+          Triangulo.vertices.push(r51);
+          Triangulo.vertices.push(r52);
+          Triangulo.vertices.push(r53);
+          Triangulo.vertices.push(r54);
+          Triangulo.vertices.push(r55);
+          Triangulo.vertices.push(r56);
+          Triangulo.vertices.push(r57);
+          Triangulo.vertices.push(r58);
+          Triangulo.vertices.push(r59);
+          Triangulo.vertices.push(r60);
+          Triangulo.vertices.push(r61);
+          Triangulo.vertices.push(r62);
+          Triangulo.vertices.push(r63);
+          Triangulo.vertices.push(r64);
+          Triangulo.vertices.push(r65);
+          Triangulo.vertices.push(r66);
+          Triangulo.vertices.push(r67);
+          Triangulo.vertices.push(r68);
+          Triangulo.vertices.push(r69);
+          Triangulo.vertices.push(r70);
+          Triangulo.vertices.push(r71);
+          Triangulo.vertices.push(r72);
+          Triangulo.vertices.push(r73);
+          Triangulo.vertices.push(r74);
+          Triangulo.vertices.push(r75);
+          Triangulo.vertices.push(r76);
+          Triangulo.vertices.push(r77);
+          Triangulo.vertices.push(r78);
+          Triangulo.vertices.push(r79);
+          Triangulo.vertices.push(r80);
+          Triangulo.vertices.push(r81);
+          Triangulo.vertices.push(r82);
+          Triangulo.vertices.push(r83);
+          Triangulo.vertices.push(r84);
+          Triangulo.vertices.push(r85);
+          Triangulo.vertices.push(r86);
+          Triangulo.vertices.push(r87);
+          Triangulo.vertices.push(r88);
+          Triangulo.vertices.push(r89);
+          Triangulo.vertices.push(r90);
+          Triangulo.vertices.push(r91);
+          Triangulo.vertices.push(r92);
+          Triangulo.vertices.push(r93);
+          Triangulo.vertices.push(r94);
+          Triangulo.vertices.push(r95);
+          Triangulo.vertices.push(r96);
+          Triangulo.vertices.push(r97);
+          Triangulo.vertices.push(r98);
+          Triangulo.vertices.push(r99);
+          Triangulo.vertices.push(r100);
+          Triangulo.vertices.push(r101);
+          Triangulo.vertices.push(r102);
+          Triangulo.vertices.push(r103);
+          Triangulo.vertices.push(r104);
+          Triangulo.vertices.push(r105);
+          Triangulo.vertices.push(r106);
+          Triangulo.vertices.push(r107);
+          Triangulo.vertices.push(r108);
+          Triangulo.vertices.push(r109);
+          Triangulo.vertices.push(r110);
+          Triangulo.vertices.push(r111);
+          Triangulo.vertices.push(r112);
+          Triangulo.vertices.push(r113);
+          Triangulo.vertices.push(r114);
+          Triangulo.vertices.push(r115);
+          Triangulo.vertices.push(r116);
+          Triangulo.vertices.push(r117);
+          Triangulo.vertices.push(r118);
+          Triangulo.vertices.push(r119);
+          Triangulo.vertices.push(r120);
+          Triangulo.vertices.push(r121);
+          Triangulo.vertices.push(r122);
+          Triangulo.vertices.push(r123);
+          Triangulo.vertices.push(r124);
+          Triangulo.vertices.push(r125);
+          Triangulo.vertices.push(r126);
+          Triangulo.vertices.push(r127);
+          Triangulo.vertices.push(r128);
+          Triangulo.vertices.push(r129);
+          Triangulo.vertices.push(r130);
+          Triangulo.vertices.push(r131);
+          Triangulo.vertices.push(r132);
+          Triangulo.vertices.push(r133);
+          Triangulo.vertices.push(r134);
+          Triangulo.vertices.push(r135);
+          Triangulo.vertices.push(r136);
+          Triangulo.vertices.push(r137);
+          Triangulo.vertices.push(r138);
+          Triangulo.vertices.push(r139);
+          Triangulo.vertices.push(r140);
+          Triangulo.vertices.push(r141);
+          Triangulo.vertices.push(r142);
+          Triangulo.vertices.push(r143);
+          Triangulo.vertices.push(r144);
+          Triangulo.vertices.push(r145);
+          Triangulo.vertices.push(r146);
+
+
+          
+
+            Triangulo.faces.push(new THREE.Face3(30, 29, 31));
+            Triangulo.faces.push(new THREE.Face3(30, 31, 0));
+            Triangulo.faces.push(new THREE.Face3(0, 32, 31));
+            Triangulo.faces.push(new THREE.Face3(31, 29, 61));
+            Triangulo.faces.push(new THREE.Face3(31, 91, 61));
+            Triangulo.faces.push(new THREE.Face3(31, 91, 32));
+            Triangulo.faces.push(new THREE.Face3(32, 91, 32));
+            Triangulo.faces.push(new THREE.Face3(32, 91, 62));
+            Triangulo.faces.push(new THREE.Face3(62, 32, 63));
+            Triangulo.faces.push(new THREE.Face3(63, 33, 32));
+            Triangulo.faces.push(new THREE.Face3(32, 0, 33));
+            Triangulo.faces.push(new THREE.Face3(0, 33, 1));
+            Triangulo.faces.push(new THREE.Face3(1, 33, 2));
+            Triangulo.faces.push(new THREE.Face3(2, 34, 33));
+            Triangulo.faces.push(new THREE.Face3(33, 63, 34));
+            Triangulo.faces.push(new THREE.Face3(34, 64, 63));
+            Triangulo.faces.push(new THREE.Face3(63, 64, 94));
+            Triangulo.faces.push(new THREE.Face3(94, 63, 93));
+            Triangulo.faces.push(new THREE.Face3(93, 63, 62));
+            Triangulo.faces.push(new THREE.Face3(62, 93, 92));
+            Triangulo.faces.push(new THREE.Face3(92, 62, 91));
+            Triangulo.faces.push(new THREE.Face3(91, 92, 125));
+            Triangulo.faces.push(new THREE.Face3(125, 92, 142));
+            Triangulo.faces.push(new THREE.Face3(142, 92, 126));
+            Triangulo.faces.push(new THREE.Face3(126, 92, 93));
+            Triangulo.faces.push(new THREE.Face3(93, 94, 126));
+            Triangulo.faces.push(new THREE.Face3(142, 125, 124));
+            Triangulo.faces.push(new THREE.Face3(124, 125, 90));
+            Triangulo.faces.push(new THREE.Face3(90, 125, 91));
+            Triangulo.faces.push(new THREE.Face3(90, 91, 61));
+            Triangulo.faces.push(new THREE.Face3(61, 90, 60));
+            Triangulo.faces.push(new THREE.Face3(61, 29, 60));
+            Triangulo.faces.push(new THREE.Face3(29, 60, 26));
+            Triangulo.faces.push(new THREE.Face3(28, 60, 59));
+            Triangulo.faces.push(new THREE.Face3(59, 60, 90));
+            Triangulo.faces.push(new THREE.Face3(89, 90, 59));
+            Triangulo.faces.push(new THREE.Face3(59, 58, 27));
+            Triangulo.faces.push(new THREE.Face3(27, 28, 59));
+            Triangulo.faces.push(new THREE.Face3(27, 26, 58));
+            Triangulo.faces.push(new THREE.Face3(58, 59, 88));
+            Triangulo.faces.push(new THREE.Face3(88, 59, 89));
+            Triangulo.faces.push(new THREE.Face3(89, 88, 123));
+            Triangulo.faces.push(new THREE.Face3(124, 89, 123));
+            Triangulo.faces.push(new THREE.Face3(123, 124, 141));
+            Triangulo.faces.push(new THREE.Face3(142, 124, 141));
+            Triangulo.faces.push(new THREE.Face3(142, 141, 143));
+            Triangulo.faces.push(new THREE.Face3(143, 126, 127));
+            Triangulo.faces.push(new THREE.Face3(127, 143, 144));
+            Triangulo.faces.push(new THREE.Face3(127, 126, 94));
+            Triangulo.faces.push(new THREE.Face3(94, 127, 128));
+            Triangulo.faces.push(new THREE.Face3(128, 127, 144));
+            Triangulo.faces.push(new THREE.Face3(144, 128, 129));
+            Triangulo.faces.push(new THREE.Face3(129, 144, 143));
+            Triangulo.faces.push(new THREE.Face3(143, 129, 130));
+            Triangulo.faces.push(new THREE.Face3(130, 143, 131));
+            Triangulo.faces.push(new THREE.Face3(131, 143, 145));
+            Triangulo.faces.push(new THREE.Face3(145, 131, 146));
+            Triangulo.faces.push(new THREE.Face3(145, 143, 141));
+            Triangulo.faces.push(new THREE.Face3(141, 145, 139));
+            Triangulo.faces.push(new THREE.Face3(139, 140, 141));
+            Triangulo.faces.push(new THREE.Face3(141, 140, 123));
+            Triangulo.faces.push(new THREE.Face3(123, 140, 122));
+            Triangulo.faces.push(new THREE.Face3(122, 123, 88));
+            Triangulo.faces.push(new THREE.Face3(88, 122, 121));
+            Triangulo.faces.push(new THREE.Face3(121, 88, 87));
+            Triangulo.faces.push(new THREE.Face3(87, 88, 58));
+            Triangulo.faces.push(new THREE.Face3(58, 87, 57));
+            Triangulo.faces.push(new THREE.Face3(57, 58, 25));
+            Triangulo.faces.push(new THREE.Face3(25, 26, 58));
+            Triangulo.faces.push(new THREE.Face3(25, 24, 56));
+            Triangulo.faces.push(new THREE.Face3(56, 57, 25));
+            Triangulo.faces.push(new THREE.Face3(55, 56, 24));
+            Triangulo.faces.push(new THREE.Face3(24, 23, 55));
+            Triangulo.faces.push(new THREE.Face3(55, 54, 23));
+            Triangulo.faces.push(new THREE.Face3(23, 22, 54));
+            Triangulo.faces.push(new THREE.Face3(54, 21, 22));
+            Triangulo.faces.push(new THREE.Face3(21, 54, 53));
+            Triangulo.faces.push(new THREE.Face3(53, 21, 20));
+            Triangulo.faces.push(new THREE.Face3(20, 19, 52));
+            Triangulo.faces.push(new THREE.Face3(52, 53, 20));
+            Triangulo.faces.push(new THREE.Face3(52, 19, 51));
+            Triangulo.faces.push(new THREE.Face3(51, 19, 50));
+            Triangulo.faces.push(new THREE.Face3(50, 18, 19));
+            Triangulo.faces.push(new THREE.Face3(18, 50, 49));
+            Triangulo.faces.push(new THREE.Face3(49, 18, 17));
+            Triangulo.faces.push(new THREE.Face3(17, 49, 16));
+            Triangulo.faces.push(new THREE.Face3(16, 49, 48));
+            Triangulo.faces.push(new THREE.Face3(47, 48, 16));
+            Triangulo.faces.push(new THREE.Face3(47, 78, 48));
+            Triangulo.faces.push(new THREE.Face3(77, 47, 78));
+            Triangulo.faces.push(new THREE.Face3(75, 74, 78));
+            Triangulo.faces.push(new THREE.Face3(75, 77, 78));
+            Triangulo.faces.push(new THREE.Face3(78, 74, 79));
+            Triangulo.faces.push(new THREE.Face3(79, 78, 48));
+            Triangulo.faces.push(new THREE.Face3(79, 48, 49));
+            Triangulo.faces.push(new THREE.Face3(49, 50, 79));
+            Triangulo.faces.push(new THREE.Face3(79, 50, 80));
+            Triangulo.faces.push(new THREE.Face3(80, 50, 81));
+            Triangulo.faces.push(new THREE.Face3(81, 50, 51));
+            Triangulo.faces.push(new THREE.Face3(51, 81, 52));
+            Triangulo.faces.push(new THREE.Face3(52, 81, 82));
+            Triangulo.faces.push(new THREE.Face3(82, 52, 53));
+            Triangulo.faces.push(new THREE.Face3(53, 82, 83));
+            Triangulo.faces.push(new THREE.Face3(53, 83, 84));
+            Triangulo.faces.push(new THREE.Face3(84, 53, 54));
+            Triangulo.faces.push(new THREE.Face3(54, 84, 85));
+            Triangulo.faces.push(new THREE.Face3(85, 54, 55));
+            Triangulo.faces.push(new THREE.Face3(55, 85, 56));
+            Triangulo.faces.push(new THREE.Face3(56, 85, 86));
+            Triangulo.faces.push(new THREE.Face3(86, 56, 87));
+            Triangulo.faces.push(new THREE.Face3(87, 56, 57));
+            Triangulo.faces.push(new THREE.Face3(86, 121, 87));
+            Triangulo.faces.push(new THREE.Face3(121, 86, 85));
+            Triangulo.faces.push(new THREE.Face3(85, 121, 119));
+            Triangulo.faces.push(new THREE.Face3(119, 85, 84));
+            Triangulo.faces.push(new THREE.Face3(84, 119, 118));
+            Triangulo.faces.push(new THREE.Face3(118, 84, 116));
+            Triangulo.faces.push(new THREE.Face3(116, 84, 83));
+            Triangulo.faces.push(new THREE.Face3(83, 82, 113));
+            Triangulo.faces.push(new THREE.Face3(113, 83, 116));
+            Triangulo.faces.push(new THREE.Face3(113, 82, 80));
+            Triangulo.faces.push(new THREE.Face3(80, 81, 82));
+            Triangulo.faces.push(new THREE.Face3(80, 74, 73));
+            Triangulo.faces.push(new THREE.Face3(73, 80, 112));
+            Triangulo.faces.push(new THREE.Face3(112, 80, 113));
+            Triangulo.faces.push(new THREE.Face3(75, 74, 44));
+            Triangulo.faces.push(new THREE.Face3(44, 74, 43));
+            Triangulo.faces.push(new THREE.Face3(43, 44, 11));
+            Triangulo.faces.push(new THREE.Face3(11, 12, 44));
+            Triangulo.faces.push(new THREE.Face3(11, 10, 42));
+            Triangulo.faces.push(new THREE.Face3(42, 11, 43));
+            Triangulo.faces.push(new THREE.Face3(43, 42, 74));
+            Triangulo.faces.push(new THREE.Face3(74, 73, 42));
+            Triangulo.faces.push(new THREE.Face3(42, 41, 73));
+            Triangulo.faces.push(new THREE.Face3(41, 42, 9));
+            Triangulo.faces.push(new THREE.Face3(9, 10, 42));
+            Triangulo.faces.push(new THREE.Face3(41, 40, 9));
+            Triangulo.faces.push(new THREE.Face3(9, 8, 40));
+            Triangulo.faces.push(new THREE.Face3(40, 39, 7));
+            Triangulo.faces.push(new THREE.Face3(7, 8, 40));
+            Triangulo.faces.push(new THREE.Face3(39, 38, 7));
+            Triangulo.faces.push(new THREE.Face3(7, 6, 38));
+            Triangulo.faces.push(new THREE.Face3(7, 6, 38));
+            Triangulo.faces.push(new THREE.Face3(5, 6, 38));
+            Triangulo.faces.push(new THREE.Face3(5, 4, 36));
+            Triangulo.faces.push(new THREE.Face3(36, 37, 5));
+            Triangulo.faces.push(new THREE.Face3(4, 3, 35));
+            Triangulo.faces.push(new THREE.Face3(35, 36, 4));
+            Triangulo.faces.push(new THREE.Face3(35, 34, 3));
+            Triangulo.faces.push(new THREE.Face3(3, 2, 34));
+            Triangulo.faces.push(new THREE.Face3(34, 35, 65));
+            Triangulo.faces.push(new THREE.Face3(65, 34, 64));
+            Triangulo.faces.push(new THREE.Face3(64, 65, 94));
+            Triangulo.faces.push(new THREE.Face3(94, 95, 65));
+            Triangulo.faces.push(new THREE.Face3(95, 128, 94));
+            Triangulo.faces.push(new THREE.Face3(95, 96, 128));
+            Triangulo.faces.push(new THREE.Face3(128, 129, 97));
+            Triangulo.faces.push(new THREE.Face3(97, 103, 129));
+            Triangulo.faces.push(new THREE.Face3(129, 104, 103));
+            Triangulo.faces.push(new THREE.Face3(104, 129, 130));
+            Triangulo.faces.push(new THREE.Face3(130, 104, 133));
+            Triangulo.faces.push(new THREE.Face3(133, 104, 105));
+            Triangulo.faces.push(new THREE.Face3(106, 107, 99));
+            Triangulo.faces.push(new THREE.Face3(99, 107, 69));
+            Triangulo.faces.push(new THREE.Face3(69, 99, 100));
+            Triangulo.faces.push(new THREE.Face3(100, 68, 69));
+            Triangulo.faces.push(new THREE.Face3(69, 100, 98));
+            Triangulo.faces.push(new THREE.Face3(98, 68, 100));
+            Triangulo.faces.push(new THREE.Face3(98, 101, 97));
+            Triangulo.faces.push(new THREE.Face3(103, 101, 97));
+            Triangulo.faces.push(new THREE.Face3(97, 128, 96));
+            Triangulo.faces.push(new THREE.Face3(96, 97, 66));
+            Triangulo.faces.push(new THREE.Face3(66, 97, 98));
+            Triangulo.faces.push(new THREE.Face3(98, 66, 68));
+            Triangulo.faces.push(new THREE.Face3(68, 67, 66));
+            Triangulo.faces.push(new THREE.Face3(65, 66, 96));
+            Triangulo.faces.push(new THREE.Face3(96, 95, 65));
+            Triangulo.faces.push(new THREE.Face3(35, 67, 65));
+            Triangulo.faces.push(new THREE.Face3(67, 36, 35));
+            Triangulo.faces.push(new THREE.Face3(67, 68, 36));
+            Triangulo.faces.push(new THREE.Face3(36, 68, 69));
+            Triangulo.faces.push(new THREE.Face3(69, 37, 36));
+            Triangulo.faces.push(new THREE.Face3(37, 38, 70));
+            Triangulo.faces.push(new THREE.Face3(70, 37, 69));
+            Triangulo.faces.push(new THREE.Face3(69, 70, 107));
+            Triangulo.faces.push(new THREE.Face3(107, 108, 70));
+            Triangulo.faces.push(new THREE.Face3(107, 108, 132));
+            Triangulo.faces.push(new THREE.Face3(132, 133, 107));
+            Triangulo.faces.push(new THREE.Face3(133, 132, 130));
+            Triangulo.faces.push(new THREE.Face3(130, 131, 132));
+            Triangulo.faces.push(new THREE.Face3(131, 132, 134));
+            Triangulo.faces.push(new THREE.Face3(134, 131, 146));
+            Triangulo.faces.push(new THREE.Face3(136, 138, 146));
+            Triangulo.faces.push(new THREE.Face3(146, 138, 145));
+            Triangulo.faces.push(new THREE.Face3(145, 138, 139));
+            Triangulo.faces.push(new THREE.Face3(139, 118, 140));
+            Triangulo.faces.push(new THREE.Face3(140, 141, 139));
+            Triangulo.faces.push(new THREE.Face3(140, 119, 118));
+            Triangulo.faces.push(new THREE.Face3(119, 140, 122));
+            Triangulo.faces.push(new THREE.Face3(122, 119, 121));
+            Triangulo.faces.push(new THREE.Face3(38, 39, 72));
+            Triangulo.faces.push(new THREE.Face3(72, 71, 38));
+            Triangulo.faces.push(new THREE.Face3(38, 70, 71));
+            Triangulo.faces.push(new THREE.Face3(71, 70, 109));
+            Triangulo.faces.push(new THREE.Face3(109, 108, 70));
+            Triangulo.faces.push(new THREE.Face3(108, 109, 132));
+            Triangulo.faces.push(new THREE.Face3(132, 134, 109));
+            Triangulo.faces.push(new THREE.Face3(109, 71, 110));
+            Triangulo.faces.push(new THREE.Face3(110, 109, 135));
+            Triangulo.faces.push(new THREE.Face3(135, 134, 109));
+            Triangulo.faces.push(new THREE.Face3(135, 134, 146));
+            Triangulo.faces.push(new THREE.Face3(146, 136, 135));
+            Triangulo.faces.push(new THREE.Face3(135, 136, 110));
+            Triangulo.faces.push(new THREE.Face3(110, 115, 136));
+            Triangulo.faces.push(new THREE.Face3(136, 137, 115));
+            Triangulo.faces.push(new THREE.Face3(115, 114, 137));
+            Triangulo.faces.push(new THREE.Face3(137, 136, 138));
+            Triangulo.faces.push(new THREE.Face3(117, 138, 137));
+            Triangulo.faces.push(new THREE.Face3(135, 116, 117));
+            Triangulo.faces.push(new THREE.Face3(117, 116, 118));
+            Triangulo.faces.push(new THREE.Face3(118, 117, 139));
+            Triangulo.faces.push(new THREE.Face3(139, 117, 138));
+            Triangulo.faces.push(new THREE.Face3(39, 40, 72));
+            Triangulo.faces.push(new THREE.Face3(72, 41, 71));
+            Triangulo.faces.push(new THREE.Face3(71, 111, 72));
+            Triangulo.faces.push(new THREE.Face3(111, 71, 110));
+            Triangulo.faces.push(new THREE.Face3(110, 112, 115));
+            Triangulo.faces.push(new THREE.Face3(115, 113, 112));
+            Triangulo.faces.push(new THREE.Face3(112, 111, 110));
+            Triangulo.faces.push(new THREE.Face3(113, 115, 114));
+            Triangulo.faces.push(new THREE.Face3(114, 116, 113));
+            Triangulo.faces.push(new THREE.Face3(114, 116, 137));
+            Triangulo.faces.push(new THREE.Face3(111, 73, 112));
+            Triangulo.faces.push(new THREE.Face3(73, 80, 74));
+            Triangulo.faces.push(new THREE.Face3(73, 72, 111));
+            Triangulo.faces.push(new THREE.Face3(72, 41, 73));
+
+            Triangulo.computeFaceNormals();
+            
+            strip = new TRIANGLE_STRIP(geoTriangulo);
+             strip.draw();
+            strip = new TRIANGLE_STRIP(Triangulo);
+            strip.draw();
+            strip.draw();
+
+            //CREAR LOS OBJETOS y material
+            // var matPunto = new THREE.PointsMaterial( { color: 0xFFFFFF, size: 0.1 } );
+            // var matCara = new THREE.MeshBasicMaterial( { color: 0XFFFFFF, side: THREE.DoubleSide } );
+            var matLinea = new THREE.LineBasicMaterial({
+                color: 0xFFFFFF
+            });
+
+
+            var PuntosTriangulo = new THREE.Line(geoTriangulo, matLinea);
+            // var MallaTriangulo = new THREE.Points( geoTriangulo, matCara);
+
+            //AGREGAR A LA ESCENA
+            //scene.add( gridHelperXY );
+            scene.add(gridHelperXZ);
+            scene.add(arrowX);
+            scene.add(arrowY);
+            scene.add(arrowZ);
+            // scene.add( MallaTriangulo );
+            //  scene.add( PuntosTriangulo );
+            camera.position.x = 0;
+            camera.position.y = -100;
+            camera.position.z = 100;
+
+            camera.lookAt(origin);
+        }
+
+        function onWindowResize() {
+
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+
+            renderer.setSize(window.innerWidth, window.innerHeight);
+
+        }
+
+        function animate() {
+            render();
+            controls.update(); // required if controls.enableDamping = true, or if controls.autoRotate = true
+            requestAnimationFrame(animate);
+            stats.update();
+        }
+
+        function render() {
+
+            var time = Date.now() * 0.0005;
+            var delta = clock.getDelta();
+
+            if (object) object.rotation.y -= 0.5 * delta;
+
+            light1.position.x = Math.sin(time * 0.7) * 30;
+            light1.position.y = Math.cos(time * 0.5) * 40;
+            light1.position.z = Math.cos(time * 0.3) * 30;
+
+            light2.position.x = Math.cos(time * 0.3) * 30;
+            light2.position.y = Math.sin(time * 0.5) * 40;
+            light2.position.z = Math.sin(time * 0.7) * 30;
+
+            light3.position.x = Math.sin(time * 0.7) * 30;
+            light3.position.y = Math.cos(time * 0.3) * 40;
+            light3.position.z = Math.sin(time * 0.5) * 30;
+
+            light4.position.x = Math.sin(time * 0.3) * 30;
+            light4.position.y = Math.cos(time * 0.7) * 40;
+            light4.position.z = Math.sin(time * 0.5) * 30;
+
+            renderer.render(scene, camera);
+
+        }
+    </script>
+</body>
+
+</html>

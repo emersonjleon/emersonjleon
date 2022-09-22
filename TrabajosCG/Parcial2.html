@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>three.js webgl - interactive - voxel painter</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+
+    <style>
+        body {
+            background-color: #f0f0f0;
+            color: #444;
+        }
+        
+        a {
+            color: #08f;
+        }
+        
+        button {
+            background: #1AAB8A;
+            color: #fff;
+            border: none;
+            position: absolute;
+            height: 6%;
+            width: 10%;
+            font-size: 1em;
+            padding: 2em;
+            cursor: pointer;
+            transition: 800ms ease all;
+            outline: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="my-div">
+        <!--canvas id='canvas' width='500px' height='500px'></canvas-->
+        <button id='button' style="left:10%; top:90%" onClick="fichaClick1()">FICHA 1</button>
+        <button id='button' style="left:40%; top:90%" onClick="colorClick3()">FICHA 3</button>
+        <button id='button' style="left:70%; top:90%" onClick="rotarClick5()">FICHA 5</button>
+        <button id='button' style="left:25%; top:90%" onClick="fichaClick2()">FICHA 2</button>
+        <button id='button' style="left:55%; top:90%" onClick="colorClick4()">FICHA 4</button>
+
+    </div>
+
+    <script src="js/three.min.js"></script>
+    <script src="js/controls/OrbitControls.js"></script>
+    <script src="js/csg.js"></script>
+    <script src="js/THREE.CSG.js"></script>
+
+    <script>
+        var camera, scene, renderer, controls, colorR;
+        var plane;
+        var mouse, raycaster, isShiftDown = false;
+        var btn1, btn2, btn3, btn4, btn5;
+
+        var rollOverMesh, rollOverMaterial;
+        var cubeGeo, cubeMaterial;
+
+        var objects = [];
+
+        init();
+        render();
+
+        function init() {
+
+            camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 10000);
+            camera.position.set(500, 800, 1300);
+            camera.lookAt(0, 0, 0);
+
+            controls = new THREE.OrbitControls(camera);
+            controls.target.set(0, 100, 0);
+            controls.update();
+
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0xf0f0f0);
+
+            // roll-over helpers
+
+            var rollOverGeo = new THREE.BoxBufferGeometry(50, 50, 50);
+            rollOverMaterial = new THREE.MeshBasicMaterial({
+                color: 0x00ffff,
+                opacity: 0.5,
+                transparent: true
+            });
+            rollOverMesh = new THREE.Mesh(rollOverGeo, rollOverMaterial);
+            scene.add(rollOverMesh);
+
+
+
+
+
+            // grid
+
+
+            var gridHelper = new THREE.GridHelper(1000, 20);
+            scene.add(gridHelper);
+
+            //
+
+            raycaster = new THREE.Raycaster();
+            mouse = new THREE.Vector2();
+
+            var geometry = new THREE.PlaneBufferGeometry(1000, 1000);
+            geometry.rotateX(-Math.PI / 2);
+
+            plane = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial({
+                visible: false
+            }));
+            scene.add(plane);
+
+            objects.push(plane);
+
+            // lights
+
+            var ambientLight = new THREE.AmbientLight(0x606060);
+            scene.add(ambientLight);
+
+            var directionalLight = new THREE.DirectionalLight(0xffffff);
+            directionalLight.position.set(1, 0.75, 0.5).normalize();
+            scene.add(directionalLight);
+
+            renderer = new THREE.WebGLRenderer({
+                antialias: true
+            });
+            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.body.appendChild(renderer.domElement);
+
+            document.addEventListener('mousemove', onDocumentMouseMove, false);
+            document.addEventListener('mousedown', onDocumentMouseDown, false);
+            document.addEventListener('keydown', onDocumentKeyDown, false);
+            document.addEventListener('keyup', onDocumentKeyUp, false);
+
+            //
+
+            window.addEventListener('resize', onWindowResize, false);
+
+
+
+        }
+
+        function onWindowResize() {
+
+
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+
+            renderer.setSize(window.innerWidth, window.innerHeight);
+
+
+        }
+
+        function selectF() {
+
+            if (fichaClick) {
+                var voxelOPC = F1;
+            }
+
+        }
+
+        function onDocumentMouseMove(event) {
+
+            event.preventDefault();
+
+            mouse.set((event.clientX / window.innerWidth) * 2 - 1, -(event.clientY / window.innerHeight) * 2 + 1);
+
+            raycaster.setFromCamera(mouse, camera);
+
+            var intersects = raycaster.intersectObjects(objects);
+
+            if (intersects.length > 0) {
+
+                var intersect = intersects[0];
+
+                rollOverMesh.position.copy(intersect.point).add(intersect.face.normal);
+                rollOverMesh.divideScalar(50).floor().multiplyScalar(50).addScalar(25);
+
+            }
+
+            render();
+
+        }
+
+        function onDocumentMouseDown(event) {
+            // FICHA 1
+
+            cubeGeo = new THREE.BoxBufferGeometry(80, 80, 80);
+            cubeMaterial = new THREE.MeshLambertMaterial({
+                color: "#" + ((1 << 24) * Math.random() | 0).toString(16),
+            });
+            cubeD = new THREE.BoxBufferGeometry(60, 100, 60);
+
+            var box = new THREE.Mesh(cubeGeo, cubeMaterial);
+            var box2 = new THREE.Mesh(cubeD);
+            var box3 = new THREE.Mesh(cubeD);
+            box3.rotateX(1.571);
+            var box4 = new THREE.Mesh(cubeD);
+            box4.rotateZ(1.571);
+
+            var cajita = THREE.CSG.fromMesh(box);
+            var dentro1 = THREE.CSG.fromMesh(box2);
+            var dentro2 = THREE.CSG.fromMesh(box3);
+            var dentro3 = THREE.CSG.fromMesh(box4);
+
+            var dentro = dentro1.union(dentro2).union(dentro3);
+            var ficha1 = cajita.subtract(dentro);
+            var F1 = THREE.CSG.toMesh(ficha1, cubeMaterial);
+
+            //scene.add(F1);
+
+            //FICHA2
+
+            var curveC1 = new THREE.CatmullRomCurve3([
+                new THREE.Vector3(80, 0, 0),
+                new THREE.Vector3(80, 10, 0),
+                new THREE.Vector3(70, 70, 0),
+                new THREE.Vector3(10, 80, 0),
+                new THREE.Vector3(0, 80, 0)
+            ])
+
+            var extrudeSettings = {
+                steps: 100,
+                bevelEnabled: false,
+                extrudePath: curveC1
+            };
+
+
+            var pts = [],
+                count = 50;
+
+            for (var i = 0; i < count; i++) {
+
+                var l = 20;
+
+                var a = 2 * i / count * Math.PI;
+
+                pts.push(new THREE.Vector4(Math.cos(a) * l, Math.sin(a) * l));
+
+            }
+
+            var shape = new THREE.Shape(pts);
+
+            var tubitoG = new THREE.ExtrudeBufferGeometry(shape, extrudeSettings);
+
+            var F2 = new THREE.Mesh(tubitoG, cubeMaterial);
+
+            //scene.add(F2);
+
+            //FICHA 3
+
+            var curveC = [];
+            curveC[0] = new THREE.Vector2(40, 10);
+            curveC[1] = new THREE.Vector2(40, 20);
+            curveC[2] = new THREE.Vector2(40, 60);
+            curveC[3] = new THREE.Vector2(0, 100);
+
+
+            var shapeC = new THREE.Shape();
+            shapeC.moveTo(40, 0);
+            shapeC.splineThru(curveC);
+
+            var pointsC = shapeC.getPoints(50);
+            var geometryC = new THREE.LatheGeometry(pointsC);
+            var F3 = new THREE.Mesh(geometryC, cubeMaterial);
+            // F3.position.x = 200;
+            //scene.add(F3);
+
+            //FICHA 4
+            torusG = new THREE.TorusGeometry(30, 10, 16, 50);
+            var torus = new THREE.Mesh(torusG, cubeMaterial);
+            torus.position.z = 60;
+            var torus2 = new THREE.Mesh(torusG, cubeMaterial);
+            torus2.position.z = 80;
+            var torus3 = new THREE.Mesh(torusG, cubeMaterial);
+            torus3.position.z = 100;
+            var torus4 = new THREE.Mesh(torusG, cubeMaterial);
+            torus4.position.z = 120;
+            var torus5 = new THREE.Mesh(torusG, cubeMaterial);
+            torus5.position.z = 140;
+
+            var Torus = THREE.CSG.fromMesh(torus);
+            var Torus2 = THREE.CSG.fromMesh(torus2);
+            var Torus3 = THREE.CSG.fromMesh(torus3);
+            var Torus4 = THREE.CSG.fromMesh(torus4);
+            var Torus5 = THREE.CSG.fromMesh(torus5);
+
+            var gusi = Torus.union(Torus2).union(Torus3).union(Torus4).union(Torus5);
+            var F4 = THREE.CSG.toMesh(gusi, cubeMaterial);
+            //scene.add(F4);
+
+            //FICHA 5
+
+            var curveO = [];
+            curveO[0] = new THREE.Vector2(0, 0);
+            curveO[1] = new THREE.Vector2(80, 0);
+            curveO[2] = new THREE.Vector2(80, 50);
+            curveO[3] = new THREE.Vector2(60, 25);
+            curveO[4] = new THREE.Vector2(40, 50);
+            curveO[5] = new THREE.Vector2(20, 25);
+            curveO[6] = new THREE.Vector2(0, 50);
+            curveO[7] = new THREE.Vector2(0, 25);
+
+
+            var shapeO = new THREE.Shape();
+            shapeO.moveTo(0, 0);
+            shapeO.splineThru(curveO);
+
+            var pointsO = shapeO.getPoints(10);
+            var geometryO = new THREE.BufferGeometry().setFromPoints(pointsO);
+
+            var extrudeSettingsC = {
+                steps: 2,
+                amount: 100,
+                bevelEnabled: false,
+            };
+
+            var geometryC = new THREE.ExtrudeGeometry(shapeO, extrudeSettingsC);
+            var F5 = new THREE.Mesh(geometryC, cubeMaterial);
+            // F5.position.z = -200;
+
+            //  scene.add(F5);
+
+            event.preventDefault();
+
+            mouse.set((event.clientX / window.innerWidth) * 2 - 1, -(event.clientY / window.innerHeight) * 2 + 1);
+
+            raycaster.setFromCamera(mouse, camera);
+
+            var intersects = raycaster.intersectObjects(objects);
+
+            if (intersects.length > 0) {
+
+                var intersect = intersects[0];
+
+                // delete cube
+
+                if (isShiftDown) {
+
+                    if (intersect.object !== plane) {
+
+                        scene.remove(intersect.object);
+
+                        objects.splice(objects.indexOf(intersect.object), 1);
+
+                    }
+
+                    // create cube
+
+                } else {
+
+                    if (btn1 == true) {
+
+                        var voxel = F1;
+                    }
+                    if (btn2 == true) {
+
+                        var voxel = F2;
+                    }
+                    if (btn3 == true) {
+
+                        var voxel = F3;
+                    }
+                    if (btn4 == true) {
+
+                        var voxel = F4;
+                    }
+                    if (btn5 == true) {
+
+                        var voxel = F5;
+                    }
+
+                    voxel.position.copy(intersect.point).add(intersect.face.normal);
+                    voxel.position.divideScalar(100).floor().multiplyScalar(50).addScalar(50);
+                    scene.add(voxel);
+
+                    objects.push(voxel);
+
+
+                }
+
+                render();
+
+            }
+
+        }
+
+        function onDocumentKeyDown(event) {
+
+            switch (event.keyCode) {
+
+                case 16:
+                    isShiftDown = true;
+                    break;
+
+            }
+
+        }
+
+        function onDocumentKeyUp(event) {
+
+            switch (event.keyCode) {
+
+                case 16:
+                    isShiftDown = false;
+                    break;
+
+            }
+
+        }
+
+        function render() {
+
+            renderer.render(scene, camera);
+
+        }
+
+        function fichaClick1() {
+            btn1 = true;
+            btn2 = false;
+            btn3 = false;
+            btn4 = false;
+            btn5 = false;
+        }
+
+        function fichaClick2() {
+            btn2 = true;
+            btn1 = false;
+            btn3 = false;
+            btn4 = false;
+            btn5 = false;
+        }
+
+
+        function fichaClick3() {
+            btn3 = true;
+            btn1 = false;
+            btn2 = false;
+            btn4 = false;
+            btn5 = false;
+        }
+
+        function fichaClick4() {
+            btn4 = true;
+            btn1 = false;
+            btn2 = false;
+            btn3 = false;
+            btn5 = false;
+        }
+
+        function fichaClick5() {
+            btn5 = true;
+            btn1 = false;
+            btn2 = false;
+            btn3 = false;
+            btn4 = false;
+        }
+    </script>
+
+</body>
+
+</html>

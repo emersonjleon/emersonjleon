@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Inicio</title>
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        
+        #info {
+            position: absolute;
+            padding: 10px;
+            width: 100%;
+            font-size: 5em;
+            text-align: center;
+            color: #FFFFFF;
+        }
+        
+        #info2 {
+            position: absolute;
+            padding: 10px;
+            width: 100%;
+            font-size: 2.5em;
+            text-align: center;
+            color: #FFFFFF;
+        }
+        
+        button {
+            background: #222;
+            color: #fff;
+            border: none;
+            position: absolute;
+            height: 3%;
+            width: 13%;
+            font-size: 1.5em;
+            padding: 0em;
+            cursor: pointer;
+            transition: 800ms ease all;
+            outline: none;
+        }
+        
+        a2 {
+            text-decoration: none;
+            color: #fff;
+        }
+        
+        a {
+            text-decoration: none;
+            color: #fff140;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="info">
+        <a2 rel="noopener">COMPUTACI&#211;N GR&#193;FICA</a2><br />
+    </div>
+    <div id="info2">
+        <br /><br />
+        <a2 rel="noopener">Gabriela Sof&#237;a Le&#243;n Guerrero</a2><br />
+    </div>
+    <div id="my-div">
+
+        <button id='button' style="left:7%; top:53% " onClick="grafosClick() "> <a href="Arana.html">ARA&#209;A</a></button>
+        <button id='button' style="left:25%; top:53% " onClick="grafosClick() "> <a href="escenaluz.html">ESCENA</a></button>
+        <button id='button' style="left:43.5%; top:53% " onClick="grafosClick() "> <a href="UMNG.html">UMNG</a></button>
+        <button id='button' style="left:62%; top:53% " onClick="grafosClick() "> <a href="Parcial3.html">CIRCO</a></button>
+        <button id='button' style="left:80%; top:53% " onClick="grafosClick() "> <a href="Animal.html">ANIMAL</a></button>
+        <button id='button' style="left:7%; top:87% " onClick="grafosClick() "> <a href="Modelado2.0.html">M&#193;SCARA</a></button>
+        <button id='button' style="left:25%; top:87% " onClick="grafosClick() "> <a href="CSG2.html">CSG1</a></button>
+        <button id='button' style="left:43.5%; top:87% " onClick="grafosClick() "> <a href="Parcial2.html">LEGO</a></button>
+        <button id='button' style="left:62%; top:87% " onClick="grafosClick() "> <a href="CSGcube.html">CSG2</a></button>
+        <button id='button' style="left:80%; top:87% " onClick="grafosClick() "> <a href="index.html">PROYECTO</a></button>
+        <button id='button2' style="left:43.5%; top:19% " onClick="grafosClick() "> <a2 href="https://github.com/gabrielaasl/TrabajosCG.git">GitHub</a2></button>
+    </div>
+    <script src="js/three.js "></script>
+    <script>
+        var scene, aspect, camera, renderer, anc, alt;
+        var geometry, particles, particles1;
+        var object;
+
+        init();
+        animate();
+
+        function init() {
+
+            scene = new THREE.Scene();
+            scene.fog = new THREE.FogExp2(0x000000, 0.0008);
+            anc = window.innerWidth;
+            alt = window.innerHeigh;
+            aspect = window.innerWidth / window.innerHeight;
+            camera = new THREE.PerspectiveCamera(45, aspect, 0.1, 1000);
+            renderer = new THREE.WebGLRenderer();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.body.appendChild(renderer.domElement);
+
+            //ELEMENTOS DE ESCENA
+            var ambient = new THREE.AmbientLight(0xffffff, 2);
+            scene.add(ambient);
+
+            var plano = new THREE.PlaneGeometry(28, 18);
+
+            var textureLoader = new THREE.TextureLoader();
+
+            var sprite1 = textureLoader.load('images/1.png');
+            var Material1 = new THREE.MeshStandardMaterial({
+                color: 0xffffff,
+                map: sprite1,
+                transparent: true,
+            });
+            var sprite2 = textureLoader.load('images/2.png');
+            var Material2 = new THREE.MeshStandardMaterial({
+                color: 0xffffff,
+                map: sprite2,
+                transparent: true,
+            });
+            var sprite3 = textureLoader.load('images/3.png');
+            var Material3 = new THREE.MeshStandardMaterial({
+                color: 0xffffff,
+                map: sprite3,
+                transparent: true,
+            });
+            var sprite4 = textureLoader.load('images/4.png');
+            var Material4 = new THREE.MeshStandardMaterial({
+                color: 0xffffff,
+                map: sprite4,
+                transparent: true,
+            });
+            var sprite5 = textureLoader.load('images/5.png');
+            var Material5 = new THREE.MeshStandardMaterial({
+                color: 0xffffff,
+                map: sprite5,
+                transparent: true,
+            });
+            var sprite11 = textureLoader.load('images/11.png');
+            var Material11 = new THREE.MeshStandardMaterial({
+                color: 0xffffff,
+                map: sprite11,
+                transparent: true,
+            });
+            var sprite12 = textureLoader.load('images/12.png');
+            var Material12 = new THREE.MeshStandardMaterial({
+                color: 0xffffff,
+                map: sprite12,
+                transparent: true,
+            });
+            var sprite13 = textureLoader.load('images/13.png');
+            var Material13 = new THREE.MeshStandardMaterial({
+                color: 0xffffff,
+                map: sprite13,
+                transparent: true,
+            });
+            var sprite14 = textureLoader.load('images/14.png');
+            var Material14 = new THREE.MeshStandardMaterial({
+                color: 0xffffff,
+                map: sprite14,
+                transparent: true,
+            });
+            var sprite15 = textureLoader.load('images/15.png');
+            var Material15 = new THREE.MeshStandardMaterial({
+                color: 0xffffff,
+                map: sprite15,
+                transparent: true,
+            });
+
+            var img1 = new THREE.Mesh(plano, Material1);
+            img1.position.y = 8;
+            img1.position.x = anc / 1000 - 65;
+            var img2 = new THREE.Mesh(plano, Material13);
+            img2.position.y = 8;
+            img2.position.x = anc / 1000 - 33;
+            var img3 = new THREE.Mesh(plano, Material3);
+            img3.position.y = 8;
+            var img4 = new THREE.Mesh(plano, Material14);
+            img4.position.y = 8;
+            img4.position.x = anc / 1000 + 29;
+            var img5 = new THREE.Mesh(plano, Material5);
+            img5.position.y = 8;
+            img5.position.x = anc / 1000 + 60;
+            var img6 = new THREE.Mesh(plano, Material11);
+            img6.position.y = -20;
+            img6.position.x = anc / 1000 - 65;
+            var img7 = new THREE.Mesh(plano, Material2);
+            img7.position.y = -20;
+            img7.position.x = anc / 1000 - 33;
+            var img8 = new THREE.Mesh(plano, Material12);
+            img8.position.y = -20;
+            var img9 = new THREE.Mesh(plano, Material4);
+            img9.position.y = -20;
+            img9.position.x = anc / 1000 + 29;
+            var img10 = new THREE.Mesh(plano, Material15);
+            img10.position.y = -20;
+            img10.position.x = anc / 1000 + 60;
+
+            scene.add(img1);
+            scene.add(img2);
+            scene.add(img3);
+            scene.add(img4);
+            scene.add(img5);
+            scene.add(img6);
+            scene.add(img7);
+            scene.add(img8);
+            scene.add(img9);
+            scene.add(img10);
+            //MOVER LA CAMARA
+            camera.position.x = 0;
+            camera.position.y = 0;
+            camera.position.z = 100;
+            camera.lookAt(origin);
+        }
+
+        function animate() {
+            render();
+            requestAnimationFrame(animate);
+        }
+
+        function render() {
+            camera.lookAt(0, 0, 0);
+            renderer.render(scene, camera);
+        }
+
+        function animateClick() {
+
+        }
+
+        function stopClick() {
+
+        }
+    </script>
+</body>
+
+</html>

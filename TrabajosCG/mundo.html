@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Proyecto CG</title>
+    <style>
+        body {
+            background-color: #000;
+            font-family: 'PT Sans', 'Verdana', 'Open Sans', sans-serif;
+            overflow: hidden;
+            margin: 0;
+        }
+        
+        #overlay {
+            position: absolute;
+            width: 100%;
+            bottom: 20px;
+            text-align: center;
+            font-size: 1.5em;
+            color: #fff;
+        }
+        
+        color1 {
+            background: red;
+            position: absolute;
+            height: 4%;
+            width: 2.2%;
+        }
+        
+        color2 {
+            background: yellow;
+            position: absolute;
+            height: 4%;
+            width: 2.2%;
+        }
+        
+        color3 {
+            background: green;
+            position: absolute;
+            height: 4%;
+            width: 2.2%;
+        }
+        
+        button {
+            background: #2bbcbd;
+            color: #fff;
+            border: none;
+            position: absolute;
+            height: 5%;
+            width: 9%;
+            font-size: 1em;
+            padding: 0 2em;
+            cursor: pointer;
+            transition: 800ms ease all;
+            outline: none;
+        }
+        
+        a2 {
+            color: #fff;
+            font-size: 1.3em;
+            position: absolute;
+            text-indent: 120%;
+        }
+        
+        a {
+            text-decoration: none;
+            color: #fff;
+            font-size: 1.5em;
+        }
+    </style>
+    <script src="js/three.js"></script>
+    <script type="text/javascript" src="js/tessalator3d.js"></script>
+    <script type="text/javascript" src="js/country_data.js"></script>
+    <script type="text/javascript" src="js/OrbitControls.js"></script>
+</head>
+
+<body>
+    <div id="my-div">
+        <button id='button' style="left:5%; top:90% " onClick="grafosClick() "> <a href="index.html">VOLVER</a></button>
+        <color1 id='color1' style="left:70%; top:40% ">
+            <a2>MUERTOS</a2>
+        </color1>
+        <color2 id='color2' style="left:70%; top:50% ">
+            <a2>CONTAGIADOS</a2>
+        </color2>
+        <color3 id='color3' style="left:70%; top:60% ">
+            <a2>RECUPERADOS</a2>
+        </color3>
+    </div>
+    <script>
+        /*Hecho por Santiago Forero Zapata
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    Proyecto Computacion Grafica_UMNG
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    CONTAGIOS COVID_19*/
+        var camera, scene, renderer, controls, stats;
+        var radius = 0.995;
+        var base_globe = 0;
+        var intersected_object = 0;
+        var overlay_element = 0;
+        var hover_scale = 1.02;
+
+        //NODOS
+        var nodes = [{
+            id: 0,
+            contagiados: 0,
+            muertos: 0,
+            value: 2.0,
+            x: 0.0,
+            y: 0,
+            z: 0,
+            label: "Nucleo"
+        }, {
+            id: 1,
+            contagiados: 17415,
+            muertos: 539,
+            probmuerte: "3.1%",
+            recuperados: 5521,
+            value: 2.0,
+            x: 14.57,
+            y: -12.23,
+            z: -6.18,
+            label: "Argentina"
+        }, {
+            id: 2,
+            contagiados: 9982,
+            muertos: 313,
+            probmuerte: "3.1%",
+            recuperados: 968,
+            value: 2.0,
+            x: 17.03,
+            y: -6.20,
+            z: -8.45,
+            label: "Bolivia"
+        }, {
+            id: 3,
+            contagiados: 529405,
+            muertos: 30046,
+            probmuerte: "5.8%",
+            recuperados: 211080,
+            value: 2.0,
+            x: 15.09,
+            y: -2.66,
+            z: -12.86,
+            label: "Brasil"
+        }, {
+            id: 4,
+            contagiados: 105159,
+            muertos: 1113,
+            probmuerte: "1.1%",
+            recuperados: 44946,
+            value: 2.0,
+            x: 16.47,
+            y: -9.51,
+            z: -6.18,
+            label: "Chile"
+        }, {
+            id: 5,
+            contagiados: 30493,
+            muertos: 969,
+            probmuerte: "3.2%",
+            recuperados: 9661,
+            value: 1.0,
+            x: 18.98,
+            y: 2.33,
+            z: -5.85,
+            label: "Colombia"
+        }, {
+            id: 6,
+            contagiados: 1056,
+            muertos: 10,
+            probmuerte: "0.9%",
+            recuperados: 2,
+            value: 1.0,
+            x: 19.6,
+            y: 3.28,
+            z: -2.26,
+            label: "Costa Rica"
+        }, {
+            id: 7,
+            contagiados: 39098,
+            muertos: 3358,
+            probmuerte: "8.6%",
+            recuperados: 19592,
+            value: 1.0,
+            x: 19.68,
+            y: -0.69,
+            z: -3.47,
+            label: "Ecuador"
+        }, {
+            id: 8,
+            contagiados: 13463,
+            muertos: 336,
+            probmuerte: "2.5%",
+            recuperados: 9514,
+            value: 1.0,
+            x: 19.40,
+            y: 3.39,
+            z: -3.48,
+            label: "Panama"
+        }, {
+            id: 9,
+            contagiados: 986,
+            muertos: 11,
+            probmuerte: "1.1%",
+            recuperados: 477,
+            value: 1.0,
+            x: 16,
+            y: -7.46,
+            z: -9.39,
+            label: "Paraguay"
+        }, {
+            id: 10,
+            contagiados: 170039,
+            muertos: 4634,
+            probmuerte: "2.7%",
+            recuperados: 68507,
+            value: 2.0,
+            x: 18.93,
+            y: -3.34,
+            z: -5.51,
+            label: "Peru"
+        }, {
+            id: 11,
+            contagiados: 825,
+            muertos: 23,
+            probmuerte: "2.7%",
+            recuperados: 689,
+            value: 1.0,
+            x: 14.10,
+            y: -10.63,
+            z: -9.39,
+            label: "Uruguay"
+        }, {
+            id: 12,
+            contagiados: 1662,
+            muertos: 17,
+            probmuerte: "0.9%",
+            recuperados: 311,
+            value: 1.0,
+            x: 17.88,
+            y: 1.88,
+            z: -8.77,
+            label: "Venezuela"
+        }, {
+            id: 13,
+            contagiados: 93435,
+            muertos: 10167,
+            probmuerte: "10.9%",
+            recuperados: 67491,
+            value: 2.0,
+            x: 17.85,
+            y: 8.32,
+            z: 3.47,
+            label: "Mexico"
+        }, ];
+
+        //CAMINOS
+        var edges = [{
+            from: 0,
+            to: 1,
+            contagiados: 3
+        }, {
+            from: 0,
+            to: 2,
+            contagiados: 3
+        }, {
+            from: 0,
+            to: 3,
+            contagiados: 3
+        }, {
+            from: 0,
+            to: 4,
+            contagiados: 3
+        }, {
+            from: 0,
+            to: 5,
+            contagiados: 3
+        }, {
+            from: 0,
+            to: 6,
+            contagiados: 3
+        }, {
+            from: 0,
+            to: 7,
+            contagiados: 1
+        }, {
+            from: 0,
+            to: 8,
+            contagiados: 3
+        }, {
+            from: 0,
+            to: 9,
+            contagiados: 3
+        }, {
+            from: 0,
+            to: 10,
+            contagiados: 3
+        }, {
+            from: 0,
+            to: 11,
+            contagiados: 3
+        }, {
+            from: 0,
+            to: 12,
+            contagiados: 3
+        }, {
+            from: 0,
+            to: 13,
+            contagiados: 3
+        }, ];
+
+        init();
+        animate();
+
+        function init() {
+            renderer = new THREE.WebGLRenderer({
+                antialias: true
+            });
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0xffff00);
+            aspect = window.innerWidth / window.innerHeight;
+            camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.01, 4500);
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.body.appendChild(renderer.domElement);
+            controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls.minPolarAngle = Math.PI / 3;
+            controls.minDistance = 23.0;
+            controls.maxDistance = 100.0;
+
+            //FONDO GALAXIA
+            var fondo1 = new THREE.CubeTextureLoader()
+                .setPath('textures/FONDO2/')
+                .load(['px.png', 'nx.png', 'py.png', 'ny.png', 'pz.png', 'nz.png']);
+            fondo1.format = THREE.RGBFormat;
+            scene.background = fondo1;
+
+            //LUCES
+            var directionalLight1 = new THREE.DirectionalLight(0xffffff, 0.5);
+            directionalLight1.position.set(-1, 1, 1).normalize();
+            scene.add(directionalLight1);
+            var directionalLight2 = new THREE.DirectionalLight(0xffffff, 0.5);
+            directionalLight2.position.set(-1, 1, -1).normalize();
+            scene.add(directionalLight2);
+            var directionalLight3 = new THREE.DirectionalLight(0xffffff, 0.5);
+            directionalLight3.position.set(1, 1, -1).normalize();
+            scene.add(directionalLight3);
+            var directionalLight4 = new THREE.DirectionalLight(0xffffff, 0.5);
+            directionalLight4.position.set(1, 1, 1).normalize();
+            scene.add(directionalLight4);
+            var directionalLight5 = new THREE.DirectionalLight(0xffffff, 0.5);
+
+
+            //MATERIALES GRAFOS
+            var linematerial = new THREE.LineBasicMaterial({
+                color: 0x0000ff
+            });
+            var material2 = new THREE.MeshLambertMaterial({
+                color: 0xE01B22,
+                metalness: 0.5,
+                roughness: 0.1,
+                transparent: false,
+                opacity: 0.5
+            });
+            var material1 = new THREE.MeshLambertMaterial({
+                color: 0xFFFB2F,
+                metalness: 0.5,
+                roughness: 0.1,
+                transparent: false,
+                opacity: 0.5
+            });
+            var material3 = new THREE.MeshLambertMaterial({
+                color: 0x008000,
+                metalness: 0.5,
+                roughness: 0.1,
+                transparent: false,
+                opacity: 0.5
+            });
+
+            var parent = new THREE.Object3D();
+
+
+
+            //LETRAA
+            var loader = new THREE.FontLoader();
+            loader.load('textures/letras3.json', function(font) {
+                for (var i = 0; i < nodes.length; i++) {
+                    var textGeo = new THREE.TextBufferGeometry(nodes[i].probmuerte, {
+                        font: font,
+                        size: 0.8,
+                        height: 0.25,
+                        curveSegments: 10,
+                        bevelThickness: 0.2,
+                        bevelSize: 0.3,
+                        bevelEnabled: false
+                    });
+                    textGeo.computeBoundingBox();
+
+                    var textMaterial = new THREE.MeshPhongMaterial({
+                        color: 0xffffff,
+                        specular: 0x8888ff
+                    });
+                    var mesh = new THREE.Mesh(textGeo, textMaterial);
+
+                    mesh.castShadow = true;
+                    mesh.receiveShadow = true;
+                    parent.add(mesh);
+                    mesh.applyMatrix(new THREE.Matrix4().makeTranslation(nodes[i].x + 1.5, nodes[i].y + 0.41, nodes[i].z + 1));
+
+                    mesh.rotateY(Math.PI / 2);
+                }
+            });
+
+            //CREANDO LOS NODOS
+            for (var i = 0; i < nodes.length; i++) {
+                var sphereGeometry2 = new THREE.CylinderGeometry(0.35, 0.35, nodes[i].muertos / 9000, 32);
+                var sphereGeometry3 = new THREE.CylinderGeometry(0.325, 0.325, nodes[i].recuperados / 9000, 32);
+                var sphereGeometry = new THREE.CylinderGeometry(0.3, 0.3, nodes[i].contagiados / 9000, 32);
+                sphereGeometry.rotateZ(Math.PI / 2);
+                sphereGeometry2.rotateZ(Math.PI / 2);
+                sphereGeometry3.rotateZ(Math.PI / 2);
+
+                var sphere = new THREE.Mesh(sphereGeometry);
+                var sphere2 = new THREE.Mesh(sphereGeometry2);
+                var sphere3 = new THREE.Mesh(sphereGeometry3);
+                sphere3.applyMatrix(new THREE.Matrix4().makeTranslation(nodes[i].x + 0.2, nodes[i].y, nodes[i].z));
+                sphere3.material = material3;
+                sphere.applyMatrix(new THREE.Matrix4().makeTranslation(nodes[i].x + 0.2, nodes[i].y, nodes[i].z));
+                sphere.material = material1;
+                sphere2.applyMatrix(new THREE.Matrix4().makeTranslation(nodes[i].x + 0.2, nodes[i].y, nodes[i].z));
+                sphere2.material = material2;
+                parent.add(sphere);
+                parent.add(sphere2);
+                parent.add(sphere3);
+
+            }
+
+            //CREANDO LAS ARISTAS
+            for (var i = 0; i < edges.length; i++) {
+                var points = [];
+                points.push(new THREE.Vector3(nodes[edges[i].from].x,
+                    nodes[edges[i].from].y,
+                    nodes[edges[i].from].z));
+                points.push(new THREE.Vector3(nodes[edges[i].to].x,
+                    nodes[edges[i].to].y,
+                    nodes[edges[i].to].z));
+                var geometry = new THREE.BufferGeometry().setFromPoints(points);
+                var line = new THREE.Line(geometry, linematerial);
+                parent.add(line);
+            }
+            parent.position.y = -5;
+            scene.add(parent);
+
+            base_globe = new THREE.Object3D();
+            base_globe.position.y = -5;
+            base_globe.scale.set(20, 20, 20);
+            scene.add(base_globe);
+
+            //AÑADIR TEXTURAS A ESFERA
+            var Normalagua = new THREE.TextureLoader().load('textures/Normal_agua.jpg');
+            mar = THREE.ImageUtils.loadTexture('textures/mar.jpg', THREE.UVMapping, function() {
+                mar.wrapS = THREE.RepeatWrapping;
+                mar.wrapT = THREE.RepeatWrapping;
+                mar.repeat.set(5, 5);
+                Normalagua.wrapS = THREE.RepeatWrapping;
+                Normalagua.wrapT = THREE.RepeatWrapping;
+                Normalagua.repeat.set(2000, 2000);
+                base_globe.add(new THREE.Mesh(
+                    new THREE.SphereGeometry(radius, 32, 32),
+                    new THREE.MeshPhongMaterial({
+                        //normalMap:Normalagua,
+                        transparent: true,
+                        depthTest: true,
+                        depthWrite: false,
+                        opacity: 0.98,
+                        map: mar,
+                        color: 0x6699ff,
+                    })));
+
+                for (var name in country_data) {
+                    geometry = new Tessalator3D(country_data[name], 0);
+                    var continents = ["EU", "AN", "AS", "OC", "SA", "AF", "NA"];
+
+                    //GENERA COLORES ALEATORIOS A CADA PAIS
+                    var color = new THREE.Color();
+                    color.setRGB(0, Math.random(nodes[i].contagiados / 999999), 0);
+                    var mesh = country_data[name].mesh = new THREE.Mesh(geometry, new THREE.MeshPhongMaterial({
+                        normalMap: Normalagua,
+                        color: color,
+                        map: mar,
+                    }));
+                    mesh.name = "land";
+                    mesh.userData.country = name;
+                    base_globe.add(mesh);
+                }
+            });
+
+            document.addEventListener('mousemove', onDocumentMouseMove, false);
+            //LETRAA
+            var loader = new THREE.FontLoader();
+            loader.load('textures/letras3.json', function(font) {
+
+                var textGeo = new THREE.TextBufferGeometry("VISUALIZACION COVID - 19 ", {
+
+                    font: font,
+                    size: 10,
+                    height: 0.25,
+                    curveSegments: 10,
+                    bevelThickness: 0.2,
+                    bevelSize: 0.3,
+                    bevelEnabled: false
+
+                });
+
+                textGeo.computeBoundingBox();
+                var textMaterial = new THREE.MeshPhongMaterial({
+                    color: 0xffffff,
+                    specular: 0x4444ff
+                });
+
+                var mesh = new THREE.Mesh(textGeo, textMaterial);
+                mesh.rotateY(Math.PI / 1.5);
+                mesh.position.z = 120;
+                mesh.position.x = -30;
+                mesh.position.y = 45;
+
+                mesh.castShadow = true;
+                mesh.receiveShadow = true;
+
+                scene.add(mesh);
+
+            });
+            camera.position.z = -40;
+            camera.position.x = 70;
+            camera.position.y = 0;
+        }
+
+        function onDocumentMouseMove(event) {
+            if (intersected_object !== 0) {
+                intersected_object.scale.set(1.0, 1.0, 1.0);
+            }
+
+            event.preventDefault();
+            var mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+            var mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+            var vector = new THREE.Vector3(mouseX, mouseY, -1);
+            vector.unproject(camera);
+            var raycaster = new THREE.Raycaster(camera.position, vector.sub(camera.position).normalize());
+            var intersects = raycaster.intersectObject(base_globe, true);
+            if (intersects.length > 0) {
+                if (intersects[0].point !== null) {
+                    if (intersects[0].object.name === "land") {
+                        console.log(intersects[0].object.userData.country);
+                        if (overlay_element === 0) {
+                            overlay_element = document.getElementById("overlay");
+                        }
+                        overlay_element.innerHTML = intersects[0].object.userData.country;
+
+                        intersects[0].object.scale.
+                        set(hover_scale, hover_scale, hover_scale);
+                        intersected_object = intersects[0].object;
+                    }
+                }
+            }
+
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            controls.update();
+            render();
+        }
+
+        function render() {
+            renderer.render(scene, camera);
+        }
+    </script>
+
+    <div id="overlay">Seleccione un pais</div>
+</body>
+
+</html>

@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Escena</title>
+    <style>
+        html,
+        #info {
+            position: absolute;
+            padding: 10px;
+            width: 100%;
+            text-align: center;
+            color: #FFFFFF;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="info"> Haga ZOOM para entrar al circo<br/>
+        <div id="info">Usar teclas WASD para mover<br/>
+        </div>
+
+        <script src="js/three.js"></script>
+        <script src="js/controls/OrbitControls.js"></script>
+        <script src="js/csg.js"></script>
+        <script src="js/THREE.CSG.js"></script>
+        <script src="js/WebGL.js"></script>
+        <script>
+            if (WEBGL.isWebGLAvailable() === false) {
+
+                document.body.appendChild(WEBGL.getWebGLErrorMessage());
+
+            }
+            var scene, aspect, camera, renderer, controls;
+            var startTime = Date.now();
+            var upArrow = false;
+            var downArrow = false;
+            var rightArrow = false;
+            var leftArrow = false;
+            var body;
+            init();
+            animate();
+
+            function init() {
+                if (WEBGL.isWebGLAvailable() === false) {
+                    document.body.appendChild(WEBGL.getWebGLErrorMessage());
+                }
+
+                //INICIALIZACIÓN
+                scene = new THREE.Scene();
+                aspect = window.innerWidth / window.innerHeight;
+                camera = new THREE.PerspectiveCamera(75, aspect, 0.1, 1000);
+                renderer = new THREE.WebGLRenderer();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+                document.body.appendChild(renderer.domElement);
+                controls = new THREE.OrbitControls(camera, renderer.domElement);
+
+                //ELEMENTOS COMUNES
+                var size = 100;
+                var arrowSize = 1;
+                var divisions = size;
+                var origin = new THREE.Vector3(0, 0, 0);
+                var x = new THREE.Vector3(1, 0, 0);
+                var y = new THREE.Vector3(0, 1, 0);
+                var z = new THREE.Vector3(0, 0, 1);
+                var color = new THREE.Color(0x231100);
+                var colorV = new THREE.Color(0x5b9bfd);
+                var colorM = new THREE.Color(0xff0000);
+                var colorB = new THREE.Color(0xffffff);
+                var colorPa = new THREE.Color(0xfcb16f);
+
+                //EVENTOS DE TECLADO
+                var onKeyDown = function(event) {
+                    switch (event.keyCode) {
+                        case 87: // TRASLADAR ADELANTE
+                            upArrow = true;
+                            break;
+                        case 83: // TRASLADAR ATRÁS
+                            downArrow = true;
+                            break;
+                        case 65: //
+                            leftArrow = true;
+                            break;
+                        case 68: //
+                            rightArrow = true;
+                            break;
+                    }
+                };
+
+                var onKeyUp = function(event) {
+                    switch (event.keyCode) {
+                        case 87: // TRASLADAR
+                            upArrow = false;
+                            break;
+                        case 83: // TRASLADAR
+                            downArrow = false;
+                            break;
+                        case 65: // 
+                            leftArrow = false;
+                            break;
+                        case 68: // 
+                            rightArrow = false;
+                            break;
+                    }
+                };
+
+                document.addEventListener('keydown', onKeyDown, false);
+                document.addEventListener('keyup', onKeyUp, false);
+
+
+
+                //ROTARLAS PARA QUE QUEDEN EN EL ESPACIO ADECUADO
+
+
+                //CREAR ILUMINACIÓN
+                var ambient = new THREE.AmbientLight(0xffffff, 1);
+                scene.add(ambient);
+
+                var pointLight = new THREE.PointLight(0xffffff, 1, 180);
+                pointLight.position.set(0, 100, 150);
+                //scene.add(pointLight);
+
+                var pointLight2 = new THREE.PointLight(0xffffff, 1, 180);
+                pointLight2.position.set(0, 100, -150);
+                //scene.add(pointLight2);
+
+                var pointLight3 = new THREE.PointLight(0xffffff, 1, 180);
+                pointLight3.position.set(-150, 100, 0);
+                //scene.add(pointLight3);
+
+                var pointLight4 = new THREE.PointLight(0xffffff, 1, 180);
+                pointLight4.position.set(150, 100, 0);
+                //scene.add(pointLight4);
+
+                var pointLight5 = new THREE.PointLight(0xffffff, 1, 50);
+                pointLight5.position.set(0, 10, 0);
+                // scene.add(pointLight5);
+
+                //LucesCOLORES
+                var pointColor1 = new THREE.PointLight(0x00ffff, 5, 100);
+                pointColor1.position.set(85, 50, -55);
+                scene.add(pointColor1);
+
+                var pointColor2 = new THREE.PointLight(0x00ff00, 5, 100);
+                pointColor2.position.set(-75, 50, 70);
+                scene.add(pointColor2);
+
+                var pointColor3 = new THREE.PointLight(0x0000ff, 5, 100);
+                pointColor3.position.set(75, 50, 70);
+                scene.add(pointColor3);
+
+                var pointColor4 = new THREE.PointLight(0xff00ff, 1, 100);
+                pointColor4.position.set(-85, 50, -55);
+                scene.add(pointColor4);
+
+                //SPOTLIGHT
+                var spotLight1 = new THREE.SpotLight(0xffffff, 30, 85);
+                //  spotLight1.target = body;
+                spotLight1.position.set(0, 80, 20);
+                scene.add(spotLight1);
+
+
+                //CREAR LAS GEOMETRIAS
+                var boxGeometry = new THREE.BoxGeometry(8, 10, 1);
+                //var ColumGeometry = new THREE.BoxGeometry(5, 120, 5, 3);
+                var ColumGeometry = new THREE.CylinderGeometry(5, 5, 120, 100);
+                var plano = new THREE.PlaneGeometry(9, 30);
+                var piso = new THREE.CircleGeometry(200, 100);
+                var piso2 = new THREE.CircleGeometry(116, 100);
+                var sphereGeometry = new THREE.SphereGeometry(0.5, 0.5, 10);
+                var cylinderGeometry = new THREE.CylinderGeometry(120, 120, 5, 50);
+
+
+
+
+                //CREAR LOS MATERIALES
+
+                var material = new THREE.MeshLambertMaterial({
+                    color: 0x552222,
+                    metalness: 0.8,
+                    roughness: 0.5,
+                    side: THREE.DoubleSide
+
+                });
+
+                var material2 = new THREE.MeshBasicMaterial({
+                    color: 0x222233,
+                    side: THREE.DoubleSide
+
+                });
+
+                var mat3 = new THREE.MeshStandardMaterial({
+                    color: 0x990000,
+
+                })
+                var metal1 = new THREE.MeshStandardMaterial({
+                    color: 0xdedede,
+                    metalness: 0.8,
+                    roughness: 0.5,
+
+                });
+                var matman = new THREE.MeshStandardMaterial({
+                    color: 0x55ff00,
+                    metalness: 0.8,
+                    roughness: 0.5,
+
+                });
+
+                var TelaCirc = new THREE.TextureLoader().load('textures/TelaCirc.jpg');
+                var matcarpa = new THREE.MeshStandardMaterial({
+                    map: TelaCirc
+                });
+
+                var redCarpet = new THREE.TextureLoader().load('textures/redCarpet.jpg');
+                var matSilla = new THREE.MeshStandardMaterial({
+                    map: redCarpet,
+                    roughness: 1
+                });
+
+                var metal = new THREE.TextureLoader().load('textures/MetalColor.jpg');
+                var MetalNorm = new THREE.TextureLoader().load('textures/MetalNorm.jpg');
+                var matColum = new THREE.MeshStandardMaterial({
+                    map: metal,
+                    normalMap: MetalNorm,
+                });
+
+                //CARPA
+                var curveC = [];
+                curveC[0] = new THREE.Vector2(230, 0);
+                curveC[1] = new THREE.Vector2(230, 60);
+                curveC[2] = new THREE.Vector2(230, 130);
+                curveC[3] = new THREE.Vector2(0, 230);
+
+
+                var shapeC = new THREE.Shape();
+                shapeC.splineThru(curveC);
+
+                var pointsC = shapeC.getPoints(100);
+                var geometryC = new THREE.LatheGeometry(pointsC);
+                var carp = new THREE.Mesh(geometryC, matcarpa);
+
+                var Piso = new THREE.Mesh(piso, material2);
+                Piso.rotateX(1.5708);
+
+                //SILLAS
+
+
+                sillas = new THREE.Object3D();
+                scene.add(sillas);
+
+                for (var i = 0; i < 300; i += 0.5) {
+
+                    for (var j = 150; j < 190; j += 5) {
+                        var silla = new THREE.Mesh(boxGeometry, matSilla);
+                        silla.position.x = j * Math.cos((i * 10 * Math.PI) / 180);
+                        silla.position.z = j * Math.sin((i * 10 * Math.PI) / 180);
+                        silla.position.y = j - 145;
+                        silla.lookAt(origin);
+                        sillas.add(silla);
+                    }
+
+
+                }
+                //Escenario
+
+                var cilin = new THREE.Mesh(cylinderGeometry, material);
+                scene.add(cilin);
+
+                var pisocilin = new THREE.Mesh(piso2, mat3);
+                pisocilin.rotateX(-1.5708);
+                pisocilin.position.y = 5.1;
+                scene.add(pisocilin);
+
+                var columna = new THREE.Mesh(ColumGeometry, metal1);
+                columna.position.y = 61;
+                columna.position.x = 100;
+                columna.position.z = -70;
+                scene.add(columna);
+                var columna2 = new THREE.Mesh(ColumGeometry, metal1);
+                columna2.position.y = 61;
+                columna2.position.x = -100;
+                columna2.position.z = -70;
+                scene.add(columna2);
+                var columna3 = new THREE.Mesh(ColumGeometry, metal1);
+                columna3.position.y = 61;
+                columna3.position.x = 90;
+                columna3.position.z = 85;
+                scene.add(columna3);
+                var columna4 = new THREE.Mesh(ColumGeometry, metal1);
+                columna4.position.y = 61;
+                columna4.position.x = -90;
+                columna4.position.z = 85;
+                scene.add(columna4);
+
+                //PERSONAJE
+                var curveO = [];
+                curveO[0] = new THREE.Vector2(79, 6);
+                curveO[1] = new THREE.Vector2(64, 21);
+                curveO[2] = new THREE.Vector2(64, 85);
+                curveO[3] = new THREE.Vector2(78, 87);
+                curveO[4] = new THREE.Vector2(78, 34);
+                curveO[5] = new THREE.Vector2(83, 35);
+                curveO[6] = new THREE.Vector2(83, 95);
+                curveO[7] = new THREE.Vector2(83, 160);
+                curveO[8] = new THREE.Vector2(101, 160);
+                curveO[9] = new THREE.Vector2(101, 119);
+                curveO[10] = new THREE.Vector2(104, 81);
+                curveO[11] = new THREE.Vector2(104, 6);
+
+                var shapeO = new THREE.Shape();
+                shapeO.moveTo(79, 6);
+                shapeO.splineThru(curveO);
+
+                var pointsO = shapeO.getPoints(10);
+                var geometryO = new THREE.BufferGeometry().setFromPoints(pointsO);
+
+                var extrudeSettingsC = {
+                    steps: 2,
+                    amount: 15,
+                    bevelEnabled: false,
+                };
+
+                var geometryC = new THREE.ExtrudeGeometry(shapeO, extrudeSettingsC);
+                var S1 = new THREE.Mesh(geometryC);
+                S1.scale.x -= 0.8;
+                S1.scale.y -= 0.8;
+                S1.scale.z -= 0.8;
+                S1.position.x = -29.5;
+                S1.position.y = 38;
+                S1.position.z = 0.4;
+                S1.rotateX(Math.PI);
+
+                var S2 = new THREE.Mesh(geometryC);
+                S2.scale.x -= 0.8;
+                S2.scale.y -= 0.8;
+                S2.scale.z -= 0.8;
+                S2.position.x = 12;
+                S2.position.y = 38;
+                S2.position.z = -2;
+                S2.rotateY(Math.PI);
+                S2.rotateX(Math.PI);
+
+
+                var sphereGeometry1 = new THREE.SphereGeometry(5, 5, 32);
+                var sphere = new THREE.Mesh(sphereGeometry1);
+                sphere.position.y = 41;
+                sphere.position.x = -8.5;
+                var cabeza = THREE.CSG.fromMesh(sphere);
+                var C1 = THREE.CSG.fromMesh(S1);
+                var C2 = THREE.CSG.fromMesh(S2);
+                var result1 = C1.union(C2).union(cabeza);
+                body = THREE.CSG.toMesh(result1, matman);
+                scene.add(body);
+
+
+
+                scene.add(carp);
+                scene.add(Piso);
+
+                camera.position.x = 0;
+                camera.position.y = 90;
+                camera.position.z = 400;
+                camera.lookAt(origin);
+            }
+
+            function animate() {
+                requestAnimationFrame(animate);
+                controls.update();
+                render();
+            }
+
+            function render() {
+
+                var dtime = Date.now();
+                var tx = 0,
+                    ty = 0,
+                    tz = 0;
+                if (upArrow) {
+                    tz = -1;
+                }
+                if (downArrow) {
+                    tz = 1;
+                }
+                if (rightArrow) {
+                    tx = 1;
+                }
+                if (leftArrow) {
+                    tx = -1;
+                }
+
+                //MATRIZ DE TRASLACIÓN
+                var t = new THREE.Matrix4(); //Crear la matriz de traslación
+                t.set(1, 0, 0, tx,
+                    0, 1, 0, ty,
+                    0, 0, 1, tz,
+                    0, 0, 0, 1);
+
+                body.applyMatrix(t); //Aplicar la matriz de traslación al objeto				
+                body.elementsNeedUpdate = true; //Avisar que la matriz del objeto ha cambiado
+                camera.lookAt(0, 0, 0);
+                renderer.render(scene, camera);
+
+
+            }
+        </script>
+</body>
+
+</html>

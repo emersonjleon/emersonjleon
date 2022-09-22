@@ -1,0 +1,1300 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Grafos</title>
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        
+        color1 {
+            background: red;
+            position: absolute;
+            height: 4%;
+            width: 2.2%;
+        }
+        
+        color2 {
+            background: yellow;
+            position: absolute;
+            height: 4%;
+            width: 2.2%;
+        }
+        
+        color3 {
+            background: green;
+            position: absolute;
+            height: 4%;
+            width: 2.2%;
+        }
+        
+        button {
+            background: #2bbcbd;
+            color: #fff;
+            border: none;
+            position: absolute;
+            height: 5%;
+            width: 9%;
+            font-size: 1em;
+            padding: 0 2em;
+            cursor: pointer;
+            transition: 800ms ease all;
+            outline: none;
+        }
+        
+        a2 {
+            color: #fff;
+            font-size: 1.2em;
+            position: absolute;
+            text-indent: 120%;
+        }
+        
+        a {
+            text-decoration: none;
+            color: #fff;
+            font-size: 1.5em;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="my-div">
+        <button id='button' style="left:5%; top:90% " onClick="grafosClick() "> <a href="index.html">VOLVER</a></button>
+        <color1 id='color1' style="left:80%; top:45% ">
+            <a2>CONTAGIADOS</a2>
+        </color1>
+        <color3 id='color3' style="left:80%; top:50% ">
+            <a2>NO&nbsp;CONTAGIADOS</a2>
+        </color3>
+
+        <color2 id='color2' style="left:80%; top:55% ">
+            <a2>POSIBLE&nbsp;CONTAGIO</a2>
+        </color2>
+    </div>
+    <script src="js/three.js"></script>
+    <script src="js/OrbitControls.js"></script>
+
+    <script src="js/THREE.CSG.js"></script>
+    <script>
+        var scene, aspect, camera, renderer, controls;
+
+
+        var nodes = [{
+            id: 0,
+            infect: true,
+            x: 0,
+            y: 0,
+            z: 0,
+            label: "Aliston"
+        }, {
+            id: 1,
+            infect: true,
+            x: -10,
+            y: 0,
+            z: -10,
+            label: "Alston"
+        }, {
+            id: 2,
+            infect: false,
+            x: -16,
+            y: 0,
+            z: -8,
+            label: "Algie"
+        }, {
+            id: 3,
+            infect: true,
+            x: -16,
+            y: 0,
+            z: -14,
+            label: "Alston"
+        }, {
+            id: 4,
+            infect: false,
+            x: -16,
+            y: 0,
+            z: -18,
+            label: "Algie"
+        }, {
+            id: 5,
+            infect: false,
+            x: -22,
+            y: 0,
+            z: -18,
+            label: "Alston"
+        }, {
+            id: 6,
+            infect: true,
+            x: -26,
+            y: 0,
+            z: -18,
+            label: "Algie"
+        }, {
+            id: 7,
+            infect: true,
+            x: -26,
+            y: 0,
+            z: -10,
+            label: "Alston"
+        }, {
+            id: 8,
+            infect: false,
+            x: -20,
+            y: 0,
+            z: -12,
+            label: "Algie"
+        }, {
+            id: 9,
+            infect: false,
+            x: -8,
+            y: 0,
+            z: 6,
+            label: "Alston"
+        }, {
+            id: 10,
+            infect: true,
+            x: -4,
+            y: 0,
+            z: 10,
+            label: "Alston"
+        }, {
+            id: 11,
+            infect: false,
+            x: -8,
+            y: 0,
+            z: 14,
+            label: "Alston"
+        }, {
+            id: 12,
+            infect: true,
+            x: -12,
+            y: 0,
+            z: 12,
+            label: "Alston"
+        }, {
+            id: 13,
+            infect: true,
+            x: -10,
+            y: 0,
+            z: 8,
+            label: "Alston"
+        }, {
+            id: 14,
+            infect: false,
+            x: -16,
+            y: 0,
+            z: 4,
+            label: "Alston"
+        }, {
+            id: 15,
+            infect: true,
+            x: -14,
+            y: 0,
+            z: 0,
+            label: "Alston"
+        }, {
+            id: 16,
+            infect: false,
+            x: -18,
+            y: 0,
+            z: -2,
+            label: "Alston"
+        }, {
+            id: 17,
+            infect: true,
+            x: -24,
+            y: 0,
+            z: -2,
+            label: "Alston"
+        }, {
+            id: 18,
+            infect: true,
+            x: -26,
+            y: 0,
+            z: 4,
+            label: "Alston"
+        }, {
+            id: 19,
+            infect: false,
+            x: -24,
+            y: 0,
+            z: 8,
+            label: "Alston"
+        }, {
+            id: 20,
+            infect: true,
+            x: -20,
+            y: 0,
+            z: 2,
+            label: "Alston"
+        }, {
+            id: 21,
+            infect: false,
+            x: -20,
+            y: 0,
+            z: 8,
+            label: "Alston"
+        }, {
+            id: 22,
+            infect: false,
+            x: -10,
+            y: 0,
+            z: 20,
+            label: "Alston"
+        }, {
+            id: 23,
+            infect: true,
+            x: -16,
+            y: 0,
+            z: 20,
+            label: "Alston"
+        }, {
+            id: 24,
+            infect: false,
+            x: -18,
+            y: 0,
+            z: 14,
+            label: "Alston"
+        }, {
+            id: 25,
+            infect: true,
+            x: -22,
+            y: 0,
+            z: 12,
+            label: "Alston"
+        }, {
+            id: 26,
+            infect: true,
+            x: -26,
+            y: 0,
+            z: 18,
+            label: "Alston"
+        }, {
+            id: 27,
+            infect: false,
+            x: -24,
+            y: 0,
+            z: 22,
+            label: "Alston"
+        }, {
+            id: 28,
+            infect: true,
+            x: -20,
+            y: 0,
+            z: 23,
+            label: "Alston"
+        }, {
+            id: 29,
+            infect: false,
+            x: -4,
+            y: 0,
+            z: 18,
+            label: "Alston"
+        }, {
+            id: 30,
+            infect: true,
+            x: 1,
+            y: 0,
+            z: 20,
+            label: "Alston"
+        }, {
+            id: 31,
+            infect: true,
+            x: 4,
+            y: 0,
+            z: 19,
+            label: "Alston"
+        }, {
+            id: 32,
+            infect: false,
+            x: 10,
+            y: 0,
+            z: 22,
+            label: "Alston"
+        }, {
+            id: 33,
+            infect: true,
+            x: 12,
+            y: 0,
+            z: 18,
+            label: "Alston"
+        }, {
+            id: 34,
+            infect: false,
+            x: 6,
+            y: 0,
+            z: 16,
+            label: "Alston"
+        }, {
+            id: 35,
+            infect: true,
+            x: 4,
+            y: 0,
+            z: 13,
+            label: "Alston"
+        }, {
+            id: 36,
+            infect: false,
+            x: 1,
+            y: 0,
+            z: 14,
+            label: "Alston"
+        }, {
+            id: 37,
+            infect: true,
+            x: 18,
+            y: 0,
+            z: 21,
+            label: "Alston"
+        }, {
+            id: 38,
+            infect: false,
+            x: 24,
+            y: 0,
+            z: 22,
+            label: "Algie"
+        }, {
+            id: 39,
+            infect: true,
+            x: 28,
+            y: 0,
+            z: 23,
+            label: "Alston"
+        }, {
+            id: 40,
+            infect: false,
+            x: 32,
+            y: 0,
+            z: 22,
+            label: "Algie"
+        }, {
+            id: 41,
+            infect: false,
+            x: 36,
+            y: 0,
+            z: 18,
+            label: "Alston"
+        }, {
+            id: 42,
+            infect: true,
+            x: 32,
+            y: 0,
+            z: 14,
+            label: "Algie"
+        }, {
+            id: 43,
+            infect: true,
+            x: 28,
+            y: 0,
+            z: 12,
+            label: "Alston"
+        }, {
+            id: 44,
+            infect: false,
+            x: 24,
+            y: 0,
+            z: 14,
+            label: "Algie"
+        }, {
+            id: 45,
+            infect: false,
+            x: 20,
+            y: 0,
+            z: 16,
+            label: "Alston"
+        }, {
+            id: 46,
+            infect: true,
+            x: 28,
+            y: 0,
+            z: 17,
+            label: "Alston"
+        }, {
+            id: 47,
+            infect: true,
+            x: 34,
+            y: 0,
+            z: 9,
+            label: "Alston"
+        }, {
+            id: 48,
+            infect: false,
+            x: 36,
+            y: 0,
+            z: 6,
+            label: "Algie"
+        }, {
+            id: 49,
+            infect: true,
+            x: 38,
+            y: 0,
+            z: 0,
+            label: "Alston"
+        }, {
+            id: 50,
+            infect: false,
+            x: 34,
+            y: 0,
+            z: -1,
+            label: "Algie"
+        }, {
+            id: 51,
+            infect: false,
+            x: 32,
+            y: 0,
+            z: -2,
+            label: "Alston"
+        }, {
+            id: 52,
+            infect: true,
+            x: 28,
+            y: 0,
+            z: 0,
+            label: "Algie"
+        }, {
+            id: 53,
+            infect: true,
+            x: 24,
+            y: 0,
+            z: 1,
+            label: "Alston"
+        }, {
+            id: 54,
+            infect: false,
+            x: 24,
+            y: 0,
+            z: 6,
+            label: "Algie"
+        }, {
+            id: 55,
+            infect: true,
+            x: 18,
+            y: 0,
+            z: 3,
+            label: "Alston"
+        }, {
+            id: 56,
+            infect: false,
+            x: 20,
+            y: 0,
+            z: -2,
+            label: "Algie"
+        }, {
+            id: 57,
+            infect: true,
+            x: 16,
+            y: 0,
+            z: -4,
+            label: "Alston"
+        }, {
+            id: 58,
+            infect: false,
+            x: 12,
+            y: 0,
+            z: -1,
+            label: "Algie"
+        }, {
+            id: 59,
+            infect: true,
+            x: 10,
+            y: 0,
+            z: 2,
+            label: "Alston"
+        }, {
+            id: 60,
+            infect: true,
+            x: 13,
+            y: 0,
+            z: 6,
+            label: "Algie"
+        }, {
+            id: 61,
+            infect: true,
+            x: 32,
+            y: 0,
+            z: -8,
+            label: "Alston"
+        }, {
+            id: 62,
+            infect: false,
+            x: 36,
+            y: 0,
+            z: -6,
+            label: "Algie"
+        }, {
+            id: 63,
+            infect: true,
+            x: 36,
+            y: 0,
+            z: -12,
+            label: "Alston"
+        }, {
+            id: 64,
+            infect: false,
+            x: 32,
+            y: 0,
+            z: -12,
+            label: "Algie"
+        }, {
+            id: 65,
+            infect: false,
+            x: 28,
+            y: 0,
+            z: -11,
+            label: "Alston"
+        }, {
+            id: 66,
+            infect: false,
+            x: 28,
+            y: 0,
+            z: -8,
+            label: "Algie"
+        }, {
+            id: 67,
+            infect: true,
+            x: 22,
+            y: 0,
+            z: -14,
+            label: "Alston"
+        }, {
+            id: 68,
+            infect: false,
+            x: 18,
+            y: 0,
+            z: -18,
+            label: "Algie"
+        }, {
+            id: 69,
+            infect: true,
+            x: 14,
+            y: 0,
+            z: -19,
+            label: "Alston"
+        }, {
+            id: 70,
+            infect: false,
+            x: 10,
+            y: 0,
+            z: -12,
+            label: "Algie"
+        }, {
+            id: 71,
+            infect: false,
+            x: 15,
+            y: 0,
+            z: -10,
+            label: "Alston"
+        }, {
+            id: 72,
+            infect: true,
+            x: 18,
+            y: 0,
+            z: -12,
+            label: "Algie"
+        }, {
+            id: 73,
+            infect: true,
+            x: 8,
+            y: 0,
+            z: -17,
+            label: "Alston"
+        }, {
+            id: 74,
+            infect: false,
+            x: 4,
+            y: 0,
+            z: -16,
+            label: "Algie"
+        }, {
+            id: 75,
+            infect: true,
+            x: -2,
+            y: 0,
+            z: -18,
+            label: "Alston"
+        }, {
+            id: 76,
+            infect: false,
+            x: -6,
+            y: 0,
+            z: -17,
+            label: "Algie"
+        }, {
+            id: 77,
+            infect: false,
+            x: -7,
+            y: 0,
+            z: -14,
+            label: "Alston"
+        }, {
+            id: 78,
+            infect: true,
+            x: -2,
+            y: 0,
+            z: -12,
+            label: "Algie"
+        }, {
+            id: 79,
+            infect: true,
+            x: 1,
+            y: 0,
+            z: -8,
+            label: "Alston"
+        }, {
+            id: 80,
+            infect: false,
+            x: 4,
+            y: 0,
+            z: -10,
+            label: "Algie"
+        }, {
+            id: 81,
+            infect: false,
+            x: 1,
+            y: 0,
+            z: -14,
+            label: "Alston"
+        }];
+
+        // create connections between people
+        // value corresponds with the amount of contact between two people
+
+
+        var edges = [{
+            from: 0,
+            to: 1,
+            value: 3
+        }, {
+            from: 0,
+            to: 9,
+            value: 3
+        }, {
+            from: 1,
+            to: 2,
+            value: 3
+        }, {
+            from: 2,
+            to: 7,
+            value: 3
+        }, {
+            from: 2,
+            to: 8,
+            value: 3
+        }, {
+            from: 3,
+            to: 8,
+            value: 3
+        }, {
+            from: 4,
+            to: 5,
+            value: 3
+        }, {
+            from: 6,
+            to: 7,
+            value: 3
+        }, {
+            from: 6,
+            to: 8,
+            value: 3
+        }, {
+            from: 7,
+            to: 8,
+            value: 3
+        }, {
+            from: 9,
+            to: 10,
+            value: 3
+        }, {
+            from: 9,
+            to: 11,
+            value: 3
+        }, {
+            from: 9,
+            to: 13,
+            value: 3
+        }, {
+            from: 10,
+            to: 11,
+            value: 3
+        }, {
+            from: 10,
+            to: 13,
+            value: 3
+        }, {
+            from: 11,
+            to: 12,
+            value: 3
+        }, {
+            from: 12,
+            to: 13,
+            value: 3
+        }, {
+            from: 14,
+            to: 9,
+            value: 3
+        }, {
+            from: 14,
+            to: 20,
+            value: 3
+        }, {
+            from: 14,
+            to: 21,
+            value: 3
+        }, {
+            from: 15,
+            to: 20,
+            value: 3
+        }, {
+            from: 16,
+            to: 17,
+            value: 3
+        }, {
+            from: 17,
+            to: 18,
+            value: 3
+        }, {
+            from: 18,
+            to: 19,
+            value: 3
+        }, {
+            from: 18,
+            to: 20,
+            value: 3
+        }, { //
+            from: 19,
+            to: 21,
+            value: 3
+        }, {
+            from: 22,
+            to: 23,
+            value: 3
+        }, {
+            from: 23,
+            to: 24,
+            value: 3
+        }, {
+            from: 23,
+            to: 28,
+            value: 3
+        }, {
+            from: 24,
+            to: 25,
+            value: 3
+        }, {
+            from: 24,
+            to: 27,
+            value: 3
+        }, {
+            from: 25,
+            to: 26,
+            value: 3
+        }, {
+            from: 25,
+            to: 28,
+            value: 3
+        }, {
+            from: 26,
+            to: 27,
+            value: 3
+        }, {
+            from: 27,
+            to: 28,
+            value: 3
+        }, {
+            from: 29,
+            to: 22,
+            value: 3
+        }, {
+            from: 29,
+            to: 30,
+            value: 3
+        }, {
+            from: 29,
+            to: 34,
+            value: 3
+        }, {
+            from: 29,
+            to: 36,
+            value: 3
+        }, {
+            from: 30,
+            to: 31,
+            value: 3
+        }, {
+            from: 30,
+            to: 36,
+            value: 3
+        }, {
+            from: 31,
+            to: 32,
+            value: 3
+        }, {
+            from: 31,
+            to: 34,
+            value: 3
+        }, {
+            from: 32,
+            to: 33,
+            value: 3
+        }, {
+            from: 32,
+            to: 34,
+            value: 3
+        }, {
+            from: 33,
+            to: 34,
+            value: 3
+        }, {
+            from: 34,
+            to: 35,
+            value: 3
+        }, {
+            from: 35,
+            to: 36,
+            value: 3
+        }, {
+            from: 37,
+            to: 33,
+            value: 3
+        }, {
+            from: 37,
+            to: 38,
+            value: 3
+        }, {
+            from: 37,
+            to: 45,
+            value: 3
+        }, {
+            from: 38,
+            to: 39,
+            value: 3
+        }, {
+            from: 38,
+            to: 44,
+            value: 3
+        }, {
+            from: 38,
+            to: 46,
+            value: 3
+        }, {
+            from: 40,
+            to: 46,
+            value: 3
+        }, {
+            from: 41,
+            to: 46,
+            value: 3
+        }, {
+            from: 42,
+            to: 43,
+            value: 3
+        }, {
+            from: 43,
+            to: 44,
+            value: 3
+        }, {
+            from: 44,
+            to: 45,
+            value: 3
+        }, {
+            from: 47,
+            to: 43,
+            value: 3
+        }, {
+            from: 47,
+            to: 48,
+            value: 3
+        }, {
+            from: 48,
+            to: 49,
+            value: 3
+        }, {
+            from: 49,
+            to: 50,
+            value: 3
+        }, {
+            from: 50,
+            to: 51,
+            value: 3
+        }, {
+            from: 51,
+            to: 52,
+            value: 3
+        }, {
+            from: 52,
+            to: 53,
+            value: 3
+        }, {
+            from: 54,
+            to: 43,
+            value: 3
+        }, {
+            from: 55,
+            to: 53,
+            value: 3
+        }, {
+            from: 55,
+            to: 54,
+            value: 3
+        }, {
+            from: 55,
+            to: 56,
+            value: 3
+        }, {
+            from: 55,
+            to: 57,
+            value: 3
+        }, {
+            from: 55,
+            to: 58,
+            value: 3
+        }, {
+            from: 55,
+            to: 59,
+            value: 3
+        }, {
+            from: 55,
+            to: 60,
+            value: 3
+        }, {
+            from: 59,
+            to: 0,
+            value: 3
+        }, {
+            from: 60,
+            to: 34,
+            value: 3
+        }, {
+            from: 61,
+            to: 51,
+            value: 3
+        }, {
+            from: 61,
+            to: 63,
+            value: 3
+        }, {
+            from: 61,
+            to: 65,
+            value: 3
+        }, {
+            from: 62,
+            to: 63,
+            value: 3
+        }, {
+            from: 63,
+            to: 64,
+            value: 3
+        }, {
+            from: 64,
+            to: 65,
+            value: 3
+        }, {
+            from: 67,
+            to: 65,
+            value: 3
+        }, {
+            from: 67,
+            to: 69,
+            value: 3
+        }, {
+            from: 68,
+            to: 69,
+            value: 3
+        }, {
+            from: 69,
+            to: 71,
+            value: 3
+        }, {
+            from: 70,
+            to: 71,
+            value: 3
+        }, {
+            from: 71,
+            to: 0,
+            value: 3
+        }, {
+            from: 71,
+            to: 72,
+            value: 3
+        }, {
+            from: 73,
+            to: 70,
+            value: 3
+        }, {
+            from: 73,
+            to: 74,
+            value: 3
+        }, {
+            from: 74,
+            to: 75,
+            value: 3
+        }, {
+            from: 74,
+            to: 80,
+            value: 3
+        }, {
+            from: 74,
+            to: 81,
+            value: 3
+        }, {
+            from: 75,
+            to: 76,
+            value: 3
+        }, {
+            from: 77,
+            to: 1,
+            value: 3
+        }, {
+            from: 77,
+            to: 78,
+            value: 3
+        }, {
+            from: 78,
+            to: 79,
+            value: 3
+        }, {
+            from: 79,
+            to: 80,
+            value: 3
+        }];
+
+        init();
+        animate();
+
+        function init() {
+            //INICIALIZACIÓN
+            console.log(nodes);
+            console.log(edges);
+
+            scene = new THREE.Scene();
+            aspect = window.innerWidth / window.innerHeight;
+            camera = new THREE.PerspectiveCamera(75, aspect, 0.1, 1000);
+            renderer = new THREE.WebGLRenderer();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.body.appendChild(renderer.domElement);
+            controls = new THREE.OrbitControls(camera, renderer.domElement);
+
+            //ELEMENTOS COMUNES
+            var size = 10;
+            var arrowSize = 1;
+            var divisions = size;
+            var origin = new THREE.Vector3(0, 0, 0);
+            var x = new THREE.Vector3(1, 0, 0);
+            var y = new THREE.Vector3(0, 1, 0);
+            var z = new THREE.Vector3(0, 0, 1);
+            var color = new THREE.Color(0x333333);
+            var colorR = new THREE.Color(0xAA3333);
+            var colorG = new THREE.Color(0x33AA33);
+            var colorB = new THREE.Color(0x333366);
+
+            //CREAR LAS GRILLAS PARA EL ESCENARIO
+            var axesHelper = new THREE.AxesHelper(size);
+            //          scene.add(axesHelper);
+
+            var gridHelperXZ = new THREE.GridHelper(size, divisions, color, color);
+            //            scene.add(gridHelperXZ);
+
+            //ROTARLAS PARA QUE QUEDEN EN EL ESPACIO ADECUADO
+            gridHelperXZ.rotateOnWorldAxis(y, THREE.Math.degToRad(90));
+
+            //CREAR ILUMINACIÓN
+
+            var ambientLight = new THREE.AmbientLight(0x606060);
+            scene.add(ambientLight);
+
+            var directionalLight = new THREE.DirectionalLight(0xffffff);
+            directionalLight.position.set(0, 150, 0);
+            scene.add(directionalLight);
+
+            //CREAR LAS GEOMETRÍAS
+            var boxGeometry = new THREE.BoxGeometry(1, 1, 1);
+
+            //CREAR LOS MATERIALES
+            var linematerial = new THREE.LineBasicMaterial({ //CONTAGIADOS
+                color: 0xFF0000,
+            });
+            linematerialb = new THREE.LineBasicMaterial({ //NO CONTAGIADOS
+                color: 0x00ff00
+            });
+            linematerialc = new THREE.LineBasicMaterial({ //PELIGRO CONTAGIO
+                color: 0xFFF300
+            });
+            materiala = new THREE.MeshLambertMaterial({ //NO CONTAGIADO
+                color: 0x00ff00
+            });
+            materialb = new THREE.MeshLambertMaterial({ //CONTAGIADO
+                color: 0xff0000
+            });
+
+
+            var curveO = [];
+            curveO[0] = new THREE.Vector2(79, 6);
+            curveO[1] = new THREE.Vector2(64, 21);
+            curveO[2] = new THREE.Vector2(64, 85);
+            curveO[3] = new THREE.Vector2(78, 87);
+            curveO[4] = new THREE.Vector2(78, 34);
+            curveO[5] = new THREE.Vector2(83, 35);
+            curveO[6] = new THREE.Vector2(83, 95);
+            curveO[7] = new THREE.Vector2(83, 160);
+            curveO[8] = new THREE.Vector2(101, 160);
+            curveO[9] = new THREE.Vector2(101, 119);
+            curveO[10] = new THREE.Vector2(104, 81);
+            curveO[11] = new THREE.Vector2(104, 6);
+
+            var shapeO = new THREE.Shape();
+            shapeO.moveTo(79, 6);
+            shapeO.splineThru(curveO);
+
+            var pointsO = shapeO.getPoints(10);
+            var geometryO = new THREE.BufferGeometry().setFromPoints(pointsO);
+
+            var extrudeSettingsC = {
+                steps: 2,
+                amount: 25,
+                bevelEnabled: false,
+            };
+
+            var geometryC = new THREE.ExtrudeGeometry(shapeO, extrudeSettingsC);
+            var S1 = new THREE.Mesh(geometryC);
+            S1.scale.x -= 0.97;
+            S1.scale.y -= 0.97;
+            S1.scale.z -= 0.97;
+            S1.position.x = -3.1;
+            S1.position.y = -0.8;
+            S1.position.z = 0.4;
+            S1.rotateX(Math.PI);
+
+            var S2 = new THREE.Mesh(geometryC);
+            S2.scale.x -= 0.97;
+            S2.scale.y -= 0.97;
+            S2.scale.z -= 0.97;
+            S2.position.x = 3.1;
+            S2.position.z = -0.4;
+            S2.position.y = -0.8;
+            S2.rotateY(Math.PI);
+            S2.rotateX(Math.PI);
+
+
+            var sphereGeometry = new THREE.SphereGeometry(27, 16, 16);
+            var sphere = new THREE.Mesh(sphereGeometry);
+
+            sphere.scale.x -= 0.97;
+            sphere.scale.y -= 0.97;
+            sphere.scale.z -= 0.97;
+
+            //UNIR
+            var cabeza = THREE.CSG.fromMesh(sphere);
+            var C1 = THREE.CSG.fromMesh(S1);
+            var C2 = THREE.CSG.fromMesh(S2);
+            var man = C1.union(C2).union(cabeza);
+
+            var parent = new THREE.Object3D();
+
+            //CREANDO LOS NODOS
+            for (var i = 0; i < nodes.length; i++) {
+                if (nodes[i].infect == true) {
+                    var nodoC = THREE.CSG.toMesh(man, materialb);
+                } else {
+                    var nodoC = THREE.CSG.toMesh(man, materiala);
+                }
+                nodoC.applyMatrix(new THREE.Matrix4().makeTranslation(nodes[i].x, nodes[i].y, nodes[i].z));
+                parent.add(nodoC);
+            }
+
+            //CREANDO LAS ARISTAS
+            for (var i = 0; i < edges.length; i++) {
+                var points = [];
+                points.push(new THREE.Vector3(nodes[edges[i].from].x,
+                    nodes[edges[i].from].y,
+                    nodes[edges[i].from].z));
+                points.push(new THREE.Vector3(nodes[edges[i].to].x,
+                    nodes[edges[i].to].y,
+                    nodes[edges[i].to].z));
+                var geometry = new THREE.BufferGeometry().setFromPoints(points);
+                if (nodes[edges[i].from].infect == true && nodes[edges[i].to].infect == true) {
+                    var line = new THREE.Line(geometry, linematerial);
+                } else if (nodes[edges[i].from].infect == true && nodes[edges[i].to].infect == false || nodes[edges[i].from].infect == false && nodes[edges[i].to].infect == true) {
+                    var line = new THREE.Line(geometry, linematerialc);
+                } else {
+                    var line = new THREE.Line(geometry, linematerialb);
+                }
+
+                parent.add(line);
+            }
+            parent.position.x = -10;
+            parent.position.z = 2;
+            parent.position.y = 5;
+            scene.add(parent); //ACTIVAR PARA VISUALIZAR EL CUBO	
+
+            //LETRAS
+            var loader = new THREE.FontLoader();
+            loader.load('textures/letras3.json', function(font) {
+
+                var textGeo = new THREE.TextBufferGeometry("CADENA DE CONTAGIO", {
+
+                    font: font,
+                    size: 16,
+                    height: 0.25,
+                    curveSegments: 10,
+                    bevelThickness: 0.2,
+                    bevelSize: 0.3,
+                    bevelEnabled: false
+
+                });
+
+                textGeo.computeBoundingBox();
+                var textMaterial = new THREE.MeshPhongMaterial({
+                    color: 0xffffff,
+                    specular: 0x4444ff
+                });
+
+                var mesh = new THREE.Mesh(textGeo, textMaterial);
+                mesh.rotateX(-Math.PI / 8);
+                mesh.position.z = -80;
+                mesh.position.x = -130;
+                mesh.position.y = 20;
+
+                mesh.castShadow = true;
+                mesh.receiveShadow = true;
+
+                scene.add(mesh);
+
+            });
+
+            //piso
+            var textureLoader = new THREE.TextureLoader();
+            var mapa = textureLoader.load('textures/piso2.jpg');
+            var MatPiso = new THREE.MeshBasicMaterial({
+                color: 0xffffff,
+                map: mapa
+
+            });
+            var plano = new THREE.PlaneGeometry(70, 50);
+            var piso = new THREE.Mesh(plano, MatPiso);
+            piso.rotateX(-Math.PI / 2);
+            piso.position.x = -5;
+            piso.position.y = -0.8;
+            piso.position.z = 3;
+            scene.add(piso);
+
+            camera.position.y = 20;
+            camera.position.z = 50;
+            camera.lookAt(origin);
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            controls.update();
+            render();
+        }
+
+        function render() {
+            renderer.render(scene, camera);
+        }
+    </script>
+</body>
+
+</html>

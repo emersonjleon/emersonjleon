@@ -1,0 +1,446 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>UMNG</title>
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+    </style>
+</head>
+
+<body>
+    <script src="js/three.min.js"></script>
+    <script>
+        var scene, aspect, camera, renderer;
+        var startTime = Date.now();
+        var upArrow = false;
+        var downArrow = false;
+        var leftArrow = false;
+        var rightArrow = false;
+
+        init();
+        animate();
+
+        function init() {
+            scene = new THREE.Scene();
+            aspect = window.innerWidth / window.innerHeight;
+            camera = new THREE.PerspectiveCamera(60, aspect, 0.1, 1000);
+            renderer = new THREE.WebGLRenderer();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.body.appendChild(renderer.domElement);
+
+            var onKeyDown = function(event) {
+                switch (event.keyCode) {
+                    case 38:
+                        upArrow = true;
+                        break;
+                    case 40:
+                        downArrow = true;
+                        break;
+                    case 37:
+                        leftArrow = true;
+                        break;
+                    case 39:
+                        rightArrow = true;
+                        break;
+
+                }
+            };
+            var onKeyUp = function(event) {
+                switch (event.keyCode) {
+                    case 38:
+                        upArrow = false;
+                        break;
+                    case 40:
+                        downArrow = false;
+                        break;
+                    case 37:
+                        leftArrow = false;
+                        break;
+                    case 39:
+                        rightArrow = false;
+                        break;
+                }
+            };
+            document.addEventListener('keydown', onKeyDown, false);
+            document.addEventListener('keyup', onKeyUp, false);
+
+            //
+            var size = 15;
+            var arrowSize = 1;
+            var divisions = size;
+            var origin = new THREE.Vector3(0, 0, 0);
+            var x = new THREE.Vector3(1, 0, 0);
+            var y = new THREE.Vector3(0, 1, 0);
+            var z = new THREE.Vector3(0, 0, 1);
+            var color1 = new THREE.Color(0xFFFFFF);
+            var color2 = new THREE.Color(0xCCCCCC);
+            var color3 = new THREE.Color(0x000000);
+            var color4 = new THREE.Color(0xB51E00);
+            var colorG = new THREE.Color(0xFF6633);
+            var colorB = new THREE.Color(0x0040D1);
+            var colorB1 = new THREE.Color(0x415B66);
+            var colorGd = new THREE.Color(0xA9220E);
+            var colorG = new THREE.Color(0x5D9200);
+            var color = new THREE.Color(0x333333);
+
+            //CREAR LAS GRILLAS PARA EL ESCENARIO
+            var gridHelperXY = new THREE.GridHelper(size, divisions, color1, color1);
+            var gridHelperXZ = new THREE.GridHelper(size, divisions, color, color);
+            var gridHelperYZ = new THREE.GridHelper(size, divisions, color2, color2);
+
+            //ROTARLAS PARA QUE QUEDEN EN EL ESPACIO ADECUADO
+            gridHelperXY.rotateOnWorldAxis(x, THREE.Math.degToRad(90));
+            gridHelperXZ.rotateOnWorldAxis(y, THREE.Math.degToRad(90));
+            gridHelperYZ.rotateOnWorldAxis(z, THREE.Math.degToRad(90));
+
+
+            //CREAR LAS GEOMETRÍAS
+            geometry1 = new THREE.BoxGeometry(1.8, 3.5, 2);
+            geometry2 = new THREE.BoxGeometry(1.8, 2, 3);
+            geometry3 = new THREE.BoxGeometry(7.8, 3.5, 2);
+            geometry4 = new THREE.BoxGeometry(7.5, 1.8, 0.5);
+            geometry5 = new THREE.BoxGeometry(3, 2.5, 2);
+            geometry6 = new THREE.CylinderGeometry(0.7, 0.7, 2.3, 32);
+            geometry7 = new THREE.CylinderGeometry(0.03, 0.03, 0.8, 64);
+            geometry8 = new THREE.PlaneGeometry(5, 4, 10, 10);
+            geometry9 = new THREE.ConeGeometry(0.9, 1, 8);
+            geometry10 = new THREE.CircleGeometry(0.8, 16);
+            geometry11 = new THREE.CylinderGeometry(0.03, 0.03, 0.5, 64);
+            geometry12 = new THREE.PlaneGeometry(size, size, 10, 10);
+
+            //COLORES
+            for (var i = 0; i < geometry1.faces.length; i++) {
+                switch (i) {
+                    case 0:
+                    case 1:
+                        geometry1.faces[i].color = color4;
+                        break;
+                    case 2:
+                    case 3:
+                        geometry1.faces[i].color = color4;
+                        break;
+                    case 4:
+                    case 5:
+                        geometry1.faces[i].color = colorG;
+                        break;
+                    case 6:
+                    case 7:
+                        geometry1.faces[i].color = colorG;
+                        break;
+                    case 8:
+                    case 9:
+                        geometry1.faces[i].color = colorGd;
+                        break;
+                    case 10:
+                    case 11:
+                        geometry1.faces[i].color = colorGd;
+                        break;
+                }
+            }
+            for (var i = 0; i < geometry2.faces.length; i++) {
+                switch (i) {
+                    case 0:
+                    case 1:
+                        geometry2.faces[i].color = color4;
+                        break;
+                    case 2:
+                    case 3:
+                        geometry2.faces[i].color = color4;
+                        break;
+                    case 4:
+                    case 5:
+                        geometry2.faces[i].color = colorG;
+                        break;
+                    case 6:
+                    case 7:
+                        geometry2.faces[i].color = colorG;
+                        break;
+                    case 8:
+                    case 9:
+                        geometry2.faces[i].color = colorGd;
+                        break;
+                    case 10:
+                    case 11:
+                        geometry2.faces[i].color = colorGd;
+                        break;
+                }
+            }
+            for (var i = 0; i < geometry5.faces.length; i++) {
+                switch (i) {
+                    case 0:
+                    case 1:
+                        geometry5.faces[i].color = color4;
+                        break;
+                    case 2:
+                    case 3:
+                        geometry5.faces[i].color = color4;
+                        break;
+                    case 4:
+                    case 5:
+                        geometry5.faces[i].color = colorG;
+                        break;
+                    case 6:
+                    case 7:
+                        geometry5.faces[i].color = colorG;
+                        break;
+                    case 8:
+                    case 9:
+                        geometry5.faces[i].color = colorGd;
+                        break;
+                    case 10:
+                    case 11:
+                        geometry5.faces[i].color = colorGd;
+                        break;
+                }
+            }
+
+            for (var i = 0; i < geometry3.faces.length; i++) {
+                switch (i) {
+                    case 0:
+                    case 1:
+                        geometry3.faces[i].color = color4;
+                        break;
+                    case 2:
+                    case 3:
+                        geometry3.faces[i].color = color4;
+                        break;
+                    case 4:
+                    case 5:
+                        geometry3.faces[i].color = colorG;
+                        break;
+                    case 6:
+                    case 7:
+                        geometry3.faces[i].color = colorG;
+                        break;
+                    case 8:
+                    case 9:
+                        geometry3.faces[i].color = colorG;
+                        break;
+                    case 10:
+                    case 11:
+                        geometry3.faces[i].color = colorGd;
+                        break;
+                }
+            }
+            for (var i = 0; i < geometry4.faces.length; i++) {
+                switch (i) {
+                    case 0:
+                    case 1:
+                        geometry4.faces[i].color = color4;
+                        break;
+                    case 2:
+                    case 3:
+                        geometry4.faces[i].color = color4;
+                        break;
+                    case 4:
+                    case 5:
+                        geometry4.faces[i].color = colorG;
+                        break;
+                    case 6:
+                    case 7:
+                        geometry4.faces[i].color = colorG;
+                        break;
+                    case 8:
+                    case 9:
+                        geometry4.faces[i].color = colorGd;
+                        break;
+                    case 10:
+                    case 11:
+                        geometry4.faces[i].color = colorGd;
+                        break;
+                }
+            }
+
+            for (var i = 0; i < geometry9.faces.length; i++) {
+                switch (i) {
+                    case 0:
+                        geometry9.faces[i].color = color1;
+                        break;
+                    case 1:
+                        geometry9.faces[i].color = color2;
+                        break;
+                    case 2:
+                        geometry9.faces[i].color = color1;
+                        break;
+                    case 3:
+                        geometry9.faces[i].color = color2;
+                        break;
+                    case 4:
+                        geometry9.faces[i].color = color1;
+                        break;
+                    case 5:
+                        geometry9.faces[i].color = color2;
+                        break;
+                    case 6:
+                        geometry9.faces[i].color = color1;
+                        break;
+                    case 7:
+                        geometry9.faces[i].color = color2;
+                        break;
+                    case 8:
+                        geometry9.faces[i].color = color1;
+                        break;
+
+                }
+            }
+
+
+            //CREAR LOS MATERIALES            
+            var material = new THREE.MeshBasicMaterial({
+                color: color4,
+                vertexColors: THREE.FaceColors
+            });
+            var material2 = new THREE.MeshBasicMaterial({
+                color: colorB,
+                vertexColors: THREE.FaceColors
+            });
+            var material3 = new THREE.MeshBasicMaterial({
+                color: colorB,
+                vertexColors: THREE.FaceColors
+            });
+            var material4 = new THREE.MeshBasicMaterial({
+                color: colorB1,
+                vertexColors: THREE.FaceColors
+            });
+            var material5 = new THREE.MeshBasicMaterial({
+                color: color1,
+                vertexColors: THREE.FaceColors
+            });
+
+            var material7 = new THREE.MeshBasicMaterial({
+                color: color3,
+                vertexColors: THREE.FaceColors
+            });
+            var material8 = new THREE.MeshBasicMaterial({
+                color: colorG,
+                vertexColors: THREE.FaceColors
+            });
+
+
+            //CREAR LOS OBJETOS
+            piso = new THREE.Mesh(geometry12, material8);
+            piso.applyMatrix(new THREE.Matrix4().makeRotationX(Math.PI * (3 / 2)));
+            A = new THREE.Mesh(geometry1, material);
+            A.applyMatrix(new THREE.Matrix4().makeTranslation(5, 1.8, -1));
+            B = new THREE.Mesh(geometry2, material);
+            B.applyMatrix(new THREE.Matrix4().makeTranslation(1, 1, -1));
+            C = new THREE.Mesh(geometry2, material);
+            C.applyMatrix(new THREE.Matrix4().makeTranslation(-2, 1, -1));
+            D = new THREE.Mesh(geometry2, material);
+            D.applyMatrix(new THREE.Matrix4().makeTranslation(-5, 1, -1));
+            E = new THREE.Mesh(geometry3, material);
+            E.applyMatrix(new THREE.Matrix4().makeTranslation(-2, 1.5, -3.5));
+            frente = new THREE.Mesh(geometry4, material);
+            frente.applyMatrix(new THREE.Matrix4().makeTranslation(-2, 1.1, 0.7));
+            aulaM = new THREE.Mesh(geometry5, material);
+            aulaM.applyMatrix(new THREE.Matrix4().makeTranslation(-3.8, 1, 4));
+            puente = new THREE.Mesh(geometry6, material4);
+            puente.applyMatrix(new THREE.Matrix4().makeRotationZ(Math.PI / 2));
+            puente.applyMatrix(new THREE.Matrix4().makeTranslation(3, 0.5, -0.7));
+            cancha = new THREE.Mesh(geometry8, material2);
+            cancha.applyMatrix(new THREE.Matrix4().makeRotationX(Math.PI * (3 / 2)));
+            cancha.applyMatrix(new THREE.Matrix4().makeTranslation(4, 0.1, 4.5));
+            carpa = new THREE.Mesh(geometry9, material5);
+            carpa.applyMatrix(new THREE.Matrix4().makeTranslation(3.1, 1, 1.2));
+            reloj = new THREE.Mesh(geometry10, material5);
+            reloj.applyMatrix(new THREE.Matrix4().makeTranslation(5, 2.5, 0.05));
+            mane = new THREE.Mesh(geometry7, material7);
+            mane.applyMatrix(new THREE.Matrix4().makeTranslation(0, 0.3, 0));
+            mane1 = new THREE.Mesh(geometry11, material7);
+            mane1.applyMatrix(new THREE.Matrix4().makeRotationZ(Math.PI / 2));
+            mane1.applyMatrix(new THREE.Matrix4().makeTranslation(0.2, 0, 0));
+            ent = new THREE.Mesh(geometry5, material);
+            ent.applyMatrix(new THREE.Matrix4().multiplyScalar(0.5));
+            ent.applyMatrix(new THREE.Matrix4().makeTranslation(0, 1, 13.8));
+
+            reloj.add(mane);
+            reloj.add(mane1);
+
+            //AGREGAR A LA ESCENA
+            scene.add(gridHelperXZ);
+            scene.add(piso);
+            scene.add(A);
+            scene.add(B);
+            scene.add(C);
+            scene.add(D);
+            scene.add(E);
+            scene.add(frente);
+            scene.add(aulaM);
+            scene.add(puente);
+            scene.add(cancha);
+            scene.add(carpa);
+            scene.add(reloj);
+            scene.add(ent);
+
+
+
+            camera.position.x = 2;
+            camera.position.y = 13;
+            camera.position.z = 15;
+            camera.lookAt(origin);
+        }
+
+        function animate() {
+            render();
+            requestAnimationFrame(animate);
+        }
+
+        function render() {
+            var dtime = Date.now() - startTime;
+            var theta = 0;
+            var theta1 = 0;
+            // var x = 10 * Math.cos(dtime / 1000);
+            // var y = 10 * Math.cos(dtime / 1000);
+            //z = 10 * Math.sin(dtime / 1000);
+            var x, y, z;
+            //RELOJ
+
+            theta += 1.5;
+            theta1 += 0.2;
+            mane.applyMatrix(new THREE.Matrix4().makeRotationZ((-theta * Math.PI) / 180));
+            mane1.applyMatrix(new THREE.Matrix4().makeRotationZ((-theta1 * Math.PI) / 180));
+            //CÁMARA
+            if (upArrow) {
+                //  camera.position.x = ((0.5) * Math.cos((j * Math.PI) / res) * Math.sin((i * Math.PI) / res));
+                y = 20 * Math.cos(dtime / 1000);
+                z = 20 * Math.sin(dtime / 1000);
+                camera.position.y = y;
+                camera.position.z = z;
+
+            }
+            if (downArrow) {
+                y = 20 * Math.cos(dtime / 1000);
+                z = 20 * Math.sin(dtime / 1000);
+                camera.position.y = z;
+                camera.position.z = y;
+            }
+
+            if (rightArrow) {
+                x = 20 * Math.cos(dtime / 1000);
+                z = 20 * Math.sin(dtime / 1000);
+                camera.position.x = x;
+                camera.position.z = z;
+            }
+            if (leftArrow) {
+                x = 20 * Math.cos(dtime / 1000);
+                z = 20 * Math.sin(dtime / 1000);
+                camera.position.x = z;
+                camera.position.z = x;
+            }
+
+
+            camera.lookAt(0, 0, 0);
+            renderer.render(scene, camera);
+
+        }
+    </script>
+</body>
+
+</html>

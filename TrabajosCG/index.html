@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Inicio</title>
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        
+        #info {
+            position: absolute;
+            padding: 10px;
+            width: 100%;
+            text-align: center;
+            color: #FFFFFF;
+        }
+        
+        button {
+            background: #2bbcbd;
+            color: #fff;
+            border: none;
+            position: absolute;
+            height: 8%;
+            width: 13%;
+            font-size: 1.5em;
+            padding: 0em;
+            cursor: pointer;
+            transition: 800ms ease all;
+            outline: none;
+        }
+        
+        a {
+            text-decoration: none;
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="info">
+        <a rel="noopener">COMPUTACION GRAFICA</a><br />
+        <a rel="noopener">Universidad Militar Nueva Granada Calle-100</a><br />
+        <a rel="noopener">Gabriela Sofia Leon Guerrero- U1202083</a><br />
+        <a rel="noopener">Nicolas Rozo Cruz - U1202110</a><br />
+        <a rel="noopener">Santiago Forero Zapata - U1202071</a><br />
+    </div>
+    <div id="my-div">
+        <button id='button' style="left:32%; top:75% " onClick="grafosClick() "> <a href="mundo.html">MUNDO</a></button>
+        <button id='button' style="left:52%; top:75% " onClick="grafosClick() "> <a href="personitas.html">CADENA</a></button>
+    </div>
+    <script src="js/three.js "></script>
+    <script>
+        var scene, aspect, camera, renderer;
+        var startTime = Date.now();
+        var geometry, particles, particles1;
+        var object;
+
+        init();
+        animate();
+
+        function init() {
+
+            scene = new THREE.Scene();
+            scene.fog = new THREE.FogExp2(0x000000, 0.0008);
+            aspect = window.innerWidth / window.innerHeight;
+            camera = new THREE.PerspectiveCamera(45, aspect, 0.1, 1000);
+            renderer = new THREE.WebGLRenderer();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.body.appendChild(renderer.domElement);
+
+            //ELEMENTOS DE ESCENA
+            var ambient = new THREE.AmbientLight(0xffffff, 2);
+            scene.add(ambient);
+
+            var pointLight = new THREE.PointLight(0x22ffff, 1, 50);
+            pointLight.position.set(0, 5, 5);
+            scene.add(pointLight);
+
+            //asdkabskdasbdsa
+            var geometry = new THREE.BufferGeometry();
+            var sphere = new THREE.SphereGeometry(0.4, 15);
+            var plano = new THREE.CircleGeometry(1, 10);
+
+            var textureLoader = new THREE.TextureLoader();
+
+            var sprite1 = textureLoader.load('textures/coronavirus2.png');
+            var Material1 = new THREE.MeshStandardMaterial({
+                color: 0xffffff,
+                map: sprite1,
+                transparent: true,
+            });
+
+
+
+            var range = 200;
+            particulas = new THREE.Object3D();
+            scene.add(particulas);
+            particulas2 = new THREE.Object3D();
+            scene.add(particulas2);
+
+            for (var i = 0; i < 300; i++) {
+                var cube = new THREE.Mesh(plano, Material1);
+
+                cube.position.x = range * (0.5 - Math.random());
+                cube.position.y = range * (0.5 - Math.random());
+                cube.position.z = range * (0.5 - Math.random());
+                particulas.add(cube);
+
+                var cube2 = new THREE.Mesh(plano, Material1);
+
+                cube2.position.x = range * (0.5 - Math.random());
+                cube2.position.y = range * (0.5 - Math.random());
+                cube2.position.z = range * (0.5 - Math.random());
+                particulas2.add(cube2);
+            }
+
+
+            //LETRAA
+            var loader = new THREE.FontLoader();
+            loader.load('textures/letras3.json', function(font) {
+
+                var textGeo = new THREE.TextBufferGeometry("COVID - 19 ", {
+                    font: font,
+                    size: 14,
+                    height: 0.25,
+                    curveSegments: 10,
+                    bevelThickness: 0.2,
+                    bevelSize: 0.3,
+                    bevelEnabled: false
+                });
+
+                textGeo.computeBoundingBox();
+                var centerOffset = -0.5 * (textGeo.boundingBox.max.x - textGeo.boundingBox.min.x);
+
+                var textMaterial = new THREE.MeshPhongMaterial({
+                    color: 0xffffff,
+                    specular: 0x4444ff
+                });
+
+                var mesh = new THREE.Mesh(textGeo, textMaterial);
+                mesh.position.x = -50;
+                mesh.castShadow = true;
+                mesh.receiveShadow = true;
+
+                scene.add(mesh);
+
+            });
+
+            //MOVER LA CAMARA
+            camera.position.x = 0;
+            camera.position.y = 0;
+            camera.position.z = 100;
+            camera.lookAt(origin);
+        }
+
+        function animate() {
+
+            render();
+            requestAnimationFrame(animate);
+        }
+
+        function render() {
+            var time = Date.now() * 0.008;
+            particulas.position.x = (Math.cos(time * 0.009) * 50);
+            particulas.position.y = (Math.cos(time * 0.009) * 50);
+            particulas2.position.x = (Math.cos(time * 0.009) * -50);
+            camera.lookAt(0, 0, 0);
+            renderer.render(scene, camera);
+        }
+
+        function animateClick() {
+
+        }
+
+        function stopClick() {
+
+        }
+    </script>
+</body>
+
+</html>
