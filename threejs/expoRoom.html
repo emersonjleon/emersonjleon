@@ -53,7 +53,7 @@
 
 
       // Imágenes para proyectar en las paredes
-      var paredFrontalImagen="projection/reunion/granjero.jpg";
+      var paredFrontalImagen="images.jpg";
       var paredDerechaImagen="projection/reunion/puentesComoSoles.png";
       var paredIzquierdaImagen='textures/ColorPat.jpg';
       var paredAtrasImagen="projection/reunion/gaugan_output.jpg";
@@ -219,8 +219,11 @@
           var boxGeometry = new THREE.BoxGeometry(roomsizex, 40, roomsizez);
           var boxGeometry2 = new THREE.BoxGeometry(roomsizex-2, 38, roomsizez);
 	  var blackBox = new THREE.BoxGeometry(roomsizex+10, 40+10, roomsizez+10);
-	  var blackBoxsmall = new THREE.BoxGeometry(8, 8, 4);
+	  var blackBoxsmall = new THREE.BoxGeometry(4, 4, 4);
 
+	  var cyborgSquare = new THREE.PlaneGeometry(8, 8);
+
+	  
           var planoVerde = new THREE.PlaneGeometry(6000, 6000);
 	  //puerta
           var plano = new THREE.PlaneGeometry(9, 30);
@@ -443,6 +446,13 @@
 	  boxsmall.material= materialPareNegra;
 	  boxsmall.position.set(0.25*roomsizex, 0, 0.5*roomsizez);
           
+
+	  //cyborg
+	  var cyborg = new THREE.Mesh(cyborgSquare, materialParedFrontal);
+          cyborg.position.z = roomsizez/2-0.1;
+	  scene.add(cyborg);
+          
+
 	  //piso verde
           var pV = new THREE.Mesh(planoVerde, materialVerde);
           pV.rotateX(-1.5708);
