@@ -89,7 +89,7 @@
           controls = new THREE.OrbitControls(camera, renderer.domElement);
 
 	  controls.panSpeed= 1.8;
-	  controls.maxDistance=20;
+	  controls.maxDistance=25;
 	  controls.enableDamping=false;
 	  
           //ELEMENTOS COMUNES
@@ -449,7 +449,7 @@
 
 	  //cyborg
 	  var cyborg = new THREE.Mesh(cyborgSquare, Proyeccion1);
-          cyborg.position.z = 0.5*roomsizez-0.1;
+          cyborg.position.z = -0.5*roomsizez-4.5;
 	  scene.add(cyborg);
           
 
@@ -469,8 +469,8 @@
           par2.position.x = -(roomsizex-2.2)/2;
 	  
 	  //pared frontal
-          // var parfo = new THREE.Mesh(planoFond, Proyeccion1);
-          var parfo = new THREE.Mesh(planoFond, materialPare);
+          var parfo = new THREE.Mesh(planoFond, Proyeccion1);
+          //var parfo = new THREE.Mesh(planoFond, materialPare);
           parfo.position.z = -(roomsizez-2.2)/2;
 	  
 	  
