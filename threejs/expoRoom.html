@@ -145,8 +145,8 @@
 	  // scene.add(hemiLight);
 
 
-	  var moonLight = new THREE.SpotLight(0xffff88, 1, 2000, 1.5, 0.5);
-          moonLight.position.set(600, 1000, 400);
+	  var moonLight = new THREE.SpotLight(0xffff88, 1, 1000, 1.5, 0.5);
+          moonLight.position.set(300, 500, 200);
           scene.add(moonLight);
 
 
@@ -637,7 +637,7 @@
           b2.position.z = 15;
           b2.position.y = 13;
           var bmoon = new THREE.Mesh(bombiGeometryMoon, materialbomb);
-          bmoon.position.set(600, 1000, 400);
+          bmoon.position.set(300, 500, 200);
           
 	  
           var curve2D = new THREE.SplineCurve([
