@@ -852,8 +852,12 @@
 	      video.currentTime = 0;
 	  }
 	  
-	  if ( e.keyCode==82 ) // rewind video
-	      video.currentTime = 0;
+	  if ( e.keyCode==82 ) //r rewind:
+	      //video.currentTime = 0;
+	      controls.saveState();
+	  
+	  if ( e.keyCode==84 ) //r
+	      controls.reset();
 	  
 	  //controls.update();
 	  //stats.update();
