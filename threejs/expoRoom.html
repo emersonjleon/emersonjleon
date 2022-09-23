@@ -131,15 +131,15 @@
           scene.background = fondo1;
 
 	  //CREAR ILUMINACIÓN
-          var ambient = new THREE.AmbientLight(0xbbbbff, 0.4);
+          var ambient = new THREE.AmbientLight(0xbbbbff, 0.5);
           scene.add(ambient);
 	  
 	  var directionalLight1 = new THREE.DirectionalLight(0x335588, 0.5);
           directionalLight1.position.set(-1, 1, 1).normalize();
           scene.add(directionalLight1);
 
-          var ambientout = new THREE.AmbientLight(0xbbbbff, 0.1);
-	  ambientout.position.set(300,500,200)
+          var ambientout = new THREE.AmbientLight(0xbbbbff, 0.2);
+	  ambientout.position.set(30, 50,20)
           scene.add(ambientout);
 	  // hemiLight = new THREE.HemisphereLight( 0x0000ff, 0x008800, 0.6 );
 	  // scene.add(hemiLight);
@@ -439,7 +439,7 @@
           box3.material= materialPareNegra;
 	  var boxsmall = new THREE.Mesh(blackBoxsmall);	  
 	  boxsmall.material= materialPareNegra;
-	  boxsmall.position.set(0.2*roomsizex, 0, 0.5*roomsizez);
+	  boxsmall.position.set(0.15*roomsizex, 0, 0.5*roomsizez);
           
 	  //piso verde
           var pV = new THREE.Mesh(planoVerde, materialVerde);
@@ -450,13 +450,15 @@
 
 
 	  //pared izquierda
-          var par2 = new THREE.Mesh(planoPar, materialParedPuerta);
-          par2.rotateY(1.5708);
+          // var par2 = new THREE.Mesh(planoPar, materialParedPuerta);
+          var par2 = new THREE.Mesh(planoPar, materialPare);
+          par2.rotateY(1.5708);	
           //par2.rotateZ(-1.5708);
           par2.position.x = -(roomsizex-2.2)/2;
 	  
 	  //pared frontal
-          var parfo = new THREE.Mesh(planoFond, Proyeccion1);
+          // var parfo = new THREE.Mesh(planoFond, Proyeccion1);
+          var parfo = new THREE.Mesh(planoFond, materialPare);
           parfo.position.z = -(roomsizez-2.2)/2;
 	  
 	  
@@ -467,7 +469,8 @@
           par1.position.x = (roomsizex-2.2)/2;
 	  
 	  //pared posterior
-	  var parback = new THREE.Mesh(planoFond, Proyeccion3);//materialPared
+	  var parback = new THREE.Mesh(planoFond, materialPare);
+	  //Proyeccion3);//materialPared
 	  parback.rotateY(2*1.5708);
           parback.position.z = (roomsizez-2.2)/2;
 	  
