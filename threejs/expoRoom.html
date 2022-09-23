@@ -145,7 +145,7 @@
 	  // scene.add(hemiLight);
 
 
-	  var moonLight = new THREE.SpotLight(0xffff88, 1, 1000, 1.5, 0.5);
+	  var moonLight = new THREE.SpotLight(0xffff88, 1, 2000, 1.5, 0.5);
           moonLight.position.set(600, 1000, 400);
           scene.add(moonLight);
 
@@ -217,7 +217,7 @@
           var boxGeometry = new THREE.BoxGeometry(roomsizex, 40, roomsizez);
           var boxGeometry2 = new THREE.BoxGeometry(roomsizex-2, 38, roomsizez);
 	  var blackBox = new THREE.BoxGeometry(roomsizex+10, 40+10, roomsizez+10);
-	  var blackBoxsmall = new THREE.BoxGeometry(4, 4, 2);
+	  var blackBoxsmall = new THREE.BoxGeometry(8, 8, 4);
 
           var planoVerde = new THREE.PlaneGeometry(6000, 6000);
 	  //puerta
