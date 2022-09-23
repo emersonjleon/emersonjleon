@@ -88,7 +88,9 @@
           document.body.appendChild(renderer.domElement);
           controls = new THREE.OrbitControls(camera, renderer.domElement);
 
-	  controls.panSpeed= 2;
+	  controls.panSpeed= 1.8;
+	  controls.maxDistance=20;
+	  controls.enableDamping=true;
 	  
           //ELEMENTOS COMUNES
 	  var pihalf=THREE.Math.degToRad(90);
@@ -866,44 +868,43 @@
       }
 
 
-      function onDocumentMouseDown( event ) 
-{
-	// the following line would stop any other event handler from firing
-	// (such as the mouse's TrackballControls)
-	// event.preventDefault();
+      function onDocumentMouseDown( event ) {
+	  // the following line would stop any other event handler from firing
+	  // (such as the mouse's TrackballControls)
+	  // event.preventDefault()
+	  
+	  console.log("Click.");
+	  
+	  // update the mouse variable
+	  mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+	  mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+	  
+	  // find intersections
+	  
+	  // create a Ray with origin at the mouse position
+	  //   and direction into the scene (camera direction)
+	  var vector = new THREE.Vector3( mouse.x, mouse.y, 1 );
+	  projector.unprojectVector( vector, camera );
+	  var ray = new THREE.Raycaster( camera.position, vector.sub( camera.position ).normalize() );
+
+	  // create an array containing all objects in the scene with which the ray intersects
+	  var intersects = ray.intersectObjects( targetList );
 	
-	console.log("Click.");
-	
-	// update the mouse variable
-	mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
-	mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
-	
-	// find intersections
-
-	// create a Ray with origin at the mouse position
-	//   and direction into the scene (camera direction)
-	var vector = new THREE.Vector3( mouse.x, mouse.y, 1 );
-	projector.unprojectVector( vector, camera );
-	var ray = new THREE.Raycaster( camera.position, vector.sub( camera.position ).normalize() );
-
-	// create an array containing all objects in the scene with which the ray intersects
-	var intersects = ray.intersectObjects( targetList );
-	
-	// if there is one (or more) intersections
-	if ( intersects.length > 0 )
-	{
-	    console.log("Hit @ " + toString( intersects[0].point ) );
-
-	    toggleVideoView()
+	  // if there is one (or more) intersections
+	  if ( intersects.length > 0 ) {
+	      console.log("Hit @ " + toString( intersects[0].point ) );
+	      
+	      toggleVideoView()
+	      controls.maxDistance=200;
 
 
-	    // change the color of the closest face.
-	    //intersects[ 0 ].face.color.setRGB( 0.8 * Math.random() + 0.2, 0, 0 ); 
-	    //
-	    //intersects[ 0 ].object.geometry.colorsNeedUpdate = true;
-	}
+	      // change the color of the closest face.
+	      //intersects[ 0 ].face.color.setRGB( 0.8 * Math.random() + 0.2, 0, 0 ); 
+	      //
+	      //intersects[ 0 ].object.geometry.colorsNeedUpdate = true;
+	  }
 
-}
+      }
 
 
 
