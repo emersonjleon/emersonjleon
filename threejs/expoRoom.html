@@ -448,9 +448,9 @@
           
 
 	  //cyborg
-	  var cyborg = new THREE.Mesh(cyborgSquare, materialParedFrontal);
+	  var cyborg = new THREE.Mesh(cyborgSquare, Proyeccion1);
           cyborg.position.z = roomsizez/2-0.1;
-	  scene.add(cyborg);
+	  
           
 
 	  //piso verde
@@ -920,18 +920,21 @@
 
       
       var isvideoplaying=0;
+
       function toggleVideoView()
       {
 	  if ( isvideoplaying==0 ) //play video
 	  {
 	      video.play();
 	      isvideoplaying=1;
+	      scene.add(cyborg);
 	  }
 	  else {
 	      if( isvideoplaying==1 ) // pause video
 	      {
 		  video.pause();
 		  isvideoplaying=0;
+		  scene.remove(cyborg);
 	      }
 	  }
 	  
