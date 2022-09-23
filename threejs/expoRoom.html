@@ -125,6 +125,11 @@
 	  //CREAR ILUMINACIÓN
           var ambient = new THREE.AmbientLight(0xbbbbff, 0.4);
           scene.add(ambient);
+	  
+	  var directionalLight1 = new THREE.DirectionalLight(0x335588, 0.5);
+          directionalLight1.position.set(-1, 1, 1).normalize();
+          scene.add(directionalLight1);
+
           var ambientout = new THREE.AmbientLight(0xbbbbff, 0.1);
 	  ambientout.position.set(300,500,200)
           scene.add(ambientout);
@@ -132,8 +137,8 @@
 	  // scene.add(hemiLight);
 
 
-	  var sunLight = new THREE.SpotLight(0xffff88, 1, 1000, 1.5, 0.5);
-          sunLight.position.set(300, 500, 200);
+	  var moonLight = new THREE.SpotLight(0xffff88, 1, 1000, 1.5, 0.5);
+          sunLight.position.set(600, 1000, 400);
           scene.add(sunLight);
 
 
@@ -621,7 +626,7 @@
           b2.position.z = 15;
           b2.position.y = 13;
           var bmoon = new THREE.Mesh(bombiGeometryMoon, materialbomb);
-          bmoon.position.set(300, 500, 200);
+          bmoon.position.set(600, 1000, 400);
           
 	  
           var curve2D = new THREE.SplineCurve([
