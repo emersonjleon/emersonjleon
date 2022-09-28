@@ -451,7 +451,7 @@
 	  var cyborg = new THREE.Mesh(cyborgSquare, Proyeccion1);
           //cyborg.position.z = -0.5*roomsizez-4.5;
 	  cyborg.position.z = -(roomsizez-2.25)/2;
-	  //scene.add(cyborg);
+	  scene.add(cyborg);
           
 
 	  //piso verde
@@ -932,14 +932,14 @@
 	  {
 	      video.play();
 	      isvideoplaying=1;
-	      scene.add(cyborg);
+	      //scene.add(cyborg);
 	  }
 	  else {
 	      if( isvideoplaying==1 ) // pause video
 	      {
 		  video.pause();
 		  isvideoplaying=0;
-		  scene.remove(cyborg);
+		  //scene.remove(cyborg);
 	      }
 	  }
 	  
