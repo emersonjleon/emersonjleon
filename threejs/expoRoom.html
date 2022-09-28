@@ -450,7 +450,10 @@
 	  //cyborg
 	  var cyborg = new THREE.Mesh(cyborgSquare, Proyeccion1);
           //cyborg.position.z = -0.5*roomsizez-4.5;
+
 	  cyborg.position.z = -(roomsizez-2.25)/2;
+	  cyborg.position.set(0.25*roomsizex, 0, 0.5*roomsizez-5);
+          
 	  scene.add(cyborg);
           
 
