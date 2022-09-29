@@ -322,22 +322,28 @@
 	  
 
 	  var auditx = 110;//30
+	  // var biblio = 110;//30+30+50
 	  // largo
 	  var auditz = 160;//40 don't change this yet  
 	  var gruesopared = 2;//30
 	  
 
 	  //base
-	  var baseGeometry = new THREE.BoxGeometry(auditx, 10, auditz);
+	  var baseGeometry = new THREE.BoxGeometry(2*auditx, 10, auditz);
 	  var base0 = new THREE.Mesh(baseGeometry, materialPiso);
           base0.position.y = -15;
 	  scene.add(base0);
 	  
 	  //pared lateral
-	  var paredDerecha = new THREE.BoxGeometry(gruesopared, 500, 6);
+	  var paredDerecha = new THREE.BoxGeometry(gruesopared, 50, auditz);
           var pared1 = new THREE.Mesh(paredDerecha, materialPared);
-          pared1.position.x = auditx/2;
+          pared1.position.x = auditx;
 	  scene.add(pared1);
+	  //pared atras
+	  var paredAtras = new THREE.BoxGeometry(auditx, 50, gruesopared);
+          var pared2 = new THREE.Mesh(paredAtras, materialPared);
+          pared2.position.z = auditz/2;
+	  scene.add(pared2);
 	  
 
 
