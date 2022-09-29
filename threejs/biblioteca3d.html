@@ -80,38 +80,28 @@
           controls = new THREE.OrbitControls(camera, renderer.domElement);
 
 	  controls.panSpeed= 1.8;
-	  controls.maxDistance=25;
+	  //controls.maxDistance=25;
 	  controls.enableDamping=false;
 	  
           //ELEMENTOS COMUNES
 	  var pihalf=THREE.Math.degToRad(90);
-          var size = 30;
-          var arrowSize = 10;
-          var divisions = size;
           var origin = new THREE.Vector3(0, 0, 0);
           var x = new THREE.Vector3(1, 0, 0);
           var y = new THREE.Vector3(0, 1, 0);
           var z = new THREE.Vector3(0, 0, 1);
-          var colorPared = new THREE.Color(0x231100);
-          var colorLadrillo = new THREE.Color(0x5b3952);
-          var colorPiso = new THREE.Color(0xcccccc);
-          var colorVerde = new THREE.Color(0x02101);
-          var colorAzul = new THREE.Color(0x02101);
-          //var colorPa = new THREE.Color(0xf1f1f1);
+          var colorPared = new THREE.Color(0xaaaa99);
+          var colorLadrillo = new THREE.Color(0xaa4411);
+          var colorPiso = new THREE.Color(0xaaaabb);
+          var colorVerde = new THREE.Color(0x026101);
+          var colorAzul = new THREE.Color(0x021091);
+          var colorOscuro = new THREE.Color(0x3f3f2c);
 
 	  var intersected_object = 0;
 
-
-          //CREAR LAS GRILLAS PARA EL ESCENARIO
-          var axesHelper = new THREE.AxesHelper(arrowSize);
-          scene.add(axesHelper);
 	  
-          var gridHelperXZ = new THREE.GridHelper(size, divisions, colorPiso, colorPiso);
-          scene.add(gridHelperXZ);
-	  
+          
           //ROTARLAS PARA QUE QUEDEN EN EL ESPACIO ADECUADO
-          gridHelperXZ.rotateOnWorldAxis(y, pihalf);
-
+          
 
 	  
    
@@ -271,8 +261,6 @@
               metalness: 0.2,
               //transparent: true,
               roughness: 0.1,
-              map: lightWoodBase,
-              normalMap: woodNormal,
           });
           var materialMadera = new THREE.MeshStandardMaterial({
               color: colorPiso,
@@ -307,7 +295,17 @@
           // var box2CSG = THREE.CSG.fromMesh(box2);
           // var result = box1CSG.subtract(box2CSG);
           // var pasillo = THREE.CSG.toMesh(result);
+
+
+
+	  var size = 30;
+          var arrowSize = 10;
+          var divisions = size;
           
+          //CREAR LAS GRILLAS PARA EL ESCENARIO
+          var axesHelper = new THREE.AxesHelper(arrowSize);
+          scene.add(axesHelper);
+	  
 
 
 
@@ -317,32 +315,39 @@
           var pV = new THREE.Mesh(planoVerde, materialVerde);
           pV.rotateX(-1.5708);
           //par2.rotateZ(-1.5708);
-          pV.position.y = -25;
+          pV.position.y = -10;
 	  scene.add(pV);
 	  
 
-	  var auditx = 110;//30
-	  // var biblio = 110;//30+30+50
-	  // largo
-	  var auditz = 160;//40 don't change this yet  
-	  var gruesopared = 2;//30
+	  var xsize = 110;//half size 10=1m
+	  var zsize = 160;//40 don't change this yet  
+	  var gruesopared = 2;//20cm
 	  
 
 	  //base
-	  var baseGeometry = new THREE.BoxGeometry(2*auditx, 10, auditz);
+	  var baseGeometry = new THREE.BoxGeometry(2*xsize, 10, zsize);
 	  var base0 = new THREE.Mesh(baseGeometry, materialPiso);
-          base0.position.y = -15;
+          base0.position.y = -5.1;
 	  scene.add(base0);
+
+	  var gridHelperXZ = new THREE.GridHelper(zsize, 0.5*zsize, colorOscuro, colorOscuro);
+          gridHelperXZ.rotateOnWorldAxis(y, pihalf);
+	  //gridHelperXZ.position.y = -14.99;
+	  scene.add(gridHelperXZ);
+	  
+
+
+
 	  
 	  //pared lateral
-	  var paredDerecha = new THREE.BoxGeometry(gruesopared, 50, auditz);
+	  var paredDerecha = new THREE.BoxGeometry(gruesopared, 50, zsize);
           var pared1 = new THREE.Mesh(paredDerecha, materialPared);
-          pared1.position.x = auditx;
+          pared1.position.x = xsize;
 	  scene.add(pared1);
 	  //pared atras
-	  var paredAtras = new THREE.BoxGeometry(auditx, 50, gruesopared);
+	  var paredAtras = new THREE.BoxGeometry(xsize, 50, gruesopared);
           var pared2 = new THREE.Mesh(paredAtras, materialPared);
-          pared2.position.z = auditz/2;
+          pared2.position.z = zsize/2;
 	  scene.add(pared2);
 	  
 
@@ -350,10 +355,10 @@
 
 	  
 
-	  var blackBoxsmall = new THREE.BoxGeometry(6, 6, 6);
+	  var blackBoxsmall = new THREE.BoxGeometry(3, 3, 3);
 	  var boxsmall = new THREE.Mesh(blackBoxsmall);	  
 	  boxsmall.material= materialNegro;
-	  // boxsmall.position.set(0, 20, 0);
+	  boxsmall.position.set(3, 20, -zsize);
           scene.add(boxsmall);
           
 	  var cyborgSquare = new THREE.PlaneGeometry(8, 8);
