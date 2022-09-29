@@ -5,7 +5,7 @@
     <title>Exposición: El Cyborg Chamán</title>
  <link
     rel="shortcut icon"
-    href="../icos.png"
+    href="images/cyborgshaman.jpg"
   />
 
     <style>
@@ -35,6 +35,7 @@
     <script src="js/THREE.CSG.js"></script>
     <script src="js/WebGL.js"></script>
  <!-- <script src="https://gist.github.com/XanderLuciano/5ce51976fd18beffdc118fd29b547c05.js"></script> -->
+
     <script>
 
       if (WEBGL.isWebGLAvailable() === false) {
@@ -43,21 +44,11 @@
 
       }
 
-      //tamaño de la habitación
-      // ancho
-      var roomsizex = 200;//30
-      // largo
-      var roomsizez = 300;//200
-      // (alto, no cambiar) 
-      var roomsizey = 40;//40 don't change this yet  
-
+      
 
       // Imágenes para proyectar en las paredes
       var paredFrontalImagen="images/cyborgshaman.jpg";
-      var paredDerechaImagen="projection/reunion/puentesComoSoles.png";
-      var paredIzquierdaImagen='textures/ColorPat.jpg';
-      var paredAtrasImagen="projection/reunion/gaugan_output.jpg";
-
+      
       //agregar video
       const video = document.getElementById( 'video' );
       //const videotexture = new THREE.VideoTexture( video );
@@ -101,37 +92,29 @@
           var x = new THREE.Vector3(1, 0, 0);
           var y = new THREE.Vector3(0, 1, 0);
           var z = new THREE.Vector3(0, 0, 1);
-          var color = new THREE.Color(0x231100);
-          var colorV = new THREE.Color(0x5b3952);
-          var colorTinto = new THREE.Color(0x5b0000);
-          var colorM = new THREE.Color(0xdedede);
-          var colorB = new THREE.Color(0xffffff);
-          //  var colorPa = new THREE.Color(0xfccd6f);
-          var colorPa = new THREE.Color(0xfcb16f);
+          var colorPared = new THREE.Color(0x231100);
+          var colorLadrillo = new THREE.Color(0x5b3952);
+          var colorPiso = new THREE.Color(0x5b0000);
           var colorVerde = new THREE.Color(0x02101);
+          var colorAzul = new THREE.Color(0x02101);
           //var colorPa = new THREE.Color(0xf1f1f1);
 
 	  var intersected_object = 0;
-	  
+
+
           //CREAR LAS GRILLAS PARA EL ESCENARIO
           var axesHelper = new THREE.AxesHelper(arrowSize);
-          //scene.add(axesHelper);
+          scene.add(axesHelper);
 	  
-          var gridHelperXZ = new THREE.GridHelper(size, divisions, color, color);
+          var gridHelperXZ = new THREE.GridHelper(size, divisions, colorPiso, colorPiso);
           //scene.add(gridHelperXZ);
 	  
           //ROTARLAS PARA QUE QUEDEN EN EL ESPACIO ADECUADO
-          gridHelperXZ.rotateOnWorldAxis(y, THREE.Math.degToRad(90));
+          gridHelperXZ.rotateOnWorldAxis(y, pihalf);
 
 
 	  
-          //cielo estrellado: Gabi, mundo.html
-          var fondo1 = new THREE.CubeTextureLoader()
-              .setPath('textures/FONDO2/')
-              .load(['px.png', 'nx.png', 'py.png', 'ny.png', 'pz.png', 'nz.png']);
-          fondo1.format = THREE.RGBFormat;
-          scene.background = fondo1;
-
+   
 	  //CREAR ILUMINACIÓN
           var ambient = new THREE.AmbientLight(0xbbbbff, 0.7);
           scene.add(ambient);
@@ -151,150 +134,25 @@
           moonLight.position.set(300, 500, 200);
           scene.add(moonLight);
 
+ 
 
 	  
-	  //green light
-          var pointLight = new THREE.PointLight(0x00ff00, 3, 50);
-          pointLight.position.set(roomsizex/2, -10, -roomsizez/2);
-          scene.add(pointLight);
-
-	  
-	  
-	  //yellow light
-          var pointLight2 = new THREE.PointLight(0xffff00, 3, 50);
-          pointLight2.position.set(-roomsizex/2, 10, -roomsizez/2);
-          scene.add(pointLight2);
-
-	  //red light
-          var pointLight3 = new THREE.PointLight(0xff0000, 3, 50);
-          pointLight3.position.set(roomsizex/2, -10, roomsizez/2);
-          scene.add(pointLight3);
-
-	  //purple light
-          var pointLight4 = new THREE.PointLight(0xaa00aa, 3, 50);
-          pointLight4.position.set(-roomsizex/2, 10, roomsizez/2);
-          scene.add(pointLight4);
-
-	  
-	  
-	  
-
-
-	  //cube
-	  //var cube = [];
-
-	  // var geometry = new THREE.BoxGeometry();
-	  // var material = new THREE.MeshLambertMaterial({
-	  //     color: 0x00aa00,
-	  //     wireframe: true,
-	  // });
-	  
-	  // for (let i = 0; i < 3; i++) {
-	  //     cube[i] = new THREE.Mesh(geometry, material);
-	  //     cube[i].position.x = i;
-	  //     scene.add(cube[i]);
-	  // }
-
-	  var nlights=5;
-	  for (let i = 1; i < nlights+1;  i++) {
-	      looplight = new THREE.PointLight(0x2299aa, 4, 30);
-	      
-	      looplight.position.set((roomsizex-5)/2,9, -roomsizez/2+(i*roomsizez/(nlights+1)));
-              scene.add(looplight);
-	      //cube = new THREE.Mesh(geometry, material);
-	      //cube.position.x = i;
-	      //scene.add(cube);
-	  }
-	  
-
-
-
-	  
-
-	  
-	  
-          //CREAR LAS GEOMETRIAS
-	  
-	  
-          var boxGeometry = new THREE.BoxGeometry(roomsizex, 40, roomsizez);
-          var boxGeometry2 = new THREE.BoxGeometry(roomsizex-2, 38, roomsizez);
-	  var blackBox = new THREE.BoxGeometry(roomsizex+10, 40+10, roomsizez+10);
-	  var blackBoxsmall = new THREE.BoxGeometry(6, 6, 6);
-
-	  var cyborgSquare = new THREE.PlaneGeometry(8, 8);
-
-	  
-          var planoVerde = new THREE.PlaneGeometry(6000, 6000);
-	  //puerta
-          var plano = new THREE.PlaneGeometry(9, 30);
-	  //madera pared
-	  var plano2 = new THREE.PlaneGeometry(roomsizez-1, 4);
-	  //madera pared fondo
-          var plano3 = new THREE.PlaneGeometry(roomsizex-1, 4);
-	  //piso
-          var planop = new THREE.PlaneGeometry(roomsizex-1, roomsizez-1);
-	  //paredes
-          var planoPar = new THREE.PlaneGeometry(roomsizez, roomsizey);
-          var planoFond = new THREE.PlaneGeometry(roomsizex-2, roomsizey-7);
-	  
-          var sphereGeometry = new THREE.SphereGeometry(2.5, 25, 25);
-          var cylinderGeometry = new THREE.CylinderGeometry(2.5, 2.5, 8, 25);
-          var bombiGeometry = new THREE.SphereGeometry(1.5, 15, 15);
-	  var bombiGeometryMoon = new THREE.SphereGeometry(27, 15, 15);
-	  //marcos de puertas
-          var puGeometry = new THREE.BoxGeometry(1, 30, 1);
-          var pu2Geometry = new THREE.BoxGeometry(1, 1, 10);
-	  //vigas
-          var puAGeometry = new THREE.BoxGeometry(6, 6, roomsizez);
-	  //columnas
-	  var puBGeometry = new THREE.BoxGeometry(5, 38, 6);
-          var puBPGeometry = new THREE.BoxGeometry(5.1, 4, 6.1);
-	  
-          var mycylinder = new THREE.CylinderGeometry(4, 5, 5, 30);
-          
 	  
 	  
           //CREAR LOS MATERIALES
 	  //box
-          var materialPare = new THREE.MeshStandardMaterial({
-              color: 0xffddbb,
-              roughness: 0.5,
-	      metalness: 0.1,
-          });
-          var materialPareNegra = new THREE.MeshStandardMaterial({
+          var materialCajaNegra = new THREE.MeshStandardMaterial({
               color: 0x010101,
               roughness: 0.5,
 	      metalness: 0.1,
           });
           var materialPared = new THREE.MeshStandardMaterial({
-              color: colorB,
+              color: colorPared,
               metalness: 0,
               roughness: 0.8,
 	      
           });
-          
-          
-          var metal = new THREE.MeshStandardMaterial({
-              color: colorM,
-              metalness: 0.8,
-              roughness: 0.5,
-	      
-          });
-          var Matninas = new THREE.MeshStandardMaterial({
-              color: colorV,
-              metalness: 0,
-              roughness: 0,
-              transparent: true,
-              opacity: 0.9
-          });
-          var Matnew = new THREE.MeshStandardMaterial({
-              color: colorTinto,
-              metalness: 0.3,
-              roughness: 0,
-              transparent: true,
-              opacity: 0.9
-          });
-	  
+                    
           var materialbomb = new THREE.MeshBasicMaterial({
               color: 0xffffaa
           });
@@ -317,19 +175,19 @@
 	  
 	  
 	  
-	  // material pared izquierda
-          var patBase = new THREE.TextureLoader().load(paredIzquierdaImagen);
-          var patNormal = new THREE.TextureLoader().load('textures/NormalPat.jpg');
+	  // // material pared izquierda
+          // var patBase = new THREE.TextureLoader().load(paredIzquierdaImagen);
+          // var patNormal = new THREE.TextureLoader().load('textures/NormalPat.jpg');
           
-          var materialParedPuerta = new THREE.MeshStandardMaterial({
-              //color: 0xffffff,
-              roughness: 0.5,
-	      metalness: 0.1,
-              transparent: true,
-              opacity: 0.8,
-              map: patBase,
-              normalMap: patNormal
-          });
+          // var materialParedPuerta = new THREE.MeshStandardMaterial({
+          //     //color: 0xffffff,
+          //     roughness: 0.5,
+	  //     metalness: 0.1,
+          //     transparent: true,
+          //     opacity: 0.8,
+          //     map: patBase,
+          //     normalMap: patNormal
+          // });
 	  
 	  //material pared frontal
 	  var projBase1 = new THREE.TextureLoader().load(paredFrontalImagen);
@@ -385,28 +243,16 @@
           });
 
 	  
-	  //material pared atras
-	  var projBase3 = new THREE.TextureLoader().load(paredAtrasImagen);
-	  var Proyeccion3 = new THREE.MeshStandardMaterial({
-              //color: 0xffffff,
-              roughness: 0.1,
-	      metalness: 0.2,
-              //transparent: true,
-              //opacity: 0.8,
-              map: projBase3,
-              //normalMap: patNormal
-          });
-	  
 	  
           var matPuerta = new THREE.MeshStandardMaterial({
-              color: colorPa,
+              color: colorLadrillo,
               metalness: 0,
               roughness: 0.2,
               map: woodBase,
               normalMap: woodNormal,
           });
-	  var materialPuertas = new THREE.MeshStandardMaterial({
-              color: colorPa,
+	  var materialLadrillo = new THREE.MeshStandardMaterial({
+              color: colorLadrillo,
               metalness: 0,
               roughness: 0.2,
               //map: woodBase,
@@ -421,320 +267,112 @@
           });
 	  
           var materialPiso = new THREE.MeshStandardMaterial({
-              //color: colorTinto,
+              color: colorPiso,
               metalness: 0.2,
               //transparent: true,
               roughness: 0.1,
               map: lightWoodBase,
               normalMap: woodNormal,
           });
-          
-          //EXP MIO
+          var materialMadera = new THREE.MeshStandardMaterial({
+              color: colorPiso,
+              metalness: 0.2,
+              //transparent: true,
+              roughness: 0.1,
+              map: lightWoodBase,
+              normalMap: woodNormal,
+          });
+
+
+          var materialCristal= new THREE.MeshBasicMaterial({ 
+              color: 0xaaaaaa , 
+              side: THREE.DoubleSide, 
+              transparent: true,
+	      metalness: 0.8,
+	      roughness: 0,
+              opacity: 0.1
+          });
+
+
+
 	  
-	  //pasillo caja
-          var box1 = new THREE.Mesh(boxGeometry);
-          var box2 = new THREE.Mesh(boxGeometry2);
-          box2.position.z = 1;
-          var box1CSG = THREE.CSG.fromMesh(box1);
-          var box2CSG = THREE.CSG.fromMesh(box2);
-          var result = box1CSG.subtract(box2CSG);
-          var pasillo = THREE.CSG.toMesh(result);
-          pasillo.material = materialPare;
-	  var box3 = new THREE.Mesh(blackBox);
-          box3.material= materialPareNegra;
-	  var boxsmall = new THREE.Mesh(blackBoxsmall);	  
-	  boxsmall.material= materialPareNegra;
-	  boxsmall.position.set(0.25*roomsizex, 0, 0.5*roomsizez);
+          //EXP MIO
+
+
+	  // CSG
+          // var box1 = new THREE.Mesh(boxGeometry);
+          // var box2 = new THREE.Mesh(boxGeometry2);
+          // box2.position.z = 1;
+          // var box1CSG = THREE.CSG.fromMesh(box1);
+          // var box2CSG = THREE.CSG.fromMesh(box2);
+          // var result = box1CSG.subtract(box2CSG);
+          // var pasillo = THREE.CSG.toMesh(result);
           
 
-	  //cyborg
-	  var cyborg = new THREE.Mesh(cyborgSquare, Proyeccion1);
-          //cyborg.position.z = -0.5*roomsizez-4.5;
-	  cyborg.position.z = -(roomsizez-2.25)/2;
-	  scene.add(cyborg);
-          
 
-	  //piso verde
+
+	  
+          //CREAR LAS GEOMETRIAS
+	  var planoVerde = new THREE.PlaneGeometry(6000, 6000);
           var pV = new THREE.Mesh(planoVerde, materialVerde);
           pV.rotateX(-1.5708);
           //par2.rotateZ(-1.5708);
-          pV.position.y = -50;
+          pV.position.y = -25;
 	  scene.add(pV);
+	  
+
+	  var auditx = 110;//30
+	  // largo
+	  var auditz = 160;//40 don't change this yet  
+	  var gruesopared = 2;//30
+	  
+
+	  //base
+	  var baseGeometry = new THREE.BoxGeometry(auditx, 10, auditz);
+	  var base0 = new THREE.Mesh(baseGeometry, materialPiso);
+          base0.position.y = -15;
+	  scene.add(base0);
+	  
+	  //pared lateral
+	  var paredDerecha = new THREE.BoxGeometry(gruesopared, 500, 6);
+          var pared1 = new THREE.Mesh(paredDerecha, materialPared);
+          pared1.position.x = auditx/2;
+	  scene.add(pared1);
+	  
 
 
-	  //pared izquierda
-          // var par2 = new THREE.Mesh(planoPar, materialParedPuerta);
-          var par2 = new THREE.Mesh(planoPar, materialPare);
-          par2.rotateY(1.5708);	
-          //par2.rotateZ(-1.5708);
-          par2.position.x = -(roomsizex-2.2)/2;
+
 	  
-	  //pared frontal
-          //var parfo = new THREE.Mesh(planoFond, Proyeccion1);
-          var parfo = new THREE.Mesh(planoFond, materialPare);
-          parfo.position.z = -(roomsizez-2.2)/2;
-	  
-	  
-	  //pared derecha
-          var par1 = new THREE.Mesh(planoPar, Proyeccion2);
-          par1.rotateY(-1.5708);
-          //par1.rotateZ(-1.5708);
-          par1.position.x = (roomsizex-2.2)/2;
-	  
-	  //pared posterior
-	  var parback = new THREE.Mesh(planoFond, materialPare);
-	  //Proyeccion3);//materialPared
-	  parback.rotateY(2*1.5708);
-          parback.position.z = (roomsizez-2.2)/2;
-	  
-	  var parbacktop = new THREE.Mesh(planoFond, materialPare);
-	  parbacktop.rotateY(2*1.5708);
-          parbacktop.position.z = (roomsizez-1)/2;
-          parbacktop.position.y = 4;
-	  
-	  
-	  
-	  
-	  //puerta
-          var p2 = new THREE.Mesh(plano, matPuerta);
-          p2.rotateY(1.5708);
-          p2.position.x = -(roomsizex-2.6)/2;
-          p2.position.y = -5;
-          p2.position.z = (roomsizez-20)/4;
-	  
-	  //madera lateral
-          var pb1 = new THREE.Mesh(plano2, materialPuertas);
-          pb1.rotateY(-1.5708);
-          pb1.position.x = (roomsizex-2.4)/2;
-          pb1.position.y = -17;
-          //pb1.position.z = 2;
-	  
-          var pb2 = new THREE.Mesh(plano2, materialPuertas);
-          pb2.rotateY(1.5708);
-          pb2.position.x = -(roomsizex-2.4)/2;
-          pb2.position.y = -17;
-          //pb2.position.z = 2;
-	  
-	  //madera fondo
-          var pbf = new THREE.Mesh(plano3, materialPuertas);
-          pbf.position.y = -17;
-          pbf.position.z = -(roomsizez-2.4)/2;
-	  
-	  var pbfback = new THREE.Mesh(plano3, materialPuertas);
-	  pbfback.rotateY(2*1.5708);
-          pbfback.position.y = -17;
-          pbfback.position.z = (roomsizez-2.4)/2;
-	  
-          var piso = new THREE.Mesh(planop, materialPiso);
-          piso.rotateX(-1.5708);
-          piso.position.y = -18.9;
-          //piso.position.z = 2;
-	  
-	  
-	  
-	  
-	  //borde vertical de la puerta
-          var coso = new THREE.Mesh(puGeometry, materialPuertas);
-          coso.position.z = 85;
-          coso.position.x = -13.9;
-          coso.position.y = -4;
-          var coso2 = new THREE.Mesh(puGeometry, materialPuertas);
-          coso2.position.z = 95;
-          coso2.position.x = -13.9;
-          coso2.position.y = -4;
-	  //mi puerta
-          var coso3 = new THREE.Mesh(puGeometry, materialPuertas);
-          coso3.position.z = (roomsizez-20)/4-5;
-          coso3.position.x = -(roomsizex-2.2)/2;
-          coso3.position.y = -4;
-          var coso4 = new THREE.Mesh(puGeometry, materialPuertas);
-          coso4.position.z = (roomsizez-20)/4+5;
-          coso4.position.x = -(roomsizex-2.2)/2;
-          coso4.position.y = -4;
-	  //otras
-          var coso5 = new THREE.Mesh(puGeometry, materialPuertas);
-          coso5.position.z = 90;
-          coso5.position.x = 13.9;
-          coso5.position.y = -4;
-          var coso5b = new THREE.Mesh(puGeometry, materialPuertas);
-          coso5b.position.z = 80;
-          coso5b.position.x = 13.9;
-          coso5b.position.y = -4;
-          var coso6 = new THREE.Mesh(puGeometry, materialPuertas);
-          coso6.position.z = 100;
-          coso6.position.x = 13.9;
-          coso6.position.y = -4;
-          var coso7 = new THREE.Mesh(puGeometry, materialPuertas);
-          coso7.position.z = 35;
-          coso7.position.x = 13.9;
-          coso7.position.y = -4;
-          var coso8 = new THREE.Mesh(puGeometry, materialPuertas);
-          coso8.position.z = 45;
-          coso8.position.x = 13.9;
-          coso8.position.y = -4;
-	  
-	  //borde horizontal de las puertas
-          var cosa = new THREE.Mesh(pu2Geometry, materialPuertas);
-          cosa.position.z = 90;
-          cosa.position.x = -13.9;
-          cosa.position.y = 10.5;
-	  //mi puerta
-          var cosa1 = new THREE.Mesh(pu2Geometry, materialPuertas);
-          cosa1.position.z = (roomsizez-20)/4;
-          cosa1.position.x = -(roomsizex-2.2)/2;
-          cosa1.position.y = 10.5;
-          var cosa2 = new THREE.Mesh(pu2Geometry, materialPuertas);
-          cosa2.position.z = 95;
-          cosa2.position.x = 13.9;
-          cosa2.position.y = 10.5;
-          var cosa2b = new THREE.Mesh(pu2Geometry, materialPuertas);
-          cosa2b.position.z = 85;
-          cosa2b.position.x = 13.9;
-          cosa2b.position.y = 10.5;
-          var cosa3 = new THREE.Mesh(pu2Geometry, materialPuertas);
-          cosa3.position.z = 40;
-          cosa3.position.x = 13.9;
-          cosa3.position.y = 10.5;
-	  
-	  //vigas
-          var cosAR = new THREE.Mesh(puAGeometry, materialPare);
-          cosAR.position.x = (roomsizex-2.2)/2;
-          cosAR.position.y = 19;
-	  
-          var cosAR2 = new THREE.Mesh(puAGeometry, materialPare);
-          cosAR2.position.x = -(roomsizex-2.2)/2;
-          cosAR2.position.y = 19;
-	  
-	  //columnas
-          var bar3 = new THREE.Mesh(puBGeometry, materialPared);
-          bar3.position.z = (roomsizez-2)/2;
-          bar3.position.x = -(roomsizex-2.2)/2;
-          bar3.position.y = -2;
-	  
-          var bar4 = new THREE.Mesh(puBGeometry, materialPared);
-          bar4.position.z = -(roomsizez-2)/2;
-          bar4.position.x = -(roomsizex-2.2)/2;
-          bar4.position.y = -2;
-	  
-	  //base columnas
-          var bara3 = new THREE.Mesh(puBPGeometry, materialPuertas);
-          bara3.position.z = (roomsizez-2)/2;
-          bara3.position.x = -(roomsizex-2.2)/2;
-          bara3.position.y = -17;
-	  
-          var bara4 = new THREE.Mesh(puBPGeometry, materialPuertas);
-          bara4.position.z = -(roomsizez-2)/2;
-          bara4.position.x = -(roomsizex-2.2)/2;
-          bara4.position.y = -17;
-	  
-          var bara5 = new THREE.Mesh(puBPGeometry, materialPuertas);
-          bara5.position.z = 10;
-          bara5.position.x = 13.9;
-          bara5.position.y = -17;
-	  
-          var bara6 = new THREE.Mesh(puBPGeometry, materialPuertas);
-          bara6.position.z = -30;
-          bara6.position.x = 13.9;
-          bara6.position.y = -17;
-	  
-	  
-	  //
-	  var lightz1= -15;
-	  var lightz2= 15;
-	  
-          //Bombillos
-          var b1 = new THREE.Mesh(bombiGeometry, materialbomb);
-          b1.position.z = -15;
-          b1.position.y = 13;
-          var b2 = new THREE.Mesh(bombiGeometry, materialbomb);
-          b2.position.z = 15;
-          b2.position.y = 13;
-          var bmoon = new THREE.Mesh(bombiGeometryMoon, materialbomb);
-          bmoon.position.set(300, 500, 200);
+
+	  var blackBoxsmall = new THREE.BoxGeometry(6, 6, 6);
+	  var boxsmall = new THREE.Mesh(blackBoxsmall);	  
+	  boxsmall.material= materialPareNegra;
+	  // boxsmall.position.set(0, 20, 0);
+          scene.add(boxsmall);
           
-	  
-          var curve2D = new THREE.SplineCurve([
-              new THREE.Vector2(0, 20),
-              new THREE.Vector2(0, 13),
-          ]);
-	  
-          var material = new THREE.LineBasicMaterial({
-              color: 0x593d25
-          });
-          var resolution = 150;
-          var points = curve2D.getPoints(resolution);
-          var geometry = new THREE.BufferGeometry().setFromPoints(points);
-          var bc1 = new THREE.Line(geometry, material);
-          bc1.position.z = -15;
-          var bc2 = new THREE.Line(geometry, material);
-          bc2.position.z = 15;
+	  var cyborgSquare = new THREE.PlaneGeometry(8, 8);
+	  var cyborg = new THREE.Mesh(cyborgSquare, Proyeccion1);
+          // cyborg.position.z =20;
+	  scene.add(cyborg);
 
-	  // para sostener los bombillos
-	  //scene.add(bc1);
-          //scene.add(bc2);
+
+	  var ventana1 = new THREE.PlaneGeometry(50, 50);
+	  var cyborg = new THREE.Mesh(ventana1, materialCristal);
+          // cyborg.position.z =20;
+	  scene.add(ventana1);
+
+
+
+
+	  //not yet
 	  
-          var curveC1 = new THREE.CatmullRomCurve3([
-              new THREE.Vector3(-5, -10, 92),
-              new THREE.Vector3(-3, -8, 95),
-              new THREE.Vector3(0, -13, 95),
-              new THREE.Vector3(3, -8, 92),
-              new THREE.Vector3(5, -10, 92)
-	      
-          ])
-	  
-          var extrudeSettings = {
-              steps: 200,
-              bevelEnabled: false,
-              extrudePath: curveC1
-          };
+	  var bombiGeometry = new THREE.SphereGeometry(1.5, 15, 15);
+          var mycylinder = new THREE.CylinderGeometry(4, 5, 5, 30);
+          
+
+      
 	  
 	  
-          var pts = [],
-              count = 70;
-	  
-          for (var i = 0; i < count; i++) {
-	      
-              var l = 0.3;
-	      
-              var a = 2 * i / count * Math.PI;
-	      
-              pts.push(new THREE.Vector4(Math.cos(a) * l, Math.sin(a) * l));
-	      
-          }
-	  
-          var shape = new THREE.Shape(pts);
-	  
-          var geoMan = new THREE.ExtrudeBufferGeometry(shape, extrudeSettings);
-          var manubrio = new THREE.Mesh(geoMan, metal);
-	  
-	  
-          yellowmaterial= new THREE.MeshBasicMaterial({ 
-              color: 0xaaaa00 , 
-              side: THREE.DoubleSide, 
-              transparent: true,
-              opacity: 0.7
-          });
-	  
-          orangematerial= new THREE.MeshBasicMaterial({ 
-              color: 0xbb7700 , 
-              side: THREE.DoubleSide, 
-              transparent: true,
-              opacity: 0.7
-          });
-	  
-          redmaterial= new THREE.MeshBasicMaterial({ 
-              color: 0xbb0000 , 
-              side: THREE.DoubleSide, 
-              transparent: true,
-              opacity: 0.7
-          });
-	  
-          bluematerial= new THREE.MeshBasicMaterial({ 
-              color: 0x0022aa , 
-              side: THREE.DoubleSide, 
-              transparent: true,
-              opacity: 0.7
-          });
 	  
 	  
 	  
@@ -748,42 +386,38 @@
 
 	  //AGREGAR A LA ESCENA LOS DIFERENTES ELEMENTOS
 	  
-          scene.add(pasillo);
-	  scene.add(box3);
-	  scene.add(boxsmall);
+          //scene.add(pasillo);
+	  //scene.add(box3);
+	  //scene.add(boxsmall);
 
 	  //pared
-          scene.add(par1);
-          scene.add(par2);
-          scene.add(parfo);
-          scene.add(parback);
-          scene.add(parbacktop);
-          
-	  scene.add(p2);
+          //scene.add(par1);
+          //scene.add(par2);
+          //scene.add(parfo);
           //scene.add(pb1);
-          scene.add(pb2);
-          scene.add(pbf);
-          scene.add(pbfback);
+          // scene.add(pb2);
+          // scene.add(pbf);
+          // scene.add(pbfback);
 
 	  //piso
-          scene.add(piso);
+          //scene.add(piso);
 	  
-          scene.add(manubrio);
-          scene.add(b1);
-          scene.add(b2);
-          scene.add(bmoon);
-          scene.add(coso3);
-          scene.add(coso4);
-          scene.add(cosa1);
+          // scene.add(manubrio);
+          // scene.add(b1);
+          // scene.add(b2);
+          //scene.add(bmoon);
+          // scene.add(coso3);
+          // scene.add(coso4);
+          // scene.add(cosa1);
 	  
-          scene.add(cosAR);
-          scene.add(cosAR2);
+          // scene.add(cosAR);
+          // scene.add(cosAR2);
 	  
-	  //columnas
-          scene.add(bar3);
-          scene.add(bar4);
-          scene.add(bara3);
-          scene.add(bara4);
+	  // //columnas
+          // scene.add(bar3);
+          // scene.add(bar4);
+          // scene.add(bara3);
+          // scene.add(bara4);
 
 	  
 
@@ -794,26 +428,10 @@
 
 	  camera.position.x = 0;
           camera.position.y = 1;
-          camera.position.z = 10;
+          camera.position.z = 20;
           camera.lookAt(origin);
       }
 
-      function lightsMove(){
-	  var moveup=1;
-	  if (pointLight2.intensity>5){
-	      moveup=0;
-	  } 
-	  if (pointLight2.intensity<0) {
-	      moveup=1;
-	  }
-	  if (moveup=0){
-	      pointLight2.intensity += -0.05;
-	  } else  {
-	      pointLight2.intensity += 0.05;
-	  }
-	  //requestAnimationFrame(animate);
-      }
-      
       function animate() {
           requestAnimationFrame(animate);
           controls.update();
