@@ -141,7 +141,7 @@
 	  
           //CREAR LOS MATERIALES
 	  //box
-          var materialCajaNegra = new THREE.MeshStandardMaterial({
+          var materialNegro = new THREE.MeshStandardMaterial({
               color: 0x010101,
               roughness: 0.5,
 	      metalness: 0.1,
@@ -352,7 +352,7 @@
 
 	  var blackBoxsmall = new THREE.BoxGeometry(6, 6, 6);
 	  var boxsmall = new THREE.Mesh(blackBoxsmall);	  
-	  boxsmall.material= materialPareNegra;
+	  boxsmall.material= materialNegro;
 	  // boxsmall.position.set(0, 20, 0);
           scene.add(boxsmall);
           
