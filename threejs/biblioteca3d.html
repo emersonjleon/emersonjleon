@@ -328,28 +328,28 @@
 	  //base
 	  var baseGeometry = new THREE.BoxGeometry(2*xsize, 10, zsize);
 	  var base0 = new THREE.Mesh(baseGeometry, materialPiso);
-          base0.position.set( 0, -10, -0.5*zsize);
+          base0.position.set(0, -5, 0);
 	  scene.add(base0);
 
 	  var gridHelperXZ = new THREE.GridHelper(zsize, 0.5*zsize, colorOscuro, colorOscuro);
           gridHelperXZ.rotateOnWorldAxis(y, pihalf);
-	  base0.position.set( 0, 0, -zsize/2);
+	  base0.position.set( 0, 1, 0);
 	  //gridHelperXZ.position.y = -14.99;
 	  scene.add(gridHelperXZ);
 	  
 
 	  var base1 = new THREE.BoxGeometry(xsize-20, 12, 40);// 4m back
 	  var baseAudit = new THREE.Mesh(base1, materialPiso);
-          baseAudit.position.set(0.5*xsize, 6, -zsize+20);
+          baseAudit.position.set(0.5*xsize, 6, -0.5*zsize+20);
 	  scene.add(baseAudit);
 	  var base2 = new THREE.BoxGeometry(xsize, 12, 30);// 4m back
 	  var baseAudit2 = new THREE.Mesh(base2, materialPiso);
-          baseAudit2.position.set(0.5*xsize, 6, -zsize+15);
+          baseAudit2.position.set(0.5*xsize, 6, -0.5*zsize+15);
 	  scene.add(baseAudit2);
 	  
 	  var escalasgeom = new THREE.BoxGeometry(10, 2, 2);// 4m back
 	  var escalas = new THREE.Mesh(escalas, materialPiso);
-          escalas.position.set(5, 9, -zsize+31);
+          //escalas.position.set(5, 9, -0.5*zsize+31);
 	  scene.add(escalas);
 
 
@@ -357,12 +357,12 @@
 	  //pared lateral
 	  var paredDerecha = new THREE.BoxGeometry(gruesoPared, 50, zsize);
           var pared1 = new THREE.Mesh(paredDerecha, materialPared);
-          pared1.position.set(xsize, 0, -0.5*zsize);
+          pared1.position.set(xsize, 0, 0);
 	  scene.add(pared1);
 	  //pared atras
 	  var paredAtras = new THREE.BoxGeometry(xsize, 50, gruesoPared);
           var pared2 = new THREE.Mesh(paredAtras, materialPared);
-          pared2.position.set(0.5*xsize, 0, -zsize);
+          pared2.position.set(0.5*xsize, 0, -0.5*zsize);
 	  scene.add(pared2);
 	  
 
