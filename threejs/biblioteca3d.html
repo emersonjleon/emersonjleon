@@ -89,9 +89,9 @@
           var x = new THREE.Vector3(1, 0, 0);
           var y = new THREE.Vector3(0, 1, 0);
           var z = new THREE.Vector3(0, 0, 1);
-          var colorPared = new THREE.Color(0xaaaa99);
+          var colorPared = new THREE.Color(0xffddaa);
           var colorLadrillo = new THREE.Color(0xaa4411);
-          var colorPiso = new THREE.Color(0xaaaabb);
+          var colorPiso = new THREE.Color(0x999988);
           var colorVerde = new THREE.Color(0x026101);
           var colorAzul = new THREE.Color(0x021091);
           var colorOscuro = new THREE.Color(0x3f3f2c);
@@ -139,7 +139,7 @@
           var materialPared = new THREE.MeshStandardMaterial({
               color: colorPared,
               metalness: 0,
-              roughness: 0.8,
+              roughness: 0.5,
 	      
           });
                     
@@ -282,7 +282,7 @@
           });
 
 
-
+//////////////////////////////////////////////////////////
 	  
           //EXP MIO
 
@@ -319,33 +319,40 @@
 	  scene.add(pV);
 	  
 
-	  var xsize = 110;//half size 10=1m
-	  var zsize = 160;//40 don't change this yet  
-	  var gruesopared = 2;//20cm
+	  var xsize = 110;//half size, auditorium 10=1m
+	  var zsize = 160;//deep  
+	  var gruesoPared = 2;//20cm
+	  // var ground = -10;//20cm
 	  
 
 	  //base
 	  var baseGeometry = new THREE.BoxGeometry(2*xsize, 10, zsize);
 	  var base0 = new THREE.Mesh(baseGeometry, materialPiso);
-          base0.position.y = -5.1;
+          base0.position.set( 0, -10, -0.5*zsize);
 	  scene.add(base0);
 
 	  var gridHelperXZ = new THREE.GridHelper(zsize, 0.5*zsize, colorOscuro, colorOscuro);
           gridHelperXZ.rotateOnWorldAxis(y, pihalf);
+	  base0.position.set( 0, 0, -zsize/2);
 	  //gridHelperXZ.position.y = -14.99;
 	  scene.add(gridHelperXZ);
 	  
 
+	  var base1 = new THREE.BoxGeometry(xsize-2, 12, 40);// 4m back
+	  var baseAudit = new THREE.Mesh(base1, materialPiso);
+          baseAudit.position.set = (0.5*xsize, 6, -zsize+20);
+	  scene.add(baseAudit);
+	  
 
 
 	  
 	  //pared lateral
-	  var paredDerecha = new THREE.BoxGeometry(gruesopared, 50, zsize);
+	  var paredDerecha = new THREE.BoxGeometry(gruesoPared, 50, zsize);
           var pared1 = new THREE.Mesh(paredDerecha, materialPared);
-          pared1.position.x = xsize;
+          pared1.position.set(xsize, );
 	  scene.add(pared1);
 	  //pared atras
-	  var paredAtras = new THREE.BoxGeometry(xsize, 50, gruesopared);
+	  var paredAtras = new THREE.BoxGeometry(xsize, 50, gruesoPared);
           var pared2 = new THREE.Mesh(paredAtras, materialPared);
           pared2.position.z = zsize/2;
 	  scene.add(pared2);
@@ -438,8 +445,8 @@
 
 
 	  camera.position.x = 0;
-          camera.position.y = 1;
-          camera.position.z = 20;
+          camera.position.y = 10;
+          camera.position.z = 80;
           camera.lookAt(origin);
       }
 
