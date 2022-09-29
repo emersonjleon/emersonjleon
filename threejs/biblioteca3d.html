@@ -338,23 +338,31 @@
 	  scene.add(gridHelperXZ);
 	  
 
-	  var base1 = new THREE.BoxGeometry(xsize-2, 12, 40);// 4m back
+	  var base1 = new THREE.BoxGeometry(xsize-20, 12, 40);// 4m back
 	  var baseAudit = new THREE.Mesh(base1, materialPiso);
-          baseAudit.position.set = (0.5*xsize, 6, -zsize+20);
+          baseAudit.position.set(0.5*xsize, 6, -zsize+20);
 	  scene.add(baseAudit);
+	  var base2 = new THREE.BoxGeometry(xsize, 12, 30);// 4m back
+	  var baseAudit2 = new THREE.Mesh(base2, materialPiso);
+          baseAudit2.position.set(0.5*xsize, 6, -zsize+15);
+	  scene.add(baseAudit2);
 	  
+	  var escalasgeom = new THREE.BoxGeometry(10, 2, 2);// 4m back
+	  var escalas = new THREE.Mesh(escalas, materialPiso);
+          escalas.position.set(5, 9, -zsize+31);
+	  scene.add(escalas);
 
 
 	  
 	  //pared lateral
 	  var paredDerecha = new THREE.BoxGeometry(gruesoPared, 50, zsize);
           var pared1 = new THREE.Mesh(paredDerecha, materialPared);
-          pared1.position.set(xsize, );
+          pared1.position.set(xsize, 0, -0.5*zsize);
 	  scene.add(pared1);
 	  //pared atras
 	  var paredAtras = new THREE.BoxGeometry(xsize, 50, gruesoPared);
           var pared2 = new THREE.Mesh(paredAtras, materialPared);
-          pared2.position.z = zsize/2;
+          pared2.position.set(0.5*xsize, 0, -zsize);
 	  scene.add(pared2);
 	  
 
@@ -365,7 +373,7 @@
 	  var blackBoxsmall = new THREE.BoxGeometry(3, 3, 3);
 	  var boxsmall = new THREE.Mesh(blackBoxsmall);	  
 	  boxsmall.material= materialNegro;
-	  boxsmall.position.set(3, 20, -zsize);
+	  boxsmall.position.set(3, 20, -zsize+20);
           scene.add(boxsmall);
           
 	  var cyborgSquare = new THREE.PlaneGeometry(8, 8);
