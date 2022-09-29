@@ -277,8 +277,8 @@
               side: THREE.DoubleSide, 
               transparent: true,
 	      metalness: 0.8,
-	      roughness: 0,
-              opacity: 0.1
+	      roughness: 0.1,
+              opacity: 0.2
           });
 
 
@@ -307,7 +307,8 @@
 	  // var axesHelper = new THREE.AxesHelper(arrowSize);
           // scene.add(axesHelper);
 	  
-	  var ysize=35;
+	  var ysize=38;
+ 	  var ysize2=26;
  	  
 
 
@@ -324,32 +325,89 @@
 	  scene.add(pV);
 	  
 
-	  var xsize = 110;//half size, auditorium 10=1m
+	  var xsize = 100;//half size, auditorium 10=1m
 	  var zsize = 160;//deep  
-	  var gruesoPared = 4;//20cm
+	  var gruesoPared = 2;//20cm
 	  // var ground = -10;//20cm
 	  
 
 	  //base
-	  var baseGeometry = new THREE.BoxGeometry(2*xsize, 10, zsize);
+	  var baseGeometry = new THREE.BoxGeometry(2*xsize+20, 10, zsize);
 	  var base0 = new THREE.Mesh(baseGeometry, materialPiso);
-          base0.position.set(0, -5, 0);
+          base0.position.set(-10, -5, 0);
 	  Piso1.add(base0);
 
-	  var base0 = new THREE.Mesh(baseGeometry, materialPiso);
-          base0.position.set(0, -5, 0);
-	  Piso1.add(base0);
+	  var baseGeometry2 = new THREE.BoxGeometry(xsize, 4, zsize);
+	  var basep2 = new THREE.Mesh(baseGeometry2, materialPiso);
+          basep2.position.set(xsize/2, ysize, 0);
+	  Piso2.add(basep2);
 
+	  var basemediogeom = new THREE.BoxGeometry(60, 2, zsize-20);
+	  var basemedio = new THREE.Mesh(basemediogeom, materialPiso);
+          basemedio.position.set(-90, ysize2+1, -10);
+	  Piso2.add(basemedio);
+
+
+	  var basemedio2geom = new THREE.BoxGeometry(30, 2, zsize/2+12);
+	  var basemedio2 = new THREE.Mesh(basemedio2geom, materialPiso);
+          basemedio2.position.set(-45, ysize2+1, -6+0.25*zsize);
+	  Piso2.add(basemedio2);
+
+
+
+	  var baseescalerageom = new THREE.BoxGeometry(30, 2, 16);
+	  var baseescalera = new THREE.Mesh(baseescalerageom, materialPiso);
+          baseescalera.position.set(-45, ysize2/2, +8-0.25*zsize);
+	  Piso1.add(baseescalera);
+
+
+
+	  var escalerasgeom = new THREE.BoxGeometry(15, 2, 2);// 4m back
+	  var escaleras0 = new THREE.Mesh(escalerasgeom, materialPiso);
+          escaleras0.position.set(0, 11, 1);
+	  var escaleras1 = new THREE.Mesh(escalerasgeom, materialPiso);
+          escaleras1.position.set(0, 9, 3);
+	  var escaleras2 = new THREE.Mesh(escalerasgeom, materialPiso);
+          escaleras2.position.set(0, 7, 5);
+	  var escaleras3 = new THREE.Mesh(escalerasgeom, materialPiso);
+          escaleras3.position.set(0, 5, 7);
+	  var escaleras4 = new THREE.Mesh(escalerasgeom, materialPiso);
+          escaleras4.position.set(0, 3, 9);
+	  var escaleras5 = new THREE.Mesh(escalerasgeom, materialPiso);
+          escaleras5.position.set(0, 1, 11);
+	  
+	  var escaleras = new THREE.Object3D();
+	  escaleras.add(escaleras0);
+	  escaleras.add(escaleras1);
+	  escaleras.add(escaleras2);
+	  escaleras.add(escaleras3);
+	  escaleras.add(escaleras4);
+	  escaleras.add(escaleras5);
+	  
+	  var escalerasmed = escaleras.clone();
+	  var escalerastop = escaleras.clone();
+	  escaleras.position.set(-45+15/2, 0, 16-0.25*zsize);
+	  escalerasmed.rotateY(2*pihalf);
+	  escalerasmed.position.set(-45-15/2, ysize2/2+1,28-0.25*zsize);
+	  escalerastop.position.set(-45+15/2, ysize2, 16+2-0.25*zsize);
+	  Piso1.add(escaleras);
+	  Piso1.add(escalerasmed);
+	  Piso2.add(escalerastop);
+	  
+
+
+	  
 	  
 	  var gridHelperXZ = new THREE.GridHelper(zsize, 0.5*zsize, colorOscuro, colorOscuro);
           gridHelperXZ.rotateOnWorldAxis(y, pihalf);
 	  var gridHelperXZ2= gridHelperXZ.clone();
-	  gridHelperXZ.position.set( -xsize+0.5*zsize, 0.1, 0);
+	  gridHelperXZ.position.set( -20-xsize+0.5*zsize, 0.1, 0);
 	  gridHelperXZ2.position.set( +xsize-0.5*zsize, 0.1, 0);
 	  
 
 	  //gridHelperXZ.position.y = -14.99;
 	  Piso1.add(gridHelperXZ);
+	  Piso1.add(gridHelperXZ2);
 	  
 
 
@@ -393,41 +451,53 @@
           pared1.position.set(xsize, 0.5*ysize, 0);
 	  Piso1.add(pared1);
 
-	  var paredizqgeom = new THREE.BoxGeometry(gruesoPared, ysize, zsize);
+	  var paredizqgeom = new THREE.BoxGeometry(gruesoPared, ysize2, zsize-20);
           var paredizq = new THREE.Mesh(paredizqgeom, materialPared);
-          paredizq.position.set(-xsize, 0.5*ysize, 0);
+          paredizq.position.set(-xsize-20, 0.5*ysize2, -10);
 	  Piso1.add(paredizq);
 	 
-	  //pared atras
+	  //pared atras auditorio
 	  var pared2geom = new THREE.BoxGeometry(xsize, ysize, gruesoPared);
           var pared2 = new THREE.Mesh(pared2geom, materialPared);
           pared2.position.set(0.5*xsize, 0.5*ysize, -0.5*zsize);
 	  Piso1.add(pared2);
 
-	  //half size
-	  var paredAtrasgeom = new THREE.BoxGeometry(xsize/2, ysize, gruesoPared);
+	  //half size sala baja
+	  var doorWide=10;
+	  var paredAtrasgeom = new THREE.BoxGeometry(60-doorWide, ysize2, gruesoPared);
           var paredatras2 = new THREE.Mesh(paredAtrasgeom, materialPared);
-          paredatras2.position.set(-0.75*xsize, 0.5*ysize, -0.5*zsize);
+          paredatras2.position.set(-90-doorWide/2, 0.5*ysize2, -0.5*zsize);
 	  Piso1.add(paredatras2);
 
 
 	  // pared baño
-	  var paredAtrasgeom = new THREE.BoxGeometry(xsize/2, ysize, gruesoPared);
-          var paredatras2 = new THREE.Mesh(paredAtrasgeom, materialPared);
-          paredatras2.position.set(-0.75*xsize, 0.5*ysize, -0.5*zsize);
-	  Piso1.add(paredatras2);
+	  var paredbañogeom = new THREE.BoxGeometry(30, ysize, gruesoPared);
+          var paredbaño = new THREE.Mesh(paredbañogeom, materialPared);
+          paredbaño.position.set(-45, 0.5*ysize, -0.5*zsize);
+	  Piso1.add(paredbaño);
+          var paredbaño2 = new THREE.Mesh(paredbañogeom, materialPared);
+          paredbaño2.position.set(-45, 0.5*ysize, -0.25*zsize);
+	  Piso1.add(paredbaño2);
 
 	  
-	  var paredcentroAgeom = new THREE.BoxGeometry(gruesoPared, ysize, 0.5*zsize);
-          var paredcentroA = new THREE.Mesh(paredcentroAgeom, materialPared);
+	  //var paredcentroAgeom = new THREE.BoxGeometry(gruesoPared, ysize, 0.5*zsize);
+	  var paredAgeom = new THREE.BoxGeometry(gruesoPared, ysize, 0.5*zsize);
+	  var paredcentroA = new THREE.Mesh(paredAgeom, materialPared);
           paredcentroA.position.set(0, 0.5*ysize, -0.25*zsize);
 	  Piso1.add(paredcentroA);
+	  var paredA = new THREE.Mesh(paredAgeom, materialPared);
+          paredA.position.set(-60, 0.5*ysize, -0.25*zsize);
+	  Piso1.add(paredA);
+	  var paredBgeom = new THREE.BoxGeometry(gruesoPared, ysize, 50);
+	  var paredcentroB = new THREE.Mesh(paredBgeom, materialPared);
+          paredcentroB.position.set(0, 0.5*ysize, 0.5*zsize-25);
+	  Piso1.add(paredcentroB);
 	  
 
 
 
 	  
-
+	  ////////////////
 	  var blackBoxsmall = new THREE.BoxGeometry(3, 3, 3);
 	  var boxsmall = new THREE.Mesh(blackBoxsmall);	  
 	  boxsmall.material= materialNegro;
@@ -442,17 +512,17 @@
 
 	  var ventana1geom = new THREE.PlaneGeometry(50, 50);
 	  var ventana1 = new THREE.Mesh(ventana1geom, materialCristal);
-          ventana1.position.z =20;
+          ventana1.position.set(25+20,25+10,zsize/2);
 	  Piso1.add(ventana1);
 
 
 
-
+	  scene.add(Piso1);
+	  scene.add(Piso2);
+	  
 	  //not yet
 
 
-	  scene.add(Piso1);
-	  scene.add(Piso2);
 	  
 	  var bombiGeometry = new THREE.SphereGeometry(1.5, 15, 15);
           var mycylinder = new THREE.CylinderGeometry(4, 5, 5, 30);
@@ -567,7 +637,7 @@
 	      //video.currentTime = 0;
 	      controls.saveState();
 	  
-	  if ( e.keyCode==84 ) // ????
+	  if ( e.keyCode==84 ) // t
 	      controls.reset();
 	  
 	  //controls.update();
