@@ -95,6 +95,7 @@
           var colorVerde = new THREE.Color(0x026101);
           var colorAzul = new THREE.Color(0x021091);
           var colorOscuro = new THREE.Color(0x3f3f2c);
+	  var colorVerdeOscuro = new THREE.Color(0x3f5f2c);
 
 	  var intersected_object = 0;
 
@@ -262,6 +263,12 @@
               //transparent: true,
               roughness: 0.1,
           });
+          var materialPiso2 = new THREE.MeshStandardMaterial({
+              color: colorVerdeOscuro,
+              //metalness: 0,
+              //transparent: true,
+              roughness: 0.8,
+          });
           var materialMadera = new THREE.MeshStandardMaterial({
               color: colorPiso,
               metalness: 0.2,
@@ -326,11 +333,16 @@
 	  var Piso2 = new THREE.Object3D();
 	  
 	  var planoVerde = new THREE.PlaneGeometry(6000, 6000);
-          var pV = new THREE.Mesh(planoVerde, materialVerde);
+          var pV = new THREE.Mesh(planoVerde, materialPiso2);
           pV.rotateX(-1.5708);
           //par2.rotateZ(-1.5708);
           pV.position.y = -10;
 	  scene.add(pV);
+          var pV2 = new THREE.Mesh(planoVerde, materialPiso2);
+          pV2.rotateX(1.5708);
+          //par2.rotateZ(-1.5708);
+          pV2.position.y = -11;
+	  scene.add(pV2);
 	  
 
 	  
@@ -342,14 +354,14 @@
 	  Piso1.add(base0);
 
 
-	  var baseVerdeGeometry = new THREE.BoxGeometry(xsize+30, 10, 40);
+	  var baseVerdeGeometry = new THREE.BoxGeometry(xsize+30-4, 10, 40-4);
 	  var baseVerde = new THREE.Mesh(baseVerdeGeometry, materialVerde);
-          baseVerde.position.set(xsize/2-15, -5, -zsize/2-20);
+          baseVerde.position.set(xsize/2-15, -4.5, -zsize/2-20);
 	  Piso1.add(baseVerde);
 
-	  var basePatioGeometry = new THREE.BoxGeometry(xsize+-20, 10, 40);
+	  var basePatioGeometry = new THREE.BoxGeometry(2*xsize+10, 10, 40);
 	  var basePatio = new THREE.Mesh(basePatioGeometry, materialPiso);
-          basePatio.position.set(-70, -5, -zsize/2-20);
+          basePatio.position.set(-5, -5, -zsize/2-20);
 	  Piso1.add(basePatio);
 
 
@@ -729,6 +741,24 @@
 	  Piso2.add(muroUp);
 
 
+	  var muroPatioGeometry = new THREE.BoxGeometry(2*xsize+10, ysize, gruesoPared);
+	  var muroPatio = new THREE.Mesh(muroPatioGeometry, materialPared);
+          muroPatio.position.set(-5, ysize/2, -zsize/2-40);
+	  Piso1.add(muroPatio);
+
+
+	  var muroPatiolatGeometry = new THREE.BoxGeometry(gruesoPared, ysize, 40);
+	  var muroPatioizq = new THREE.Mesh(muroPatiolatGeometry, materialPared);
+          muroPatioizq.position.set(-xsize-10, ysize/2, -zsize/2-20);
+	  Piso1.add(muroPatioizq);
+	  var muroPatioder = new THREE.Mesh(muroPatiolatGeometry, materialPared);
+          muroPatioder.position.set(xsize, ysize/2, -zsize/2-20);
+	  Piso1.add(muroPatioder);
+
+	  var muroPatioCGeometry = new THREE.BoxGeometry(gruesoPared, 12, 40);
+	  var muroPatioC = new THREE.Mesh(muroPatioCGeometry, materialPared);
+          muroPatioC.position.set(-30, 6, -zsize/2-20);
+	  Piso1.add(muroPatioC);
 	  
           //columns
 	  var mycylindergeom = new THREE.CylinderGeometry( 2, 2,ysize2, 24);
