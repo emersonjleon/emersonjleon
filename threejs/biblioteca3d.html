@@ -61,7 +61,7 @@
 
 
       
-      var scene, aspect, camera, renderer, controls, cyborg, Piso2;
+      var scene, aspect, camera, renderer, controls, cyborg, Piso2, boxes;
       init();
       animate();
 
@@ -82,6 +82,7 @@
 	  controls.panSpeed= 1.8;
 	  //controls.maxDistance=25;
 	  controls.enableDamping=false;
+	  controls.minPolarAngle=0;
 	  
           //ELEMENTOS COMUNES
 	  var pihalf=THREE.Math.degToRad(90);
@@ -249,6 +250,7 @@
               //map: woodBase,
               //normalMap: woodNormal,
           });
+	  materialLadrillo=materialPared;
 	  var materialVerde = new THREE.MeshStandardMaterial({
               color: colorVerde,
               metalness: 0,
@@ -330,7 +332,7 @@
 	  
           //CREAR LAS GEOMETRIAS
 	  var Piso1 = new THREE.Object3D();
-	  var Piso2 = new THREE.Object3D();
+	  Piso2 = new THREE.Object3D();
 	  
 	  var planoVerde = new THREE.PlaneGeometry(6000, 6000);
           var pV = new THREE.Mesh(planoVerde, materialPiso2);
@@ -549,7 +551,6 @@
 
 	  
 	  var paredfizqgeom = new THREE.BoxGeometry(80 + gruesoPared, 12, gruesoPared);
-
 	  var paredfizq = new THREE.Mesh(paredfizqgeom, materialPared);
           paredfizq.position.set(-70, 6, -20+0.5*zsize);
 	  Piso1.add(paredfizq);
@@ -576,6 +577,9 @@
           var paredatras2 = new THREE.Mesh(paredAtrasgeom, materialPared);
           paredatras2.position.set(-85-doorWide/2, 0.5*ysize2, -0.5*zsize);
 	  Piso1.add(paredatras2);
+	  var paredUpizq2 = new THREE.Mesh(paredAtrasgeom, materialPared);
+          paredUpizq2.position.set(-85-doorWide/2, 1.5*ysize2, 0.25*zsize-10);
+	  Piso2.add(paredUpizq2);
 
 
 	  // pared baño
@@ -607,6 +611,8 @@
           paredbañoE2.position.set(-30, 0.5*ysize, -0.25*zsize-8);
 	  Piso1.add(paredbañoE2);
 
+
+	  
 	  var paredEgeom = new THREE.BoxGeometry(gruesoPared, ysize2,  10+gruesoPared);
 	  var paredE2 = new THREE.Mesh(paredEgeom, materialPared);
           paredE2.position.set(-30, 0.5*ysize2, 0.5*zsize-20-5);
@@ -616,6 +622,83 @@
 	  var paredbalconE2 = new THREE.Mesh(paredbalconEgeom, materialPared);
           paredbalconE2.position.set(-60, 6+ysize2, 0.5*zsize-10);
 	  Piso2.add(paredbalconE2);
+	  
+
+
+
+	  var paredbarandaUpgeom = new THREE.BoxGeometry(gruesoPared, 12,  16+gruesoPared);
+	  var paredbarandaUp = new THREE.Mesh(paredbarandaUpgeom, materialLadrillo);
+          paredbarandaUp.position.set(-45, 6+ysize, -26-8);
+	  Piso2.add(paredbarandaUp);
+	  
+	  var paredbarandaMedgeom = new THREE.BoxGeometry(gruesoPared, 14,  36+gruesoPared);
+	  var paredbarandaMed = new THREE.Mesh(paredbarandaMedgeom, materialLadrillo);
+          paredbarandaMed.position.set(-30, 4.5+ysize2, 6);
+	  Piso2.add(paredbarandaMed);
+
+
+	  var paredbigMedgeom = new THREE.BoxGeometry(gruesoPared, ysize+2.5,  30+gruesoPared);
+	  var paredbigMed = new THREE.Mesh(paredbigMedgeom, materialLadrillo);
+          paredbigMed.position.set(-30, ysize/2+ysize2-1.25, 40-1);
+	  Piso2.add(paredbigMed);
+
+	  
+	  var paredbarandaEsc0geom = new THREE.BoxGeometry(gruesoPared, 12,  2+16+gruesoPared);
+	  var paredbarandaEsc0 = new THREE.Mesh(paredbarandaEsc0geom, materialLadrillo);
+          paredbarandaEsc0.position.set(-30, 6, -19.5);
+	  Piso1.add(paredbarandaEsc0);
+	  
+	  
+	  var paredbarandaEscgeom = new THREE.BoxGeometry(gruesoPared, 10+14,  2+16+gruesoPared);
+	  var paredbarandaEsc = new THREE.Mesh(paredbarandaEscgeom, materialLadrillo);
+          paredbarandaEsc.position.set(-30, 5+7, -26-8);
+	  Piso1.add(paredbarandaEsc);
+	  var paredbarandaEsc45 = new THREE.Mesh(paredbarandaEscgeom, materialLadrillo);
+          paredbarandaEsc45.position.set(-45, 5+7, -26+6);
+	  Piso1.add(paredbarandaEsc45);
+
+
+	  var alturaD= 12*3/3.6;
+	  var largoz=15;
+          var barandaDgeom = new THREE.BoxGeometry(gruesoPared, alturaD,  60);
+          var cutboxgeom = new THREE.BoxGeometry(40,40,40);
+
+	  var barandaD = new THREE.Mesh(barandaDgeom);
+          var cutbox = new THREE.Mesh(cutboxgeom);
+          barandaD.position.set(0, alturaD/2, 0);
+	  barandaD.rotateX(0.62); //arctan(2/3)
+          cutbox.position.set(0, 0, 20);
+         
+          var barandaCSG = THREE.CSG.fromMesh(barandaD);
+          var boxCSG = THREE.CSG.fromMesh(cutbox);
+          var result1 = barandaCSG.subtract(boxCSG);
+	  cutbox.position.set(0, 10, -20-largoz);
+          var boxCSG2 = THREE.CSG.fromMesh(cutbox);
+          //boxCSG.position.set(0, 0, -largoz-10);
+          var result2 = result1.subtract(boxCSG2);
+          var diag = THREE.CSG.toMesh(result2);
+	  diag.material = materialLadrillo;
+
+	  var diagrotated=diag.clone();
+	  diagrotated.rotateY(2*pihalf);
+	  diagrotated.position.set(-45, 13, -largoz-19.5+8+1-3);
+	  Piso2.add(diagrotated);
+	  
+
+
+	  diag.position.set(-30, 2, -19.5+8+2);
+	  
+	  Piso1.add(diag);
+
+	  var diagUp=diag.clone();
+	  diagUp.position.set(-30, ysize2, -19.5+8+1);
+	  Piso2.add(diagUp);
+
+
+	  var diagUp45=diag.clone();
+	  diagUp45.position.set(-45, ysize2, -19.5+8+1);
+	  Piso2.add(diagUp45);
+	  
 	  
 	  //var paredcentroAgeom = new THREE.BoxGeometry(gruesoPared, ysize, 0.5*zsize);
 	  var paredAgeom = new THREE.BoxGeometry(gruesoPared, ysize, 0.5*zsize);
@@ -668,14 +751,22 @@
 
 	  
 	  ////////////////
+
+	  var boxes=[];
+	  
+
+
+
+	  
 	  var blackBoxsmall = new THREE.BoxGeometry(3, 3, 3);
 	  var boxsmall = new THREE.Mesh(blackBoxsmall);	  
 	  boxsmall.material= materialNegro;
 	  boxsmall.position.set(3, 20, -0.5*zsize+20);
+	  boxsmall.storynumber=8;
           scene.add(boxsmall);
           
 	  var cyborgSquare = new THREE.PlaneGeometry(8, 8);
-	  var cyborg = new THREE.Mesh(cyborgSquare, Proyeccion1);
+	  cyborg = new THREE.Mesh(cyborgSquare, Proyeccion1);
           cyborg.position.set(3, 17, -0.5*zsize+20);
 	  scene.add(cyborg);
 
@@ -711,18 +802,18 @@
           ventanaUp2compu.position.set(-15, ysize+ysize/2+6,-26);
 	  Piso2.add(ventanaUp2compu);
 
-	  
-	  var muroUp2geom = new THREE.BoxGeometry(30, 12,gruesoPared);
-	  var muroUp2 = new THREE.Mesh(muroUp2geom, materialPared);
+	  //muro del tercer piso, junto a la escalera
+	  var muroUp2geom = new THREE.BoxGeometry(30+gruesoPared, 12,gruesoPared);
+	  var muroUp2 = new THREE.Mesh(muroUp2geom, materialLadrillo);
           muroUp2.position.set(-15, ysize2+6,zsize/2-36);
 	  Piso2.add(muroUp2);
-	  var muroUp2compu = new THREE.Mesh(muroUp2geom, materialPared);
+	  var muroUp2compu = new THREE.Mesh(muroUp2geom, materialLadrillo);
           muroUp2compu.position.set(-15, ysize+6,-26);
 	  Piso2.add(muroUp2compu);
 
 
 	  var muroUpgeom = new THREE.BoxGeometry(30, ysize,gruesoPared);
-	  var muroUp = new THREE.Mesh(muroUpgeom, materialPared);
+	  var muroUp = new THREE.Mesh(muroUpgeom, materialLadrillo);
           muroUp.position.set(-45, ysize2+ysize/2,24);
 	  Piso2.add(muroUp);
 
