@@ -253,9 +253,9 @@
               map: woodBase,
               normalMap: woodNormal,
           });
-	  var materialLadrillo = new THREE.MeshStandardMaterial({
+	  var materialBiblio = new THREE.MeshStandardMaterial({
               color: colorLadrillo,
-              metalness: 0,
+              metalness: 0.3,
               roughness: 0.2,
               //map: woodBase,
               //normalMap: woodNormal,
@@ -762,9 +762,38 @@
 	  
 	  ////////////////
 
+	  
+	  var bibliogeom = new THREE.BoxGeometry(50, 10, 8);
+	  var biblioup = new THREE.Mesh(bibliogeom, materialBiblio);
+          biblioup.position.set(55, ysize+5, -20);
+	  Piso2.add(biblioup);
+	  var biblioup2 = new THREE.Mesh(bibliogeom, materialBiblio);
+          biblioup2.position.set(55, ysize+5, 60);
+	  Piso2.add(biblioup2);
+
+	  
+	  var biblioBgeom = new THREE.BoxGeometry(8, 10, 10);
+	  var biblioupB = new THREE.Mesh(biblioBgeom, materialBiblio);
+          biblioupB.position.set(60, ysize+5, 35);
+	  Piso2.add(biblioupB);
+	  var biblioupB2 = new THREE.Mesh(biblioBgeom, materialBiblio);
+          biblioupB2.position.set(40, ysize+5, 10);
+	  Piso2.add(biblioupB2);
+	  var biblioupB3 = new THREE.Mesh(biblioBgeom, materialBiblio);
+          biblioupB3.position.set(60, ysize+5, 30);
+	  Piso2.add(biblioupB3);
 
 
 
+	  var lockergeom = new THREE.BoxGeometry(4, 20, 30);
+	  var locker = new THREE.Mesh(lockergeom, materialBiblio);
+          locker.position.set(-2, 10, 15+28);
+	  Piso2.add(locker);
+
+
+	  
+
+	  //////////////////
 	  //special box
 	  var blackBoxsmall = new THREE.BoxGeometry(3, 3, 3);
 	  var boxsmall = new THREE.Mesh(blackBoxsmall);	  
@@ -800,7 +829,18 @@
           Piso1.add(boxsmall16);
 	  targetList.push(boxsmall16);
 
+	  var boxsmall12=boxsmall.clone();
+	  boxsmall12.storynumber=12;
+          boxsmall12.position.set(30, 10+ysize, 60);
+          Piso2.add(boxsmall12);
+	  targetList.push(boxsmall12);
 
+	  var boxsmall6=boxsmall.clone();
+	  boxsmall6.storynumber=6;
+          boxsmall6.position.set(60, 10+ysize, 35);
+          Piso2.add(boxsmall6);
+	  targetList.push(boxsmall6);
+	  
 
 
 
@@ -1089,9 +1129,9 @@
 	  if ( intersects2.length > 0 ) {
 	      console.log("Hit @ " +  2  );
 	      
-	      toggleVideoView()
-	      controls.maxDistance=200;
-	      console.log(boxes[0].storynumber);
+	      togglePiso2()
+	      // controls.maxDistance=200;
+	      console.log(isvideoplaying);
 
 
 	      // change the color of the closest face.
@@ -1125,7 +1165,7 @@
 	  
       }
 
-      var verPiso2=0;
+      var verPiso2=1;
 
       function togglePiso2()
       {
@@ -1148,10 +1188,10 @@
 
       
     </script>
-    <!-- <div class="basicmenu"> -->
-    <!--   <h4>El Cyborg Chamán </h4> -->
-    <!--  <button id='button'  onClick="togglePiso2() "> piso2 </button>  -->
-    <!-- </div> -->
+    <div class="basicmenu">
+      <h4>El Cyborg Chamán </h4>
+      <button id='button'  onClick="javascript:togglePiso2()"> Piso 2 </button>
+    </div>
 </body>
 
 </html>
