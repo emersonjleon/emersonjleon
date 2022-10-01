@@ -1238,7 +1238,7 @@
 
       var verPiso2=1;
 
-      function togglePiso2()
+      function togglePiso2(scene, piso2)
       {
 	  if ( verPiso2==0 ) //play video
 	  {
@@ -1249,7 +1249,7 @@
 	  else {
 	      if( isvideoplaying==1 ) // pause video
 	      {
-		  scene.remove(Piso2);
+		  scene.remove(piso2);
 		  verPiso2=0;
 	      }	
 	  }
@@ -1261,7 +1261,7 @@
     </script>
     <div class="basicmenu">
       <h4>El Cyborg Chamán </h4>
-      <button id='button'  onClick="javascript:togglePiso2()"> Piso 2 </button>
+      <button id='button'  onClick="togglePiso2(scene, Piso2)"> Piso 2 </button>
       <a href="https://emersonjleon.github.io/emersonjleon/historiasCyborg.txt">Historias de la exposición</a>
     </div>
 </body>
