@@ -21,6 +21,12 @@
 	    bottom: 5%;
 	    z-index: 100;
 	}
+	.basicmenu {
+	    position: fixed;
+	    left:5%;
+	    bottom: 5%;
+	    z-index: 100;
+	}
 	
     </style>
 </head>
@@ -752,19 +758,47 @@
 	  
 	  ////////////////
 
-	  var boxes=[];
-	  
 
 
 
-	  
+	  //special box
 	  var blackBoxsmall = new THREE.BoxGeometry(3, 3, 3);
 	  var boxsmall = new THREE.Mesh(blackBoxsmall);	  
 	  boxsmall.material= materialNegro;
 	  boxsmall.position.set(3, 20, -0.5*zsize+20);
 	  boxsmall.storynumber=8;
-          scene.add(boxsmall);
-          
+          Piso1.add(boxsmall);
+	  boxes=[boxsmall];
+
+	  // storyboxes
+	  var boxsmall7=boxsmall.clone();
+	  boxsmall7.storynumber=7;
+          boxsmall7.position.set(-62, 18, 38);
+          Piso1.add(boxsmall7);
+	  targetList.push(boxsmall7);
+
+
+	  var boxsmall19=boxsmall.clone();
+	  boxsmall19.storynumber=19;
+          boxsmall19.position.set(-28, 12, -20);
+          Piso1.add(boxsmall19);
+	  targetList.push(boxsmall19);
+
+	  var boxsmall18=boxsmall.clone();
+	  boxsmall18.storynumber=18;
+          boxsmall18.position.set(-3, 16, 32);
+          Piso1.add(boxsmall18);
+	  targetList.push(boxsmall18);
+	  
+
+
+
+
+
+
+
+	  
+	  
 	  var cyborgSquare = new THREE.PlaneGeometry(8, 8);
 	  cyborg = new THREE.Mesh(cyborgSquare, Proyeccion1);
           cyborg.position.set(3, 17, -0.5*zsize+20);
@@ -862,7 +896,7 @@
 	  
 	  
 	  scene.add(Piso1);
-	  scene.add(Piso2);
+	  //scene.add(Piso2);
 	  
 	  //not yet
 
@@ -876,7 +910,6 @@
 	  
 	  
 	  
-	  targetList.push(boxsmall);
 	  // initialize object to perform world/screen calculations
 	  projector = new THREE.Projector();
 	  
@@ -1029,14 +1062,26 @@
 	  var ray = new THREE.Raycaster( camera.position, vector.sub( camera.position ).normalize() );
 
 	  // create an array containing all objects in the scene with which the ray intersects
-	  var intersects = ray.intersectObjects( targetList );
+
+	  for(var i = 0, size = targetList.length; i < size ; i++){
+	      var item = targetList[i];
+	      var targetl2=[];
+	      targetl2.push(item)
+	      var intersects = ray.intersectObjects( targetl2);
+	      if ( intersects.length > 0 ) {
+		  console.log("historia número "+ item.storynumber);
+		  //console.log(item.position);
+	      } 
+	  }
+	  var intersects2 = ray.intersectObjects( boxes );
 	
 	  // if there is one (or more) intersections
-	  if ( intersects.length > 0 ) {
-	      console.log("Hit @ " + toString( intersects[0].point ) );
+	  if ( intersects2.length > 0 ) {
+	      console.log("Hit @ " +  2  );
 	      
 	      toggleVideoView()
 	      controls.maxDistance=200;
+	      console.log(boxes[0].storynumber);
 
 
 	      // change the color of the closest face.
@@ -1044,7 +1089,6 @@
 	      //
 	      //intersects[ 0 ].object.geometry.colorsNeedUpdate = true;
 	  }
-
       }
 
 
@@ -1073,8 +1117,10 @@
 
 	  
     </script>
-    <!-- <button id='button' class="button" onClick="toggleVideoView() "> * </button> -->
-    
+    <div class="basicmenu">
+      <h4>El Cyborg Chamán </h4>
+     <button id='button'  onClick="toggleVideoView() "> video </button> 
+    </div>
 </body>
 
 </html>
