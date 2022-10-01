@@ -700,7 +700,7 @@
 	  var diagrotated=diag.clone();
 	  diagrotated.rotateY(2*pihalf);
 	  diagrotated.position.set(-45, 13, -largoz-19.5+8+1-3);
-	  Piso2.add(diagrotated);
+	  Piso1.add(diagrotated);
 	  
 
 
@@ -796,7 +796,7 @@
 	  var lockergeom = new THREE.BoxGeometry(4, 20, 30);
 	  var locker = new THREE.Mesh(lockergeom, materialGris);
           locker.position.set(-2, 10, 15+28);
-	  Piso2.add(locker);
+	  Piso1.add(locker);
 
 
 	  
@@ -807,28 +807,101 @@
 	  var boxsmall = new THREE.Mesh(blackBoxsmall);	  
 	  boxsmall.material= materialNegro;
 	  var boxsmalldiag=boxsmall.clone();
-	  boxsmalldiag.rotateX(0.6);
+	  boxsmalldiag.rotateX(-0.62);
 	  
 	  boxsmall.position.set(3, 20, -0.5*zsize+20);
-	  boxsmall.storynumber=8;
+	  boxsmall.storynumber=22;
           Piso1.add(boxsmall);
 	  boxes=[boxsmall];
 
 
-	  boxsmalldiag.storynumber=111;
-          boxsmalldiag.position.set(-45, 14, -20);
+	  boxsmalldiag.storynumber=11;
+          boxsmalldiag.position.set(-45, 26, -28);
           Piso1.add(boxsmalldiag);
 	  targetList.push(boxsmalldiag);
 
 
+	  var boxsmall2=boxsmall.clone();
+	  boxsmall2.storynumber=2;
+          boxsmall2.position.set(-66, 10, -37-zsize/2);
+          Piso1.add(boxsmall2);
+	  targetList.push(boxsmall2);
+
+	  var boxsmallbla=boxsmall.clone();
+	  boxsmallbla.storynumber=5;
+          boxsmallbla.position.set(-62, ysize2+14, -12);
+          Piso2.add(boxsmallbla);
+	  targetList.push(boxsmallbla);
+
 
 	  
+	  var boxsmall6=boxsmall.clone();
+	  boxsmall6.storynumber=6;
+          boxsmall6.position.set(60, 10+ysize, 35);
+          Piso2.add(boxsmall6);
+	  targetList.push(boxsmall6);
+	  
+
 	  // storyboxes
 	  var boxsmall7=boxsmall.clone();
 	  boxsmall7.storynumber=7;
           boxsmall7.position.set(-62, 16, 38);
           Piso1.add(boxsmall7);
 	  targetList.push(boxsmall7);
+
+
+
+	  
+
+
+
+	  var boxsmall08=boxsmall.clone();
+	  boxsmall08.storynumber=08;
+          boxsmall08.position.set(xsize-3, 10+ysize, 50);
+          Piso2.add(boxsmall08);
+	  targetList.push(boxsmall08);
+	  
+
+	  
+	  var boxsmall09=boxsmall.clone();
+	  boxsmall09.storynumber=09;
+          boxsmall09.position.set(-107, 10, 10);
+          Piso1.add(boxsmall09);
+	  targetList.push(boxsmall09);
+
+
+
+	
+
+	  var boxsmall12=boxsmall.clone();
+	  boxsmall12.storynumber=12;
+          boxsmall12.position.set(-45, 10+ysize, -zsize/2+20);
+          Piso2.add(boxsmall12);
+	  targetList.push(boxsmall12);
+
+
+
+
+
+	  var boxsmall15=boxsmall.clone();
+	  boxsmall15.storynumber=15;
+          boxsmall15.position.set(-108, ysize2+10, -40);
+          Piso2.add(boxsmall15);
+	  targetList.push(boxsmall15);
+
+
+
+	  var boxsmall16=boxsmall.clone();
+	  boxsmall16.storynumber=16;
+          boxsmall16.position.set(-60, 13, -zsize/2-20);
+          Piso1.add(boxsmall16);
+	  targetList.push(boxsmall16);
+
+	  var boxsmall18=boxsmall.clone();
+	  boxsmall18.storynumber=18;
+          boxsmall18.position.set(-4, 16, 32);
+          Piso1.add(boxsmall18);
+	  targetList.push(boxsmall18);
 
 
 	  var boxsmall19=boxsmall.clone();
@@ -838,52 +911,25 @@
 	  targetList.push(boxsmall19);
 
 
-	  var boxsmall2=boxsmall.clone();
-	  boxsmall2.storynumber=2;
-          boxsmall2.position.set(-66, 10, -37-zsize/2);
-          Piso1.add(boxsmall2);
-	  targetList.push(boxsmall2);
-	  
+	  var boxsmall20=boxsmall.clone();
+	  boxsmall20.storynumber=20;
+          boxsmall20.position.set(2, 12, -20);
+          Piso1.add(boxsmall20);
+	  targetList.push(boxsmall20);
 
 
-
-	  
-
-	  var boxsmall18=boxsmall.clone();
-	  boxsmall18.storynumber=18;
-          boxsmall18.position.set(-4, 16, 32);
-          Piso1.add(boxsmall18);
-	  targetList.push(boxsmall18);
-
-	  var boxsmall16=boxsmall.clone();
-	  boxsmall16.storynumber=16;
-          boxsmall16.position.set(-60, 13, -zsize/2-20);
-          Piso1.add(boxsmall16);
-	  targetList.push(boxsmall16);
-
-	  var boxsmall10=boxsmall.clone();
-	  boxsmall10.storynumber=10;
-          boxsmall10.position.set(30, 10+ysize, 60);
-          Piso2.add(boxsmall10);
-	  targetList.push(boxsmall10);
+	  var boxsmall21=boxsmall.clone();
+	  boxsmall21.storynumber=21;
+          boxsmall21.position.set(30, 10+ysize, 60);
+          Piso2.add(boxsmall21);
+	  targetList.push(boxsmall21);
 
 
-	  var boxsmall12=boxsmall.clone();
-	  boxsmall12.storynumber=12;
-          boxsmall12.position.set(-55, 10+ysize, -zsize/2+5);
-          Piso2.add(boxsmall12);
-	  targetList.push(boxsmall12);
-
-	  var boxsmall6=boxsmall.clone();
-	  boxsmall6.storynumber=6;
-          boxsmall6.position.set(60, 10+ysize, 35);
-          Piso2.add(boxsmall6);
-	  targetList.push(boxsmall6);
 	  
 	  var boxsmall24=boxsmall.clone();
 	  boxsmall24.storynumber=24;
           boxsmall24.position.set(-3, 10, -16);
-          Piso2.add(boxsmall24);
+          Piso1.add(boxsmall24);
 	  targetList.push(boxsmall24);
 
 
@@ -899,10 +945,13 @@
 	  scene.add(cyborg);
 
 
-	  var ventana1geom = new THREE.PlaneGeometry(50, 60);
+	  var ventana1geom = new THREE.PlaneGeometry(50, 30);
 	  var ventana1 = new THREE.Mesh(ventana1geom, materialCristal);
-          ventana1.position.set(25+20,30+10,zsize/2);
+          ventana1.position.set(25+20,15+10,zsize/2);
 	  Piso1.add(ventana1);
+	  var ventana1Up = new THREE.Mesh(ventana1geom, materialCristal);
+          ventana1Up.position.set(25+20,45+10,zsize/2);
+	  Piso2.add(ventana1Up);
 
 	  
 	  var ventanaf2geom = new THREE.PlaneGeometry(80, ysize2-10);
@@ -1002,7 +1051,7 @@
 	  
 	  
 	  scene.add(Piso1);
-	  scene.add(Piso2);
+	  //scene.add(Piso2);
 	  
 	  //not yet
 
@@ -1023,42 +1072,7 @@
 	  document.addEventListener( 'mousedown', onDocumentMouseDown, false );
 
 
-	  //AGREGAR A LA ESCENA LOS DIFERENTES ELEMENTOS
-	  
-          //scene.add(pasillo);
-	  //scene.add(box3);
-	  //scene.add(boxsmall);
-
-	  //pared
-          //scene.add(par1);
-          //scene.add(par2);
-          //scene.add(parfo);
-          //scene.add(pb1);
-          // scene.add(pb2);
-          // scene.add(pbf);
-          // scene.add(pbfback);
-
-	  //piso
-          //scene.add(piso);
-	  
-          // scene.add(manubrio);
-          // scene.add(b1);
-          // scene.add(b2);
-          //scene.add(bmoon);
-          // scene.add(coso3);
-          // scene.add(coso4);
-          // scene.add(cosa1);
-	  
-          // scene.add(cosAR);
-          // scene.add(cosAR2);
-	  
-	  // //columnas
-          // scene.add(bar3);
-          // scene.add(bar4);
-          // scene.add(bara3);
-          // scene.add(bara4);
-
-	  
+ 
 
 
 

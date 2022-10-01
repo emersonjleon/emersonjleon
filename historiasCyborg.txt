@@ -55,7 +55,7 @@ openAI, 2022-09-02
 
 
 6.
-Un día cualquiera en Nueva York
+Un día cualquiera en Suba
 
 Era un día cualquiera en la ciudad de Nueva York, el sol brillaba pero el aire estaba un poco frío y húmedo. Yo caminaba por la calle sin rumbo fijo cuando de repente escuché gritos, era una mujer, corrí hacia donde provenían los gritos y vi a un hombre intentando robarle el bolso a una mujer, intenté ayudarla pero el hombre sacó un cuchillo y me amenazó, la mujer aprovechó ese momento de distracción del ladrón para escapar. El ladrón se alejó corriendo y yo me quedé un poco atónito, no sabía qué hacer, la mujer ya se había ido y yo no quería llamar a la policía ya que el hombre podría volver y atacarme, así que decidí seguirlo. Le seguí la pista durante unos minutos y llegué a un callejón oscuro, no había nadie más allí, me dio un poco de miedo pero seguí adelante, de repente algo me agarró por detrás y me tapó la boca, era el ladrón, intenté luchar pero era más fuerte que yo, me arrastró hasta una habitación oscura y me ató a una silla, yo estaba asustado y no sabía qué hacer, entonces el ladrón encendió una luz y vi que estaba en una especie de cuartelillo, había una mesa, una silla y una cama, en la pared había una foto de una mujer y un niño, supuse que serían su mujer e hijo. El ladrón me dijo que si quería ver de nuevo a mi familia, tendría que darle todo mi dinero, yo accedí y le di mi dinero, entonces me soltó y me dejó ir, yo salí corriendo de allí y no volví a ver al ladrón.
 
@@ -140,6 +140,9 @@ nosotros?". Sonriendo, me levanté y fui con ellos. Durante unos
 momentos olvidé todos mis problemas y me sentí libre y feliz.
 
 openAl, 2022-08-21
+
+
+
 
 16.
 Un día en la ciclovia++
