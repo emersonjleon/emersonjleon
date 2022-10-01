@@ -260,6 +260,14 @@
               //map: woodBase,
               //normalMap: woodNormal,
           });
+	  var materialGris = new THREE.MeshStandardMaterial({
+              color: 0x666666,
+              metalness: 0.3,
+              roughness: 0.2,
+              //map: woodBase,
+              //normalMap: woodNormal,
+          });
+
 	  materialLadrillo=materialPared;
 	  var materialVerde = new THREE.MeshStandardMaterial({
               color: colorVerde,
@@ -786,7 +794,7 @@
 
 
 	  var lockergeom = new THREE.BoxGeometry(4, 20, 30);
-	  var locker = new THREE.Mesh(lockergeom, materialBiblio);
+	  var locker = new THREE.Mesh(lockergeom, materialGris);
           locker.position.set(-2, 10, 15+28);
 	  Piso2.add(locker);
 
@@ -798,15 +806,27 @@
 	  var blackBoxsmall = new THREE.BoxGeometry(3, 3, 3);
 	  var boxsmall = new THREE.Mesh(blackBoxsmall);	  
 	  boxsmall.material= materialNegro;
+	  var boxsmalldiag=boxsmall.clone();
+	  boxsmalldiag.rotateX(0.6);
+	  
 	  boxsmall.position.set(3, 20, -0.5*zsize+20);
 	  boxsmall.storynumber=8;
           Piso1.add(boxsmall);
 	  boxes=[boxsmall];
 
+
+	  boxsmalldiag.storynumber=111;
+          boxsmalldiag.position.set(-45, 14, -20);
+          Piso1.add(boxsmalldiag);
+	  targetList.push(boxsmalldiag);
+
+
+
+	  
 	  // storyboxes
 	  var boxsmall7=boxsmall.clone();
 	  boxsmall7.storynumber=7;
-          boxsmall7.position.set(-62, 18, 38);
+          boxsmall7.position.set(-62, 16, 38);
           Piso1.add(boxsmall7);
 	  targetList.push(boxsmall7);
 
@@ -817,9 +837,21 @@
           Piso1.add(boxsmall19);
 	  targetList.push(boxsmall19);
 
+
+	  var boxsmall2=boxsmall.clone();
+	  boxsmall2.storynumber=2;
+          boxsmall2.position.set(-66, 10, -37-zsize/2);
+          Piso1.add(boxsmall2);
+	  targetList.push(boxsmall2);
+	  
+
+
+
+	  
+
 	  var boxsmall18=boxsmall.clone();
 	  boxsmall18.storynumber=18;
-          boxsmall18.position.set(-3, 16, 32);
+          boxsmall18.position.set(-4, 16, 32);
           Piso1.add(boxsmall18);
 	  targetList.push(boxsmall18);
 
@@ -829,9 +861,16 @@
           Piso1.add(boxsmall16);
 	  targetList.push(boxsmall16);
 
+	  var boxsmall10=boxsmall.clone();
+	  boxsmall10.storynumber=10;
+          boxsmall10.position.set(30, 10+ysize, 60);
+          Piso2.add(boxsmall10);
+	  targetList.push(boxsmall10);
+
+
 	  var boxsmall12=boxsmall.clone();
 	  boxsmall12.storynumber=12;
-          boxsmall12.position.set(30, 10+ysize, 60);
+          boxsmall12.position.set(-55, 10+ysize, -zsize/2+5);
           Piso2.add(boxsmall12);
 	  targetList.push(boxsmall12);
 
@@ -841,6 +880,11 @@
           Piso2.add(boxsmall6);
 	  targetList.push(boxsmall6);
 	  
+	  var boxsmall24=boxsmall.clone();
+	  boxsmall24.storynumber=24;
+          boxsmall24.position.set(-3, 10, -16);
+          Piso2.add(boxsmall24);
+	  targetList.push(boxsmall24);
 
 
 
@@ -874,6 +918,11 @@
 	  var ventanaAUp = new THREE.Mesh(ventanaf2Upgeom, materialCristal);
           ventanaAUp.position.set(-85,1.5*ysize2+5,-zsize/2);
 	  Piso2.add(ventanaAUp);
+
+	  var ventanaAtrasUpgeom = new THREE.PlaneGeometry(30, ysize2);
+	  var ventanaAtrasUp = new THREE.Mesh(ventanaAtrasUpgeom, materialCristal);
+          ventanaAtrasUp.position.set(-15,0.5*ysize2+ysize,-zsize/2);
+	  Piso2.add(ventanaAtrasUp);
 	  
 	  //0.5*zsize-33-10
 	  
@@ -887,6 +936,13 @@
 	  Piso2.add(ventanaUp2compu);
 
 	  //muro del tercer piso, junto a la escalera
+	  var muroAtrasCompuUpgeom = new THREE.BoxGeometry(30+gruesoPared, ysize2-4,gruesoPared);
+	  var muroAtrasCompuUp = new THREE.Mesh(muroAtrasCompuUpgeom, materialPared);
+          muroAtrasCompuUp.position.set(-45, 0.5*ysize2+ysize-2,-zsize/2);
+	  Piso2.add(muroAtrasCompuUp);
+
+
+
 	  var muroUp2geom = new THREE.BoxGeometry(30+gruesoPared, 12,gruesoPared);
 	  var muroUp2 = new THREE.Mesh(muroUp2geom, materialLadrillo);
           muroUp2.position.set(-15, ysize2+6,zsize/2-36);
@@ -1120,6 +1176,7 @@
 	      var intersects = ray.intersectObjects( targetl2);
 	      if ( intersects.length > 0 ) {
 		  console.log("historia número "+ item.storynumber);
+		  camera.lookAt(item.position);
 		  //console.log(item.position);
 	      } 
 	  }
@@ -1191,6 +1248,7 @@
     <div class="basicmenu">
       <h4>El Cyborg Chamán </h4>
       <button id='button'  onClick="javascript:togglePiso2()"> Piso 2 </button>
+      <a href="https://emersonjleon.github.io/emersonjleon/historiasCyborg.txt">Historias de la exposición</a>
     </div>
 </body>
 
