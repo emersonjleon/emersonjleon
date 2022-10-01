@@ -18,13 +18,17 @@
 	.button {
 	    position: fixed;
 	    left:5%;
-	    bottom: 5%;
+	    top: 5%;
 	    z-index: 100;
 	}
 	.basicmenu {
+	    background-color: #114433;
+	    color: #eee;
 	    position: fixed;
 	    left:5%;
-	    bottom: 5%;
+	    top: 5%;
+	    transparent: true;
+	    opacity:0.8;
 	    z-index: 100;
 	}
 	
@@ -362,9 +366,9 @@
 	  Piso1.add(base0);
 
 
-	  var baseVerdeGeometry = new THREE.BoxGeometry(xsize+30-4, 10, 40-4);
+	  var baseVerdeGeometry = new THREE.BoxGeometry(xsize+60-4, 10, 40-4);
 	  var baseVerde = new THREE.Mesh(baseVerdeGeometry, materialVerde);
-          baseVerde.position.set(xsize/2-15, -4.5, -zsize/2-20);
+          baseVerde.position.set(xsize/2-30, -4.5, -zsize/2-20);
 	  Piso1.add(baseVerde);
 
 	  var basePatioGeometry = new THREE.BoxGeometry(2*xsize+10, 10, 40);
@@ -526,7 +530,7 @@
 	  Piso1.add(pared2);
           var pared2Up = new THREE.Mesh(pared2geom, materialPared);
           pared2Up.position.set(0.5*xsize, 0.5*ysize+ysize2, -0.5*zsize);
-	  Piso1.add(pared2Up);
+	  Piso2.add(pared2Up);
 
 	  // pared adelante
 	  var paredfgeom = new THREE.BoxGeometry(xsize + gruesoPared, 10, gruesoPared);
@@ -789,7 +793,13 @@
           boxsmall18.position.set(-3, 16, 32);
           Piso1.add(boxsmall18);
 	  targetList.push(boxsmall18);
-	  
+
+	  var boxsmall16=boxsmall.clone();
+	  boxsmall16.storynumber=16;
+          boxsmall16.position.set(-60, 13, -zsize/2-20);
+          Piso1.add(boxsmall16);
+	  targetList.push(boxsmall16);
+
 
 
 
@@ -882,7 +892,7 @@
 
 	  var muroPatioCGeometry = new THREE.BoxGeometry(gruesoPared, 12, 40);
 	  var muroPatioC = new THREE.Mesh(muroPatioCGeometry, materialPared);
-          muroPatioC.position.set(-30, 6, -zsize/2-20);
+          muroPatioC.position.set(-60, 6, -zsize/2-20);
 	  Piso1.add(muroPatioC);
 	  
           //columns
@@ -896,7 +906,7 @@
 	  
 	  
 	  scene.add(Piso1);
-	  //scene.add(Piso2);
+	  scene.add(Piso2);
 	  
 	  //not yet
 
@@ -960,8 +970,8 @@
 
 
 	  camera.position.x = 0;
-          camera.position.y = 10;
-          camera.position.z = 80;
+          camera.position.y = 300;
+          camera.position.z = 10;
           camera.lookAt(origin);
       }
 
@@ -1115,11 +1125,32 @@
 	  
       }
 
+      var verPiso2=0;
+
+      function togglePiso2()
+      {
+	  if ( verPiso2==0 ) //play video
+	  {
+	      scene.add(Piso2);
+	      verPiso2=1;
+	      console.log(verPiso2);
+	  }
+	  else {
+	      if( isvideoplaying==1 ) // pause video
+	      {
+		  scene.remove(Piso2);
+		  verPiso2=0;
+	      }	
+	  }
 	  
+      }
+
+
+      
     </script>
     <div class="basicmenu">
       <h4>El Cyborg Chamán </h4>
-     <button id='button'  onClick="toggleVideoView() "> video </button> 
+     <button id='button'  onClick="togglePiso2() "> piso2 </button> 
     </div>
 </body>
 
