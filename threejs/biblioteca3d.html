@@ -78,6 +78,89 @@
       var targetList = [];
       var projector, mouse = { x: 0, y: 0 };
 
+      var historias={
+	  h1: {
+	      title:'Mrs. Saunders y su gallina con peluca',
+	      story:'Estaba sentado en la terraza de mi café favorito, tomando un café y disfrutando del buen tiempo, cuando de pronto vi a una gallina con una peluca. Me quedé mirándola fijamente durante unos segundos, sin saber qué hacer. Luego me di cuenta de que era mi vecina, Mrs. Saunders. Ella siempre había sido un poco excentrica, pero nunca había visto nada igual.',
+	      author:'openAl, 2022-08-26',
+	      inspiration:'( madera naturaleza café gallina con peluca)'
+
+	  },
+	  h2: {
+	      title:'La fiesta del duende supersónico',
+	  },
+	  h3: {
+	      title:'El día más feliz de mi vida',
+	  },
+	  h4: {
+	      title:'La cumbia del volcán',
+	  },
+	  h5: {
+	      title:'El cielo es mi hogar',
+	  },
+	  h6: {
+	      title:'Un día cualquiera en Suba',
+	  },
+	  h7: {
+	      title:'La Prueba',
+	  },
+	  h8: {
+	      title:'La duda de cada noche',
+	  },
+	  h9: {
+	      title:'La niña del árbol',
+	  },
+	  h10: {
+	      title:'Diario de Darío',
+	  },
+	  h11: {
+	      title:'Anécdota de Ángela',
+	  },
+	  h12: {
+	      title:'La chica de la bicicleta',
+	  },
+	  h13: {
+	      title:'El baño de la tortuga fantasma',
+	  },
+	  
+	  h14: {
+	      title:'La mirada del perro',
+	  },
+	  h15: {
+	      title:'El oasis',
+	  },
+	  h16: {
+	      title:'Un día en la ciclovia',
+	  },
+	  h17: {
+	      title:'Un día difícil',
+	  },
+	  h18: {
+	      title:'La chica atada al árbol',
+	  },
+	  h19: {
+	      title:'El vecindario',
+	  },
+	  h20: {
+	      title:'La interrupción',
+	  },
+	  h21: {
+	      title:'El niño del parque',
+	  },
+	  h22: {
+	      title:'La caja mágica',
+	  },
+	  h23: {
+	      title:'La brisa fresca',
+	  },
+	  h24: {
+	      title:'El niño Jesús de la virgen María',
+	  },
+	  h25: {
+	      title:'Danzar; Hadas en el jardín; El baile de la alegría',
+	  },
+	  
+      }
 
       
       var scene, aspect, camera, renderer, controls, cyborg, Piso2, boxes;
@@ -820,11 +903,13 @@
 	  
 	  boxsmall.position.set(3, 20, -0.5*zsize+20);
 	  boxsmall.storynumber=22;
+          boxsmall.story=historias.h22;
           Piso1.add(boxsmall);
 	  boxes=[boxsmall];
 
 
 	  boxsmalldiag.storynumber=11;
+          boxsmalldiag.story=historias.h11;
           boxsmalldiag.position.set(-45, 26, -28);
           Piso1.add(boxsmalldiag);
 	  targetList.push(boxsmalldiag);
@@ -832,12 +917,14 @@
 
 	  var boxsmall2=boxsmall.clone();
 	  boxsmall2.storynumber=2;
-          boxsmall2.position.set(-66, 10, -37-zsize/2);
+	  boxsmall2.story=historias.h2;
+	  boxsmall2.position.set(-66, 10, -37-zsize/2);
           Piso1.add(boxsmall2);
 	  targetList.push(boxsmall2);
 
 	  var boxsmallbla=boxsmall.clone();
 	  boxsmallbla.storynumber=5;
+          boxsmallbla.story=historias.h5;
           boxsmallbla.position.set(-62, ysize2+14, -12);
           Piso2.add(boxsmallbla);
 	  targetList.push(boxsmallbla);
@@ -846,6 +933,7 @@
 	  
 	  var boxsmall6=boxsmall.clone();
 	  boxsmall6.storynumber=6;
+          boxsmall6.story=historias.h6;
           boxsmall6.position.set(60, 10+ysize, 35);
           Piso2.add(boxsmall6);
 	  targetList.push(boxsmall6);
@@ -854,6 +942,7 @@
 	  // storyboxes
 	  var boxsmall7=boxsmall.clone();
 	  boxsmall7.storynumber=7;
+          boxsmall7.story=historias.h7;
           boxsmall7.position.set(-62, 16, 38);
           Piso1.add(boxsmall7);
 	  targetList.push(boxsmall7);
@@ -865,7 +954,8 @@
 
 
 	  var boxsmall08=boxsmall.clone();
-	  boxsmall08.storynumber=08;
+	  boxsmall08.storynumber=8;
+          boxsmall08.story=historias.h8;
           boxsmall08.position.set(xsize-3, 10+ysize, 50);
           Piso2.add(boxsmall08);
 	  targetList.push(boxsmall08);
@@ -874,6 +964,7 @@
 	  
 	  var boxsmall09=boxsmall.clone();
 	  boxsmall09.storynumber=09;
+          boxsmall09.story=historias.h9;
           boxsmall09.position.set(-107, 10, 10);
           Piso1.add(boxsmall09);
 	  targetList.push(boxsmall09);
@@ -884,6 +975,7 @@
 
 	  var boxsmall12=boxsmall.clone();
 	  boxsmall12.storynumber=12;
+          boxsmall12.story=historias.h12;
           boxsmall12.position.set(-45, 10+ysize, -zsize/2+20);
           Piso2.add(boxsmall12);
 	  targetList.push(boxsmall12);
@@ -894,6 +986,7 @@
 
 	  var boxsmall15=boxsmall.clone();
 	  boxsmall15.storynumber=15;
+          boxsmall15.story=historias.h15;
           boxsmall15.position.set(-108, ysize2+10, -40);
           Piso2.add(boxsmall15);
 	  targetList.push(boxsmall15);
@@ -902,12 +995,14 @@
 
 	  var boxsmall16=boxsmall.clone();
 	  boxsmall16.storynumber=16;
+          boxsmall16.story=historias.h16;
           boxsmall16.position.set(-60, 13, -zsize/2-20);
           Piso1.add(boxsmall16);
 	  targetList.push(boxsmall16);
 
 	  var boxsmall18=boxsmall.clone();
 	  boxsmall18.storynumber=18;
+          boxsmall18.story=historias.h18;
           boxsmall18.position.set(-4, 16, 32);
           Piso1.add(boxsmall18);
 	  targetList.push(boxsmall18);
@@ -915,6 +1010,7 @@
 
 	  var boxsmall19=boxsmall.clone();
 	  boxsmall19.storynumber=19;
+	  boxsmall19.story=historias.h19;
           boxsmall19.position.set(-28, 12, -20);
           Piso1.add(boxsmall19);
 	  targetList.push(boxsmall19);
@@ -922,6 +1018,7 @@
 
 	  var boxsmall20=boxsmall.clone();
 	  boxsmall20.storynumber=20;
+          boxsmall20.story=historias.h20;
           boxsmall20.position.set(2, 12, -20);
           Piso1.add(boxsmall20);
 	  targetList.push(boxsmall20);
@@ -929,6 +1026,7 @@
 
 	  var boxsmall21=boxsmall.clone();
 	  boxsmall21.storynumber=21;
+          boxsmall21.story=historias.h21;
           boxsmall21.position.set(30, 10+ysize, 60);
           Piso2.add(boxsmall21);
 	  targetList.push(boxsmall21);
@@ -937,6 +1035,7 @@
 	  
 	  var boxsmall24=boxsmall.clone();
 	  boxsmall24.storynumber=24;
+          boxsmall24.story=historias.h24;
           boxsmall24.position.set(-3, 10, -16);
           Piso1.add(boxsmall24);
 	  targetList.push(boxsmall24);
@@ -1206,7 +1305,8 @@
 	      if ( intersects.length > 0 ) {
 		  console.log("historia número "+ item.storynumber);
 		  camera.lookAt(item.position);
-		  
+		  controls.update();
+		  document.getElementById('story').innerHTML =item.storynumber+': '+item.story.title;
 		  //console.log(item.position);
 	      } 
 	  }
@@ -1278,6 +1378,11 @@
     <div class="basicmenu">
       <img src="images/cyborgshaman.jpg/50x50" onClick="togglePiso2(scene,Piso2)"> 
       <h4 href="https://elcyborgchaman.pythonanywhere.com/">El Cyborg Chamán </h4>
+      <p>Biblioteca Pública de Suba Francisco José de Caldas,<br>
+      Carrera 92 No. 146 C - 24
+      </p>
+
+
       <a id='button'  onClick="togglePiso2(scene, Piso2)"> Piso 2 </a>
       <a href="https://emersonjleon.github.io/emersonjleon/historiasCyborg.txt">Historias de la exposición</a>
 
