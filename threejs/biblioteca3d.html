@@ -1304,8 +1304,8 @@
 	      var intersects = ray.intersectObjects( targetl2);
 	      if ( intersects.length > 0 ) {
 		  console.log("historia número "+ item.storynumber);
-		  camera.lookAt(item.position);
-		  controls.update();
+		  //camera.lookAt(item.position);
+		  controls.target.set(item.position.x,item.position.y, item.position.z);
 		  document.getElementById('story').innerHTML =item.storynumber+': '+item.story.title;
 		  //console.log(item.position);
 	      } 
