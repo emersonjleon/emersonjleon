@@ -1317,12 +1317,16 @@
 	
 	  // if there is one (or more) intersections
 	  if ( intersects2.length > 0 ) {
-	      console.log("Hit @ " +  2  );
+	      console.log("Hit @ " +  22  );
 	      
-	      togglePiso2()
+	      //togglePiso2()
 	      // controls.maxDistance=200;
-	      console.log(isvideoplaying);
-
+	      // console.log(isvideoplaying);
+	      console.log("historia número 22");
+		  //camera.lookAt(item.position);
+	      controls.target.set(boxes[0].position.x,boxes[0].position.y, boxes[0].position.z);
+	      document.getElementById('story').innerHTML ='22: '+historias.h22.title;
+	      scene.add(cyborg);
 
 	      // change the color of the closest face.
 	      //intersects[ 0 ].face.color.setRGB( 0.8 * Math.random() + 0.2, 0, 0 ); 
@@ -1386,7 +1390,7 @@
       </p>
 
 
-      <a id='button'  onClick="togglePiso2(scene, Piso2)"> Piso 2 </a>
+      <button id='button'  onClick="togglePiso2(scene, Piso2)"> Piso 2 </button>
       
       <p class="story" id="story"></p>
       <a href="https://emersonjleon.github.io/emersonjleon/historiasCyborg.html">Leer historias</a>
