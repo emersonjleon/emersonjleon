@@ -1277,7 +1277,9 @@
       
 	  renderer.render( scene, camera );
       }
-
+      
+      
+      
 
       function onDocumentMouseDown( event ) {
 	  // the following line would stop any other event handler from firing
@@ -1306,6 +1308,8 @@
 	      targetl2.push(item)
 	      var intersects = ray.intersectObjects( targetl2);
 	      if ( intersects.length > 0 ) {
+		  var storyLink = document.getElementById('storyLink'); //or grab it by tagname etc
+		  storyLink.href ="https://emersonjleon.github.io/emersonjleon/historiasCyborg.html#h"+item.storynumber;
 		  console.log("historia número "+ item.storynumber);
 		  //camera.lookAt(item.position);
 		  controls.target.set(item.position.x,item.position.y, item.position.z);
@@ -1379,7 +1383,6 @@
 	  
       }
 
-
       
     </script>
     <div class="basicmenu">
@@ -1393,7 +1396,7 @@
       <button id='button'  onClick="togglePiso2(scene, Piso2)"> Piso 2 </button>
       
       <p class="story" id="story"></p>
-      <a href="https://emersonjleon.github.io/emersonjleon/historiasCyborg.html">Leer historias</a>
+      <a id='storyLink' href="https://emersonjleon.github.io/emersonjleon/historiasCyborg.html">Leer historia</a>
 
     </div>
 </body>
