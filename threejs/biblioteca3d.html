@@ -1194,10 +1194,22 @@
 	  camera.position.x = 0;
           camera.position.y = 300;
           camera.position.z = 10;
-	  var locationhash=window.location.href;
+	  var locationhash=window.location.hash;
+	  
 	  console.log('hash:',locationhash);
 	      
-          camera.lookAt(origin);
+	  for(var i = 0, size = targetList.length; i < size ; i++){
+	      var item = targetList[i];
+		  if (locationhash=='#h22') {
+			  camera.lookAt(item.position);
+			  //controls.target.set(item.position.x,item.position.y, item.position.z);
+		  } else {
+			camera.lookAt(origin);		  
+		  }
+	
+	  }
+	      
+          
       }
 
 
