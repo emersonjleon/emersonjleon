@@ -91,6 +91,7 @@
 	  },
 	  h2: {
 	      title:'La fiesta del duende supersónico',
+		  story:'Tengo que hacer una tarea para el colegio, pero estoy tan cansada que no me puedo concentrar. Decido ir a dar una vuelta en bicicleta para airearme un poco. Al llegar a la montaña, veo un duende supersónico que está haciendo una fiesta en el planeta. Me invita a bailar, y yo acepto. Nos divertimos tanto que se me olvida la tarea. Cuando llego a casa, mi celular está apagado, así que no puedo llamar a mi papá para que me ayude. openAI, 2022-09-02 ( español bicicleta tarea colegio celular fiesta montaña planeta duende supersónico banco)',
 	  },
 	  h3: {
 	      title:'El día más feliz de mi vida',
@@ -1193,6 +1194,9 @@
 	  camera.position.x = 0;
           camera.position.y = 300;
           camera.position.z = 10;
+	  var locationhash=window.location.href.hash;
+	  console.log(locationhash);
+	      
           camera.lookAt(origin);
       }
 
