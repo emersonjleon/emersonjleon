@@ -1194,8 +1194,8 @@
 	  camera.position.x = 0;
           camera.position.y = 300;
           camera.position.z = 10;
-	  var locationhash=window.location.href.hash;
-	  console.log(locationhash);
+	  var locationhash=window.location.href;
+	  console.log('hash:',locationhash);
 	      
           camera.lookAt(origin);
       }
