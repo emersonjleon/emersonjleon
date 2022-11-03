@@ -15,6 +15,6 @@ at my github [splines]("https://github.com/emersonjleon/math"). Thanks to Nelly 
 The simple dynamics of chipfiring allow to create very amazing patterns for large computational experiments. I thank to [Caroline Klivans](https://www.dam.brown.edu/people/cklivans/chipfiring.html) for presenting these topics to me. 
 
 - [my first computation](firstchipfiring.md)
-- [3d sandpiles visualisation](emersonjleon.pythonanywhere.com/chipfiring/5000chips-ballsize50--cubematrix25)
+- [3d sandpiles visualisation](https://emersonjleon.pythonanywhere.com/chipfiring/5000chips-ballsize50--cubematrix25)
 - [link to visualizations](https://www.math.cmu.edu/~wes/sand.html)
 
