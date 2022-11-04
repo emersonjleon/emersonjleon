@@ -9,6 +9,10 @@ You can use the [editor on GitHub](https://github.com/emersonjleon/emersonjleon/
 - [animation](animation/animation.html)
 - [animation](animationmaster/index.html)
 
+### Jobs
+- [uniandes](https://www.mathjobs.org/jobs/list/21148)
+- [kth](https://www.kth.se/en/om/work-at-kth/lediga-jobb/what:job/jobID:558898/where:4/)
+
 
 ### Artificial Intelligence
 - [index](cyborg.html)
