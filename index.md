@@ -1,5 +1,5 @@
 ## emersonjleon
-Hello! youisit my personal page at [emersonjleon.pythonanywhere.com](https://emersonjleon.pythonanywhere.com)
+Hello! you can visit my personal page at [emersonjleon.pythonanywhere.com](https://emersonjleon.pythonanywhere.com)
 
 
 Also you can create stories using artificial intelligence at [El Cyborg Chaman](https://elcyborgchaman.pythonanywhere.com)

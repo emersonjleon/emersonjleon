@@ -17,11 +17,12 @@ Here there is a space to program yourself. The internet is infinite... you need 
 
 ## Work with Bernardo
 
-## [El Cyborg Chaman](cyborg.html) index
+
 
 
 
 ### Artificial intelligence
+- [El Cyborg Chaman](cyborg.html) index
 - [Dreamstudio](https://beta.dreamstudio.ai/dream)
 - [openAI](https://openai.com/api)
 - [Dall-E mini](https://huggingface.co/spaces/dalle-mini/dalle-mini)
@@ -32,9 +33,8 @@ Here there is a space to program yourself. The internet is infinite... you need 
 ## Music
 - [synthetizer](music/synth.html)
 - [acordes](music/acordes.html)
-#### Todo:
--combine them into a new page, with some composition playground, so that you can save them.
-
+ Todo: combine them into a new page, with some composition playground, so that you can save them.
+- [music albums](music/albums.md)
 ### For the Future
 - [math](math.html)
 - [fuego fractal](fuegofractal.html)
