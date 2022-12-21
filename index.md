@@ -8,8 +8,7 @@ Also you can create stories using artificial intelligence at [El Cyborg Chaman](
 
 You can visualize chip-firing configurations in 3D  [here](https://emersonjleon.pythonanywhere.com/chipfiring)
 
-Thank you for visiting these pages... 
-[//]: # (You can contact me at [mypage/contact]... soon)
+Thank you for visiting these pages!
 
 
 

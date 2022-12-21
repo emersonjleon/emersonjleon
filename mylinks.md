@@ -1,4 +1,4 @@
-## emersonjleon mylinks
+## emersonjleon mylinks and projects
 
 Here there is a space to program yourself. The internet is infinite... you need to focus your attention...
 
@@ -10,19 +10,20 @@ Here there is a space to program yourself. The internet is infinite... you need 
 - [soldrone](http://alojamientos.us.es/galgo/)
 
 
-## Links
-- [pythonanywhere](https://pythonanywhere.com)
-- [Rabbit Holes](https://durmonski.com/start-here/)
-
-
-## Work with Bernardo
 
 
 
 
+
+## El Cyborg Chamán
+- Create public groups
+- Redesign the menus
+- [] Migrate to MySQL
+- [] Make avaliable finetuning and different models.
+- [] Create images!
+- [El Cyborg Chaman](cyborg.html) index
 
 ### Artificial intelligence
-- [El Cyborg Chaman](cyborg.html) index
 - [Dreamstudio](https://beta.dreamstudio.ai/dream)
 - [openAI](https://openai.com/api)
 - [Dall-E mini](https://huggingface.co/spaces/dalle-mini/dalle-mini)
@@ -30,17 +31,24 @@ Here there is a space to program yourself. The internet is infinite... you need 
 - [Which face is real?](https://www.whichfaceisreal.com/index.php)
 
 
+
+## Equipartitions
+- Edit python files to get functions and objects with nicer structure
+
+
 ## Music
 - [synthetizer](music/synth.html)
 - [acordes](music/acordes.html)
  Todo: combine them into a new page, with some composition playground, so that you can save them.
 - [music albums](music/albums.md)
+
 ### For the Future
-- [math](math.html)
-- [fuego fractal](fuegofractal.html)
-- [fixed points](mylinks.html)
-- [math and coffee beans](mathandcoffee.html)
+- [fuego fractal]
+- [fixed points]
+- [math and coffee beans]
 
-
+## Links
+- [pythonanywhere](https://pythonanywhere.com)
+- [Rabbit Holes](https://durmonski.com/start-here/)
 
 [md help](help.md)
