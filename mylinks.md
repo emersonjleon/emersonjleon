@@ -2,8 +2,23 @@
 
 Here there is a space to program yourself. The internet is infinite... you need to focus your attention...
 
+## El Cyborg Chamán
+- [elcyborgchaman.pythonanywhere.com/](https://elcyborgchaman.pythonanywhere.com/) main page
+- [El Cyborg Chaman](cyborg.html) index
 
-### Jobs
+### to do
+- [X] Create images!
+- [X] Redesign the menus
+- [X] Make avaliable finetuning and different models.
+- [ ]Create public groups
+- [ ] Migrate to MySQL
+
+
+## Kaggle
+- [main](https://www.kaggle.com/)
+
+
+## Jobs
 - [uniandes](https://www.mathjobs.org/jobs/list/21148) (2022-11-20)
 - [kth4](https://www.kth.se/en/om/work-at-kth/lediga-jobb/what:job/jobID:558898/where:4/) and 
  [kth3](https://www.kth.se/en/om/work-at-kth/lediga-jobb/what:job/jobID:553393/type:job/where:4/apply:1)
@@ -15,13 +30,6 @@ Here there is a space to program yourself. The internet is infinite... you need 
 
 
 
-## El Cyborg Chamán
-- Create public groups
-- Redesign the menus
-- [] Migrate to MySQL
-- [] Make avaliable finetuning and different models.
-- [] Create images!
-- [El Cyborg Chaman](cyborg.html) index
 
 ### Artificial intelligence
 - [Dreamstudio](https://beta.dreamstudio.ai/dream)
