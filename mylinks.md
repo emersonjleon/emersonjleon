@@ -9,7 +9,7 @@ Here there is a space to program yourself. The internet is infinite... you need 
 ### to do
 - [X] Create images!
 - [X] Redesign the menus
-- [X] Make avaliable finetuning and different models.
+- [ ] Make avaliable finetuning and different models.
 - [ ]Create public groups
 - [ ] Migrate to MySQL
 
