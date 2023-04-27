@@ -10,7 +10,7 @@ Here there is a space to program yourself. The internet is infinite... you need 
 - [X] Create images!
 - [X] Redesign the menus
 - [ ] Make avaliable finetuning and different models.
-- [ ]Create public groups
+- [_] Create public groups
 - [ ] Migrate to MySQL
 
 
