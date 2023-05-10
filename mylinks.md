@@ -9,6 +9,8 @@ google summit 12m
 ## todo
 - [ ] Create agenda in my python webpage
 
+- [multiplication table] (multiplication/mtable2.html)
+- [multiplication table 2] (multiplication/multiplicationtable.html)
 
 
 ## El Cyborg Chamán
