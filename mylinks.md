@@ -2,21 +2,29 @@
 
 Here there is a space to program yourself. The internet is infinite... you need to focus your attention...
 
-## El Cyborg Chamán
-- [elcyborgchaman.pythonanywhere.com/](https://elcyborgchaman.pythonanywhere.com/) main page
-- [El Cyborg Chaman](cyborg.html) index
+## Today: 2023.05.10
+kaggle 1h
+google summit 12m
 
-### to do
+## todo
+- [ ] Create agenda in my python webpage
+
+
+
+## El Cyborg Chamán
+[elcyborgchaman.pythonanywhere.com/](https://elcyborgchaman.pythonanywhere.com/) main page
+[El Cyborg Chaman](cyborg.html) index
 - [X] Create images!
 - [X] Redesign the menus
-- [_] Make avaliable finetuning and different models.
 - [_] Create public groups
+- [ ] Make avaliable finetuning and different models.
 - [_] Migrate to MySQL
 
 
 ## Kaggle
 - [main](https://www.kaggle.com/)
-
+- [ ] Python
+- [ ] Pandas
 
 ## Jobs
 - [uniandes](https://www.mathjobs.org/jobs/list/21148) (2022-11-20)
