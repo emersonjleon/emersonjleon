@@ -9,9 +9,9 @@ Here there is a space to program yourself. The internet is infinite... you need 
 ### to do
 - [X] Create images!
 - [X] Redesign the menus
-- [ ] Make avaliable finetuning and different models.
+- [_] Make avaliable finetuning and different models.
 - [_] Create public groups
-- [ ] Migrate to MySQL
+- [_] Migrate to MySQL
 
 
 ## Kaggle
