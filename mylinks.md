@@ -9,8 +9,8 @@ google summit 12m
 ## todo
 - [ ] Create agenda in my python webpage
 
-- [multiplication table] (multiplication/mtable2.html)
-- [multiplication table 2] (multiplication/multiplicationtable.html)
+- [multiplication table](multiplication/mtable2.html)
+- [multiplication table 2](multiplication/multiplicationtable.html)
 
 
 ## El Cyborg Chamán
@@ -18,9 +18,9 @@ google summit 12m
 [El Cyborg Chaman](cyborg.html) index
 - [X] Create images!
 - [X] Redesign the menus
-- [_] Create public groups
+- [X] Create public groups
 - [ ] Make avaliable finetuning and different models.
-- [_] Migrate to MySQL
+- [ ] Migrate to MySQL
 
 
 ## Kaggle

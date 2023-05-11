@@ -3,7 +3,7 @@ function createTable() {
   const table = document.createElement("table");
   tableDiv.appendChild(table);
 
-    const size = 30;  
+    const size = 100;  
   for (let i = 1; i <= size; i++) {
     const row = document.createElement("tr");
     table.appendChild(row);
@@ -13,7 +13,7 @@ function createTable() {
       const product = i * j;
       const log = Math.log10(product);
       const mantissa = log - Math.floor(log);
-        const hue = mantissa * 360;
+        const hue =  mantissa * 360;
       cell.setAttribute("data-row", i);
       cell.setAttribute("data-col", j);
 	cell.classList.add("box");
