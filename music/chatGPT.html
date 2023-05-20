@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Synthesized Music</title>
+</head>
+<body>
+	<h1>Synthesized Music</h1>
+	<button onclick="playNote('sine', 440)">Play Sine Wave Note</button>
+	<button onclick="playNote('square', 440)">Play Square Wave Note</button>
+	<button onclick="playNote('triangle', 440)">Play Triangle Wave Note</button>
+	<button onclick="playNote('sawtooth', 440)">Play Sawtooth Wave Note</button>
+	<script>
+		// create audio context
+		var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+		// function to play a note with a given waveform and frequency
+		function playNote(waveform, frequency) {
+			// create oscillator node
+			var oscillator = audioCtx.createOscillator();
+			// set oscillator waveform
+			oscillator.type = waveform;
+			// set oscillator frequency
+			oscillator.frequency.value = frequency;
+			// connect oscillator to audio context destination
+			oscillator.connect(audioCtx.destination);
+			// start oscillator
+			oscillator.start();
+			// stop oscillator after 1 second
+			oscillator.stop(audioCtx.currentTime + 1);
+		}
+	</script>
+</body>
+</html>

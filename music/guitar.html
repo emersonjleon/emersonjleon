@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Guitar Fretboard</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="icon" type="image/png" sizes="174x174" href="./favicon.png">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/2.4.3/webcomponents-bundle.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Material+Icons&display=block" rel="stylesheet"/>
+  <script src="https://tonejs.github.io/build/Tone.js"></script>
+  <script src="https://tonejs.github.io/examples/js/tone-ui.js"></script>
+  <script src="https://tonejs.github.io/examples/js/components.js"></script>
+
+  <style>
+   body {
+      font-family: sans-serif;
+      text-align: center;
+    }
+
+
+/* #fretboard { */
+/*   display: flex; */
+/*   flex-direction: row; */
+/*   align-items: flex-start; */
+/*   justify-content: space-between; */
+/*   width: 100%; */
+/* } */
+
+/* .fret { */
+/*   display: flex; */
+/*   flex-direction: column; */
+/*   align-items: center; */
+/*   margin-top: 30px; */
+/* } */
+
+/* .string { */
+/*   width: 2px; */
+/*   height: 100px; */
+/*   background-color: black; */
+/*   margin-bottom: 10px; */
+/* } */
+
+/* .button { */
+/*   position: relative; */
+/*   width: 30px; */
+/*   height: 30px; */
+/*   border: 1px solid black; */
+/*   border-radius: 50%; */
+/*   margin-bottom: 10px; */
+/*   background-color: white; */
+/*   display: flex; */
+/*   align-items: center; */
+/*   justify-content: center; */
+/*   font-size: 14px; */
+/*   font-weight: bold; */
+/*   cursor: pointer; */
+/*   z-index: 1; */
+/* } */
+
+/* .button:hover:after { */
+/*   content: attr(data-note); */
+/*   position: absolute; */
+/*   bottom: -25px; */
+/*   left: 50%; */
+/*   transform: translateX(-50%); */
+/*   background-color: black; */
+/*   color: white; */
+/*   padding: 5px; */
+/*   border-radius: 5px; */
+/*   font-size: 12px; */
+/* } */
+
+
+
+  /*  #fretboard { */
+  /*   position: relative; */
+  /*   width: 100%; */
+  /*   height: 200px; */
+  /*   background: #eee; */
+  /*   border: 1px solid #ccc; */
+  /* } */
+
+  /* .fret { */
+  /*   position: absolute; */
+  /*   width: 100%; */
+  /*   height: 20%; */
+  /*   top: 0; */
+  /*   left: 0; */
+  /* } */
+
+  /* .string { */
+  /*   position: absolute; */
+  /*   width: 1px; */
+  /*   height: 100%; */
+  /*   top: 0; */
+  /*   background: #555; */
+  /* } */
+
+  /* .string:nth-child(2n) { */
+  /*   background: #999; */
+  /* } */
+
+  /* .button { */
+  /*   position: absolute; */
+  /*   width: 20%; */
+  /*   height: 100%; */
+  /*   top: 0; */
+  /*   background: #fff; */
+  /*   border: 1px solid #ccc; */
+  /*   box-sizing: border-box; */
+  /*   cursor: pointer; */
+  /* } */
+
+  /* .button:hover:after { */
+  /*   content: attr(data-note); */
+  /*   position: absolute; */
+  /*   top: -20px; */
+  /*   left: 50%; */
+  /*   transform: translateX(-50%); */
+  /*   padding: 5px; */
+  /*   background: #333; */
+  /*   color: #fff; */
+  /*   border-radius: 5px; */
+  /*   font-size: 14px; */
+  /* } */
+
+
+
+
+
+
+    #fretboard {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 300px;
+      margin: 50px;
+    }
+
+    .fret {
+      /* position: relative; */
+      border: 1px solid black;
+      height: 100%;
+      width: 40px;
+      box-sizing: border-box;
+    }
+
+    .fret:not(:last-child) {
+      margin-right: -1px;
+    }
+
+    .string {
+      position: absolute;
+      height: 1px;
+      width: 100%;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: black;
+    }
+
+    .button {
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      top: 0;
+      left: 0;
+      z-index: 1;
+      cursor: pointer;
+    }
+
+    .note-name {
+      position: absolute;
+      font-size: 10px;
+      bottom: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+
+    .button:hover .note-name {
+      opacity: 1;
+    }
+
+
+    .fret {
+  display: flex;
+  justify-content: space-between;
+}
+
+.button {
+  width: 30px;
+  height: 100px;
+  border: 1px solid black;
+  position: relative;
+  cursor: pointer;
+}
+
+.button:hover::before {
+  content: attr(data-note);
+  display: block;
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 10px;
+  white-space: nowrap;
+  background-color: black;
+  color: white;
+  padding: 2px 4px;
+  border-radius: 3px;
+}
+
+.button.active {
+  background-color: black;
+  color: red;
+}
+
+.button.active::before {
+  content: attr(data-note);
+  display: block;
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 10px;
+  white-space: nowrap;
+  background-color: white;
+  color: black;
+  padding: 2px 4px;
+  border-radius: 3px;
+}
+  </style>
+</head>
+<body>
+  <h1>Guitar Fretboard</h1>
+  <tone-example label="Guitar">
+    <div slot="explanation">
+      This example uses <a href="https://github.com/Tonejs/Tone.js/blob/dev/examples/sampler.html" target="_blank">Tone.js sampler</a> to load guitar notes and play them. Hover over the buttons to see the note names.
+    </div>
+
+    <div id="fretboard">
+      <div class="fret">
+        <div class="string" style="left: 0%"></div>
+        <div class="string" style="left: 20%"></div>
+        <div class="string" style="left: 40%"></div>
+        <div class="string" style="left: 60%"></div>
+        <div class="string" style="left: 80%"></div>
+        <div class="string" style="left: 90%"></div>
+        <div class="button" data-note="E2"></div>
+        <div class="button" data-note="A3"></div>
+        <div class="button" data-note="D3"></div>
+        <div class="button" data-note="G3"></div>
+	<div class="button" data-note="B4"></div>
+	<div class="button" data-note="E4"></div>
+       </div>
+
+      <div class="fret">
+        <div class="string" style="left: 0%"></div>
+        <div class="string" style="left: 20%"></div>
+        <div class="string" style="left: 40%"></div>
+        <div class="string" style="left: 60%"></div>
+        <div class="string" style="left: 80%"></div>
+        <div class="string" style="left: 100%"></div>
+        <div class="button" data-note="F2"></div>
+        <div class="button" data-note="A#3"></div>
+        <div class="button" data-note="D#3"></div>
+        <div class="button" data-note="G#3"></div>
+	<div class="button" data-note="C4"></div>
+	<div class="button" data-note="E#4"></div>
+       </div>
+
+
+      <div class="fret">
+	<div class="string" style="left: 0%"></div>
+	<div class="string" style="left: 20%"></div>
+	<div class="string" style="left: 40%"></div>
+	<div class="string" style="left: 60%"></div>
+	<div class="string" style="left: 80%"></div>
+	<div class="string" style="left: 100%"></div>
+	<div class="button" data-note="F#2"></div>
+	<div class="button" data-note="Bb2"></div>
+	<div class="button" data-note="Eb3"></div>
+	<div class="button" data-note="Ab3"></div>
+	<div class="button" data-note="C#4"></div>
+	<div class="button" data-note="F#4"></div>
+      </div>
+
+      
+    </div>
+
+
+
+    
+    </body>
+	<script>
+	// get all button elements
+	  const buttons = document.querySelectorAll('.button');
+	  
+	  // loop through each button and add click event listener
+	  buttons.forEach((button) => {
+	      button.addEventListener('click', () => {
+		  // get the note value from the data-note attribute
+		  const note = button.dataset.note;
+		  // play the note using a Synth
+		  const synth = new Tone.Synth().toDestination();
+		  synth.triggerAttackRelease(note, '8n');
+	      });
+	  });
+	</script>
+</html>

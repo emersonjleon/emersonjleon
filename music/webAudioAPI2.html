@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Web Audio API Demo</title>
+	<script>
+
+	// set up audio context and nodes
+	let context = new AudioContext();
+	let oscillator, gainNode, filter1, filter2;
+
+	// set initial values
+	let frequency = 440;
+	let wave = 'sine';
+	let volume = 0.5;
+
+	  // create context
+	  const audioContext = new AudioContext();
+
+	  function createNodes() {
+	      // create audio nodes
+	      oscillator = audioContext.createOscillator();
+	      gainNode = audioContext.createGain();
+	      filter1 = audioContext.createBiquadFilter();
+	      filter2 = audioContext.createBiquadFilter();
+
+	      // set initial values
+	      oscillator.type = 'sine';
+	      oscillator.frequency.value = getFrequency();
+	      gainNode.gain.value = 0.5;
+	      filter1.type = 'lowpass';
+	      filter1.frequency.value = 500;
+	      filter1.Q.value = 1;
+	      filter2.type = 'highpass';
+
+	      // set filter frequencies
+	      let frequencyRange = document.getElementById('frequencyRange');
+	      if (frequencyRange) {
+		  filter2.frequency.value = frequencyRange.value;
+	      }
+	      let resonanceRange = document.getElementById('resonanceRange');
+	      if (resonanceRange) {
+		  filter2.Q.value = resonanceRange.value;
+	      }
+
+	      // connect nodes
+	      oscillator.connect(filter1);
+	      filter1.connect(filter2);
+	      filter2.connect(gainNode);
+	      gainNode.connect(audioContext.destination);
+	  }
+	// function createNodes() {
+	// 	oscillator = context.createOscillator();
+	// 	gainNode = context.createGain();
+	// 	filter1 = context.createBiquadFilter();
+	// 	filter2 = context.createBiquadFilter();
+
+	// 	// set initial node values
+	// 	oscillator.type = wave;
+	// 	oscillator.frequency.value = frequency;
+	// 	gainNode.gain.value = volume;
+	// 	filter1.type = 'lowpass';
+	// 	filter1.frequency.value = 5000;
+	// 	filter1.Q.value = document.getElementById('resonanceRange').value / 10;
+	// 	filter2.type = 'highpass';
+	// 	filter2.frequency.value = 200;
+	// 	filter2.Q.value = document.getElementById('resonanceRange').value / 10;
+
+	// 	// connect nodes
+	// 	oscillator.connect(filter1);
+	// 	filter1.connect(filter2);
+	// 	filter2.connect(gainNode);
+	// 	gainNode.connect(context.destination);
+	// }
+
+	// start audio
+	function play() {
+		createNodes();
+		oscillator.start();
+	}
+
+	// stop audio
+	function stop() {
+		if (oscillator) {
+			oscillator.stop();
+			oscillator.disconnect();
+			gainNode.disconnect();
+			filter1.disconnect();
+			filter2.disconnect();
+			oscillator = null;
+			gainNode = null;
+			filter1 = null;
+			filter2 = null;
+		}
+	}
+
+	// update frequency value
+	function updateFrequency(value) {
+		frequency = value;
+		if (oscillator) {
+			oscillator.frequency.value = frequency;
+		}
+	}
+
+	// update wave type
+	function updateWave(waveType) {
+		wave = waveType;
+		if (oscillator) {
+			oscillator.type = wave;
+		}
+	}
+
+	// update volume
+	function updateVolume(value) {
+		volume = value;
+		if (gainNode) {
+			gainNode.gain.value = volume;
+		}
+	}
+
+	// reconnect nodes and start audio again
+	function playAgain() {
+		stop();
+		play();
+	}
+
+	</script>
+</head>
+<body>
+	<h1>Web Audio API Demo</h1>
+	<div>
+		<label for="frequencyRange">Frequency:</label>
+		<input type="range" min="20" max="2000" value="440" step="1" id="frequencyRange" oninput="updateFrequency(this.value)">
+		<span id="frequencyValue">440</span> Hz
+	</div>
+	<div>
+		<label for="waveSelect">Waveform:</label>
+		<select id="waveSelect" onchange="updateWave(this.value)">
+			<option value="sine">Sine</option>
+			<option value="square">Square</option>
+			<option value="sawtooth">Sawtooth</option>
+			<option value="triangle">Triangle</option>
+		</select>
+	</div>
+	
+
+		<!-- <input type="range" min=" -->
+
+
+	<div>
+	  <label for="resonanceRange">Resonance:</label>
+
+	  <input type="button" value="Play" onclick="play()">
+		<input type="button" value="Stop" onclick="stop()">
+		<input type="button" value="Play Again" onclick="playAgain()">
+	</div>
+	<div>
+		<label for="volumeRange">Volume:</label>
+		<input type="range" min="0" max="1" value="0.5" step="0.01" id="volumeRange" oninput="updateVolume(this.value)">
+		<span id="volumeValue">0.5</span>
+	</div>
+
+	<script>
+		// update frequency value display
+		document.getElementById('frequencyRange').addEventListener('input', function() {
+			document.getElementById('frequencyValue').innerHTML = this.value;
+		});
+
+		// update volume value display
+		document.getElementById('volumeRange').addEventListener('input', function() {
+			document.getElementById('volumeValue').innerHTML = this.value;
+		});
+	</script>
+</body>
+</html>
+

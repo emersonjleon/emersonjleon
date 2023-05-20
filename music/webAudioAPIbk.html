@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Web Audio API Synthesizer</title>
+	<meta charset="utf-8">
+	<style>
+		label {
+			display: block;
+			margin: 10px 0;
+		}
+
+		input[type="range"] {
+			width: 200px;
+		}
+
+		button {
+			padding: 10px;
+			font-size: 16px;
+			cursor: pointer;
+		}
+	</style>
+</head>
+<body>
+	<label>
+		Note:
+		<select id="noteSelect">
+			<option value="C4">C4</option>
+			<option value="D4">D4</option>
+			<option value="E4">E4</option>
+			<option value="F4">F4</option>
+			<option value="G4">G4</option>
+			<option value="A4" selected>A4</option>
+			<option value="B4">B4</option>
+			<option value="C5">C5</option>
+		</select>
+	</label>
+	<label>
+		Waveform:
+		<select id="waveformSelect">
+			<option value="sine">Sine</option>
+			<option value="square">Square</option>
+			<option value="sawtooth">Sawtooth</option>
+			<option value="triangle">Triangle</option>
+		</select>
+	</label>
+	<label>
+		Cutoff Frequency:
+		<input type="range" id="cutoffRange" min="20" max="20000" value="20000">
+	</label>
+	<label>
+		Resonance:
+		<input type="range" id="resonanceRange" min="0" max="100" value="0">
+	</label>
+	<label>
+		Delay Time:
+		<input type="range" id="delayRange" min="0" max="1" step="0.01" value="0">
+	</label>
+	<button id="playButton">Play</button>
+	<script>
+
+	  function getFrequency(note) {
+			return 440 * Math.pow(2, (note.charCodeAt(0) - 65) / 12 + parseInt(note.charAt(1)) - 4);
+	  }
+	  
+		// create audio context and nodes
+		var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+		var osc1 = audioCtx.createOscillator();
+		var osc2 = audioCtx.createOscillator();
+		var filter1 = audioCtx.createBiquadFilter();
+		var filter2 = audioCtx.createBiquadFilter();
+		var delay = audioCtx.createDelay();
+		var delayGain = audioCtx.createGain();
+		var mix = audioCtx.createGain();
+
+		// set default values
+		osc1.frequency.value = getFrequency('A4');
+		osc2.frequency.value = getFrequency('A4') * 1.5;
+		filter1.frequency.value = 20000;
+		filter2.frequency.value = 20000;
+		filter1.Q.value = 0;
+		filter2.Q.value = 0;
+		delay.delayTime.value = 0;
+		delayGain.gain.value = 0;
+
+		// connect nodes
+		osc1.connect(filter1);
+		osc2.connect(filter2);
+		filter1.connect(mix);
+		filter2.connect(mix);
+		mix.connect(delay);
+		delay.connect(delayGain);
+		delayGain.connect(filter1.frequency);
+		delayGain.connect(filter2.frequency);
+		mix.connect(audioCtx.destination);
+
+		// event handlers
+		//document.getElementById('play
+
+
+	  document.getElementById('noteSelect').addEventListener('change', function() {
+		osc1.frequency.value = getFrequency(this.value);
+		osc2.frequency.value = getFrequency(this.value) * 1.5;
+	});
+
+	document.getElementById('waveformSelect').addEventListener('change', function() {
+		osc1.type = this.value;
+		osc2.type = this.value;
+	});
+
+	document.getElementById('cutoffRange').addEventListener('input', function() {
+		filter1.frequency.value = this.value;
+		filter2.frequency.value = this.value;
+	});
+
+	document.getElementById('resonanceRange').addEventListener('input', function() {
+		filter1.Q.value = this.value / 100 * 10;
+		filter2.Q.value = this.value / 100 * 10;
+	});
+
+	document.getElementById('delayRange').addEventListener('input', function() {
+		delay.delayTime.value = this.value;
+		delayGain.gain.value = this.value * 0.8;
+	});
+
+	document.getElementById('playButton').addEventListener('click', function() {
+		if (audioCtx.state === 'suspended') {
+			audioCtx.resume();
+		}
+
+		if (this.innerHTML === 'Play') {
+			osc1.start();
+			osc2.start();
+			this.innerHTML = 'Stop';
+		} else {
+			osc1.stop();
+			osc2.stop();
+			this.innerHTML = 'Play';
+		}
+	});
+</script>

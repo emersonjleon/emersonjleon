@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Web Audio API Synthesizer</title>
+</head>
+<body>
+	<div>
+		<label for="noteSelect">Note:</label>
+		<select id="noteSelect">
+			<option value="A4">A4</option>
+			<option value="B4">B4</option>
+			<option value="C5">C5</option>
+			<option value="D5">D5</option>
+			<option value="E5">E5</option>
+			<option value="F5">F5</option>
+			<option value="G5">G5</option>
+		</select>
+	</div>
+	<div>
+		<label for="waveformSelect">Waveform:</label>
+		<select id="waveformSelect">
+			<option value="sine">Sine</option>
+			<option value="square">Square</option>
+			<option value="sawtooth">Sawtooth</option>
+			<option value="triangle">Triangle</option>
+		</select>
+	</div>
+	<div>
+		<label for="cutoffRange">Filter Cutoff:</label>
+		<input type="range" id="cutoffRange" min="20" max="20000" value="5000">
+	</div>
+	<div>
+		<label for="resonanceRange">Filter Resonance:</label>
+		<input type="range" id="resonanceRange" min="0" max="100" value="0">
+	</div>
+	<div>
+		<label for="delayRange">Delay Time:</label>
+		<input type="range" id="delayRange" min="0" max="1" step="0.01" value="0">
+	</div>
+	<div>
+		<button id="playButton">Play</button>
+	</div>
+	<script>
+		// define variables
+		let audioCtx, osc1, osc2, filter1, filter2, delay, delayGain;
+
+		// function to get frequency from note name
+		function getFrequency(note) {
+			return 440 * Math.pow(2, (note.charCodeAt(0) - 65) / 12 + parseInt(note.charAt(1)) - 4);
+		}
+
+		// initialize audio context and components
+		function init() {
+			audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+			osc1 = audioCtx.createOscillator();
+			osc2 = audioCtx.createOscillator();
+			filter1 = audioCtx.createBiquadFilter();
+			filter2 = audioCtx.createBiquadFilter();
+			delay = audioCtx.createDelay();
+			delayGain = audioCtx.createGain();
+
+			// set initial values
+			osc1.frequency.value = getFrequency(document.getElementById('noteSelect').value);
+			osc2.frequency.value = getFrequency(document.getElementById('noteSelect').value) * 1.5;
+			osc1.type = document.getElementById('waveformSelect').value;
+			osc2.type = document.getElementById('waveformSelect').value;
+			filter1.frequency.value = document.getElementById('cutoffRange').value;
+			filter2.frequency.value = document.getElementById('cutoffRange').value;
+			//filter1.Q.value = document.getElementById('resonance
+		    filter1.Q.value = document.getElementById('resonanceRange').value / 10;
+			
+		    filter2.Q.value = document.getElementById('resonanceRange').value / 10;
+			delay.delayTime.value = document.getElementById('delayRange').value;
+
+			// connect components
+			osc1.connect(filter1);
+			osc2.connect(filter2);
+			filter1.connect(filter2);
+			filter2.connect(delay);
+			delay.connect(delayGain);
+			delayGain.connect(audioCtx.destination);
+
+			// start oscillators
+			osc1.start();
+			osc2.start();
+		}
+
+		// function to handle note change
+		function handleNoteChange() {
+			const note = document.getElementById('noteSelect').value;
+			osc1.frequency.value = getFrequency(note);
+			osc2.frequency.value = getFrequency(note) * 1.5;
+		}
+
+		// function to handle waveform change
+		function handleWaveformChange() {
+			const waveform = document.getElementById('waveformSelect').value;
+			osc1.type = waveform;
+			osc2.type = waveform;
+		}
+
+		// function to handle filter cutoff change
+		function handleCutoffChange() {
+			const cutoff = document.getElementById('cutoffRange').value;
+			filter1.frequency.value = cutoff;
+			filter2.frequency.value = cutoff;
+		}
+
+		// function to handle filter resonance change
+		function handleResonanceChange() {
+			const resonance = document.getElementById('resonanceRange').value / 10;
+			filter1.Q.value = resonance;
+			filter2.Q.value = resonance;
+		}
+
+		// function to handle delay time change
+		function handleDelayChange() {
+			const delayTime = document.getElementById('delayRange').value;
+			delay.delayTime.value = delayTime;
+			delayGain.gain.value = 0.5 * delayTime;
+		}
+
+		// initialize
+		init();
+
+		// add event listeners
+		document.getElementById('noteSelect').addEventListener('change', handleNoteChange);
+		document.getElementById('waveformSelect').addEventListener('change', handleWaveformChange);
+		document.getElementById('cutoffRange').addEventListener('input', handleCutoffChange);
+		document.getElementById('resonanceRange').addEventListener('input', handleResonanceChange);
+		document.getElementById('delayRange').addEventListener('input', handleDelayChange);
+		document.getElementById('playButton').addEventListener('click', () => {
+			if (audioCtx.state === 'suspended') {
+				audioCtx.resume();
+			}
+			document.getElementById('playButton').disabled = true;
+			setTimeout(() => {
+				document.getElementById('playButton').disabled = false;
+			}, 1000);
+		});
+	</script>
+</body>
+</html>
