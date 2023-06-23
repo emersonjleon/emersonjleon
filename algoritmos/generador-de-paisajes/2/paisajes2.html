@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Generador de Paisajes Naturales</title>
+    <style>
+      canvas {
+        border: 1px solid #000;
+      }
+    </style>
+  </head>
+  <body>
+    <label for="treeCount">Cantidad de Árboles:</label>
+    <input type="range" id="treeCount" min="0" max="100" step="1" value="50" />
+    <br />
+    <label for="mountainColor">Color de Montañas:</label>
+    <input type="color" id="mountainColor" value="#c2c2c2" />
+    <br />
+    <label for="hillColor">Color de Colinas:</label>
+    <input type="color" id="hillColor" value="#9fcf9f" />
+    <br />
+    <label for="riverColor">Color de Río:</label>
+    <input type="color" id="riverColor" value="#87ceeb" />
+    <br />
+    <canvas id="landscapeCanvas" width="800" height="400"></canvas>
+
+    <script>
+      const canvas = document.getElementById('landscapeCanvas');
+      const ctx = canvas.getContext('2d');
+      const treeCountInput = document.getElementById('treeCount');
+      const mountainColorInput = document.getElementById('mountainColor');
+      const hillColorInput = document.getElementById('hillColor');
+      const riverColorInput = document.getElementById('riverColor');
+
+      const landscape = {
+        mountainColor: mountainColorInput.value,
+        hillColor: hillColorInput.value,
+        riverColor: riverColorInput.value,
+        treeCount: treeCountInput.value,
+      };
+
+      mountainColorInput.addEventListener('input', updateLandscape);
+      hillColorInput.addEventListener('input', updateLandscape);
+      riverColorInput.addEventListener('input', updateLandscape);
+      treeCountInput.addEventListener('input', updateLandscape);
+
+      function updateLandscape() {
+        landscape.mountainColor = mountainColorInput.value;
+        landscape.hillColor = hillColorInput.value;
+        landscape.riverColor = riverColorInput.value;
+        landscape.treeCount = treeCountInput.value;
+        generateLandscape();
+      }
+
+      function generateLandscape() {
+        // Clear canvas
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        drawRiver();
+        drawMountains();
+        drawHills();
+        drawTrees();
+      }
+
+      function drawRiver() {
+        ctx.fillStyle = landscape.riverColor;
+        ctx.fillRect(0, canvas.height * 0.6, canvas.width, canvas.height * 0.4);
+      }
+
+      function drawMountains() {
+        const mountainCount = 5;
+        const mountainWidth = canvas.width / mountainCount;
+
+        for (let i = 0; i < mountainCount; i++) {
+          ctx.beginPath();
+          ctx.moveTo(i * mountainWidth, canvas.height * 0.6);
+          ctx.lineTo((i + 0.5) * mountainWidth, canvas.height * 0.4);
+          ctx.lineTo((i + 1) * mountainWidth, canvas.height * 0.6);
+          ctx.closePath();
+          ctx.fillStyle = landscape.mountainColor;
+          ctx.fill();
+        }
+      }
+
+      function drawHills() {
+        const hillCount = 10;
+        const hillWidth = canvas.width / hillCount;
+
+        for (let i = 0; i < hillCount; i++) {
+          ctx.beginPath();
+          ctx.arc(
+            i * hillWidth + hillWidth / 2,
+            canvas.height * 0.6,
+            hillWidth / 2,
+            0,
+            Math.PI,
+            true
+          );
+          ctx.closePath();
+          ctx.fillStyle = landscape.hillColor;
+          ctx.fill();
+        }
+      }
+
+function drawTrees() {
+  const treeCount = landscape.treeCount;
+
+  for (let i = 0; i < treeCount; i++) {
+    const x = Math.random() * canvas.width; // Posición horizontal aleatoria
+    const y = canvas.height * 0.6; // Altura constante
+    const treeHeight = Math.random() * 50 + 50; // Altura aleatoria entre 50 y 100
+    const treeWidth = Math.random() * 20 + 10; // Anchura aleatoria entre 10 y 30
+    const trunkColor = '#8B4513'; // Color marrón para el tronco
+    const foliageColor = getRandomFoliageColor(); // Color verde aleatorio para el follaje
+
+    // Dibujar tronco
+    ctx.fillStyle = trunkColor;
+    ctx.fillRect(x - treeWidth / 2, y, treeWidth, -treeHeight);
+
+    // Dibujar follaje con forma creativa
+    ctx.beginPath();
+    ctx.moveTo(x, y - treeHeight);
+    ctx.bezierCurveTo(
+      x - treeWidth / 2,
+      y - treeHeight - treeWidth,
+      x - treeWidth / 2,
+      y - treeHeight - treeWidth * 2,
+      x,
+      y - treeHeight - treeWidth * 2
+    );
+    ctx.bezierCurveTo(
+      x + treeWidth / 2,
+      y - treeHeight - treeWidth * 2,
+      x + treeWidth / 2,
+      y - treeHeight - treeWidth,
+      x,
+      y - treeHeight
+    );
+    ctx.closePath();
+    ctx.fillStyle = foliageColor;
+    ctx.fill();
+  }
+}
+
+function getRandomFoliageColor() {
+  const hues = [90, 100, 110, 120]; // Tonos verdes predefinidos
+  const saturation = Math.random() * 30 + 70; // Saturación aleatoria entre 70 y 100
+  const lightness = Math.random() * 20 + 30; // Claridad aleatoria entre 30 y 50
+
+  const hue = hues[Math.floor(Math.random() * hues.length)];
+
+  return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+}
+
+      // Generar el paisaje inicial
+      generateLandscape();
+    </script>
+  </body>
+</html>

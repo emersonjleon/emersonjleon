@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Generador de Paisajes Naturales</title>
+  <style>
+    body {
+      background-color: #f1f1f1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      font-family: Arial, sans-serif;
+    }
+
+    canvas {
+      border: 1px solid #ccc;
+      box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+    }
+
+    button {
+      margin: 10px;
+      padding: 8px 16px;
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="canvas"></canvas>
+  <div>
+    <button id="generateBtn">Generar Paisaje</button>
+    <button id="customizeBtn">Personalizar</button>
+  </div>
+
+  <script src="generador-paisajes.js"></script>
+  <script>
+    // Obtener referencias a los botones
+    const generateBtn = document.getElementById('generateBtn');
+    const customizeBtn = document.getElementById('customizeBtn');
+
+    // Manejador de clic para el botón "Generar Paisaje"
+    generateBtn.addEventListener('click', () => {
+      generateLandscape(10, 0.5);
+    });
+
+    // Manejador de clic para el botón "Personalizar"
+    customizeBtn.addEventListener('click', () => {
+      const treeCount = parseInt(prompt('Ingrese la cantidad de árboles:'));
+      const roughness = parseFloat(prompt('Ingrese la rugosidad del terreno (0-1):'));
+      generateLandscape(treeCount, roughness);
+    });
+  </script>
+</body>
+</html>

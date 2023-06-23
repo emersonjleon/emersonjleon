@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Generador de Paisajes Naturales</title>
+    <style>
+      canvas {
+        border: 1px solid #000;
+      }
+    </style>
+  </head>
+  <body>
+    <label for="treeCount">Cantidad de Árboles:</label>
+    <input type="range" id="treeCount" min="0" max="100" step="1" value="50" />
+    <br />
+    <label for="mountainColor">Color de Montañas:</label>
+    <input type="color" id="mountainColor" value="#c2c2c2" />
+    <br />
+    <label for="hillColor">Color de Colinas:</label>
+    <input type="color" id="hillColor" value="#9fcf9f" />
+    <br />
+    <label for="riverColor">Color de Río:</label>
+    <input type="color" id="riverColor" value="#87ceeb" />
+    <br />
+    <canvas id="landscapeCanvas" width="800" height="400"></canvas>
+
+    <script>
+      const canvas = document.getElementById('landscapeCanvas');
+      const ctx = canvas.getContext('2d');
+      const treeCountInput = document.getElementById('treeCount');
+      const mountainColorInput = document.getElementById('mountainColor');
+      const hillColorInput = document.getElementById('hillColor');
+      const riverColorInput = document.getElementById('riverColor');
+
+      const landscape = {
+        mountainColor: mountainColorInput.value,
+        hillColor: hillColorInput.value,
+        riverColor: riverColorInput.value,
+        treeCount: treeCountInput.value,
+      };
+
+      mountainColorInput.addEventListener('input', updateLandscape);
+      hillColorInput.addEventListener('input', updateLandscape);
+      riverColorInput.addEventListener('input', updateLandscape);
+      treeCountInput.addEventListener('input', updateLandscape);
+
+      function updateLandscape() {
+        landscape.mountainColor = mountainColorInput.value;
+        landscape.hillColor = hillColorInput.value;
+        landscape.riverColor = riverColorInput.value;
+        landscape.treeCount = treeCountInput.value;
+        generateLandscape();
+      }
+
+      function generateLandscape() {
+        // Clear canvas
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        drawRiver();
+        drawMountains();
+        drawHills();
+        drawTrees();
+      }
+
+      function drawRiver() {
+        ctx.fillStyle = landscape.riverColor;
+        ctx.fillRect(0, canvas.height * 0.6, canvas.width, canvas.height * 0.4);
+      }
+
+      function drawMountains() {
+        const mountainCount = 5;
+        const mountainWidth = canvas.width / mountainCount;
+
+        for (let i = 0; i < mountainCount; i++) {
+          ctx.beginPath();
+          ctx.moveTo(i * mountainWidth, canvas.height * 0.6);
+          ctx.lineTo((i + 0.5) * mountainWidth, canvas.height * 0.4);
+          ctx.lineTo((i + 1) * mountainWidth, canvas.height * 0.6);
+          ctx.closePath();
+          ctx.fillStyle = landscape.mountainColor;
+          ctx.fill();
+        }
+      }
+
+      function drawHills() {
+        const hillCount = 10;
+        const hillWidth = canvas.width / hillCount;
+
+        for (let i = 0; i < hillCount; i++) {
+          ctx.beginPath();
+          ctx.arc(
+            i * hillWidth + hillWidth / 2,
+            canvas.height * 0.6,
+            hillWidth / 2,
+            0,
+            Math.PI,
+            true
+          );
+          ctx.closePath();
+          ctx.fillStyle = landscape.hillColor;
+          ctx.fill();
+        }
+      }
+
+      function drawTrees() {
+        const treeWidth = canvas.width / landscape.treeCount;
+
+        for (let i = 0; i < landscape.treeCount; i++) {
+          ctx.beginPath();
+          ctx.moveTo(i * treeWidth + treeWidth / 2, canvas.height * 0.6);
+          ctx.lineTo(
+            i * treeWidth + treeWidth / 2,
+            canvas.height * 0.6 - treeWidth
+          );
+          ctx.closePath();
+          ctx.strokeStyle = '#008000';
+          ctx.lineWidth = treeWidth / 8;
+          ctx.stroke();
+        }
+      }
+
+      // Generar el paisaje inicial
+      generateLandscape();
+    </script>
+  </body>
+</html>
