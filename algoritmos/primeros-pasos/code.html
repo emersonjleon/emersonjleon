@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Div con código HTML</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism-okaidia.min.css" />
+  <style>
+    body {
+      background-color: #222;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+
+    #code-container {
+      background-color: #222;
+      color: #fff;
+      padding: 10px;
+      overflow: auto;
+      max-height: 400px;
+      margin-bottom: 20px;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: #333;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #555;
+    }
+  </style>
+</head>
+<body>
+  <div id="code-container" class="language-markup"></div>
+
+  <button onclick="copyCode()">Copiar código</button>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/plugins/line-numbers/prism-line-numbers.min.js"></script>
+
+
+
+  <script>
+    // Código HTML que deseas mostrar
+    var code = `
+      <!DOCTYPE html>
+      <html lang="es">
+      <head>
+        <meta charset="UTF-8">
+        <title>Mi página web</title>
+      </head>
+      <body>
+        <h1>¡Hola, mundo!</h1>
+        <p>Esta es mi página web.</p>
+      </body>
+      </html>
+    `;
+
+    // Obtener el div del código
+    var codeContainer = document.getElementById('code-container');
+
+    // Mostrar el código literalmente en el div
+    codeContainer.innerText = code;
+    codeContainer.classList.add('line-numbers');
+
+    Prism.highlightAll();
+
+    function copyCode() {
+      var tempElement = document.createElement('textarea');
+      tempElement.value = code;
+      document.body.appendChild(tempElement);
+      tempElement.select();
+      document.execCommand('copy');
+      document.body.removeChild(tempElement);
+
+      alert('¡Código copiado al portapapeles!');
+    }
+  </script>
+</body>
+</html>

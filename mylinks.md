@@ -2,15 +2,16 @@
 
 Here there is a space to program yourself. The internet is infinite... you need to focus your attention...
 
-## Today: 2023.05.10
-kaggle 1h
-google summit 12m
 
-## todo
-- [ ] Create agenda in my python webpage
 
-- [multiplication table](multiplication/mtable2.html)
-- [multiplication table 2](multiplication/multiplicationtable.html)
+## Calendar
+- [my calendar](https://firefractal.pythonanywhere.com/calendar)
+
+## Kaggle
+- [main](https://www.kaggle.com/)
+- [ ] Python
+- [ ] Pandas
+
 
 
 ## El Cyborg Chamán
@@ -22,11 +23,10 @@ google summit 12m
 - [ ] Make avaliable finetuning and different models.
 - [ ] Migrate to MySQL
 
+## Colorful multiplications 
+- [multiplication table](algoritmos/multiplication/mtable2.html)
+- [multiplication table 2](algoritmos/multiplication/multiplicationtable.html)
 
-## Kaggle
-- [main](https://www.kaggle.com/)
-- [ ] Python
-- [ ] Pandas
 
 ## Jobs
 - [uniandes](https://www.mathjobs.org/jobs/list/21148) (2022-11-20)
