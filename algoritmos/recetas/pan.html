@@ -17,7 +17,10 @@
             text-align: center;
         }
 
-        h1 {
+        .container{
+	    max-width: 800px;
+	}
+	h1 {
             font-family: 'Baloo Tamma 2', cursive;
             font-size: 36px;
             margin-bottom: 20px;
@@ -27,7 +30,6 @@
             font-size: 24px;
             margin-bottom: 10px;
         }
-
         table {
             width: 100%;
             border-collapse: collapse;
@@ -72,8 +74,15 @@
             text-align: left;
         }
 
+	li {
+            margin-top: 10px;
+            text-align: left;
+        }
+
         p {
             margin-bottom: 10px;
+	    text-align: left;
+ 
         }
 
         @media screen and (max-width: 600px) {
@@ -101,6 +110,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Baloo+Tamma+2&display=swap" rel="stylesheet">
 </head>
 <body>
+  <div class="container">
     <h1>Calculadora de Pan de Masa Madre</h1>
 
     <table>
@@ -146,14 +156,45 @@
     <ol>
         <li>Mezcla la harina, el agua, la masa madre activa y la sal en un recipiente.</li>
         <li>Amasa la mezcla hasta obtener una masa homogénea y elástica.</li>
-        <li>Deja reposar la masa en un lugar cálido y cubierta con un paño durante X horas (dependiendo de la temperatura ambiente).</li>
+        <li>Deja reposar la masa en un lugar cálido y cubierta con un paño durante X horas (dependiendo de la temperatura ambiente).
+	  <p>El tiempo de reposo durante la fermentación puede variar según la temperatura ambiente y la actividad de tu masa madre. Aquí hay algunas pautas generales:</p>
+	  <ul>
+            <li>La primera fermentación generalmente toma alrededor de 2 a 4 horas a temperatura ambiente. La masa debe duplicar su volumen durante este tiempo.</li>
+            <li>La segunda fermentación después de dar forma a los panes generalmente toma alrededor de 1 a 2 horas. Los panes adquirirán una forma más redondeada y se expandirán ligeramente.</li>
+	  </ul>
+	  
+	</li>
         <li>Divide la masa en porciones y dales forma de pan según tu preferencia.</li>
         <li>Coloca los panes en una bandeja para hornear y déjalos reposar durante X horas.</li>
-        <li>Precalienta el horno a X grados Celsius.</li>
+        <li>Precalienta el horno a X grados Celsius.
+	  <p>La temperatura del horno puede variar según el tipo de pan y tus preferencias. Algunas pautas generales son:</p>
+	  <ul>
+            <li>Para panes con corteza dorada y crujiente, una temperatura de horno de alrededor de 200-220 grados Celsius es común.</li>
+            <li>Si deseas una corteza más oscura y crujiente, puedes aumentar la temperatura a 230-250 grados Celsius.</li>
+            <li>Para panes más suaves y tiernos, puedes usar una temperatura más baja, alrededor de 180-200 grados Celsius.</li>
+	  </ul>
+	</li>
         <li>Hornea los panes durante aproximadamente X minutos o hasta que estén dorados y suenen huecos al golpear la parte inferior.</li>
+	<p>El tiempo de horneado puede variar según el tipo de pan, tamaño y temperatura del horno. Aquí hay algunas pautas generales:</p>
+	<ul>
+          <li>El tiempo de horneado para panes de masa madre suele ser de alrededor de 30 a 45 minutos. El pan debe desarrollar un color dorado y una corteza crujiente durante este tiempo.</li>
+          <li>El tiempo de horneado puede variar según el tamaño y la forma de los panes. Panes más grandes pueden requerir un tiempo de horneado más prolongado.</li>
+	</ul>
         <li>Retira los panes del horno y déjalos enfriar antes de servir.</li>
     </ol>
 
+
+    <h4>Notas y aclaraciones</h4>
+
+        <p>Recuerda que estas son solo estimaciones y que es importante ajustar los valores según tus preferencias y las características específicas de tu pan y horno. La práctica y la experiencia te ayudarán a perfeccionar los tiempos y temperaturas para obtener el resultado deseado.</p>
+
+  </div>
+</body>
+
+
+
+
+    
     <script defer>
         function calculateValues() {
             var flourAmount = parseFloat(document.getElementById("flour").value);
@@ -203,5 +244,4 @@
             document.getElementById("breadQuantity").textContent = breadQuantity.toFixed(2);
         }
     </script>
-</body>
 </html>
