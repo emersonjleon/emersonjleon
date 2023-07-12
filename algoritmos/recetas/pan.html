@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Calculadora de Pan de Masa Madre</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #252525;
+            color: #ffffff;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        h1 {
+            font-family: 'Baloo Tamma 2', cursive;
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            border: none;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ffffff;
+        }
+
+        th {
+            background-color: #333333;
+            color: #ffffff;
+        }
+
+        tr:nth-child(even) {
+            background-color: #1f1f1f;
+        }
+
+        input[type="number"] {
+            padding: 5px;
+            width: 70px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #ff5722;
+            color: #ffffff;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #f4511e;
+        }
+
+        ol {
+            margin-left: 20px;
+            text-align: left;
+        }
+
+        p {
+            margin-bottom: 10px;
+        }
+
+        @media screen and (max-width: 600px) {
+            h1 {
+                font-size: 24px;
+            }
+
+            h2 {
+                font-size: 20px;
+            }
+
+            table {
+                font-size: 14px;
+            }
+
+            button {
+                font-size: 14px;
+            }
+
+            ol {
+                font-size: 14px;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+Tamma+2&display=swap" rel="stylesheet">
+</head>
+<body>
+    <h1>Calculadora de Pan de Masa Madre</h1>
+
+    <table>
+        <tr>
+            <th>Ingredientes</th>
+            <th>Cantidad</th>
+            <th>Costo (COP)</th>
+        </tr>
+        <tr>
+            <td>Harina de trigo (gramos)</td>
+            <td><input type="number" id="flour" min="0" step="10" onchange="calculateValues(); calculateCost();"></td>
+            <td id="flourCost">0.00</td>
+        </tr>
+        <tr>
+            <td>Agua (gramos)</td>
+            <td id="water">0.00</td>
+            <td id="waterCost">0.00</td>
+        </tr>
+        <tr>
+            <td>Masa madre activa (gramos)</td>
+            <td id="starter">0.00</td>
+            <td id="starterCost">0.00</td>
+        </tr>
+        <tr>
+            <td>Sal (gramos)</td>
+            <td id="salt">0.00</td>
+            <td id="saltCost">0.00</td>
+        </tr>
+        <tr>
+            <td><strong>Total</strong></td>
+            <td></td>
+            <td id="totalCost">0.00</td>
+        </tr>
+    </table>
+
+    <h2>Receta de Pan de Masa Madre</h2>
+
+    <p>Cantidad total de pan: <span id="breadQuantity">0.00</span> gramos</p>
+
+    <button onclick="calculateValues(); calculateCost();">Calcular</button>
+
+    <h3>Paso a Paso:</h3>
+    <ol>
+        <li>Mezcla la harina, el agua, la masa madre activa y la sal en un recipiente.</li>
+        <li>Amasa la mezcla hasta obtener una masa homogénea y elástica.</li>
+        <li>Deja reposar la masa en un lugar cálido y cubierta con un paño durante X horas (dependiendo de la temperatura ambiente).</li>
+        <li>Divide la masa en porciones y dales forma de pan según tu preferencia.</li>
+        <li>Coloca los panes en una bandeja para hornear y déjalos reposar durante X horas.</li>
+        <li>Precalienta el horno a X grados Celsius.</li>
+        <li>Hornea los panes durante aproximadamente X minutos o hasta que estén dorados y suenen huecos al golpear la parte inferior.</li>
+        <li>Retira los panes del horno y déjalos enfriar antes de servir.</li>
+    </ol>
+
+    <script defer>
+        function calculateValues() {
+            var flourAmount = parseFloat(document.getElementById("flour").value);
+            var waterRatio = 75;     // Porcentaje de agua respecto a la harina
+            var starterRatio = 20;   // Porcentaje de masa madre activa respecto a la harina
+            var saltRatio = 2;       // Porcentaje de sal respecto a la harina
+
+            var flourWeight = flourAmount;
+            var waterAmount = flourWeight * (waterRatio / 100);
+            var starterAmount = flourWeight * (starterRatio / 100);
+            var saltAmount = flourWeight * (saltRatio / 100);
+
+            document.getElementById("water").textContent = waterAmount.toFixed(2);
+            document.getElementById("starter").textContent = starterAmount.toFixed(2);
+            document.getElementById("salt").textContent = saltAmount.toFixed(2);
+
+            calculateBreadQuantity(flourWeight);
+        }
+
+        function calculateCost() {
+            var flourPrice = 5000;  // Precio de la harina por kg en pesos colombianos
+            var waterPrice = 500;   // Precio del agua por litro en pesos colombianos
+            var starterPrice = 2000;   // Precio de la masa madre activa por 100g en pesos colombianos
+            var saltPrice = 500;    // Precio de la sal por 10g en pesos colombianos
+
+            var flourWeight = parseFloat(document.getElementById("flour").value);
+            var waterAmount = parseFloat(document.getElementById("water").textContent);
+            var starterAmount = parseFloat(document.getElementById("starter").textContent);
+            var saltAmount = parseFloat(document.getElementById("salt").textContent);
+
+            var flourCost = (flourWeight / 1000) * flourPrice;
+            var waterCost = (waterAmount / 1000) * waterPrice;
+            var starterCost = (starterAmount / 100) * starterPrice;
+            var saltCost = (saltAmount / 10) * saltPrice;
+
+            var totalCost = flourCost + waterCost + starterCost + saltCost;
+
+            document.getElementById("flourCost").textContent = flourCost.toFixed(2);
+            document.getElementById("waterCost").textContent = waterCost.toFixed(2);
+            document.getElementById("starterCost").textContent = starterCost.toFixed(2);
+            document.getElementById("saltCost").textContent = saltCost.toFixed(2);
+            document.getElementById("totalCost").textContent = totalCost.toFixed(2);
+        }
+
+        function calculateBreadQuantity(flourWeight) {
+            var breadQuantity = flourWeight * 1.4; // Estimación del peso del pan en relación a la harina (1.4 es solo un factor de conversión aproximado)
+            document.getElementById("breadQuantity").textContent = breadQuantity.toFixed(2);
+        }
+    </script>
+</body>
+</html>

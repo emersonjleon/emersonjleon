@@ -1,0 +1,97 @@
+<html>
+<meta charset="utf-8">
+<style>
+body {
+    background-color: rgb(200,200,200);
+}
+
+h3 {
+    background-color: rgb(210,210,210);
+}
+
+
+p.ms {
+    font-family: "Courier New",Courier, monospace;
+}
+
+p.ss {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+a:link,
+a:visited,
+a:active {
+	text-decoration: none;
+	}
+</style>
+
+ <head>
+  <title>Seminario Geometría Discreta: Teoría de Ehrhart</title>
+ </head>
+ <body>
+
+<table cellpadding="20">
+  <tr>
+    <td> <div class="image"><img src="images/dg.png" 
+          alt=""width="150" align="middle"/></div>
+    </td>
+    <td><div>
+      <h2>Seminario Geometría discreta:
+          <br>Teoría de Ehrhart, 2016-02</h2>
+
+      <p> <a href="http://matematicas.uniandes.edu.co/">
+          Universidad de los Andes</a>, Bogotá <br> 
+          Departamento de Matemáticas</p>
+
+      <p> <a href="./../../index.html">Emerson Léon</a> <br>
+       ej.leon at uniandes.edu.co<br>
+      Horario de atención: lunes 2-4, viernes 9-11, oficina: H004</p> 
+      </div>
+    </td>
+  </tr>
+</table>
+
+
+<h3>Clases</h3> 
+<p> ...
+</p>
+
+<h3>Descripción</h3>
+
+<p> ...
+</p>
+ 
+  
+
+<h3>Programa</h3> 
+<ul>
+  <li> Semana 1: Introducción, politopos convexos, V-politopos y H-politopos.
+
+</ul>
+
+
+<h3>Bibliografía</h3> 
+<ul>
+  <li> [BR] <a href="http://eds.b.ebscohost.com/eds/detail/detail?vid=1&sid=495e29ae-c57e-45a2-8f7a-ec74251d4e13%40sessionmgr114&hid=104&bdata=Jmxhbmc9ZXMmc2l0ZT1lZHMtbGl2ZSZzY29wZT1zaXRl#AN=udla.307580&db=cat00683a"
+> Computing the continuous discretely </a>, Matthias Beck, Sinai Robins.
+
+  <li> <a href="./docs/openproblems-Beck.pdf">Open Problems</a>
+</ul>
+
+<h3>Recursos online</h3> 
+<ul>
+  <li> [Sg] <a href="https://cloud.sagemath.com/" target="_blank">SageMathCloud</a>
+   <li> [Sg] <a href="https://www.math.ucdavis.edu/~latte/theory.php" target="_blank">SageMathCloud</a>
+
+
+
+<h3>Anuncios</h3> 
+<ul>
+  <li> 
+</ul>
+ 
+
+
+ </body>
+ 
+</html>

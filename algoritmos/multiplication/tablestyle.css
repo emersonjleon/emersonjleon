@@ -1,3 +1,10 @@
+body {
+    overflow-x: scroll;
+    width: 3000;
+
+}
+
+zoom: 10%;
 
 .box {
   display: inline-block;

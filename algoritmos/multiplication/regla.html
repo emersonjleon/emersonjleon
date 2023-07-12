@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Regla numérica</title>
+    <link rel="stylesheet" type="text/css" href="tablestyle.css">
+  </head>
+  <body>
+    <canvas id="regla" width="1000" height="100"></canvas>
+
+<canvas id="regla2" width="1000" height="100"></canvas>
+
+<div id="image-container"></div>
+
+  </body>
+
+<script>
+  // Obtener el elemento de lienzo (canvas) y su contexto
+  const canvas = document.getElementById('regla2');
+  const ctx = canvas.getContext('2d');
+
+  // Dimensiones del lienzo
+  const width = canvas.width;
+  const height = canvas.height;
+
+  // Establecer los colores
+  const backgroundColor = '#888';
+  const lineColor = '#000000';
+  const textColor = '#000000';
+  const redColor = '#ff0000';
+
+  // Limpiar el lienzo
+  function clearCanvas() {
+    ctx.fillStyle = backgroundColor;
+    ctx.fillRect(0, 0, width, height);
+  }
+
+  // Dibujar una línea vertical
+  function drawVerticalLine(x, startY, endY, lineWidth, color) {
+    ctx.beginPath();
+    ctx.moveTo(x, startY);
+    ctx.lineTo(x, endY);
+    ctx.lineWidth = lineWidth;
+    ctx.strokeStyle = color;
+    ctx.stroke();
+  }
+
+  // Dibujar un número en la regla
+  function drawNumber(x, y, number, color) {
+    ctx.fillStyle = color;
+    ctx.font = '12px Arial';
+    ctx.textAlign = 'center';
+    ctx.fillText(number.toString(), x, y);
+  }
+
+  // Calcular el logaritmo en base 10 de un número
+  function calculateLogarithm(number) {
+    return Math.log10(number);
+  }
+
+  // Dibujar la regla numérica con escala logarítmica
+  function drawLogarithmicNumberLine() {
+    clearCanvas();
+
+    const startX = 20; // Posición inicial de la regla
+    const endX = width - 20; // Posición final de la regla
+    const lineHeight = 20; // Espaciado entre las líneas
+
+    const startNumber = 1; // Número inicial
+    const endNumber = 100; // Número final
+
+    // Dibujar las líneas y los números
+    for (let i = startNumber; i <= endNumber; i++) {
+      const logarithm = calculateLogarithm(i);
+      const x = startX + (logarithm / Math.log10(endNumber)) * (endX - startX);
+      const y1 = height / 2 - lineHeight / 2;
+      const y2 = height / 2 + lineHeight / 2;
+
+      if (i < 10 || i % 10 === 0) {
+        drawVerticalLine(x, y1, y2, 2, i === 1 || i === 10 || i=== 100? redColor : lineColor);
+      } else {
+        drawVerticalLine(x, y1, y2, 1, lineColor);
+      }
+
+      // if (i === 1 || i === 10 || i=== 100) {
+      // 	    drawNumber(x, y2 + 15, i,  redColor );
+      // } else {
+      // 	    drawNumber(x, y2 + 15, i,  textColor );
+      // }
+
+	
+      drawNumber(x, y2 + 15, i, i < 10 || i % 10 === 0 ? redColor : textColor);
+    }
+  }
+
+  // Dibujar la regla al cargar la página
+  drawLogarithmicNumberLine();
+
+
+
+
+///////////////////////draggable copy
+// let dragStartX = 0;
+// let dragStartY = 0;
+
+// // Función para copiar el contenido del lienzo a una imagen
+// function copyCanvasToImage() {
+//   const imageData = canvas.toDataURL(); // Obtener los datos de la imagen en formato base64
+//   const img = document.createElement('img');
+//   img.src = imageData;
+
+//   // // Establecer las propiedades de estilo para controlar la posición
+//   // img.style.position = 'absolute';
+//   // img.style.top = '50px';   // Modificar la posición vertical
+//   // img.style.left = '100px'; // Modificar la posición horizontal
+
+//   // Agregar eventos de arrastre al elemento de imagen
+//   img.addEventListener('mousedown', startDrag);
+//   img.addEventListener('mousemove', drag);
+//   img.addEventListener('mouseup', endDrag);
+
+//   return img;
+// }
+
+// // Función para iniciar el arrastre
+// function startDrag(e) {
+//   dragStartX = e.clientX;
+//   dragStartY = e.clientY;
+//   document.addEventListener('mousemove', drag);
+// }
+
+// // Función para arrastrar la imagen
+// function drag(e) {
+//   const offsetX = e.clientX - dragStartX;
+//   const offsetY = e.clientY - dragStartY;
+//   const img = e.target;
+//   const imgX = parseInt(img.style.left, 10) || 0;
+//   const imgY = parseInt(img.style.top, 10) || 0;
+//   img.style.left = `${imgX + offsetX}px`;
+//   img.style.top = `${imgY + offsetY}px`;
+//   dragStartX = e.clientX;
+//   dragStartY = e.clientY;
+// }
+
+
+////////////////////////////// drag 4  
+// // Función para finalizar el arrastre
+// function endDrag() {
+//   document.removeEventListener('mousemove', drag);
+// }
+
+// Variables para almacenar la posición inicial del arrastre
+let dragStartX = 0;
+let dragStartY = 0;
+let isDragging = false;
+
+// Función para copiar el contenido del lienzo a una imagen
+function copyCanvasToImage() {
+  const imageData = canvas.toDataURL(); // Obtener los datos de la imagen en formato base64
+  const img = document.createElement('img');
+  img.src = imageData;
+
+  // Establecer las propiedades de estilo para controlar la posición
+  img.style.position = 'absolute';
+  img.style.top = '50px';   // Modificar la posición vertical
+  img.style.left = '100px'; // Modificar la posición horizontal
+
+  // Agregar eventos de arrastre al elemento de imagen
+  img.addEventListener('mousedown', startDrag);
+  img.addEventListener('mouseup', endDrag);
+  img.addEventListener('mousemove', drag);
+
+  return img;
+}
+
+// Función para iniciar el arrastre
+function startDrag(e) {
+  dragStartX = e.clientX - parseInt(e.target.style.left, 10);
+  dragStartY = e.clientY - parseInt(e.target.style.top, 10);
+  isDragging = true;
+}
+
+// Función para arrastrar la imagen
+function drag(e) {
+  if (isDragging) {
+    const img = e.target;
+    const imgX = e.clientX - dragStartX;
+    const imgY = e.clientY - dragStartY;
+    img.style.left = `${imgX}px`;
+    img.style.top = `${imgY}px`;
+  }
+}
+
+// Función para finalizar el arrastre
+function endDrag() {
+  isDragging = false;
+}
+
+// //////////////////////////// drag3... se mueve pero sin click
+// // Obtener el elemento de lienzo (canvas) y su contexto
+
+// // ...
+
+// // Variables para almacenar la posición inicial del arrastre
+// let dragStartX = 0;
+// let dragStartY = 0;
+
+// // Función para copiar el contenido del lienzo a una imagen
+// function copyCanvasToImage() {
+//   const imageData = canvas.toDataURL(); // Obtener los datos de la imagen en formato base64
+//   const img = document.createElement('img');
+//   img.src = imageData;
+
+//   // Establecer las propiedades de estilo para controlar la posición
+//   img.style.position = 'absolute';
+//   img.style.top = '50px';   // Modificar la posición vertical
+//   img.style.left = '100px'; // Modificar la posición horizontal
+
+//   // Agregar eventos de arrastre al elemento de imagen
+//   img.addEventListener('mousedown', startDrag);
+//   img.addEventListener('mousemove', drag);
+//   img.addEventListener('mouseup', endDrag);
+
+//   return img;
+// }
+
+// // Función para iniciar el arrastre
+// function startDrag(e) {
+//   dragStartX = e.clientX - parseInt(e.target.style.left, 10);
+//   dragStartY = e.clientY - parseInt(e.target.style.top, 10);
+//   document.addEventListener('mousemove', drag);
+// }
+
+// // Función para arrastrar la imagen
+// function drag(e) {
+//   const img = e.target;
+//   const imgX = e.clientX - dragStartX;
+//   const imgY = e.clientY - dragStartY;
+//   img.style.left = `${imgX}px`;
+//   img.style.top = `${imgY}px`;
+// }
+
+// // Función para finalizar el arrastre
+// function endDrag() {
+//   document.removeEventListener('mousemove', drag);
+// }
+
+// // ...
+
+
+  
+  //////////////////////// Copy 1
+
+// function copyCanvasToImage() {
+//   const imageData = canvas.toDataURL(); // Obtener los datos de la imagen en formato base64
+//   const img = document.createElement('img');
+//   img.src = imageData;
+//   return img;
+// }
+
+// Obtener el elemento contenedor donde deseas colocar la imagen
+const container = document.getElementById('image-container');
+
+// Copiar el lienzo a una imagen y agregarla al contenedor
+const image = copyCanvasToImage();
+container.appendChild(image);
+
+  
+</script>
+  
+  <script src="drag.js"></script>
+</html>
