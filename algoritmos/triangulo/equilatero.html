@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+  .triangle {
+    width: 0;
+    height: 0;
+    border-left: 50px solid transparent;
+    border-right: 50px solid transparent;
+    border-bottom: 86.6px solid blue;
+    position: absolute;
+    cursor: move;
+  }
+</style>
+<script>
+  var triangle = document.querySelector('.triangle');
+  var initialX, initialY;
+  var offsetX = 0, offsetY = 0;
+  var isDragging = false;
+
+  triangle.addEventListener('mousedown', startDragging);
+  triangle.addEventListener('mouseup', stopDragging);
+  triangle.addEventListener('mousemove', dragTriangle);
+
+  function startDragging(event) {
+    isDragging = true;
+    initialX = event.clientX - offsetX;
+    initialY = event.clientY - offsetY;
+  }
+
+  function stopDragging() {
+    isDragging = false;
+  }
+
+  function dragTriangle(event) {
+    if (isDragging) {
+      event.preventDefault();
+      offsetX = event.clientX - initialX;
+      offsetY = event.clientY - initialY;
+      triangle.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
+    }
+  }
+</script>
+</head>
+<body>
+  <div class="triangle"></div>
+</body>
+</html>
+

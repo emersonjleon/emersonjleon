@@ -24,7 +24,7 @@
   const height = canvas.height;
 
   // Establecer los colores
-  const backgroundColor = '#888';
+  const backgroundColor = '#368';
   const lineColor = '#000000';
   const textColor = '#000000';
   const redColor = '#ff0000';
@@ -46,9 +46,9 @@
   }
 
   // Dibujar un número en la regla
-  function drawNumber(x, y, number, color) {
+  function drawNumber(x, y, number, color, font='14px Arial') {
     ctx.fillStyle = color;
-    ctx.font = '12px Arial';
+    ctx.font = font;
     ctx.textAlign = 'center';
     ctx.fillText(number.toString(), x, y);
   }
@@ -65,22 +65,70 @@
     const startX = 20; // Posición inicial de la regla
     const endX = width - 20; // Posición final de la regla
     const lineHeight = 20; // Espaciado entre las líneas
+    const longlineHeight = 30; // Espaciado entre las líneas
 
-    const startNumber = 1; // Número inicial
+    const startNumber = 10; // Número inicial
     const endNumber = 100; // Número final
-
+    const log10 =  (Math.log10(10) / Math.log10(endNumber)) * (endX - startX);
+      
+      
     // Dibujar las líneas y los números
     for (let i = startNumber; i <= endNumber; i++) {
       const logarithm = calculateLogarithm(i);
       const x = startX + (logarithm / Math.log10(endNumber)) * (endX - startX);
-      const y1 = height / 2 - lineHeight / 2;
-      const y2 = height / 2 + lineHeight / 2;
+      // const y1 = height / 2 - lineHeight / 2;
+      // const y2 = height / 2 + lineHeight / 2;
 
-      if (i < 10 || i % 10 === 0) {
-        drawVerticalLine(x, y1, y2, 2, i === 1 || i === 10 || i=== 100? redColor : lineColor);
-      } else {
-        drawVerticalLine(x, y1, y2, 1, lineColor);
-      }
+	if (i % 5 === 0) {
+	    if (i === 1 || i === 10 || i === 100) {
+		drawNumber(x, height / 2 + 5, i, redColor);
+		drawNumber(x - log10, height / 2 + 5, i / 10, redColor);
+		drawVerticalLine(x, 0, longlineHeight,  2 , redColor);
+		drawVerticalLine(x, height, height - longlineHeight, 2, redColor);
+		drawVerticalLine(x - log10, 0, longlineHeight, 2, redColor);
+		drawVerticalLine(x - log10, height, height - longlineHeight, 2, redColor);
+	    } else {
+		if (i % 10 === 0) {
+		    drawNumber(x, height / 2 + 5, i, textColor);
+		    drawNumber(x - log10, height / 2 + 5, i / 10, textColor);
+		    drawVerticalLine(x, 0, longlineHeight,   2 , lineColor);
+		    drawVerticalLine(x, height, height - longlineHeight, 2, lineColor);
+		    drawVerticalLine(x - log10, 0, longlineHeight, 2, lineColor);
+		    drawVerticalLine(x - log10, height, height - longlineHeight, 2, lineColor);
+		} else {
+		    if (i < 50  ) {
+			drawNumber(x, height / 2 + 5, i, textColor, font='10px Arial');
+			drawNumber(x - log10, height / 2 + 5, i / 10, textColor, font='10px Arial');
+		    }
+		    drawVerticalLine(x, 0, longlineHeight,   1 , lineColor);
+		    drawVerticalLine(x, height, height - longlineHeight, 1, lineColor);
+		    drawVerticalLine(x - log10, 0, longlineHeight, 1, lineColor);
+		    drawVerticalLine(x - log10, height, height - longlineHeight, 1, lineColor);	  
+		}
+	    }
+	} else {
+	    drawVerticalLine(x, 0, lineHeight, 1, lineColor);
+	    drawVerticalLine(x, height, height - lineHeight, 1, lineColor);
+	    drawVerticalLine(x - log10, 0, lineHeight, 1, lineColor);
+	    drawVerticalLine(x - log10, height, height - lineHeight, 1, lineColor);
+	}
+
+
+      // 	if ( i % 5 === 0) {
+      // 	  drawNumber(x, height / 2 + 5, i, i === 1 || i === 10 || i === 100 ? redColor : textColor);
+      // 	  drawNumber(x-log10, height / 2 + 5, i/10, i === 1 || i === 10 || i === 100 ? redColor : textColor);
+
+      //     drawVerticalLine(x, 0, longlineHeight, i%10===0 ? 2 :1, i === 1 || i === 10 || i=== 100? redColor : lineColor);
+      // 	  drawVerticalLine(x, height, height- longlineHeight, 2, i === 1 || i === 10 || i=== 100? redColor : lineColor);
+      // 	  drawVerticalLine(x-log10, 0, longlineHeight, 2, i === 1 || i === 10 || i=== 100? redColor : lineColor);
+      // 	  drawVerticalLine(x-log10, height, height- longlineHeight, 2, i === 1 || i === 10 || i=== 100? redColor : lineColor);
+      // } else {
+      // 	  drawVerticalLine(x, 0, lineHeight, 1, lineColor);
+      // 	  drawVerticalLine(x, height, height - lineHeight, 1, lineColor);
+      // 	  drawVerticalLine(x-log10, 0, lineHeight, 1, lineColor);
+      // 	  drawVerticalLine(x-log10, height, height - lineHeight, 1, lineColor);
+      //   // drawVerticalLine(x, y1, y2, 1, lineColor);
+      // }
 
       // if (i === 1 || i === 10 || i=== 100) {
       // 	    drawNumber(x, y2 + 15, i,  redColor );
@@ -89,7 +137,6 @@
       // }
 
 	
-      drawNumber(x, y2 + 15, i, i < 10 || i % 10 === 0 ? redColor : textColor);
     }
   }
 
@@ -162,7 +209,7 @@ function copyCanvasToImage() {
 
   // Establecer las propiedades de estilo para controlar la posición
   img.style.position = 'absolute';
-  img.style.top = '50px';   // Modificar la posición vertical
+  img.style.top = '250px';   // Modificar la posición vertical
   img.style.left = '100px'; // Modificar la posición horizontal
 
   // Agregar eventos de arrastre al elemento de imagen

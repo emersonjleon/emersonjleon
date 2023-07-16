@@ -55,11 +55,13 @@ function drawLogarithmicNumberLine() {
   for (let i = startNumber; i <= endNumber; i++) {
     const logarithm = calculateLogarithm(i);
     const x = startX + (logarithm / Math.log10(endNumber)) * (endX - startX);
-    const y1 = height / 2 - lineHeight / 2;
-    const y2 = height / 2 + lineHeight / 2;
+    // const y1 = height / 2 - lineHeight / 2;
+    // const y2 = height / 2 + lineHeight / 2;
     
-    drawVerticalLine(x, y1, y2, 1);
-    drawNumber(x, y2 + 15, i);
+      // drawVerticalLine(x, y1, y2, 1);
+      drawVerticalLine(x, 0, lineHeight, 1);
+      drawVerticalLine(x, height, height - lineHeight, 1);
+      drawNumber(x, y2 + 15, i);
   }
 }
 
