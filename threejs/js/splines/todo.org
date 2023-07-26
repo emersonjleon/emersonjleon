@@ -1,0 +1,21 @@
+
+
+
+
+* DONE visualize.html should generate the vertices and meshes given by visualize.js 
+
+* improve splinevisual.html
+** DONE add threejs node controls
+** fix spline control with node spheres
+** add colors and textures
+** add forms to edit online
+** add save and load scene online (json)
+**  avoid repetitions
+*** one room file
+*** one polytriangle.visualize file
+
+* TODO begin latex document 
+
+* bitacora:
+** 2023.07.26 m. 
+Added the spheres for spline control
