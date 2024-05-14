@@ -5,7 +5,7 @@ Hello! you can visit my personal page at [emersonjleon.pythonanywhere.com](https
 
 Also you can create stories using artificial intelligence at [El Cyborg Chaman](https://elcyborgchaman.pythonanywhere.com)
 
-You can learn how to prepare for the  [IOAI](https://ioai-official.org/how-to-prepare/)
+You can learn about the [IOAI](ioai.html)
 
 
 [//]: # (Also you can visit my blog... soon)
