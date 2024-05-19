@@ -7,8 +7,6 @@ Also you can create stories using artificial intelligence at [El Cyborg Chaman](
 
 You can learn about the [IOAI](ioai.html)
 
-Simposio de educación matemática [UAN](http://investigacion.uan.edu.co/mem)
-
 [//]: # (Also you can visit my blog... soon)
 
 You can visualize chip-firing configurations in 3D  [here](https://emersonjleon.pythonanywhere.com/chipfiring)
