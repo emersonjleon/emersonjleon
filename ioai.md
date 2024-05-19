@@ -1,15 +1,16 @@
 ## Preparación para la IOAI
 
-Comenzaremos a entrenar para participar en la primera olimpiada internacional de Inteligencia artificial [IOAI](https://ioai-official.org/)
+Vamos a entrenar para participar en la primera olimpiada internacional de Inteligencia artificial [IOAI](https://ioai-official.org/)
 
 Acá coleccionaremos los links y noticias relevantes para todos.
 El link oficial de material para prepararnos está [aquí](https://ioai-official.org/how-to-prepare/)
 
 
 
-
+- Toma un curso en [deeplearning.ai](https://www.deeplearning.ai/)
 - Toma un curso en [kaggle.com](https://www.kaggle.com/learn)
 - Resuelve un problema en [hackerrank.com](https://www.hackerrank.com/dashboard)
+- Resuelve un problema en [projecteuler.net](https://www.projecteuler.net)
 
 
 Acá hay artículos sobre
