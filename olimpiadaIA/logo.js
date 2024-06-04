@@ -86,13 +86,13 @@ document.addEventListener("DOMContentLoaded", function() {
             var y =  canvas.width/3 + Math.sin(angle) * 60;
             var size = 10 + Math.sin(time * 2 + i) * 5;
             var color = colors[ 4 ];
-            var alpha = Math.random() * 0.5 + 0.5;
+            var alpha = Math.random() * 0.3 + 0.5;
             var rotation = angle;
 
             drawSquare(x, y, size, color, alpha, rotation);
             drawTriangle(canvas.width - x, y, size, color, alpha, rotation);
-            drawSquare(x, canvas.width - y, size, color, alpha, rotation);
-            drawTriangle(canvas.width - x, canvas.width - y, size, color, alpha, rotation);
+            drawTriangle(x, canvas.width - y, size, color, alpha, rotation);
+            drawSquare(canvas.width - x, canvas.width - y, size, color, alpha, rotation);
         }
     }
 

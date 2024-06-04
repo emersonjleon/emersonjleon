@@ -65,3 +65,6 @@
         .button:hover {
             background-color: #3700B3;
         }
+	a {
+	    color: #79c2f8; /* Red */
+	}
