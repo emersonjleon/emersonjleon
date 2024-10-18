@@ -1,46 +1,76 @@
-[https://suno.com/song/55ccc5c0-6ad8-4c3b-8b3d-c1cf3ea14984](https://suno.com/song/55ccc5c0-6ad8-4c3b-8b3d-c1cf3ea14984)
+[suno version 1](https://suno.com/song/55ccc5c0-6ad8-4c3b-8b3d-c1cf3ea14984)
 
-
+[suno version 2](https://suno.com/song/e803b447-bd71-422c-8ff1-8a0996206cbe)
 《我的一天》 (Wǒ de Yītiān / Mi Día)
 
-(Verse 1)
-早上起床，太阳升起 (Zǎoshang qǐchuáng, tàiyáng shēng qǐ)
-爸爸妈妈在客厅里 (Bàba māmā zài kètīng lǐ)
-一起吃早餐，喝杯牛奶 (Yīqǐ chī zǎocān, hē bēi niúnǎi)
-今天的心情特别好，特别美丽 (Jīntiān de xīnqíng tèbié hǎo, tèbié měilì)
+
+- 早上起床，太阳升起 (Zǎoshang qǐchuáng, tàiyáng shēng qǐ)
+- 爸爸妈妈在客厅里 (Bàba māmā zài kètīng lǐ)
+- 一起吃早餐，喝杯牛奶 (Yīqǐ chī zǎocān, hē bēi niúnǎi)
+- 今天的心情特别好，特别美丽 (Jīntiān de xīnqíng tèbié hǎo, tèbié měilì)
 
 (Chorus)
+
 我的朋友，我们一起玩 (Wǒ de péngyǒu, wǒmen yīqǐ wán)
+
 聊天、笑得很开怀 (Liáotiān, xiào de hěn kāihuái)
+
 春天来了，花儿开 (Chūntiān láile, huā ér kāi)
+
 快乐的日子真可爱 (Kuàilè de rìzi zhēn kě’ài)
+
+
 
 (Verse 2)
 下午下课，走在路上 (Xiàwǔ xiàkè, zǒu zài lùshàng)
+
 城市的风景真是漂亮 (Chéngshì de fēngjǐng zhēn shì piàoliang)
+
 朋友说去旅行，看大海 (Péngyǒu shuō qù lǚxíng, kàn dàhǎi)
+
 一起唱歌，享受阳光 (Yīqǐ chànggē, xiǎngshòu yángguāng)
 
 (Chorus)
+
 我的朋友，我们一起玩 (Wǒ de péngyǒu, wǒmen yīqǐ wán)
+
 聊天、笑得很开怀 (Liáotiān, xiào de hěn kāihuái)
+
 春天来了，花儿开 (Chūntiān láile, huā ér kāi)
+
 快乐的日子真可爱 (Kuàilè de rìzi zhēn kě’ài)
+
+
 
 (Bridge)
+
 晚上回家，星星亮 (Wǎnshàng huí jiā, xīngxīng liàng)
+
 妈妈说“晚安”，温暖又安心 (Māmā shuō “wǎn’ān”, wēnnuǎn yòu ānxīn)
+
 在梦里，我又见到 (Zài mèng lǐ, wǒ yòu jiàn dào)
+
 我们一起玩耍的微笑 (Wǒmen yīqǐ wánshuǎ de wēixiào)
 
+
+
 (Chorus)
+
 我的朋友，我们一起玩 (Wǒ de péngyǒu, wǒmen yīqǐ wán)
+
 聊天、笑得很开怀 (Liáotiān, xiào de hěn kāihuái)
+
 春天来了，花儿开 (Chūntiān láile, huā ér kāi)
+
 快乐的日子真可爱 (Kuàilè de rìzi zhēn kě’ài)
 
+
+
+
 (Outro)
+
 一天结束，心中满满 (Yītiān jiéshù, xīnzhōng mǎnmǎn)
+
 明天的太阳依然灿烂 (Míngtiān de tàiyáng yīrán cànlàn)
 
 
