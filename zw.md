@@ -59,20 +59,25 @@
 
 
 (Verse 1)
+
 清晨醒来，窗外下雨
 Qīngchén xǐng lái, chuāngwài xiàyǔ
+
 En la mañana, despierto, llueve afuera de la ventana
 
 眼泪和雨水，谁分得清
 Yǎnlèi hé yǔshuǐ, shéi fēn de qīng
+
 Las lágrimas y la lluvia, ¿quién puede distinguirlas?
 
 回忆像风，在耳边叹息
 Huíyì xiàng fēng, zài ěrbiān tànxī
+
 Los recuerdos son como el viento, suspirando en mis oídos
 
 心中有个梦，还在远方等你
 Xīnzhōng yǒu gè mèng, hái zài yuǎnfāng děng nǐ
+
 En mi corazón hay un sueño, que aún te espera en la distancia
 
 (Chorus)
