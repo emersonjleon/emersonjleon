@@ -2,6 +2,9 @@
 
 ###  Recursos Multimedia
 
+## Imagenes
+- [https://dezgo.com](https://dezgo.com)
+
 ## Video
 - [https://app.runwayml.com/](https://app.runwayml.com/)
 - [https://klingai.com/](https://klingai.com/)
@@ -11,12 +14,12 @@
 
 - [https://suno.com/explore](https://suno.com/explore)
 
-- Canciónes en chino con *Suno*:
-[Links de canciones y letra](https://emersonjleon.github.io/emersonjleon/zw.html)
+  - Canciónes en chino con *Suno*:
+    -[Links de canciones y letra](https://emersonjleon.github.io/emersonjleon/zw.html)
 
-[Generando la letra con ChatGPT](https://chatgpt.com/share/671681fa-d330-8008-8650-a4f88daf0235)
+    - [Generando la letra con ChatGPT](https://chatgpt.com/share/671681fa-d330-8008-8650-a4f88daf0235)
 
--Canción para factorizar:
+  - Canción para factorizar:
 [https://suno.com/song/c44381f8-a657-480d-9042-a867315f93dc](https://suno.com/song/c44381f8-a657-480d-9042-a867315f93dc)
 
 ## Podcast
