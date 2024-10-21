@@ -51,12 +51,66 @@
 - 一天结束，心中满满 (Yītiān jiéshù, xīnzhōng mǎnmǎn)
 - 明天的太阳依然灿烂 (Míngtiān de tàiyáng yīrán cànlàn)
 
+
+
+### Translated lyrics
+
+
+
+
 ## 《生活的颜色》
 
 [https://suno.com/song/3169d977-14f4-466a-9fe6-f3518e06d148](https://suno.com/song/3169d977-14f4-466a-9fe6-f3518e06d148)
 [https://suno.com/song/4aacc4a2-f7cf-4cfd-b86f-226eb502766d](https://suno.com/song/4aacc4a2-f7cf-4cfd-b86f-226eb502766d)
+[https://suno.com/song/48b9b0d3-de1b-4b46-9e4f-105f52816b06](https://suno.com/song/48b9b0d3-de1b-4b46-9e4f-105f52816b06)
 
 
+《生活的颜色》 (Shēnghuó de Yánsè / Los Colores de la Vida)
+
+(Verse 1)
+- 清晨醒来，窗外下雨
+- 眼泪和雨水，谁分得清 (Qīngchén xǐng lái, chuāngwài xiàyǔ
+- Yǎnlèi hé yǔshuǐ, shéi fēn dé qīng)
+- 回忆像风，在耳边叹息 (Huíyì xiàng fēng, zài ěrbiān tànxī)
+- 心中有个梦，还在远方等你 (Xīnzhōng yǒu gè mèng, hái zài yuǎnfāng děng nǐ)
+
+(Chorus)
+- 快乐是蓝天，悲伤是夜晚 (Kuàilè shì lántiān, bēishāng shì yèwǎn)
+- 幸福是温暖的手握在一起 (Xìngfú shì wēnnuǎn de shǒu wò zài yīqǐ)
+- 孤独是秋天，落叶无声 (Gūdú shì qiūtiān, luòyè wúshēng)
+- 但希望是那颗，闪亮的星 (Dàn xīwàng shì nà kē, shǎnliàng de xīng)
+
+(Verse 2)
+- 黄昏的街道，灯光闪烁 (Huánghūn de jiēdào, dēngguāng shǎnshuò)
+- 我走过回忆，走到你身旁 (Wǒ zǒuguò huíyì, zǒu dào nǐ shēn páng)
+- 你的微笑，是冬天的阳光 (Nǐ de wēixiào, shì dōngtiān de yángguāng)
+- 驱散了黑暗，照亮了心房 (Qūsànle hēi'àn, zhàoliàngle xīnfáng)
+
+(Chorus)
+- 快乐是蓝天，悲伤是夜晚 (Kuàilè shì lántiān, bēishāng shì yèwǎn)
+- 幸福是温暖的手握在一起 (Xìngfú shì wēnnuǎn de shǒu wò zài yīqǐ)
+- 孤独是秋天，落叶无声 (Gūdú shì qiūtiān, luòyè wúshēng)
+- 但希望是那颗，闪亮的星 (Dàn xīwàng shì nà kē, shǎnliàng de xīng)
+
+(Bridge)
+- 有时候，我会迷失方向 (Yǒu shíhòu, wǒ huì míshī fāngxiàng)
+- 仿佛世界只剩下黑暗 (Fǎngfú shìjiè zhǐ shèngxià hēi'àn)
+- 可是记得，心中的火焰 (Kěshì jìdé, xīnzhōng de huǒyàn)
+- 再小，也能温暖整个寒冷 (Zài xiǎo, yě néng wēnnuǎn zhěnggè hánlěng)
+
+(Chorus)
+- 快乐是蓝天，悲伤是夜晚 (Kuàilè shì lántiān, bēishāng shì yèwǎn)
+- 幸福是温暖的手握在一起 (Xìngfú shì wēnnuǎn de shǒu wò zài yīqǐ)
+- 孤独是秋天，落叶无声 (Gūdú shì qiūtiān, luòyè wúshēng)
+- 但希望是那颗，闪亮的星 (Dàn xīwàng shì nà kē, shǎnliàng de xīng)
+
+(Outro)
+- 我相信，明天会更好 (Wǒ xiāngxìn, míngtiān huì gèng hǎo)
+- 每一种颜色，都属于我 (Měi yī zhǒng yánsè, dōu shǔyú wǒ)
+
+
+
+### translated lyrics
 
 (Verse 1)
 
@@ -80,96 +134,128 @@ Xīnzhōng yǒu gè mèng, hái zài yuǎnfāng děng nǐ
 
 En mi corazón hay un sueño, que aún te espera en la distancia
 
+
 (Chorus)
+
 快乐是蓝天，悲伤是夜晚
 Kuàilè shì lántiān, bēishāng shì yèwǎn
+
 La felicidad es el cielo azul, la tristeza es la noche
 
 幸福是温暖的手握在一起
 Xìngfú shì wēnnuǎn de shǒu wò zài yīqǐ
+
 La felicidad es una mano cálida que se agarra junto a la mía
 
 孤独是秋天，落叶无声
 Gūdú shì qiūtiān, luòyè wúshēng
+
 La soledad es el otoño, las hojas caen sin sonido
 
 但希望是那颗，闪亮的星
 Dàn xīwàng shì nà kē, shǎnliàng de xīng
+
 Pero la esperanza es esa estrella, que brilla intensamente
 
 (Verse 2)
+
 黄昏的街道，灯光闪烁
 Huánghūn de jiēdào, dēngguāng shǎnshuò
+
 Las calles al atardecer, las luces parpadean
 
 我走过回忆，走到你身旁
 Wǒ zǒuguò huíyì, zǒu dào nǐ shēn páng
+
 Camino a través de los recuerdos, camino a tu lado
 
 你的微笑，是冬天的阳光
 Nǐ de wēixiào, shì dōngtiān de yángguāng
+
 Tu sonrisa es el sol del invierno
 
 驱散了黑暗，照亮了心房
 Qūsànle hēi'àn, zhàoliàngle xīnfáng
+
 Disipa la oscuridad, ilumina el corazón
 
 (Chorus)
 快乐是蓝天，悲伤是夜晚
 Kuàilè shì lántiān, bēishāng shì yèwǎn
+
 La felicidad es el cielo azul, la tristeza es la noche
 
 幸福是温暖的手握在一起
 Xìngfú shì wēnnuǎn de shǒu wò zài yīqǐ
+
 La felicidad es una mano cálida que se agarra junto a la mía
 
 孤独是秋天，落叶无声
 Gūdú shì qiūtiān, luòyè wúshēng
+
 La soledad es el otoño, las hojas caen sin sonido
+
 
 但希望是那颗，闪亮的星
 Dàn xīwàng shì nà kē, shǎnliàng de xīng
+
 Pero la esperanza es esa estrella, que brilla intensamente
 
 (Bridge)
+
 有时候，我会迷失方向
 Yǒu shíhòu, wǒ huì míshī fāngxiàng
+
 A veces, pierdo la dirección
 
 仿佛世界只剩下黑暗
 Fǎngfú shìjiè zhǐ shèngxià hēi'àn
+
 Como si el mundo solo quedara en la oscuridad
 
 可是记得，心中的火焰
 Kěshì jìdé, xīnzhōng de huǒyàn
+
 Pero recuerda, la llama en el corazón
 
 再小，也能温暖整个寒冷
 Zài xiǎo, yě néng wēnnuǎn zhěnggè hánlěng
+
 Por pequeña que sea, puede calentar todo el frío
 
 (Chorus)
 快乐是蓝天，悲伤是夜晚
 Kuàilè shì lántiān, bēishāng shì yèwǎn
+
 La felicidad es el cielo azul, la tristeza es la noche
 
 幸福是温暖的手握在一起
 Xìngfú shì wēnnuǎn de shǒu wò zài yīqǐ
+
 La felicidad es una mano cálida que se agarra junto a la mía
 
 孤独是秋天，落叶无声
 Gūdú shì qiūtiān, luòyè wúshēng
+
 La soledad es el otoño, las hojas caen sin sonido
 
 但希望是那颗，闪亮的星
 Dàn xīwàng shì nà kē, shǎnliàng de xīng
+
 Pero la esperanza es esa estrella, que brilla intensamente
 
 (Outro)
 我相信，明天会更好
 Wǒ xiāngxìn, míngtiān huì gèng hǎo
+
 Creo que mañana será mejor
 
 每一种颜色，都属于我
 Měi yī zhǒng yánsè, dōu shǔyú wǒ
+
 Cada color me pertenece
+
+### Bonus Track
+
+[https://suno.com/song/2e03459d-3a54-41a5-a4c5-51f51baf156b](https://suno.com/song/2e03459d-3a54-41a5-a4c5-51f51baf156b)
+[https://suno.com/song/fe55a316-9388-4768-b3be-59cd64a789b1](https://suno.com/song/fe55a316-9388-4768-b3be-59cd64a789b1)
