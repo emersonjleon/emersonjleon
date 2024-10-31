@@ -8,7 +8,7 @@ Hello! you can visit my personal page at [emersonjleon.pythonanywhere.com](https
 Artificial Inteligence Olympiads 
 You can learn about the [IOAI training](https://sites.google.com/view/ioai-colombia-training/inicio) or at [my page](https://emersonjleon.pythonanywhere.com/uan/olimpiadaIA)
 
-Or visit some [IA tools](zw.html)
+Or visit some [IA tools](cvIAandEducation.html)
 
 
 [//]: # (Also you can visit my blog... soon)
