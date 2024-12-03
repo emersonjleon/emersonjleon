@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Números Racionales Interactivos</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+        canvas {
+            display: block;
+            cursor: grab;
+        }
+    </style>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+<script>
+    // Configuración inicial
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const margin = 50;
+    let width = canvas.width;
+    let height = canvas.height;
+
+    // Escala inicial y nivel de zoom
+    let xScale = d3.scaleLinear().domain([-10, 10]).range([margin, width - margin]);
+    let zoomLevel = 1;
+
+    // Variable para el denominador máximo
+    let maxDenominator = 1;
+
+    // Generar racionales en el rango actual
+    function generateRationalNumbers(range, maxDenominator) {
+        const rationals = [];
+        for (let d = 1; d <= maxDenominator; d++) {
+            for (let n = Math.ceil(-range * d); n <= Math.floor(range * d); n++) {
+                rationals.push({ numerator: n, denominator: d, value: n / d });
+            }
+        }
+        return rationals;
+    }
+
+    // Dibujar la recta y los puntos
+    function draw(rationals) {
+        ctx.clearRect(0, 0, width, height);
+
+        // Dibujar la recta numérica
+        ctx.strokeStyle = "black";
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(margin, height / 2);
+        ctx.lineTo(width - margin, height / 2);
+        ctx.stroke();
+
+        // Dibujar puntos
+        rationals.forEach(({ numerator, denominator, value }) => {
+            const x = xScale(value);
+            const y = height / 2;
+
+            // Dibujar racionales con denominadores pequeños
+            if (denominator <= (maxDenominator**0.7)/5) {
+                ctx.fillStyle = "red";
+                ctx.beginPath();
+                ctx.arc(x, y, 5, 0, 2 * Math.PI);
+                ctx.fill();
+
+                ctx.fillStyle = "black";
+                ctx.font = "12px Arial";
+                ctx.textAlign = "center";
+                ctx.fillText(`${numerator}/${denominator}`, x, y - 10);
+            } else {
+                // Dibujar racionales con denominadores medianos
+                ctx.fillStyle = "gray";
+                ctx.beginPath();
+                ctx.arc(x, y, 3, 0, 2 * Math.PI);
+                ctx.fill();
+            }
+        });
+    }
+
+    // Manejo de zoom y traslación
+    const zoom = d3.zoom()
+        .scaleExtent([0.1, 100]) // Nivel de zoom permitido
+        .on("zoom", (event) => {
+            const transform = event.transform;
+            xScale = transform.rescaleX(d3.scaleLinear().domain([-10, 10]).range([margin, width - margin]));
+            zoomLevel = transform.k;
+
+            // Calcular el rango actual y maxDenominator dinámico
+            const visibleRange = Math.abs(xScale.invert(width - margin) - xScale.invert(margin));
+            maxDenominator = Math.ceil(50/visibleRange); // Ajuste proporcional al intervalo visible
+
+            // Generar y filtrar racionales dentro del intervalo visible
+            const filteredRationals = generateRationalNumbers(visibleRange / 2, maxDenominator)
+                .filter(r => {
+                    const value = r.value;
+                    return value >= xScale.invert(margin) && value <= xScale.invert(width - margin);
+                });
+
+            draw(filteredRationals);
+        });
+
+    // Inicializar racionales y dibujar
+    const visibleRange = Math.abs(xScale.invert(width - margin) - xScale.invert(margin));
+    maxDenominator = Math.ceil(20 / visibleRange);
+    const initialRationals = generateRationalNumbers(visibleRange / 2, maxDenominator)
+        .filter(r => {
+            const value = r.value;
+            return value >= xScale.invert(margin) && value <= xScale.invert(width - margin);
+        });
+
+    draw(initialRationals);
+    d3.select(canvas).call(zoom);
+
+    // Ajustar el tamaño del canvas dinámicamente
+    window.addEventListener('resize', () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        width = canvas.width;
+        height = canvas.height;
+
+        xScale.range([margin, width - margin]);
+
+        const visibleRange = Math.abs(xScale.invert(width - margin) - xScale.invert(margin));
+        maxDenominator = Math.ceil(500/ (visibleRange**1.8)); ////
+
+        const filteredRationals = generateRationalNumbers(visibleRange / 2, maxDenominator)
+            .filter(r => {
+                const value = r.value;
+                return value >= xScale.invert(margin) && value <= xScale.invert(width - margin);
+            });
+
+        draw(filteredRationals);
+    });
+</script>
+</body>
+</html>

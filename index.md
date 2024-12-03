@@ -5,8 +5,8 @@ Hello! you can visit my personal page at [emersonjleon.pythonanywhere.com](https
 
 [//]: # Also you can create stories using artificial intelligence at [El Cyborg Chaman](https://elcyborgchaman.pythonanywhere.com)
 
-Artificial Inteligence Olympiads 
-You can learn about the [IOAI training](https://sites.google.com/view/ioai-colombia-training/inicio) or at [my page](https://emersonjleon.pythonanywhere.com/uan/olimpiadaIA)
+
+You can learn about Artificial Inteligence Olympiads at [my page](https://emersonjleon.pythonanywhere.com/uan/olimpiadaIA)
 
 Or visit some [IA tools](cvIAandEducation.html)
 

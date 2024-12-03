@@ -41,6 +41,7 @@ Here there is a space to program yourself. The internet is infinite... you need 
 
 
 ### Artificial intelligence
+- [IOAI training](https://sites.google.com/view/ioai-colombia-training/inicio)
 - [Dreamstudio](https://beta.dreamstudio.ai/dream)
 - [openAI](https://openai.com/api)
 - [Dall-E mini](https://huggingface.co/spaces/dalle-mini/dalle-mini)
