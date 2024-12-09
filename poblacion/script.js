@@ -17,6 +17,7 @@ const seeds = {
 
 let grid = [];
 const gensToGetOld = 2;
+const numberOfChildren = 5;
 let currentGeneration = 0;
 // Variables globales
 let deadSeeds = 0;
@@ -214,7 +215,7 @@ function handleReproduction() {
 
       if (isFavorable && adultFemales > 0 && adultMales > 0) {
         // Reproducir: Cada hembra adulta da a luz a 5 crías
-        for (let i = 0; i < adultFemales * 5; i++) {
+        for (let i = 0; i < adultFemales * numberOfChildren; i++) {
           // Asignar género aleatorio a la nueva cría
           const newSeed = Math.random() < 0.5 ? "maize" : "lentil";
 
@@ -299,8 +300,8 @@ function nextGeneration() {
 
   // Apply game dynamics
   handleAging();
-  handleReproduction();
   handleHabitatEffects();
+  handleReproduction();
 
   // Update the UI
   renderBoard();
