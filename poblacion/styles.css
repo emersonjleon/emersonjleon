@@ -46,12 +46,27 @@ body {
   color: white;
 }
 
-.maize { background-color: yellow; }
-.lentil { background-color: brown; }
-.drypea { background-color: pink; }
-.greenpea { background-color: green; }
-.chickpea { background-color: orange; }
-.bean { background-color: black; }
+/* .maize { background-color: yellow; } */
+/* .lentil { background-color: brown; } */
+/* .drypea { background-color: pink; } */
+/* .greenpea { background-color: green; } */
+/* .chickpea { background-color: orange; } */
+/* .bean { background-color: black; } */
+
+.maize {  background-color: rgb(255, 182, 177); }/*  Crías Hembras */
+.lentil {  background-color: rgb(128, 255, 190); } /*  Crías Machos */
+.drypea {  background-color: rgb(205, 53, 23); }/*  Adultos Hembras*/
+.greenpea {  background-color: rgb(6, 159, 13); }/*  Adultos Machos */
+.chickpea {  background-color: rgb(55, 4, 0); /*  Viejas Hembras */}
+.bean {  background-color: rgb(5, 5, 25); /*  Viejos Machos */
+}
+
+/* ######## */
+
+
+
+
+
 
 #controls {
   margin-top: 20px;
@@ -72,55 +87,61 @@ body {
   vertical-align: middle;
 }
 
-/* .square:nth-child(odd) { */
-/*   background-color: #d3d3d3; /\* Claro *\/ */
+/* ######## */
+
+#controls {
+  margin: 20px 0;
+}
+
+#controls label {
+  /* font-weight: bold; */
+  margin-right: 10px;
+}
+
+#controls input {
+  margin-bottom: 10px;
+  width: 60px;
+}
+
+/* #generationDisplay { */
+/*   margin-top: 10px; */
+/*   font-size: 18px; */
+/*   /\* font-weight: bold; *\/ */
+/*   color: #333; */
 /* } */
 
-/* .square:nth-child(even) { */
-/*   background-color: #555; /\* Oscuro *\/ */
-/* } */
 
-/* #board { */
-/*   display: grid; */
-/*   grid-template-columns: repeat(10, 3cm); */
-/*   grid-template-rows: repeat(6, 3cm); */
-/*   gap: 1px; */
-/* } */
 
-/* .square { */
-/*   width: 3cm; */
-/*   height: 3cm; */
-/*   display: flex; */
-/*   justify-content: center; */
-/*   align-items: center; */
-/*   flex-direction: column; */
-/*   border: 1px solid #000; */
-/*   overflow: hidden; */
-/*   position: relative; */
-/* } */
+#gameRules {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  padding: 20px;
+  border-radius: 8px;
+  font-family: Arial, sans-serif;
+  max-width: 600px;
+  margin: 20px auto;
+    text-align: left;
+}
 
-/* .seed-container { */
-/*   display: flex; */
-/*   flex-wrap: wrap; */
-/*   justify-content: center; */
-/*   align-items: flex-start; */
-/*   width: 100%; */
-/*   height: 100%; */
-/*   overflow: hidden; */
-/* } */
+#gameRules h2 {
+  text-align: center;
+  color: #333;
+}
 
-/* .seed { */
-/*   display: inline-block; */
-/*   font-size: 10px; */
-/*   margin: 1px; */
-/*   text-align: center; */
-/* } */
+#gameRules ol {
+  padding-left: 20px;
+}
 
-/* .remaining-seeds { */
-/*   position: absolute; */
-/*   bottom: 5px; */
-/*   right: 5px; */
-/*   font-size: 14px; */
-/*   font-weight: bold; */
-/*   color: #ff0000; */
-/* } */
+#gameRules ul {
+  list-style-type: square;
+  margin-left: 20px;
+}
+
+#gameRules strong {
+  color: #555;
+}
+
+#gameRules span {
+  font-weight: bold;
+  color: #007bff;
+}

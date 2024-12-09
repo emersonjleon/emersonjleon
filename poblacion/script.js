@@ -16,11 +16,32 @@ const seeds = {
 };
 
 let grid = [];
-const gensToGetOld = 2;
-const numberOfChildren = 5;
+let gensToGetOld = 2;
+let numberOfChildren = 3;
 let currentGeneration = 0;
 // Variables globales
 let deadSeeds = 0;
+
+
+// Update the displayed generation
+function updateGenerationDisplay() {
+  document.getElementById("currentGenerationDisplay").textContent = currentGeneration;
+}
+
+// Add event listener for the update settings button
+document.getElementById("updateSettings").addEventListener("click", () => {
+  const numberOfChildrenInput = document.getElementById("numberOfChildren").value;
+  const gensToGetOldInput = document.getElementById("gensToGetOld").value;
+
+  // Update variables based on user input
+  numberOfChildren = parseInt(numberOfChildrenInput, 10);
+  gensToGetOld = parseInt(gensToGetOldInput, 10);
+
+  // Provide feedback to the user
+    alert(`Configuración actualizada:\nNúmero de crías por hembra: ${numberOfChildren}\nGeneraciones para envejecer: ${gensToGetOld}`);
+    document.getElementById("numberOfChildrenDisplay").textContent = numberOfChildren;
+    document.getElementById("gensToGetOldDisplay").textContent = gensToGetOld;
+});
 
 
 
@@ -67,7 +88,8 @@ function resetGame() {
     createBoard();
     distributeSeeds();
     deadSeeds = 0;
-    
+    currentGeneration = 0;
+    updateGenerationDisplay()
 }
 
 
@@ -92,25 +114,24 @@ function updateStats() {
   });
 
   statsDiv.innerHTML = `
-  <h3>Estadísticas</h3>
-  <p><span class="color-circle" style="background-color: #FFD700;"></span> Crías Hembras (Maíz): ${counts.maize}</p>
-  <p><span class="color-circle" style="background-color: #8B4513;"></span> Crías Machos (Lentejas): ${counts.lentil}</p>
-  <p><span class="color-circle" style="background-color: #32CD32;"></span> Adultos Hembras (Arvejas secas): ${counts.drypea}</p>
-  <p><span class="color-circle" style="background-color: #006400;"></span> Adultos Machos (Arvejas verdes): ${counts.greenpea}</p>
-  <p><span class="color-circle" style="background-color: #FF6347;"></span> Viejas Hembras (Garbanzos): ${counts.chickpea}</p>
-  <p><span class="color-circle" style="background-color: #4B0082;"></span> Viejos Machos (Frijoles): ${counts.bean}</p>
-  <p><span class="color-circle" style="background-color: #000000;"></span> Total Muertos: ${deadSeeds}</p>
+  <p><span class="color-circle maize"></span> Crías Hembras (Maíz): ${counts.maize}</p>
+  <p><span class="color-circle lentil"></span> Crías Machos (Lentejas): ${counts.lentil}</p>
+  <p><span class="color-circle drypea"></span> Adultos Hembras (Arvejas secas): ${counts.drypea}</p>
+  <p><span class="color-circle greenpea"></span> Adultos Machos (Arvejas verdes): ${counts.greenpea}</p>
+  <p><span class="color-circle chickpea"></span> Viejas Hembras (Garbanzos): ${counts.chickpea}</p>
+  <p><span class="color-circle bean"></span> Viejos Machos (Frijoles): ${counts.bean}</p>
+  <p><span class="color-circle" style="background-color: gray;"></span> Total Muertos: ${deadSeeds}</p>
 `;
-  //   statsDiv.innerHTML = `
-  //   <h3>Estadísticas</h3>
-  //   <p>Crías Hembras (Maíz): ${counts.maize}</p>
-  //   <p>Crías Machos (Lentejas): ${counts.lentil}</p>
-  //   <p>Adultos Hembras (Arvejas secas): ${counts.drypea}</p>
-  //   <p>Adultos Machos (Arvejas verdes): ${counts.greenpea}</p>
-  //   <p>Viejas Hembras (Garbanzos): ${counts.chickpea}</p>
-  //   <p>Viejos Machos (Frijoles): ${counts.bean}</p>
-  //   <p>Total Muertos: ${deadSeeds}</p>
-  // `;
+// statsDiv.innerHTML = `
+//   <h3>Estadísticas</h3>
+//   <p><span class="color-circle" style="background-color: #FFD700;"></span> Crías Hembras (Maíz): ${counts.maize}</p>
+//   <p><span class="color-circle" style="background-color: #8B4513;"></span> Crías Machos (Lentejas): ${counts.lentil}</p>
+//   <p><span class="color-circle" style="background-color: #32CD32;"></span> Adultos Hembras (Arvejas secas): ${counts.drypea}</p>
+//   <p><span class="color-circle" style="background-color: #006400;"></span> Adultos Machos (Arvejas verdes): ${counts.greenpea}</p>
+//   <p><span class="color-circle" style="background-color: #FF6347;"></span> Viejas Hembras (Garbanzos): ${counts.chickpea}</p>
+//   <p><span class="color-circle" style="background-color: #4B0082;"></span> Viejos Machos (Frijoles): ${counts.bean}</p>
+//   <p><span class="color-circle" style="background-color: #000000;"></span> Total Muertos: ${deadSeeds}</p>
+// `;
 }
 
 // // Actualizar las estadísticas
@@ -307,7 +328,8 @@ function handleHabitatEffects() {
 
 function nextGeneration() {
   currentGeneration++;
-
+  updateGenerationDisplay();
+    
   // Apply game dynamics
   handleAging();
   handleHabitatEffects();

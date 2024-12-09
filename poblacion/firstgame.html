@@ -8,22 +8,116 @@
 </head>
 <body>
   <h1>Población Imaginaria</h1>
+<div id="gameRules">
+  <h2>Reglas del Juego: </h2>
+  <ol>
+    <li>
+      <strong>Configuración inicial:</strong>
+      <ul>
+        <li>El tablero tiene una cuadrícula de 10x6 cuadros, pintada como tablero de ajedrez.</li>
+        <li>Cada cuadro mide 3x3 cm.</li>
+        <li>La población inicial incluye 60 individuos distribuidos así:
+          <ul>
+            <li>15 Crías Hembras (Maíz)</li>
+            <li>15 Crías Machos (Lentejas)</li>
+            <li>15 Adultos Hembras (Arvejas secas)</li>
+            <li>15 Adultos Machos (Arvejas verdes)</li>
+          </ul>
+        </li>
+        <li>Los viejos no participan en la población inicial.</li>
+      </ul>
+    </li>
+    <li>
+      <strong>Cambio de etapa:</strong>
+      <ul>
+        <li>Las semillas cambian de etapa después de <span id="gensToGetOldDisplay">2</span> generaciones:
+          <ul>
+            <li>Crías → Adultos → Viejos → Mueren</li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li>
+      <strong>Reproducción:</strong>
+      <ul>
+        <li>Cuando hay adultos de diferentes sexos en la misma casilla, cada hembra da a luz a <span id="numberOfChildrenDisplay">5</span> crías.</li>
+        <li>Las crías se colocan en casillas vecinas al cuadro de los padres.</li>
+      </ul>
+    </li>
+    <li>
+      <strong>Hábitat favorable y desfavorable:</strong>
+      <ul>
+        <li><strong>Cuadros sin colorear:</strong> Hábitat favorable:
+          <ul>
+            <li>Las semillas adultas pueden reproducirse.</li>
+          </ul>
+        </li>
+        <li><strong>Cuadros oscuros:</strong> Hábitat desfavorable:
+          <ul>
+            <li>Los adultos no mueren, pero no pueden reproducirse.</li>
+            <li>Las crías mueren a menos que haya viejos que las protejan sacrificándose (un viejo por cada cría salvada).</li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li>
+      <strong>Turnos y generaciones:</strong>
+      <ul>
+        <li>El juego se desarrolla en 10 generaciones.</li>
+        <li>En cada generación:
+          <ul>
+            <li>Se reproducen las semillas.</li>
+            <li>Las semillas cambian de etapa según las reglas.</li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li>
+      <strong>Seguimiento:</strong>
+      <ul>
+        <li>Se registran estadísticas en cada generación, incluyendo:
+          <ul>
+            <li>Crías, adultos y viejos, separados por sexo.</li>
+            <li>Semillas vivas y muertas.</li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ol>
+</div>
+
+
+
   <div id="game-container">
     <div id="board"></div>
   </div>
   <div id="controls">
     <button id="reset">Reiniciar</button>
-    <button id="next">Siguiente Generación</button>
+    <button id="next">Siguiente Etapa</button>
   </div>
-<div id="stats">
-  <!-- <h2>Estadísticas</h2> -->
-  <!-- <p>Crías: <span id="babyCount">0</span></p> -->
-  <!-- <p>Adultos: <span id="adultCount">0</span></p> -->
-  <!-- <p>Viejos: <span id="elderCount">0</span></p> -->
-  <!-- <p>Vivos: <span id="aliveCount">0</span></p> -->
-  <!-- <p>Muertos: <span id="deadCount">0</span></p> -->
+  
+<div>
+
+  <div id="stats"></div>
+    <div id="generationDisplay">
+    Etapa Actual: <span id="currentGenerationDisplay">1</span>
+  </div>
+
 </div>
 
+<div id="controls">
+  <h3>Configuración</h3>
+  <label for="numberOfChildrenLabel">Número de crías por hembra:</label>
+  <input type="number" id="numberOfChildren" value="5" min="1" />
+  <br />
+  <label for="gensToGetOldLabel">Etapas para envejecer:</label>
+  <input type="number" id="gensToGetOld" value="2" min="1" />
+  <br />
+  <button id="updateSettings">Actualizar Configuración</button>
+</div>
+
+
+  
   <script src="script.js"></script>
 </body>
 </html>
