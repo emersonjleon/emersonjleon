@@ -63,6 +63,15 @@ body {
   display: inline-block;
 }
 
+.color-circle {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
 /* .square:nth-child(odd) { */
 /*   background-color: #d3d3d3; /\* Claro *\/ */
 /* } */

@@ -92,15 +92,25 @@ function updateStats() {
   });
 
   statsDiv.innerHTML = `
-    <h3>Estadísticas</h3>
-    <p>Crías Hembras (Maíz): ${counts.maize}</p>
-    <p>Crías Machos (Lentejas): ${counts.lentil}</p>
-    <p>Adultos Hembras (Arvejas secas): ${counts.drypea}</p>
-    <p>Adultos Machos (Arvejas verdes): ${counts.greenpea}</p>
-    <p>Viejas Hembras (Garbanzos): ${counts.chickpea}</p>
-    <p>Viejos Machos (Frijoles): ${counts.bean}</p>
-    <p>Total Muertos: ${deadSeeds}</p>
-  `;
+  <h3>Estadísticas</h3>
+  <p><span class="color-circle" style="background-color: #FFD700;"></span> Crías Hembras (Maíz): ${counts.maize}</p>
+  <p><span class="color-circle" style="background-color: #8B4513;"></span> Crías Machos (Lentejas): ${counts.lentil}</p>
+  <p><span class="color-circle" style="background-color: #32CD32;"></span> Adultos Hembras (Arvejas secas): ${counts.drypea}</p>
+  <p><span class="color-circle" style="background-color: #006400;"></span> Adultos Machos (Arvejas verdes): ${counts.greenpea}</p>
+  <p><span class="color-circle" style="background-color: #FF6347;"></span> Viejas Hembras (Garbanzos): ${counts.chickpea}</p>
+  <p><span class="color-circle" style="background-color: #4B0082;"></span> Viejos Machos (Frijoles): ${counts.bean}</p>
+  <p><span class="color-circle" style="background-color: #000000;"></span> Total Muertos: ${deadSeeds}</p>
+`;
+  //   statsDiv.innerHTML = `
+  //   <h3>Estadísticas</h3>
+  //   <p>Crías Hembras (Maíz): ${counts.maize}</p>
+  //   <p>Crías Machos (Lentejas): ${counts.lentil}</p>
+  //   <p>Adultos Hembras (Arvejas secas): ${counts.drypea}</p>
+  //   <p>Adultos Machos (Arvejas verdes): ${counts.greenpea}</p>
+  //   <p>Viejas Hembras (Garbanzos): ${counts.chickpea}</p>
+  //   <p>Viejos Machos (Frijoles): ${counts.bean}</p>
+  //   <p>Total Muertos: ${deadSeeds}</p>
+  // `;
 }
 
 // // Actualizar las estadísticas
