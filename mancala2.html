@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mancala - Juego Funcional</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bubblegum+Sans&display=swap" rel="stylesheet">
+    <style>
+        /* Estilos mejorados y corregidos */
+        body {
+            font-family: 'Bubblegum Sans', cursive;
+            background: #f0d9b5;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .title {
+            font-size: 3em;
+            color: #8b4513;
+            text-shadow: 2px 2px #ffd700;
+            margin: 20px 0;
+        }
+
+        .board {
+            display: grid;
+            grid-template-columns: 100px repeat(6, 80px) 100px;
+            gap: 10px;
+            width: 900px;
+            margin: 20px auto;
+            background: #6b4226;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+
+        .store {
+            background: #deb887;
+            border: 5px solid #8b4513;
+            border-radius: 50px;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            position: relative;
+        }
+
+        .pit {
+            background: #deb887;
+            border: 3px solid #8b4513;
+            border-radius: 50%;
+            height: 80px;
+            width: 80px;
+            margin: 5px;
+            cursor: pointer;
+            position: relative;
+            transition: transform 0.2s;
+        }
+
+        .pit:hover {
+            transform: scale(1.1);
+        }
+
+        .player1 .pit {
+            border-color: #0000ff !important;
+        }
+
+        .player2 .pit {
+            border-color: #ff0000 !important;
+        }
+
+        .stone {
+            width: 15px;
+            height: 15px;
+            background: #fff;
+            border-radius: 50%;
+            position: absolute;
+            box-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+
+        .controls {
+            margin: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        button {
+            background: #8b4513;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 16px;
+        }
+
+        .rules {
+            max-width: 800px;
+            margin: 20px auto;
+            background: #fff3e6;
+            padding: 20px;
+            border-radius: 10px;
+            display: none;
+        }
+
+        .show-rules .rules {
+            display: block;
+        }
+
+        .turn-indicator {
+            font-size: 24px;
+            padding: 10px;
+            border-radius: 10px;
+            margin: 20px;
+        }
+
+        .player1-turn {
+            background: #0000ff33;
+            color: #0000ff;
+        }
+
+        .player2-turn {
+            background: #ff000033;
+            color: #ff0000;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="title">MANCALA</h1>
+    
+    <div class="turn-indicator" id="turn">Turno del Jugador 1</div>
+    
+    <div class="board" id="board"></div>
+    
+    <div class="controls">
+        <button onclick="game.newGame()">Nuevo Juego</button>
+        <button onclick="game.toggleNumbers()">Mostrar/Ocultar Números</button>
+        <button onclick="document.body.classList.toggle('show-rules')">Mostrar Reglas</button>
+    </div>
+
+    <div class="rules">
+        <h2>Historia y Reglas</h2>
+        <p>📜 Mancala es uno de los juegos más antiguos del mundo, con raíces en África y Asia. Su nombre viene del árabe "naqala" (mover).</p>
+        <h3>Reglas Básicas:</h3>
+        <ol>
+            <li>4 semillas en cada hoyo pequeño</li>
+            <li>Turnos alternados: toma todas las semillas de un hoyo y distribúyelas una por una</li>
+            <li>Si la última semilla cae en tu almacén: ¡juega de nuevo!</li>
+            <li>Captura semillas si terminas en un hoyo vacío de tu lado</li>
+            <li>Gana quien tenga más semillas al final</li>
+        </ol>
+    </div>
+
+    <script>
+        class Mancala {
+            constructor() {
+                this.showNumbers = true;
+                this.init();
+            }
+
+            init() {
+                this.pits = Array(14).fill(4);
+                this.pits[6] = this.pits[13] = 0; // Reset almacenes
+                this.currentPlayer = 1;
+                this.gameOver = false;
+                this.render();
+            }
+
+            render() {
+                const board = document.getElementById('board');
+                board.innerHTML = '';
+                
+                // Almacén Jugador 2 (lado derecho)
+                this.createStore(13, 2);
+
+                // Hoyos Jugador 2 (fila superior)
+                for (let i = 12; i >= 7; i--) {
+                    this.createPit(i, 2);
+                }
+
+                // Almacén Jugador 1 (lado izquierdo)
+                this.createStore(6, 1);
+
+                // Hoyos Jugador 1 (fila inferior)
+                for (let i = 0; i < 6; i++) {
+                    this.createPit(i, 1);
+                }
+
+                // Actualizar turno
+                const turn = document.getElementById('turn');
+                turn.className = `turn-indicator player${this.currentPlayer}-turn`;
+                turn.textContent = `Turno del Jugador ${this.currentPlayer}`;
+            }
+
+            createPit(index, player) {
+                const pit = document.createElement('div');
+                pit.className = `pit player${player}`;
+                
+                // Crear piedras visuales
+                const stoneContainer = document.createElement('div');
+                stoneContainer.style.position = 'relative';
+                stoneContainer.style.width = '100%';
+                stoneContainer.style.height = '100%';
+                
+                for (let i = 0; i < this.pits[index]; i++) {
+                    const stone = document.createElement('div');
+                    stone.className = 'stone';
+                    stone.style.left = `${Math.random() * 70 + 15}%`;
+                    stone.style.top = `${Math.random() * 70 + 15}%`;
+                    stoneContainer.appendChild(stone);
+                }
+
+                // Número de semillas
+                if (this.showNumbers) {
+                    const count = document.createElement('div');
+                    count.style.position = 'absolute';
+                    count.style.top = '50%';
+                    count.style.left = '50%';
+                    count.style.transform = 'translate(-50%, -50%)';
+                    count.style.fontSize = '24px';
+                    count.textContent = this.pits[index];
+                    pit.appendChild(count);
+                }
+
+                pit.appendChild(stoneContainer);
+                
+                if (!this.gameOver && 
+                   ((this.currentPlayer === 1 && index < 6) || 
+                    (this.currentPlayer === 2 && index > 6 && index < 13))) {
+                    pit.addEventListener('click', () => this.move(index));
+                }
+                
+                board.appendChild(pit);
+            }
+
+            createStore(index, player) {
+                const store = document.createElement('div');
+                store.className = `store player${player}`;
+                
+                // Piedras en almacén
+                const stoneContainer = document.createElement('div');
+                stoneContainer.style.position = 'relative';
+                stoneContainer.style.width = '100%';
+                stoneContainer.style.height = '100%';
+                
+                for (let i = 0; i < this.pits[index]; i++) {
+                    const stone = document.createElement('div');
+                    stone.className = 'stone';
+                    stone.style.width = '20px';
+                    stone.style.height = '20px';
+                    stone.style.left = `${Math.random() * 70 + 15}%`;
+                    stone.style.top = `${Math.random() * 70 + 15}%`;
+                    stoneContainer.appendChild(stone);
+                }
+
+                if (this.showNumbers) {
+                    const count = document.createElement('div');
+                    count.style.position = 'absolute';
+                    count.style.top = '50%';
+                    count.style.left = '50%';
+                    count.style.transform = 'translate(-50%, -50%)';
+                    count.style.fontSize = '40px';
+                    count.textContent = this.pits[index];
+                    store.appendChild(count);
+                }
+
+                store.appendChild(stoneContainer);
+                board.appendChild(store);
+            }
+
+            move(pitIndex) {
+                if (this.gameOver) return;
+
+                let seeds = this.pits[pitIndex];
+                if (seeds === 0) return;
+
+                this.pits[pitIndex] = 0;
+                let currentIndex = pitIndex;
+
+                while (seeds > 0) {
+                    currentIndex = (currentIndex + 1) % 14;
+                    // Saltar almacén contrario
+                    if ((this.currentPlayer === 1 && currentIndex === 13) || 
+                        (this.currentPlayer === 2 && currentIndex === 6)) continue;
+                    
+                    this.pits[currentIndex]++;
+                    seeds--;
+                }
+
+                // Capturar semillas
+                if (this.pits[currentIndex] === 1 && 
+                    ((this.currentPlayer === 1 && currentIndex < 6) || 
+                     (this.currentPlayer === 2 && currentIndex > 6 && currentIndex < 13))) {
+                    const oppositeIndex = 12 - currentIndex;
+                    this.pits[this.currentPlayer === 1 ? 6 : 13] += this.pits[oppositeIndex] + 1;
+                    this.pits[currentIndex] = 0;
+                    this.pits[oppositeIndex] = 0;
+                }
+
+                // Turno extra
+                if ((this.currentPlayer === 1 && currentIndex === 6) || 
+                    (this.currentPlayer === 2 && currentIndex === 13)) {
+                    this.render();
+                    return;
+                }
+
+                this.currentPlayer = this.currentPlayer === 1 ? 2 : 1;
+                this.checkGameOver();
+                this.render();
+            }
+
+            checkGameOver() {
+                const player1Empty = this.pits.slice(0, 6).every(p => p === 0);
+                const player2Empty = this.pits.slice(7, 13).every(p => p === 0);
+                
+                if (player1Empty || player2Empty) {
+                    this.gameOver = true;
+                    this.pits[6] += this.pits.slice(7, 13).reduce((a, b) => a + b, 0);
+                    this.pits[13] += this.pits.slice(0, 6).reduce((a, b) => a + b, 0);
+                    this.pits = this.pits.map((_, i) => (i === 6 || i === 13) ? this.pits[i] : 0);
+                    this.render();
+                    setTimeout(() => {
+                        alert(`¡Juego Terminado!\n\nPuntuación:\nJugador 1: ${this.pits[6]}\nJugador 2: ${this.pits[13]}`);
+                    }, 100);
+                }
+            }
+
+            newGame() {
+                this.init();
+            }
+
+            toggleNumbers() {
+                this.showNumbers = !this.showNumbers;
+                this.render();
+            }
+        }
+
+        // Iniciar juego
+        const game = new Mancala();
+    </script>
+</body>
+</html>
