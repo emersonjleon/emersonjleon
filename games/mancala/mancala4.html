@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mancala - Versión Definitiva</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bubblegum+Sans&display=swap" rel="stylesheet">
+    <style>
+        /* Estilos mejorados */
+        body {
+            font-family: 'Bubblegum Sans', cursive;
+            background: #f0d9b5;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .title {
+            font-size: 3em;
+            color: #8b4513;
+            text-shadow: 2px 2px #ffd700;
+            margin: 20px 0;
+        }
+
+        .board-container {
+            position: relative;
+            width: 900px;
+            margin: 100px auto;
+        }
+
+        .board {
+            display: grid;
+            grid-template-columns: 100px repeat(6, 1fr) 100px;
+            gap: 10px;
+            background: #6b4226;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+
+        .store {
+            background: #deb887;
+            border: 5px solid #8b4513;
+            border-radius: 50px;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        #store-player1 {
+            grid-column: 1;
+            grid-row: 1 / 3;
+        }
+
+        #store-player2 {
+            grid-column: 8;
+            grid-row: 1 / 3;
+        }
+
+        .pits-row {
+            display: contents;
+        }
+
+        .pit {
+            background: #deb887;
+            border: 3px solid #8b4513;
+            border-radius: 50%;
+            height: 80px;
+            width: 80px;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s;
+            overflow: hidden;
+        }
+
+        .pit.capturable {
+            background: #ffeb3b55;
+            border-color: #ff5722;
+        }
+
+        .player1 .pit {
+            border-color: #2e7d32 !important;
+        }
+
+        .player2 .pit {
+            border-color: #d84315 !important;
+        }
+
+        .stone {
+            width: 20px;
+            height: 20px;
+            background: #fe8;
+            border: 1px solid #5d4037;
+            border-radius: 50%;
+            position: absolute;
+            box-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            transition: transform 0.3s;
+        }
+
+        .count-number {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 24px;
+            color: #333;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .player1-number {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 24px;
+            color: #2e7d32;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+	.player2-number {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 24px;
+            color: #d84315;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+	
+        .turn-indicator {
+            position: absolute;
+            font-size: 24px;
+            padding: 10px 30px;
+            border-radius: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #00000022;
+        }
+
+        #turn-player1 {
+            bottom: -70px;
+            color: #2e7d32;
+            border: 2px solid #2e7d32;
+        }
+
+        #turn-player2 {
+            top: -70px;
+            color: #d84315;
+            border: 2px solid #d84315;
+        }
+	.controls {
+            margin: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        button {
+            background: #8b4513;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 16px;
+        }
+        .rules {
+            max-width: 800px;
+            margin: 20px auto;
+            background: #ffc396;
+            padding: 20px;
+            border-radius: 10px;
+            display: none;
+        }
+	.show-rules .rules {
+            display: block;
+        }
+
+
+    </style>
+</head>
+<body>
+    <h1 class="title">MANCALA</h1>
+    
+    <div class="board-container">
+        <div class="turn-indicator" id="turn-player2">Turno del Jugador 2</div>
+        <div class="board" id="board"></div>
+        <div class="turn-indicator" id="turn-player1">Turno del Jugador 1</div>
+    </div>
+
+    <div class="controls">
+      <button onclick="game.newGame()">Nuevo Juego</button>
+      <button onclick="game.toggleNumbers()">Mostrar/Ocultar Números</button>
+      <button onclick="document.body.classList.toggle('show-rules')">Mostrar Reglas</button>
+    </div>
+
+    <div class="rules">
+        <h2>Historia y Reglas</h2>
+        <p>📜 Mancala es uno de los juegos más antiguos del mundo, con raíces en África y Asia. Su nombre viene del árabe "naqala" (mover).</p>
+        <h3>Reglas Básicas:</h3>
+        <ol>
+            <li>4 semillas en cada hoyo pequeño al iniciar</li>
+            <li>Turnos alternados: toma todas las semillas de un hoyo de tu lado y distribúyelas una por una</li>
+            <li>Si la última semilla cae en tu almacén: ¡juega de nuevo!</li>
+            <li>Captura semillas del lado opuesto si terminas en un hoyo vacío de tu lado</li>
+            <li>Si alguien no puede mover, el otro recoge las semillas restantes</li>
+	    <li>Gana quien tenga más semillas al final</li>
+        </ol>
+	<a href="https://www.crazygames.com/game/mancala-classic">Versión 3D aquí</a>
+    </div>
+	    
+    <script>
+        class Mancala {
+            constructor() {
+                this.showNumbers = true;
+                this.stonePositions = Array(14).fill().map(() => []);
+                this.init();
+            }
+
+            init() {
+                this.pits = Array(14).fill(4);
+                this.pits[6] = this.pits[13] = 0; // Almacenes
+                this.currentPlayer = 1;
+                this.gameOver = false;
+                this.generateStonePositions();
+                this.render();
+            }
+
+            generateStonePositions() {
+                this.stonePositions = this.pits.map((count, index) => {
+                    return Array(count).fill().map(() => ({
+                        x: Math.random() * 50 + 15,
+                        y: Math.random() * 50 + 15
+                    }));
+                });
+            }
+
+            updateStonePositions(index, newCount) {
+                const current = this.stonePositions[index];
+                if (newCount > current.length) {
+                    // Añadir nuevas posiciones
+                    const needed = newCount - current.length;
+                    for (let i = 0; i < needed; i++) {
+                        current.push({
+                            x: Math.random() * 50 + 15,
+                            y: Math.random() * 50 + 15
+                        });
+                    }
+                } else {
+                    // Recortar el array
+                    this.stonePositions[index] = current.slice(0, newCount);
+                }
+            }
+
+            render() {
+                const board = document.getElementById('board');
+                board.innerHTML = '';
+                
+                // Almacenes
+                this.createStore(6, 2);
+                this.createStore(13, 1);
+
+                // Hoyos Jugador 2 (fila superior)
+                const topRow = document.createElement('div');
+                topRow.className = 'pits-row';
+                for (let i = 12; i >= 7; i--) {
+                    this.createPit(i, 2, topRow);
+                }
+                board.appendChild(topRow);
+
+                // Hoyos Jugador 1 (fila inferior)
+                const bottomRow = document.createElement('div');
+                bottomRow.className = 'pits-row';
+                for (let i = 0; i < 6; i++) {
+                    this.createPit(i, 1, bottomRow);
+                }
+                board.appendChild(bottomRow);
+
+                // Actualizar indicadores
+                document.getElementById('turn-player1').style.display = this.currentPlayer === 1 ? 'block' : 'none';
+                document.getElementById('turn-player2').style.display = this.currentPlayer === 2 ? 'block' : 'none';
+            }
+
+            createPit(index, player, container) {
+                const pit = document.createElement('div');
+                pit.className = `pit player${player}`;
+                
+                // Actualizar posiciones
+                this.updateStonePositions(index, this.pits[index]);
+                
+                // Renderizar piedras
+                this.stonePositions[index].forEach(pos => {
+                    const stone = document.createElement('div');
+                    stone.className = 'stone';
+                    stone.style.left = `${pos.x}%`;
+                    stone.style.top = `${pos.y}%`;
+                    pit.appendChild(stone);
+                });
+
+                // Número
+                if (this.showNumbers) {
+                    const count = document.createElement('div');
+                    count.className = 'count-number';
+                    count.textContent = this.pits[index];
+                    pit.appendChild(count);
+                }
+
+                if (!this.gameOver && this.isPlayablePit(index)) {
+                    pit.addEventListener('click', () => this.move(index));
+                }
+                
+                container.appendChild(pit);
+            }
+
+            createStore(index, player) {
+                const store = document.createElement('div');
+                store.className = `store`;
+                store.id = `store-player${player}`;
+                
+                // Actualizar posiciones
+                this.updateStonePositions(index, this.pits[index]);
+                
+                // Renderizar piedras
+                this.stonePositions[index].forEach(pos => {
+                    const stone = document.createElement('div');
+                    stone.className = 'stone';
+                    stone.style.width = '25px';
+                    stone.style.height = '25px';
+                    stone.style.left = `${pos.x}%`;
+                    stone.style.top = `${pos.y}%`;
+                    store.appendChild(stone);
+                });
+
+                if (this.showNumbers) {
+                    const count = document.createElement('div');
+		    if (player===2){
+			count.className = 'player1-number';
+		    } else {
+			count.className = 'player2-number';
+		    }
+                    count.style.fontSize = '40px';
+                    count.textContent = this.pits[index];
+                    store.appendChild(count);
+                }
+
+                board.appendChild(store);
+            }
+
+            move(pitIndex) {
+                if (this.gameOver || !this.isPlayablePit(pitIndex)) return;
+
+                let seeds = this.pits[pitIndex];
+                if (seeds === 0) return;
+
+                this.pits[pitIndex] = 0;
+                let currentIndex = pitIndex;
+                let capturePits = [];
+
+                // Distribuir semillas
+                while (seeds > 0) {
+                    currentIndex = (currentIndex + 1) % 14;
+                    if (this.isOpponentStore(currentIndex)) continue;
+                    
+                    this.pits[currentIndex]++;
+                    seeds--;
+                }
+
+                // Verificar captura
+                if (this.shouldCapture(currentIndex)) {
+                    const oppositeIndex = 12 - currentIndex;
+		    if (this.pits[oppositeIndex]>0){
+			capturePits = [currentIndex, oppositeIndex];
+                    
+			this.pits[this.currentPlayerStore()] += this.pits[oppositeIndex] + 1;
+			this.pits[currentIndex] = 0;
+			this.pits[oppositeIndex] = 0;
+		    }
+                }
+
+                // Efecto visual de captura
+                this.highlightCapture(capturePits);
+
+                // Cambiar turno si no hay turno extra
+                if (!this.hasExtraTurn(currentIndex)) {
+                    this.currentPlayer = this.currentPlayer === 1 ? 2 : 1;
+                }
+
+                this.checkGameOver();
+                this.render();
+            }
+
+            highlightCapture(pits) {
+                pits.forEach(index => {
+                    const pit = document.querySelectorAll('.pit')[index];
+                    if (pit) {
+                        pit.classList.add('capturable');
+                        setTimeout(() => pit.classList.remove('capturable'), 1000);
+                    }
+                });
+            }
+
+            currentPlayerStore() {
+                return this.currentPlayer === 1 ? 6 : 13;
+            }
+
+            isPlayablePit(index) {
+                return (this.currentPlayer === 1 && index < 6) || 
+                       (this.currentPlayer === 2 && index > 6 && index < 13);
+            }
+
+            isOpponentStore(index) {
+                return (this.currentPlayer === 1 && index === 13) || 
+                       (this.currentPlayer === 2 && index === 6);
+            }
+
+            shouldCapture(index) {
+                return this.pits[index] === 1 && 
+                       ((this.currentPlayer === 1 && index < 6) || 
+                        (this.currentPlayer === 2 && index > 6 && index < 13));
+            }
+
+            hasExtraTurn(index) {
+                return index === this.currentPlayerStore();
+            }
+
+            checkGameOver() {
+                const player1Empty = this.pits.slice(0, 6).every(p => p === 0);
+                const player2Empty = this.pits.slice(7, 13).every(p => p === 0);
+                
+                if (player1Empty || player2Empty) {
+                    this.gameOver = true;
+                    this.pits[6] += this.pits.slice(0, 6).reduce((a, b) => a + b, 0);
+                    this.pits[13] += this.pits.slice(7, 13).reduce((a, b) => a + b, 0);
+                    this.pits = this.pits.map((_, i) => (i === 6 || i === 13) ? this.pits[i] : 0);
+                    this.render();
+                    setTimeout(() => {
+                        alert(`¡Juego Terminado!\nPuntuación:\nJugador 1: ${this.pits[6]}\nJugador 2: ${this.pits[13]}`);
+                    }, 100);
+                }
+            }
+
+            newGame() {
+                this.init();
+            }
+	    toggleNumbers() {
+                this.showNumbers = !this.showNumbers;
+                this.render();
+            }
+
+        }
+
+        const game = new Mancala();
+    </script>
+</body>
+</html>
