@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Queens Battle</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: #f0d9b5;
+            font-family: 'Cinzel', serif;
+        }
+        
+        .title {
+            font-family: 'Cinzel', serif;
+            font-size: 2.5em;
+            color: #6b4226;
+            margin: 20px;
+        }
+        
+        .board {
+            display: grid;
+            gap: 1px;
+            background: #6b4226;
+            padding: 5px;
+            border: 3px solid #6b4226;
+            border-radius: 5px;
+        }
+        
+        .cell {
+            width: 50px;
+            height: 50px;
+            background-size: cover;
+            position: relative;
+        }
+        
+        .queen1 {
+            background-image: url('dark-queen.png'); /* Add dark queen image */
+        }
+        
+        .queen2 {
+            background-image: url('light-queen.png'); /* Add light queen image */
+        }
+        
+        .wall {
+            background-image: url('stone-wall.png'); /* Add stone wall image */
+        }
+        
+        .controls {
+            margin: 20px;
+            display: flex;
+            gap: 10px;
+        }
+        
+        .banner {
+            font-size: 1.5em;
+            padding: 10px 20px;
+            border-radius: 5px;
+            opacity: 0.5;
+            transition: opacity 0.3s;
+        }
+        
+        .active {
+            opacity: 1;
+        }
+        
+        button {
+            padding: 10px 20px;
+            background: #6b4226;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <h1 class="title">Queens Battle</h1>
+    <div class="controls">
+        <input type="number" id="rows" placeholder="Rows" value="8">
+        <input type="number" id="cols" placeholder="Columns" value="8">
+        <button onclick="initGame()">New Game</button>
+        <button onclick="toggleRandom()">Toggle Random</button>
+    </div>
+    <div id="banner1" class="banner" style="background: #6b4226;">Player 1</div>
+    <div class="board" id="board"></div>
+    <div id="banner2" class="banner" style="background: #b58863;">Player 2</div>
+
+    <script>
+        let gameState = {
+            board: [],
+            queens: { p1: [], p2: [] },
+            currentPlayer: 1,
+            randomMode: false,
+            selectedQueen: null,
+            walls: new Set()
+        };
+
+        function initGame() {
+            const rows = parseInt(document.getElementById('rows').value);
+            const cols = parseInt(document.getElementById('cols').value);
+            
+            gameState = {
+                board: Array(rows).fill().map(() => Array(cols).fill(0)),
+                queens: {
+                    p1: [[rows-1, 0], [rows-1, 1], [rows-1, cols-2], [rows-1, cols-1]],
+                    p2: [[0, 0], [0, 1], [0, cols-2], [0, cols-1]]
+                },
+                currentPlayer: 1,
+                selectedQueen: null,
+                walls: new Set()
+            };
+
+            // Initialize board
+            const board = document.getElementById('board');
+            board.style.gridTemplateColumns = `repeat(${cols}, 50px)`;
+            board.innerHTML = '';
+            
+            for(let i = 0; i < rows; i++) {
+                for(let j = 0; j < cols; j++) {
+                    const cell = document.createElement('div');
+                    cell.className = `cell ${(i + j) % 2 ? 'light' : 'dark'}`;
+                    cell.dataset.row = i;
+                    cell.dataset.col = j;
+                    cell.addEventListener('click', handleClick);
+                    board.appendChild(cell);
+                }
+            }
+
+            updateBoard();
+            updateBanners();
+        }
+
+        function updateBanners() {
+            document.getElementById('banner1').classList.toggle('active', gameState.currentPlayer === 1);
+            document.getElementById('banner2').classList.toggle('active', gameState.currentPlayer === 2);
+        }
+
+        function updateBoard() {
+            document.querySelectorAll('.cell').forEach(cell => {
+                cell.className = cell.className.replace(/ queen\d| wall/g, '');
+                const row = parseInt(cell.dataset.row);
+                const col = parseInt(cell.dataset.col);
+                
+                if(gameState.walls.has(`${row},${col}`)) {
+                    cell.classList.add('wall');
+                }
+                
+                gameState.queens.p1.forEach(pos => {
+                    if(pos[0] === row && pos[1] === col) cell.classList.add('queen1');
+                });
+                
+                gameState.queens.p2.forEach(pos => {
+                    if(pos[0] === row && pos[1] === col) cell.classList.add('queen2');
+                });
+            });
+        }
+
+        function handleClick(e) {
+            if(gameState.randomMode) return;
+            
+            const row = parseInt(e.target.dataset.row);
+            const col = parseInt(e.target.dataset.col);
+            
+            if(!gameState.selectedQueen) {
+                const queens = gameState.currentPlayer === 1 ? gameState.queens.p1 : gameState.queens.p2;
+                const queenIndex = queens.findIndex(pos => pos[0] === row && pos[1] === col);
+                if(queenIndex > -1) {
+                    gameState.selectedQueen = { index: queenIndex, startPos: [...queens[queenIndex]] };
+                }
+            } else {
+                const validMoves = getValidMoves(gameState.selectedQueen.startPos);
+                if(validMoves.some(([r, c]) => r === row && c === col)) {
+                    moveQueen(gameState.selectedQueen.index, [row, col]);
+                    gameState.selectedQueen = null;
+                    if(gameState.randomMode) setTimeout(computerMove, 200);
+                }
+            }
+        }
+
+        function getValidMoves([startRow, startCol]) {
+            const moves = [];
+            const directions = [
+                [-1, 0], [1, 0], [0, -1], [0, 1],
+                [-1, -1], [-1, 1], [1, -1], [1, 1]
+            ];
+
+            directions.forEach(([dr, dc]) => {
+                let r = startRow + dr;
+                let c = startCol + dc;
+                while(r >= 0 && r < gameState.board.length && 
+                      c >= 0 && c < gameState.board[0].length) {
+                    if(isValidPosition(r, c)) {
+                        moves.push([r, c]);
+                        r += dr;
+                        c += dc;
+                    } else {
+                        break;
+                    }
+                }
+            });
+
+            return moves;
+        }
+
+        function isValidPosition(r, c) {
+            return !gameState.walls.has(`${r},${c}`) &&
+                   !gameState.queens.p1.some(pos => pos[0] === r && pos[1] === c) &&
+                   !gameState.queens.p2.some(pos => pos[0] === r && pos[1] === c);
+        }
+
+        function moveQueen(queenIndex, newPos) {
+            const player = `p${gameState.currentPlayer}`;
+            gameState.queens[player][queenIndex] = newPos;
+            placeWall(newPos);
+            checkWinner();
+            gameState.currentPlayer = 3 - gameState.currentPlayer;
+            updateBanners();
+            updateBoard();
+        }
+
+        function placeWall(pos) {
+            // Simplified wall placement logic
+            const directions = [
+                [-1, 0], [1, 0], [0, -1], [0, 1],
+                [-1, -1], [-1, 1], [1, -1], [1, 1]
+            ];
+            
+            directions.forEach(([dr, dc]) => {
+                let r = pos[0] + dr;
+                let c = pos[1] + dc;
+                while(r >= 0 && r < gameState.board.length && 
+                      c >= 0 && c < gameState.board[0].length) {
+                    if(isValidPosition(r, c)) {
+                        gameState.walls.add(`${r},${c}`);
+                        return;
+                    }
+                    r += dr;
+                    c += dc;
+                }
+            });
+        }
+
+        function checkWinner() {
+            // Implement winner checking logic here
+        }
+
+        function toggleRandom() {
+            gameState.randomMode = !gameState.randomMode;
+            if(gameState.randomMode) computerMove();
+        }
+
+        function computerMove() {
+            if(!gameState.randomMode) return;
+            
+            // Simplified random move logic
+            const player = `p${gameState.currentPlayer}`;
+            const queenIndex = Math.floor(Math.random() * 4);
+            const validMoves = getValidMoves(gameState.queens[player][queenIndex]);
+            
+            if(validMoves.length > 0) {
+                const move = validMoves[Math.floor(Math.random() * validMoves.length)];
+                moveQueen(queenIndex, move);
+            }
+            
+            if(gameState.randomMode) setTimeout(computerMove, 200);
+        }
+
+        initGame();
+    </script>
+</body>
+</html>

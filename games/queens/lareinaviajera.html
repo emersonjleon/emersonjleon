@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>La reina viajera</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: #f0d9b5;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            min-height: 100vh;
+        }
+
+        .title {
+            font-size: 2.5em;
+            color: #6b4226;
+            margin: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .board {
+            display: grid;
+            gap: 1px;
+            background: #000;
+            padding: 5px;
+            border: 3px solid #6b4226;
+            border-radius: 5px;
+            margin: 20px 0;
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+        }
+
+        .cell {
+            width: 40px;
+            height: 40px;
+            background: #b58863;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s;
+        }
+
+        .cell.light { background: #f0d9b5; }
+        .cell.selected-queen { box-shadow: 0 0 10px yellow !important; z-index: 1; }
+        .valid-move { background: rgba(150, 255,150, 0.6) !important; }
+        .valid-fire { background: rgba(255, 165, 0, 0.6) !important; }
+
+        .queen {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            box-shadow: 0 0 5px rgba(0,0,0,0.5);
+            position: relative;
+        }
+
+        .queen.p1 { background: #2d1a0f; }
+        .queen.p2 { background: #e6d8c8; }
+
+        .wall {
+            background: #666 !important;
+            position: relative;
+        }
+
+        .wall::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(45deg, transparent, transparent 2px, #fff 2px, #fff 4px);
+            opacity: 0.3;
+        }
+
+        .destroyed-queen {
+            background: #444 !important;
+            animation: fadeOut 0.3s forwards;
+        }
+
+        @keyframes fadeOut {
+            to { opacity: 0.5; }
+        }
+
+        .controls {
+            margin: 20px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        button {
+            padding: 10px 20px;
+            background: #6b4226;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        button:hover { background: #8b5e3c; }
+
+        .banner {
+            font-size: 1.2em;
+            padding: 10px 30px;
+            background: #6b4226;
+            color: white;
+            border-radius: 5px;
+            margin: 10px;
+            min-width: 200px;
+            text-align: center;
+        }
+	.rules {
+            max-width: 600px;
+            /* margin: 20px auto; */
+            background: #ffd3a6;
+            /* padding: 20px; */
+            /* border-radius: 10px; */
+            /* display: none; */
+	    text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="title">La Reina Viajera</h1>
+    <div class="controls">
+      <input type="number" id="rows" value="9" min="4" style="width: 60px;">
+      <input type="number" id="cols" value="12" min="4" style="width: 60px;">
+      <button onclick="initGame()">Nuevo Juego</button>
+      
+        <button onclick="toggleAuto(1)" id="auto1">Auto P1</button>
+        <button onclick="toggleAuto(2)" id="auto2">Auto P2</button>
+    </div>
+    <div class="banner" id="status">Player 1's Turn</div>
+    <div class="board" id="board"></div>
+    <div class="rules">
+        
+        <p>📜 Gana el jugador que lleve la reina a la esquina inferior derecha del tablero.  </p>
+        <p>  En cada turno la reina debe acercarse al objetivo, moviendose hacia abajo, a la derecha o en diagonal (hacia abajo a la derecha). </p>
+    </div>
+
+    <script>
+        let game = {
+            rows: 9,
+            cols: 12,
+            board: [],
+            queen: [],
+            currentPlayer: 1,
+            auto: { 1: false, 2: false },
+            validTargets: [],
+            winner: null
+        };
+
+        function initGame() {
+            game.rows = Math.max(4, parseInt(document.getElementById('rows').value));
+            game.cols = Math.max(4, parseInt(document.getElementById('cols').value));
+            game.board = Array(game.rows).fill().map(() => Array(game.cols).fill(0));
+            // game.queens = {
+            //     1: [[game.rows-1, 0], [game.rows-1, 1], [game.rows-1, game.cols-2], [game.rows-1, game.cols-1]],
+            //     2: [[0, 0], [0, 1], [0, game.cols-2], [0, game.cols-1]]
+            // };
+	    game.thequeen = [0, 0]
+            game.currentPlayer = 1;
+            game.validTargets = [];
+            game.winner = null;
+            
+            renderBoard();
+            updateStatus(`Turno del Jugador 1`);
+        }
+
+        function renderBoard() {
+            const board = document.getElementById('board');
+            board.style.gridTemplateColumns = `repeat(${game.cols}, 40px)`;
+            board.innerHTML = '';
+            
+            for(let i = 0; i < game.rows; i++) {
+                for(let j = 0; j < game.cols; j++) {
+                    const cell = document.createElement('div');
+                    cell.className = `cell ${(i + j) % 2 ? 'light' : ''}`;
+                    cell.dataset.row = i;
+                    cell.dataset.col = j;
+                    
+                  
+                    // const queen1 = game.queens[1].some(pos => pos[0] === i && pos[1] === j);
+                    // const queen2 = game.queens[2].some(pos => pos[0] === i && pos[1] === j);
+                    
+                    if(game.thequeen[0]===i &&  game.thequeen[1]==j ) {
+                        const queenPlace = document.createElement('div');
+                        queenPlace.className = `queen p${game.currentPlayer}`;
+                        cell.appendChild(queenPlace);
+                    }
+                    
+                    if(game.validTargets.some(([r,c]) => r === i && c === j)) {
+                        cell.classList.add('valid-fire');
+                    }
+                    
+                    cell.addEventListener('click', () => handleClick(i, j));
+                    board.appendChild(cell);
+                }
+            }
+        }
+
+        function handleClick(row, col) {
+            if(game.winner || game.auto[game.currentPlayer]) return;
+	    
+            game.validTargets = getValidMoves();
+	    // arrayOfLists.some(list => list.toString() === listToCheck.toString());
+            if(game.validTargets.some(([r,c]) => r === row && c === col)) {
+	    
+		moveQueen(row, col)
+		endTurn()
+		
+	    }
+	    // updateStatus(`${game.validTargets.map(l => l.toString() )}, ${game.thequeen.toString()}`);
+            // renderBoard();
+        } 
+      
+        function getValidMoves() {
+            const [row, col] = game.thequeen;
+            const moves = [];
+            const directions = [0,1].flatMap(dx => [0,1].map(dy => [dx, dy])).filter(([x,y]) => x || y);
+
+            directions.forEach(([dx, dy]) => {
+                let x = row + dx, y = col + dy;
+                while(x >= 0 && x < game.rows && y >= 0 && y < game.cols) {
+                    moves.push([x, y]);
+                    x += dx;
+                    y += dy;
+                }
+            });
+            return moves;
+        }
+
+
+        function moveQueen(x, y) {
+            game.thequeen = [x, y];
+	    game.validTargets = getValidMoves();
+        }
+
+
+        function endTurn() {
+            
+            game.currentPlayer = 3 - game.currentPlayer;
+            checkWinner();
+            
+            if(!game.winner) {
+                updateStatus(`Turno del Jugador ${game.currentPlayer}`);
+                if(game.auto[game.currentPlayer]) setTimeout(computerTurn, 500);
+            }
+	    renderBoard();
+        }
+
+      
+        async function computerTurn() {
+            if(game.winner) return;
+
+            // Move phase
+
+	    
+            // const queenIndex = Math.floor(Math.random() * game.queens[game.currentPlayer].length);
+	    const moves = getValidMoves();
+
+	    // while(moves.length == 0){
+	    // 	const queenIndex = Math.floor(Math.random() * game.queens[game.currentPlayer].length);
+	    // 	const moves = getValidMoves(queenIndex);
+	    // }
+	    
+            if(moves.length > 0) {
+                const [x, y] = moves[Math.floor(Math.random() * moves.length)];
+                moveQueen(x, y);
+                //renderBoard();
+            } 
+            
+            endTurn();
+        }
+
+        function checkWinner() {
+            if(game.thequeen[0]=== (game.rows-1) && game.thequeen[1] === (game.cols-1)) {
+		game.winner =  3 - game.currentPlayer;
+                updateStatus(`Gana el Jugador ${game.winner}!`);
+                return;
+            }
+        }
+
+        function toggleAuto(player) {
+            game.auto[player] = !game.auto[player];
+            document.getElementById(`auto${player}`).style.background = 
+                game.auto[player] ? '#4CAF50' : '#6b4226';
+            if(game.auto[player]&& player==game.currentPlayer && !game.winner) computerTurn();
+        }
+
+        function updateStatus(text) {
+            document.getElementById('status').textContent = text;
+        }
+
+        // Initialize the game
+        initGame();
+    </script>
+</body>
+</html>

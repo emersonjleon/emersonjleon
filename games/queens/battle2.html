@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Queens Battle</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: #f0d9b5;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            min-height: 100vh;
+        }
+
+        .title {
+            font-size: 2.5em;
+            color: #6b4226;
+            margin: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .board {
+            display: grid;
+            gap: 1px;
+            background: #000;
+            padding: 5px;
+            border: 3px solid #6b4226;
+            border-radius: 5px;
+            margin: 20px 0;
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+        }
+
+        .cell {
+            width: 40px;
+            height: 40px;
+            background: #b58863;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s;
+        }
+
+        .cell.light { background: #f0d9b5; }
+        .cell.selected-queen { box-shadow: 0 0 10px yellow !important; z-index: 1; }
+        .valid-move { background: rgba(150, 255,150, 0.6) !important; }
+        .valid-fire { background: rgba(255, 165, 0, 0.6) !important; }
+
+        .queen {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            box-shadow: 0 0 5px rgba(0,0,0,0.5);
+            position: relative;
+        }
+
+        .queen.p1 { background: #2d1a0f; }
+        .queen.p2 { background: #e6d8c8; }
+
+        .wall {
+            background: #666 !important;
+            position: relative;
+        }
+
+        .wall::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(45deg, transparent, transparent 2px, #fff 2px, #fff 4px);
+            opacity: 0.3;
+        }
+
+        .destroyed-queen {
+            background: #444 !important;
+            animation: fadeOut 0.3s forwards;
+        }
+
+        @keyframes fadeOut {
+            to { opacity: 0.5; }
+        }
+
+        .controls {
+            margin: 20px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        button {
+            padding: 10px 20px;
+            background: #6b4226;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        button:hover { background: #8b5e3c; }
+
+        .banner {
+            font-size: 1.2em;
+            padding: 10px 30px;
+            background: #6b4226;
+            color: white;
+            border-radius: 5px;
+            margin: 10px;
+            min-width: 200px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="title">Queens Battle</h1>
+    <div class="controls">
+        <input type="number" id="rows" value="8" min="4" style="width: 60px;">
+        <input type="number" id="cols" value="8" min="4" style="width: 60px;">
+        <button onclick="initGame()">New Game</button>
+        <button onclick="toggleAuto(1)" id="auto1">Auto P1</button>
+        <button onclick="toggleAuto(2)" id="auto2">Auto P2</button>
+    </div>
+    <div class="banner" id="status">Player 1's Turn</div>
+    <div class="board" id="board"></div>
+
+    <script>
+        let game = {
+            rows: 8,
+            cols: 8,
+            board: [],
+            queens: { 1: [], 2: [] },
+            walls: new Set(),
+            currentPlayer: 1,
+            auto: { 1: false, 2: false },
+            phase: 'move',
+            activeQueen: null,
+            validTargets: [],
+            winner: null
+        };
+
+        function initGame() {
+            game.rows = Math.max(4, parseInt(document.getElementById('rows').value));
+            game.cols = Math.max(4, parseInt(document.getElementById('cols').value));
+            game.board = Array(game.rows).fill().map(() => Array(game.cols).fill(0));
+            game.queens = {
+                1: [[game.rows-1, 0], [game.rows-1, 1], [game.rows-1, game.cols-2], [game.rows-1, game.cols-1]],
+                2: [[0, 0], [0, 1], [0, game.cols-2], [0, game.cols-1]]
+            };
+            game.walls = new Set();
+            game.currentPlayer = 1;
+            game.activeQueen = null;
+            game.validTargets = [];
+            game.winner = null;
+            
+            renderBoard();
+            updateStatus(`Player 1's Turn`);
+        }
+
+        function renderBoard() {
+            const board = document.getElementById('board');
+            board.style.gridTemplateColumns = `repeat(${game.cols}, 40px)`;
+            board.innerHTML = '';
+            
+            for(let i = 0; i < game.rows; i++) {
+                for(let j = 0; j < game.cols; j++) {
+                    const cell = document.createElement('div');
+                    cell.className = `cell ${(i + j) % 2 ? 'light' : ''}`;
+                    cell.dataset.row = i;
+                    cell.dataset.col = j;
+                    
+                    if(game.walls.has(`${i},${j}`)) cell.classList.add('wall');
+                    
+                    const queen1 = game.queens[1].some(pos => pos[0] === i && pos[1] === j);
+                    const queen2 = game.queens[2].some(pos => pos[0] === i && pos[1] === j);
+                    
+                    if(queen1 || queen2) {
+                        const queen = document.createElement('div');
+                        queen.className = `queen p${queen1 ? 1 : 2}`;
+                        cell.appendChild(queen);
+                    }
+                    
+                    if(game.activeQueen) {
+                        const [qRow, qCol] = game.queens[game.activeQueen.player][game.activeQueen.index];
+                        if(i === qRow && j === qCol) cell.classList.add('selected-queen');
+                    }
+                    
+                    if(game.validTargets.some(([r,c]) => r === i && c === j)) {
+                        cell.classList.add(game.phase === 'move' ? 'valid-move' : 'valid-fire');
+                    }
+                    
+                    cell.addEventListener('click', () => handleClick(i, j));
+                    board.appendChild(cell);
+                }
+            }
+        }
+
+        function handleClick(row, col) {
+            if(game.winner || game.auto[game.currentPlayer]) return;
+
+            if(game.phase === 'move') {
+                if(!game.activeQueen) {
+                    const queenIndex = game.queens[game.currentPlayer].findIndex(pos => 
+                        pos[0] === row && pos[1] === col
+                    );
+                    if(queenIndex > -1) {
+                        game.activeQueen = {
+                            player: game.currentPlayer,
+                            index: queenIndex,
+                            originalPos: [...game.queens[game.currentPlayer][queenIndex]]
+                        };
+                        game.validTargets = getValidMoves(queenIndex);
+                        updateStatus(`Player ${game.currentPlayer} moves`);
+                        renderBoard();
+                    }
+                } else {
+                    if(game.validTargets.some(([r,c]) => r === row && c === col)) {
+                        moveQueen(row, col);
+                        game.phase = 'fire';
+                        game.validTargets = getFireTargets(row, col);
+                        if(game.validTargets.length === 0) destroyQueen();
+                        else updateStatus(`Player ${game.currentPlayer} fires!`);
+                        renderBoard();
+                    }
+                }
+            } else if(game.phase === 'fire') {
+                if(game.validTargets.some(([r,c]) => r === row && c === col)) {
+                    placeWall(row, col);
+		    endTurn();
+		    renderBoard();
+                 
+                }
+            }
+        }
+
+        function getValidMoves(queenIndex) {
+            const [row, col] = game.queens[game.currentPlayer][queenIndex];
+            const moves = [];
+            const directions = [-1,0,1].flatMap(dx => [-1,0,1].map(dy => [dx, dy])).filter(([x,y]) => x || y);
+
+            directions.forEach(([dx, dy]) => {
+                let x = row + dx, y = col + dy;
+                while(x >= 0 && x < game.rows && y >= 0 && y < game.cols) {
+                    if(!isValidPosition(x, y)) break;
+                    moves.push([x, y]);
+                    x += dx;
+                    y += dy;
+                }
+            });
+            return moves;
+        }
+
+        function isValidPosition(x, y) {
+            return !game.walls.has(`${x},${y}`) &&
+                   !game.queens[1].some(pos => pos[0] === x && pos[1] === y) &&
+                   !game.queens[2].some(pos => pos[0] === x && pos[1] === y);
+        }
+
+        function moveQueen(x, y) {
+            game.queens[game.activeQueen.player][game.activeQueen.index] = [x, y];
+        }
+
+        function getFireTargets(x, y) {
+            const targets = [];
+            const directions = [-1,0,1].flatMap(dx => [-1,0,1].map(dy => [dx, dy])).filter(([x,y]) => x || y);
+
+            directions.forEach(([dx, dy]) => {
+                let wx = x + dx, wy = y + dy;
+                while(wx >= 0 && wx < game.rows && wy >= 0 && wy < game.cols) {
+                    if(isValidPosition(wx, wy)) {
+                        targets.push([wx, wy]);
+                        break;
+                    }
+                    if(game.walls.has(`${wx},${wy}`) || 
+                       game.queens[1].some(pos => pos[0] === wx && pos[1] === wy) ||
+                       game.queens[2].some(pos => pos[0] === wx && pos[1] === wy)) break;
+                    wx += dx;
+                    wy += dy;
+                }
+            });
+            return targets;
+        }
+
+        function placeWall(x, y) {
+            game.walls.add(`${x},${y}`);
+        }
+
+        function destroyQueen() {
+            const [x, y] = game.queens[game.activeQueen.player][game.activeQueen.index];
+            game.queens[game.activeQueen.player].splice(game.activeQueen.index, 1);
+            game.walls.add(`${x},${y}`);
+            
+            document.querySelectorAll(`[data-row="${x}"][data-col="${y}"]`).forEach(cell => {
+                cell.classList.add('destroyed-queen', 'wall');
+            });
+            
+            setTimeout(() => {
+                game.activeQueen = null;
+                game.validTargets = [];
+                endTurn();
+            }, 300);
+        }
+
+        function endTurn() {
+            game.phase = 'move';
+            game.activeQueen = null;
+            game.validTargets = [];
+            game.currentPlayer = 3 - game.currentPlayer;
+            
+            checkWinner();
+            if(!game.winner) {
+                updateStatus(`Player ${game.currentPlayer}'s Turn`);
+                if(game.auto[game.currentPlayer]) setTimeout(computerTurn, 100);
+            }
+        }
+
+        function getRandomQueenWithMoves(player) {
+	    // Get all queen indices with valid moves
+	    const availableQueens = game.queens[player]
+		  .map((_, index) => index) // Create array of indices [0,1,2,3]
+		  .filter(index => {
+		      const moves = getValidMoves(index);
+		      return moves.length > 0;
+		  });
+	  
+	    // Return random queen index or -1 if none available
+	    return availableQueens.length > 0 
+		? availableQueens[Math.floor(Math.random() * availableQueens.length)]
+		: -1;
+	}
+      
+        async function computerTurn() {
+            if(game.winner || game.queens[game.currentPlayer].length === 0) return;
+
+            // Move phase
+
+	    
+            // const queenIndex = Math.floor(Math.random() * game.queens[game.currentPlayer].length);
+	    const queenIndex = getRandomQueenWithMoves(game.currentPlayer);
+            const moves = getValidMoves(queenIndex);
+
+	    // while(moves.length == 0){
+	    // 	const queenIndex = Math.floor(Math.random() * game.queens[game.currentPlayer].length);
+	    // 	const moves = getValidMoves(queenIndex);
+	    // }
+	    
+            if(moves.length > 0) {
+                const [x, y] = moves[Math.floor(Math.random() * moves.length)];
+                game.activeQueen = {
+                    player: game.currentPlayer,
+                    index: queenIndex,
+                    originalPos: [...game.queens[game.currentPlayer][queenIndex]]
+                };
+                moveQueen(x, y);
+                renderBoard();
+                
+                await new Promise(resolve => setTimeout(resolve, 100));
+                
+                // Fire phase
+                const fireTargets = getFireTargets(x, y);
+                if(fireTargets.length > 0) {
+                    const [wx, wy] = fireTargets[Math.floor(Math.random() * fireTargets.length)];
+                    placeWall(wx, wy);
+                    renderBoard();
+                    await new Promise(resolve => setTimeout(resolve, 100));
+                } 
+            } // else {
+            //         destroyQueen();
+            //         await new Promise(resolve => setTimeout(resolve, 300));
+            // }
+            
+            endTurn();
+        }
+
+        function checkWinner() {
+            const p1Alive = game.queens[1].length > 0;
+            const p2Alive = game.queens[2].length > 0;
+            
+            if(!p1Alive || !p2Alive) {
+                game.winner = p1Alive ? 1 : 2;
+                updateStatus(`Player ${game.winner} Wins!`);
+                return;
+            }
+
+            const canMove = game.queens[game.currentPlayer].some((_, i) => getValidMoves(i).length > 0);
+            if(!canMove) {
+                game.winner = 3 - game.currentPlayer;
+                updateStatus(`Player ${game.winner} Wins!`);
+            }
+        }
+
+        function toggleAuto(player) {
+            game.auto[player] = !game.auto[player];
+            document.getElementById(`auto${player}`).style.background = 
+                game.auto[player] ? '#4CAF50' : '#6b4226';
+            if(game.auto[player] && !game.winner) computerTurn();
+        }
+
+        function updateStatus(text) {
+            document.getElementById('status').textContent = text;
+        }
+
+        // Initialize the game
+        initGame();
+    </script>
+</body>
+</html>
