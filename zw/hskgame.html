@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HSK1 Practice</title>
+      <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --background: #f5f6fa;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: var(--background);
+            color: var(--primary-color);
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .hanzi {
+            font-family: 'Noto Sans SC', sans-serif;
+            font-size: 4rem;
+            text-align: center;
+            margin: 1rem 0;
+        }
+
+        .options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .option {
+            padding: 1rem;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+
+        .option:hover {
+            transform: translateY(-2px);
+            border-color: var(--secondary-color);
+        }
+
+        .controls {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            background: var(--secondary-color);
+            color: white;
+            cursor: pointer;
+            transition: opacity 0.2s ease;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        .progress {
+            text-align: center;
+            margin-bottom: 1rem;
+            color: #7f8c8d;
+        }
+
+        @media (max-width: 480px) {
+            .hanzi {
+                font-size: 3rem;
+            }
+            
+            .card {
+                padding: 1rem;
+            }
+        }
+   
+        /* Add previous styles here */
+        .score-container {
+            text-align: center;
+            margin: 1rem 0;
+            font-size: 1.2rem;
+        }
+        
+        .attempts {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        
+        .game-over {
+            color: #e74c3c;
+            text-align: center;
+            font-size: 1.5rem;
+            margin: 2rem 0;
+        }
+	.timer {
+	    color: #27ae60;
+	    font-weight: bold;
+	}
+
+	.option-hanzi {
+	    font-family: 'Noto Sans SC', sans-serif;
+	    font-size: 2rem;
+	    margin-bottom: 0.5rem;
+	}
+	
+	.option-pinyin {
+	    font-size: 0.9rem;
+	    color: #7f8c8d;
+	}
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="progress">
+          Nivel: 
+
+	  <select id="hskLevel" onchange="initLesson()">
+	    <option value="hsk1">HSK1</option>
+	    <option value="hsk2">HSK2</option>
+	  </select>
+          Lección: 
+            <select id="lessonSelect" onchange="initLesson()">
+                <option value="0">HSK1 - 1</option>
+                <option value="1">HSK1 - 2 </option>
+		<option value="2">HSK1 - 3</option>
+                <option value="3">HSK1 - 4 </option>
+		<option value="4">HSK1 - 5</option>
+		<!-- <option value="2">Lesson 3</option> -->
+                <!-- Add more lessons as needed -->
+            </select>
+            • Puntaje: <span id="score">0</span>
+            • Intentos disponibles: <span class="attempts" id="attempts">3</span>
+	    • Tiempo: <span id="timer" class="timer">02:00</span>
+        </div>
+        <div class="card">
+            <div class="hanzi" id="hanzi">?</div>
+            <div id="pinyin" style="text-align: center; margin-bottom: 1rem;"></div>
+            <div class="options" id="options"></div>
+            <div class="game-over" id="gameOver"></div>
+
+	              
+            <div class="controls">
+                <button onclick="togglePinyin()">Toggle Pinyin</button>
+		<button onclick="toggleQuestionMode()" id="modeBtn">Spanish → Hanzi</button>       <!-- <button onclick="nextQuestion()">Next Question</button> -->
+            </div>
+        </div>
+        </div>
+    </div>
+
+<script>
+// Add these variables at the top
+let timeLeft = 120; // 2 minutes in seconds
+let timerInterval = null;
+
+// Add this function to update the timer
+function updateTimer() {
+    const minutes = Math.floor(timeLeft / 60);
+    const seconds = timeLeft % 60;
+    document.getElementById('timer').textContent = 
+        `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+    
+    if(timeLeft <= 0) {
+        endGame(false, 'time');
+    }
+}
+
+  
+const HSK1_FULL = [
+    // Lesson 1 (30 words)
+    [
+        { hanzi: '爱', pinyin: 'ài', translation: 'amar' },
+        { hanzi: '八', pinyin: 'bā', translation: 'ocho' },
+        { hanzi: '爸爸', pinyin: 'bà ba', translation: 'papá' },
+        { hanzi: '杯子', pinyin: 'bēi zi', translation: 'vaso/taza' },
+        { hanzi: '北京', pinyin: 'Běi jīng', translation: 'Pekín' },
+        { hanzi: '本', pinyin: 'běn', translation: 'libro (clas.)' },
+        { hanzi: '不客气', pinyin: 'bú kè qi', translation: 'de nada' },
+        { hanzi: '不', pinyin: 'bù', translation: 'no' },
+        { hanzi: '菜', pinyin: 'cài', translation: 'plato/vegetal' },
+        { hanzi: '茶', pinyin: 'chá', translation: 'té' },
+        { hanzi: '吃', pinyin: 'chī', translation: 'comer' },
+        { hanzi: '出租车', pinyin: 'chū zū chē', translation: 'taxi' },
+        { hanzi: '打电话', pinyin: 'dǎ diàn huà', translation: 'llamar por teléfono' },
+        { hanzi: '大', pinyin: 'dà', translation: 'grande' },
+        { hanzi: '的', pinyin: 'de', translation: 'partícula posesiva' },
+        { hanzi: '点', pinyin: 'diǎn', translation: 'punto/hora' },
+        { hanzi: '电脑', pinyin: 'diàn nǎo', translation: 'computadora' },
+        { hanzi: '电视', pinyin: 'diàn shì', translation: 'televisor' },
+        { hanzi: '电影', pinyin: 'diàn yǐng', translation: 'película' },
+        { hanzi: '东西', pinyin: 'dōng xi', translation: 'cosa' },
+        { hanzi: '都', pinyin: 'dōu', translation: 'todo' },
+        { hanzi: '读', pinyin: 'dú', translation: 'leer' },
+        { hanzi: '对不起', pinyin: 'duì bu qǐ', translation: 'perdón' },
+        { hanzi: '多', pinyin: 'duō', translation: 'mucho' },
+        { hanzi: '多少', pinyin: 'duō shao', translation: 'cuánto' },
+        { hanzi: '儿子', pinyin: 'ér zi', translation: 'hijo' },
+        { hanzi: '二', pinyin: 'èr', translation: 'dos' },
+        { hanzi: '饭店', pinyin: 'fàn diàn', translation: 'restaurante' },
+        { hanzi: '飞机', pinyin: 'fēi jī', translation: 'avión' },
+        { hanzi: '分钟', pinyin: 'fēn zhōng', translation: 'minuto' },
+    ],
+    // Lesson 2 (30 words - continue with remaining HSK1 words) 
+    [
+        { hanzi: '高兴', pinyin: 'gāo xìng', translation: 'feliz' },
+        { hanzi: '个', pinyin: 'gè', translation: 'clasificador' },
+        { hanzi: '工作', pinyin: 'gōng zuò', translation: 'trabajo' },
+        { hanzi: '狗', pinyin: 'gǒu', translation: 'perro' },
+        { hanzi: '汉语', pinyin: 'Hàn yǔ', translation: 'idioma chino' },
+        { hanzi: '好', pinyin: 'hǎo', translation: 'bueno' },
+        { hanzi: '喝', pinyin: 'hē', translation: 'beber' },
+        { hanzi: '和', pinyin: 'hé', translation: 'y' },
+        { hanzi: '很', pinyin: 'hěn', translation: 'muy' },
+        { hanzi: '后面', pinyin: 'hòu miàn', translation: 'detrás' },
+        { hanzi: '回', pinyin: 'huí', translation: 'regresar' },
+        { hanzi: '会', pinyin: 'huì', translation: 'saber' },
+        { hanzi: '几', pinyin: 'jǐ', translation: 'cuántos' },
+        { hanzi: '家', pinyin: 'jiā', translation: 'hogar' },
+        { hanzi: '叫', pinyin: 'jiào', translation: 'llamar' },
+        { hanzi: '今天', pinyin: 'jīn tiān', translation: 'hoy' },
+        { hanzi: '九', pinyin: 'jiǔ', translation: 'nueve' },
+        { hanzi: '开', pinyin: 'kāi', translation: 'abrir' },
+        { hanzi: '看', pinyin: 'kàn', translation: 'ver' },
+        { hanzi: '看见', pinyin: 'kàn jiàn', translation: 'ver (algo)' },
+        { hanzi: '块', pinyin: 'kuài', translation: 'yuan (coloquial)' },
+        { hanzi: '来', pinyin: 'lái', translation: 'venir' },
+        { hanzi: '老师', pinyin: 'lǎo shī', translation: 'profesor' },
+        { hanzi: '了', pinyin: 'le', translation: 'partícula aspectual' },
+        { hanzi: '冷', pinyin: 'lěng', translation: 'frío' },
+        { hanzi: '里', pinyin: 'lǐ', translation: 'dentro' },
+        { hanzi: '零', pinyin: 'líng', translation: 'cero' },
+        { hanzi: '六', pinyin: 'liù', translation: 'seis' },
+        { hanzi: '妈妈', pinyin: 'mā ma', translation: 'mamá' },
+        { hanzi: '吗', pinyin: 'ma', translation: 'partícula interrogativa' },
+    ],
+    
+    // Lesson 3 (30 words)
+    [
+        { hanzi: '买', pinyin: 'mǎi', translation: 'comprar' },
+        { hanzi: '猫', pinyin: 'māo', translation: 'gato' },
+        { hanzi: '没', pinyin: 'méi', translation: 'no' },
+        { hanzi: '没关系', pinyin: 'méi guān xi', translation: 'no importa' },
+        { hanzi: '米饭', pinyin: 'mǐ fàn', translation: 'arroz cocido' },
+        { hanzi: '名字', pinyin: 'míng zi', translation: 'nombre' },
+        { hanzi: '明天', pinyin: 'míng tiān', translation: 'mañana' },
+        { hanzi: '哪', pinyin: 'nǎ', translation: 'cuál' },
+        { hanzi: '那', pinyin: 'nà', translation: 'ese/aquel' },
+        { hanzi: '呢', pinyin: 'ne', translation: 'partícula interrogativa' },
+        { hanzi: '能', pinyin: 'néng', translation: 'poder' },
+        { hanzi: '你', pinyin: 'nǐ', translation: 'tú' },
+        { hanzi: '年', pinyin: 'nián', translation: 'año' },
+        { hanzi: '女儿', pinyin: 'nǚ ér', translation: 'hija' },
+        { hanzi: '朋友', pinyin: 'péng you', translation: 'amigo' },
+        { hanzi: '漂亮', pinyin: 'piào liang', translation: 'bonito' },
+        { hanzi: '苹果', pinyin: 'píng guǒ', translation: 'manzana' },
+        { hanzi: '七', pinyin: 'qī', translation: 'siete' },
+        { hanzi: '钱', pinyin: 'qián', translation: 'dinero' },
+        { hanzi: '前面', pinyin: 'qián miàn', translation: 'frente' },
+        { hanzi: '请', pinyin: 'qǐng', translation: 'por favor' },
+        { hanzi: '去', pinyin: 'qù', translation: 'ir' },
+        { hanzi: '热', pinyin: 'rè', translation: 'caliente' },
+        { hanzi: '人', pinyin: 'rén', translation: 'persona' },
+        { hanzi: '认识', pinyin: 'rèn shi', translation: 'conocer' },
+        { hanzi: '三', pinyin: 'sān', translation: 'tres' },
+        { hanzi: '商店', pinyin: 'shāng diàn', translation: 'tienda' },
+        { hanzi: '上', pinyin: 'shàng', translation: 'arriba' },
+        { hanzi: '上午', pinyin: 'shàng wǔ', translation: 'mañana (antes del mediodía)' },
+        { hanzi: '少', pinyin: 'shǎo', translation: 'poco' },
+    ],
+    // Add lessons 3-5 similarly
+     // LECCIÓN 4 (30 palabras - final HSK1)
+    [
+        { hanzi: '谁', pinyin: 'shéi', translation: 'quién' },
+        { hanzi: '什么', pinyin: 'shén me', translation: 'qué' },
+        { hanzi: '十', pinyin: 'shí', translation: 'diez' },
+        { hanzi: '时候', pinyin: 'shí hou', translation: 'momento' },
+        { hanzi: '是', pinyin: 'shì', translation: 'ser' },
+        { hanzi: '书', pinyin: 'shū', translation: 'libro' },
+        { hanzi: '水', pinyin: 'shuǐ', translation: 'agua' },
+        { hanzi: '水果', pinyin: 'shuǐ guǒ', translation: 'fruta' },
+        { hanzi: '睡觉', pinyin: 'shuì jiào', translation: 'dormir' },
+        { hanzi: '说', pinyin: 'shuō', translation: 'hablar' },
+        { hanzi: '四', pinyin: 'sì', translation: 'cuatro' },
+        { hanzi: '岁', pinyin: 'suì', translation: 'años (edad)' },
+        { hanzi: '他', pinyin: 'tā', translation: 'él' },
+        { hanzi: '她', pinyin: 'tā', translation: 'ella' },
+        { hanzi: '太', pinyin: 'tài', translation: 'demasiado' },
+        { hanzi: '天气', pinyin: 'tiān qì', translation: 'clima' },
+        { hanzi: '听', pinyin: 'tīng', translation: 'escuchar' },
+        { hanzi: '同学', pinyin: 'tóng xué', translation: 'compañero de clase' },
+        { hanzi: '喂', pinyin: 'wéi', translation: 'hola (teléfono)' },
+        { hanzi: '我', pinyin: 'wǒ', translation: 'yo' },
+        { hanzi: '我们', pinyin: 'wǒ men', translation: 'nosotros' },
+        { hanzi: '五', pinyin: 'wǔ', translation: 'cinco' },
+        { hanzi: '喜欢', pinyin: 'xǐ huan', translation: 'gustar' },
+        { hanzi: '下', pinyin: 'xià', translation: 'bajo' },
+        { hanzi: '下午', pinyin: 'xià wǔ', translation: 'tarde' },
+        { hanzi: '下雨', pinyin: 'xià yǔ', translation: 'llover' },
+        { hanzi: '先生', pinyin: 'xiān sheng', translation: 'señor' },
+        { hanzi: '现在', pinyin: 'xiàn zài', translation: 'ahora' },
+        { hanzi: '想', pinyin: 'xiǎng', translation: 'querer/pensar' },
+        { hanzi: '小', pinyin: 'xiǎo', translation: 'pequeño' },
+    ],
+
+    // LECCIÓN 5 (30 palabras - final HSK1)
+    [
+        { hanzi: '小姐', pinyin: 'xiǎo jiě', translation: 'señorita' },
+        { hanzi: '些', pinyin: 'xiē', translation: 'algunos' },
+        { hanzi: '写', pinyin: 'xiě', translation: 'escribir' },
+        { hanzi: '谢谢', pinyin: 'xiè xie', translation: 'gracias' },
+        { hanzi: '星期', pinyin: 'xīng qī', translation: 'semana' },
+        { hanzi: '学生', pinyin: 'xué sheng', translation: 'estudiante' },
+        { hanzi: '学习', pinyin: 'xué xí', translation: 'estudiar' },
+        { hanzi: '学校', pinyin: 'xué xiào', translation: 'escuela' },
+        { hanzi: '一', pinyin: 'yī', translation: 'uno' },
+        { hanzi: '衣服', pinyin: 'yī fu', translation: 'ropa' },
+        { hanzi: '医生', pinyin: 'yī shēng', translation: 'médico' },
+        { hanzi: '医院', pinyin: 'yī yuàn', translation: 'hospital' },
+        { hanzi: '椅子', pinyin: 'yǐ zi', translation: 'silla' },
+        { hanzi: '有', pinyin: 'yǒu', translation: 'tener' },
+        { hanzi: '月', pinyin: 'yuè', translation: 'mes' },
+        { hanzi: '在', pinyin: 'zài', translation: 'estar en' },
+        { hanzi: '再见', pinyin: 'zài jiàn', translation: 'adiós' },
+        { hanzi: '怎么', pinyin: 'zěn me', translation: 'cómo' },
+        { hanzi: '怎么样', pinyin: 'zěn me yàng', translation: 'qué tal' },
+        { hanzi: '这', pinyin: 'zhè', translation: 'este' },
+        { hanzi: '中国', pinyin: 'Zhōng guó', translation: 'China' },
+        { hanzi: '中午', pinyin: 'zhōng wǔ', translation: 'mediodía' },
+        { hanzi: '住', pinyin: 'zhù', translation: 'vivir' },
+        { hanzi: '桌子', pinyin: 'zhuō zi', translation: 'mesa' },
+        { hanzi: '字', pinyin: 'zì', translation: 'carácter' },
+        { hanzi: '昨天', pinyin: 'zuó tiān', translation: 'ayer' },
+        { hanzi: '坐', pinyin: 'zuò', translation: 'sentarse' },
+        { hanzi: '做', pinyin: 'zuò', translation: 'hacer' },
+        { hanzi: '星期一', pinyin: 'xīng qī yī', translation: 'lunes' },
+        { hanzi: '十九', pinyin: 'shí jiǔ', translation: 'diecinueve' }
+    ]
+];
+
+const HSK2_FULL = [
+    // Lesson 1
+    [
+        { hanzi: '吧', pinyin: 'ba', translation: 'partícula sugerencia' },
+        { hanzi: '白', pinyin: 'bái', translation: 'blanco' },
+        { hanzi: '百', pinyin: 'bǎi', translation: 'cien' },
+        { hanzi: '帮助', pinyin: 'bāng zhù', translation: 'ayudar' },
+        { hanzi: '报纸', pinyin: 'bào zhǐ', translation: 'periódico' },
+        { hanzi: '比', pinyin: 'bǐ', translation: 'comparar' },
+        { hanzi: '别', pinyin: 'bié', translation: 'no' },
+        { hanzi: '宾馆', pinyin: 'bīn guǎn', translation: 'hotel' },
+        { hanzi: '长', pinyin: 'cháng', translation: 'largo' },
+        { hanzi: '唱歌', pinyin: 'chàng gē', translation: 'cantar' },
+        { hanzi: '出', pinyin: 'chū', translation: 'salir' },
+        { hanzi: '穿', pinyin: 'chuān', translation: 'usar (ropa)' },
+        { hanzi: '次', pinyin: 'cì', translation: 'vez' },
+        { hanzi: '从', pinyin: 'cóng', translation: 'desde' },
+        { hanzi: '错', pinyin: 'cuò', translation: 'error' },
+        { hanzi: '打篮球', pinyin: 'dǎ lán qiú', translation: 'jugar baloncesto' },
+        { hanzi: '大家', pinyin: 'dà jiā', translation: 'todos' },
+        { hanzi: '到', pinyin: 'dào', translation: 'llegar' },
+        { hanzi: '得', pinyin: 'dé', translation: 'obtener' },
+        { hanzi: '等', pinyin: 'děng', translation: 'esperar' },
+        { hanzi: '弟弟', pinyin: 'dì di', translation: 'hermano menor' },
+        { hanzi: '第一', pinyin: 'dì yī', translation: 'primero' },
+        { hanzi: '懂', pinyin: 'dǒng', translation: 'entender' },
+        { hanzi: '对', pinyin: 'duì', translation: 'correcto' },
+        { hanzi: '房间', pinyin: 'fáng jiān', translation: 'habitación' },
+        { hanzi: '非常', pinyin: 'fēi cháng', translation: 'extremadamente' },
+        { hanzi: '服务员', pinyin: 'fú wù yuán', translation: 'camarero' },
+        { hanzi: '高', pinyin: 'gāo', translation: 'alto' },
+        { hanzi: '告诉', pinyin: 'gào su', translation: 'decir' },
+        { hanzi: '哥哥', pinyin: 'gē ge', translation: 'hermano mayor' }
+    ],
+    
+    // Lesson 2
+    [
+        { hanzi: '给', pinyin: 'gěi', translation: 'dar' },
+        { hanzi: '公共汽车', pinyin: 'gōng gòng qì chē', translation: 'autobús' },
+        { hanzi: '公司', pinyin: 'gōng sī', translation: 'empresa' },
+        { hanzi: '贵', pinyin: 'guì', translation: 'caro' },
+        { hanzi: '过', pinyin: 'guò', translation: 'pasar' },
+        { hanzi: '还是', pinyin: 'hái shi', translation: 'o' },
+        { hanzi: '孩子', pinyin: 'hái zi', translation: 'niño' },
+        { hanzi: '好吃', pinyin: 'hǎo chī', translation: 'sabroso' },
+        { hanzi: '黑', pinyin: 'hēi', translation: 'negro' },
+        { hanzi: '红', pinyin: 'hóng', translation: 'rojo' },
+        { hanzi: '欢迎', pinyin: 'huān yíng', translation: 'bienvenido' },
+        { hanzi: '还', pinyin: 'huán', translation: 'devolver' },
+        { hanzi: '回答', pinyin: 'huí dá', translation: 'responder' },
+        { hanzi: '机场', pinyin: 'jī chǎng', translation: 'aeropuerto' },
+        { hanzi: '鸡蛋', pinyin: 'jī dàn', translation: 'huevo' },
+        { hanzi: '件', pinyin: 'jiàn', translation: 'clas. prendas' },
+        { hanzi: '教室', pinyin: 'jiào shì', translation: 'aula' },
+        { hanzi: '姐姐', pinyin: 'jiě jie', translation: 'hermana mayor' },
+        { hanzi: '介绍', pinyin: 'jiè shào', translation: 'presentar' },
+        { hanzi: '进', pinyin: 'jìn', translation: 'entrar' },
+        { hanzi: '近', pinyin: 'jìn', translation: 'cerca' },
+        { hanzi: '就', pinyin: 'jiù', translation: 'entonces' },
+        { hanzi: '觉得', pinyin: 'jué de', translation: 'sentir' },
+        { hanzi: '咖啡', pinyin: 'kā fēi', translation: 'café' },
+        { hanzi: '开始', pinyin: 'kāi shǐ', translation: 'comenzar' },
+        { hanzi: '考试', pinyin: 'kǎo shì', translation: 'examen' },
+        { hanzi: '可能', pinyin: 'kě néng', translation: 'posible' },
+        { hanzi: '可以', pinyin: 'kě yǐ', translation: 'poder' },
+        { hanzi: '课', pinyin: 'kè', translation: 'clase' },
+        { hanzi: '快', pinyin: 'kuài', translation: 'rápido' }
+    ],
+
+    // Lesson 3
+    [
+        { hanzi: '快乐', pinyin: 'kuài lè', translation: 'felicidad' },
+        { hanzi: '累', pinyin: 'lèi', translation: 'cansado' },
+        { hanzi: '离', pinyin: 'lí', translation: 'separarse de' },
+        { hanzi: '两', pinyin: 'liǎng', translation: 'dos (para objetos)' },
+        { hanzi: '路', pinyin: 'lù', translation: 'camino' },
+        { hanzi: '旅游', pinyin: 'lǚ yóu', translation: 'viajar' },
+        { hanzi: '卖', pinyin: 'mài', translation: 'vender' },
+        { hanzi: '慢', pinyin: 'màn', translation: 'lento' },
+        { hanzi: '忙', pinyin: 'máng', translation: 'ocupado' },
+        { hanzi: '每', pinyin: 'měi', translation: 'cada' },
+        { hanzi: '妹妹', pinyin: 'mèi mei', translation: 'hermana menor' },
+        { hanzi: '门', pinyin: 'mén', translation: 'puerta' },
+        { hanzi: '面条', pinyin: 'miàn tiáo', translation: 'fideos' },
+        { hanzi: '男', pinyin: 'nán', translation: 'hombre' },
+        { hanzi: '您', pinyin: 'nín', translation: 'usted' },
+        { hanzi: '女', pinyin: 'nǚ', translation: 'mujer' },
+        { hanzi: '旁边', pinyin: 'páng biān', translation: 'al lado' },
+        { hanzi: '跑步', pinyin: 'pǎo bù', translation: 'correr' },
+        { hanzi: '便宜', pinyin: 'pián yi', translation: 'barato' },
+        { hanzi: '票', pinyin: 'piào', translation: 'boleto' },
+        { hanzi: '妻子', pinyin: 'qī zi', translation: 'esposa' },
+        { hanzi: '起床', pinyin: 'qǐ chuáng', translation: 'levantarse' },
+        { hanzi: '千', pinyin: 'qiān', translation: 'mil' },
+        { hanzi: '晴', pinyin: 'qíng', translation: 'despejado' },
+        { hanzi: '去年', pinyin: 'qù nián', translation: 'año pasado' },
+        { hanzi: '让', pinyin: 'ràng', translation: 'dejar' },
+        { hanzi: '日', pinyin: 'rì', translation: 'día' },
+        { hanzi: '上班', pinyin: 'shàng bān', translation: 'ir al trabajo' },
+        { hanzi: '身体', pinyin: 'shēn tǐ', translation: 'cuerpo' },
+        { hanzi: '生病', pinyin: 'shēng bìng', translation: 'enfermarse' }
+    ],
+
+    // Lesson 4
+    [
+        { hanzi: '生日', pinyin: 'shēng rì', translation: 'cumpleaños' },
+        { hanzi: '时间', pinyin: 'shí jiān', translation: 'tiempo' },
+        { hanzi: '事情', pinyin: 'shì qing', translation: 'asunto' },
+        { hanzi: '手表', pinyin: 'shǒu biǎo', translation: 'reloj de pulsera' },
+        { hanzi: '手机', pinyin: 'shǒu jī', translation: 'teléfono móvil' },
+        { hanzi: '送', pinyin: 'sòng', translation: 'enviar' },
+        { hanzi: '所以', pinyin: 'suǒ yǐ', translation: 'por lo tanto' },
+        { hanzi: '它', pinyin: 'tā', translation: 'ello' },
+        { hanzi: '踢足球', pinyin: 'tī zú qiú', translation: 'jugar fútbol' },
+        { hanzi: '题', pinyin: 'tí', translation: 'pregunta' },
+        { hanzi: '跳舞', pinyin: 'tiào wǔ', translation: 'bailar' },
+        { hanzi: '外', pinyin: 'wài', translation: 'exterior' },
+        { hanzi: '完', pinyin: 'wán', translation: 'terminar' },
+        { hanzi: '玩', pinyin: 'wán', translation: 'jugar' },
+        { hanzi: '晚上', pinyin: 'wǎn shang', translation: 'noche' },
+        { hanzi: '为什么', pinyin: 'wèi shén me', translation: 'por qué' },
+        { hanzi: '问', pinyin: 'wèn', translation: 'preguntar' },
+        { hanzi: '问题', pinyin: 'wèn tí', translation: 'problema' },
+        { hanzi: '西瓜', pinyin: 'xī guā', translation: 'sandía' },
+        { hanzi: '希望', pinyin: 'xī wàng', translation: 'esperanza' },
+        { hanzi: '洗', pinyin: 'xǐ', translation: 'lavar' },
+        { hanzi: '小时', pinyin: 'xiǎo shí', translation: 'hora' },
+        { hanzi: '笑', pinyin: 'xiào', translation: 'reír' },
+        { hanzi: '新', pinyin: 'xīn', translation: 'nuevo' },
+        { hanzi: '姓', pinyin: 'xìng', translation: 'apellido' },
+        { hanzi: '休息', pinyin: 'xiū xi', translation: 'descansar' },
+        { hanzi: '雪', pinyin: 'xuě', translation: 'nieve' },
+        { hanzi: '颜色', pinyin: 'yán sè', translation: 'color' },
+        { hanzi: '眼睛', pinyin: 'yǎn jing', translation: 'ojo' },
+        { hanzi: '羊肉', pinyin: 'yáng ròu', translation: 'carne de cordero' }
+    ],
+
+    // Lesson 5 (Final HSK2)
+    [
+        { hanzi: '药', pinyin: 'yào', translation: 'medicina' },
+        { hanzi: '要', pinyin: 'yào', translation: 'querer' },
+        { hanzi: '也', pinyin: 'yě', translation: 'también' },
+        { hanzi: '一起', pinyin: 'yì qǐ', translation: 'juntos' },
+        { hanzi: '已经', pinyin: 'yǐ jing', translation: 'ya' },
+        { hanzi: '意思', pinyin: 'yì si', translation: 'significado' },
+        { hanzi: '因为', pinyin: 'yīn wèi', translation: 'porque' },
+        { hanzi: '阴', pinyin: 'yīn', translation: 'nublado' },
+        { hanzi: '游泳', pinyin: 'yóu yǒng', translation: 'nadar' },
+        { hanzi: '右边', pinyin: 'yòu biān', translation: 'derecha' },
+        { hanzi: '鱼', pinyin: 'yú', translation: 'pez' },
+        { hanzi: '远', pinyin: 'yuǎn', translation: 'lejos' },
+        { hanzi: '运动', pinyin: 'yùn dòng', translation: 'deporte' },
+        { hanzi: '再', pinyin: 'zài', translation: 'otra vez' },
+        { hanzi: '早上', pinyin: 'zǎo shang', translation: 'mañana' },
+        { hanzi: '丈夫', pinyin: 'zhàng fu', translation: 'esposo' },
+        { hanzi: '找', pinyin: 'zhǎo', translation: 'buscar' },
+        { hanzi: '着', pinyin: 'zhe', translation: 'part. acción continua' },
+        { hanzi: '真', pinyin: 'zhēn', translation: 'verdadero' },
+        { hanzi: '正在', pinyin: 'zhèng zài', translation: 'estar haciendo' },
+        { hanzi: '知道', pinyin: 'zhī dào', translation: 'saber' },
+        { hanzi: '准备', pinyin: 'zhǔn bèi', translation: 'preparar' },
+        { hanzi: '自行车', pinyin: 'zì xíng chē', translation: 'bicicleta' },
+        { hanzi: '走', pinyin: 'zǒu', translation: 'caminar' },
+        { hanzi: '最', pinyin: 'zuì', translation: 'más' },
+        { hanzi: '左边', pinyin: 'zuǒ biān', translation: 'izquierda' },
+        { hanzi: '坐飞机', pinyin: 'zuò fēi jī', translation: 'viajar en avión' },
+        { hanzi: '做作业', pinyin: 'zuò zuò yè', translation: 'hacer tarea' },
+        { hanzi: '但是', pinyin: 'dàn shì', translation: 'pero' },
+        { hanzi: '然后', pinyin: 'rán hòu', translation: 'después' }
+    ]
+    
+    
+];
+
+
+
+
+  
+let currentLesson = [];
+let currentQuestionIndex = 0;
+let showPinyin = true;
+let score = 0;
+let attemptsLeft = 3;
+let gameActive = true;
+
+// Add at top with other variables
+let questionMode = 'chinese'; // 'chinese' or 'spanish'
+
+// New toggle function
+function toggleQuestionMode() {
+    questionMode = questionMode === 'chinese' ? 'spanish' : 'chinese';
+    document.getElementById('modeBtn').textContent = 
+        questionMode === 'chinese' ? 'Spanish → Hanzi' : 'Hanzi → Spanish';
+    loadQuestion();
+}
+
+const VOCABULARY = {
+    hsk1: HSK1_FULL,
+    hsk2: HSK2_FULL
+};
+  
+function initLesson() {
+    const level = document.getElementById('hskLevel').value;
+    
+
+    
+    // Reset timer
+    timeLeft = 120;
+    clearInterval(timerInterval);
+    timerInterval = setInterval(() => {
+        timeLeft--;
+        updateTimer();
+    }, 1000);
+    
+    const lessonIndex = parseInt(document.getElementById('lessonSelect').value);
+    currentLesson =  shuffleArray(VOCABULARY[level][lessonIndex]);
+    // currentLesson = shuffleArray([...HSK1_FULL[lessonIndex]]);
+    currentQuestionIndex = 0;
+    score = 0;
+    attemptsLeft = 3;
+    gameActive = true;
+    document.getElementById('gameOver').textContent = '';
+    updateScore();
+    loadQuestion();
+
+    updateTimer(); // Initial display
+}
+
+function shuffleArray(array) {
+    return array.sort(() => Math.random() - 0.5);
+}
+
+// Modified loadQuestion function
+function loadQuestion() {
+    if (!gameActive) return;
+    
+    const question = currentLesson[currentQuestionIndex];
+    const options = questionMode === 'chinese' 
+        ? getRandomOptions(question.translation) 
+        : getRandomHanziOptions(question.hanzi);
+
+    // Set question display
+    if(questionMode === 'chinese') {
+        document.getElementById('hanzi').textContent = question.hanzi;
+        document.getElementById('pinyin').textContent = showPinyin ? question.pinyin : '';
+    } else {
+        document.getElementById('hanzi').textContent = question.translation;
+        document.getElementById('pinyin').textContent = '';
+    }
+
+    // Render options
+    const optionsContainer = document.getElementById('options');
+    optionsContainer.innerHTML = options
+        .map(opt => {
+            if(questionMode === 'chinese') {
+                return `<div class="option" onclick="checkAnswer('${opt}')">${opt}</div>`;
+            } else {
+                const word = currentLesson.find(w => w.hanzi === opt);
+                return `
+                    <div class="option" onclick="checkAnswer('${opt}')">
+                        <div class="option-hanzi">${opt}</div>
+                        ${showPinyin ? `<div class="option-pinyin">${word.pinyin}</div>` : ''}
+                    </div>
+                `;
+            }
+        })
+        .join('');
+}
+
+// New option generator for Hanzi mode
+function getRandomHanziOptions(correctHanzi) {
+    const allHanzi = currentLesson.map(word => word.hanzi);
+    const wrongAnswers = shuffleArray(allHanzi)
+        .filter(h => h !== correctHanzi)
+        .slice(0, 6);
+    
+    return shuffleArray([...wrongAnswers, correctHanzi]);
+}
+
+
+
+// function loadQuestion() {
+//     if (!gameActive) return;
+    
+//     const question = currentLesson[currentQuestionIndex];
+//     const options = getRandomOptions(question.translation);
+    
+//     document.getElementById('hanzi').textContent = question.hanzi;
+//     document.getElementById('pinyin').textContent = showPinyin ? question.pinyin : '';
+    
+//     const optionsContainer = document.getElementById('options');
+//     optionsContainer.innerHTML = options
+//         .map(trans => `
+//             <div class="option" onclick="checkAnswer('${trans}')">
+//                 ${trans}
+//             </div>
+//         `).join('');
+// }
+
+
+function getRandomOptions(correctAnswer) {
+    const allTranslations = currentLesson.map(word => word.translation);
+    const wrongAnswers = shuffleArray(allTranslations)
+        .filter(t => t !== correctAnswer)
+        .slice(0, 8);
+    
+    return shuffleArray([...wrongAnswers, correctAnswer]);
+}
+
+
+// // Modified checkAnswer function
+// function checkAnswer(selected) {
+//     if (!gameActive) return;
+    
+//     const question = currentLesson[currentQuestionIndex];
+//     const correct = questionMode === 'chinese' 
+//         ? question.translation 
+//         : question.hanzi;
+
+//     // Rest of checkAnswer logic remains the same...
+// }
+
+  
+function checkAnswer(selected) {
+    if (!gameActive) return;
+
+    // Modified checkAnswer function
+    const question = currentLesson[currentQuestionIndex];
+    const correct = questionMode === 'chinese' 
+        ? question.translation 
+        : question.hanzi;
+
+    
+    // const correct = currentLesson[currentQuestionIndex].translation;
+    const options = document.querySelectorAll('.option');
+    
+    if (selected === correct) {
+        score += 10;
+        currentQuestionIndex++;
+        if (currentQuestionIndex >= currentLesson.length) {
+            endGame(true);
+            return;
+        }
+        loadQuestion();
+    } else {
+	score += -3;
+        attemptsLeft--;
+        options.forEach(opt => {
+            if (opt.textContent === selected) {
+                opt.style.borderColor = '#e74c3c';
+            }
+            if (opt.textContent === correct) {
+                opt.style.borderColor = '#2ecc71';
+            }
+        });
+        
+        if (attemptsLeft <= 0) {
+            endGame(false);
+        }
+    }
+    
+    updateScore();
+}
+
+function updateScore() {
+    document.getElementById('score').textContent = score;
+    document.getElementById('attempts').textContent = attemptsLeft;
+}
+
+
+// Modify the endGame function to handle timer
+function endGame(success, reason = 'attempts') {
+    updateScore();
+    clearInterval(timerInterval);
+    gameActive = false;
+    
+    const gameOverDiv = document.getElementById('gameOver');
+    
+    let message = success 
+        ? `🎉 Lesson Complete! Final Score: ${score}`
+        : `💀 Game Over! Final Score: ${score} (${reason === 'time' ? 'Time expired' : 'No attempts left'})`;
+    
+    gameOverDiv.textContent = message;
+}
+
+// Add this line to clear interval when changing lessons
+// Modify the initLesson function to include:
+clearInterval(timerInterval);
+  
+// function endGame(success) {
+//     gameActive = false;
+//     const gameOverDiv = document.getElementById('gameOver');
+//     gameOverDiv.textContent = success 
+//         ? `🎉 Lesson Complete! Final Score: ${score}`
+//         : `💀 Game Over! Final Score: ${score}`;
+        
+//     gameOverDiv.style.display = 'block';
+// }
+
+// Update togglePinyin to refresh display
+function togglePinyin() {
+    showPinyin = !showPinyin;
+    if(questionMode === 'spanish') {
+        loadQuestion(); // Refresh options to show/hide pinyin
+    } else {
+        document.getElementById('pinyin').textContent = 
+            showPinyin ? currentLesson[currentQuestionIndex]?.pinyin : '';
+    }
+}
+
+  
+// function togglePinyin() {
+//     showPinyin = !showPinyin;
+//     document.getElementById('pinyin').textContent = 
+//         showPinyin ? currentLesson[currentQuestionIndex]?.pinyin : '';
+// }
+
+// Initialize first lesson
+initLesson();
+</script>
+</body>
+</html>
