@@ -139,16 +139,18 @@
           Nivel: 
 
 	  <select id="hskLevel" onchange="initLesson()">
-	    <option value="hsk1">HSK1</option>
-	    <option value="hsk2">HSK2</option>
+	    <option value="HSK1">HSK1</option>
+	    <option value="HSK2">HSK2</option>
+	    <option value="HSK3A">HSK2</option>
+	    <option value="HSK3B">HSK2</option>
 	  </select>
           Lección: 
             <select id="lessonSelect" onchange="initLesson()">
-                <option value="0">HSK1 - 1</option>
-                <option value="1">HSK1 - 2 </option>
-		<option value="2">HSK1 - 3</option>
-                <option value="3">HSK1 - 4 </option>
-		<option value="4">HSK1 - 5</option>
+                <option value="0">Lección 1</option>
+                <option value="1">Lección - 2 </option>
+		<option value="2">Lección - 3</option>
+                <option value="3">Lección - 4 </option>
+		<option value="4">Lección - 5</option>
 		<!-- <option value="2">Lesson 3</option> -->
                 <!-- Add more lessons as needed -->
             </select>
@@ -290,7 +292,7 @@ const HSK1_FULL = [
         { hanzi: '上午', pinyin: 'shàng wǔ', translation: 'mañana (antes del mediodía)' },
         { hanzi: '少', pinyin: 'shǎo', translation: 'poco' },
     ],
-    // Add lessons 3-5 similarly
+   
      // LECCIÓN 4 (30 palabras - final HSK1)
     [
         { hanzi: '谁', pinyin: 'shéi', translation: 'quién' },
@@ -534,9 +536,350 @@ const HSK2_FULL = [
     
 ];
 
+const HSK3_A = [
+    // Lección 1 (1-30)
+    [
+        { hanzi: '阿姨', pinyin: 'ā yí', translation: 'tía' },
+        { hanzi: '啊', pinyin: 'a', translation: 'partícula exclamativa' },
+        { hanzi: '矮', pinyin: 'ǎi', translation: 'bajo (estatura)' },
+        { hanzi: '爱好', pinyin: 'ài hào', translation: 'pasatiempo' },
+        { hanzi: '安静', pinyin: 'ān jìng', translation: 'tranquilo' },
+        { hanzi: '把', pinyin: 'bǎ', translation: 'part. objeto' },
+        { hanzi: '班', pinyin: 'bān', translation: 'clase/turno' },
+        { hanzi: '搬', pinyin: 'bān', translation: 'mudarse' },
+        { hanzi: '办法', pinyin: 'bàn fǎ', translation: 'método' },
+        { hanzi: '办公室', pinyin: 'bàn gōng shì', translation: 'oficina' },
+        { hanzi: '半', pinyin: 'bàn', translation: 'mitad' },
+        { hanzi: '帮忙', pinyin: 'bāng máng', translation: 'ayudar' },
+        { hanzi: '包', pinyin: 'bāo', translation: 'bolso' },
+        { hanzi: '饱', pinyin: 'bǎo', translation: 'lleno (comida)' },
+        { hanzi: '北方', pinyin: 'běi fāng', translation: 'norte' },
+        { hanzi: '被', pinyin: 'bèi', translation: 'ser (voz pasiva)' },
+        { hanzi: '鼻子', pinyin: 'bí zi', translation: 'nariz' },
+        { hanzi: '比较', pinyin: 'bǐ jiào', translation: 'comparar' },
+        { hanzi: '比赛', pinyin: 'bǐ sài', translation: 'competencia' },
+        { hanzi: '笔记本', pinyin: 'bǐ jì běn', translation: 'cuaderno' },
+        { hanzi: '必须', pinyin: 'bì xū', translation: 'deber' },
+        { hanzi: '变化', pinyin: 'biàn huà', translation: 'cambio' },
+        { hanzi: '表示', pinyin: 'biǎo shì', translation: 'expresar' },
+        { hanzi: '表演', pinyin: 'biǎo yǎn', translation: 'actuar' },
+        { hanzi: '表扬', pinyin: 'biǎo yáng', translation: 'elogiar' },
+        { hanzi: '并且', pinyin: 'bìng qiě', translation: 'además' },
+        { hanzi: '博士', pinyin: 'bó shì', translation: 'doctorado' },
+        { hanzi: '不但', pinyin: 'bú dàn', translation: 'no solo' },
+        { hanzi: '不过', pinyin: 'bú guò', translation: 'pero' },
+        { hanzi: '不得不', pinyin: 'bù dé bù', translation: 'tener que' }
+    ],
 
+    // Lección 2 (31-60)
+    [
+        { hanzi: '不管', pinyin: 'bù guǎn', translation: 'sin importar' },
+        { hanzi: '不仅', pinyin: 'bù jǐn', translation: 'no solo' },
+        { hanzi: '部分', pinyin: 'bù fen', translation: 'parte' },
+        { hanzi: '擦', pinyin: 'cā', translation: 'limpiar' },
+        { hanzi: '猜', pinyin: 'cāi', translation: 'adivinar' },
+        { hanzi: '材料', pinyin: 'cái liào', translation: 'material' },
+        { hanzi: '参观', pinyin: 'cān guān', translation: 'visitar' },
+        { hanzi: '差不多', pinyin: 'chà bu duō', translation: 'casi' },
+        { hanzi: '长城', pinyin: 'Cháng chéng', translation: 'Gran Muralla' },
+        { hanzi: '长江', pinyin: 'Cháng Jiāng', translation: 'Río Yangtsé' },
+        { hanzi: '尝', pinyin: 'cháng', translation: 'probar' },
+        { hanzi: '场', pinyin: 'chǎng', translation: 'clas. eventos' },
+        { hanzi: '超过', pinyin: 'chāo guò', translation: 'superar' },
+        { hanzi: '城市', pinyin: 'chéng shì', translation: 'ciudad' },
+        { hanzi: '成功', pinyin: 'chéng gōng', translation: 'éxito' },
+        { hanzi: '成熟', pinyin: 'chéng shú', translation: 'maduro' },
+        { hanzi: '成为', pinyin: 'chéng wéi', translation: 'convertirse' },
+        { hanzi: '诚实', pinyin: 'chéng shí', translation: 'honesto' },
+        { hanzi: '乘坐', pinyin: 'chéng zuò', translation: 'montar (transporte)' },
+        { hanzi: '吃惊', pinyin: 'chī jīng', translation: 'sorprender' },
+        { hanzi: '重新', pinyin: 'chóng xīn', translation: 'de nuevo' },
+        { hanzi: '抽烟', pinyin: 'chōu yān', translation: 'fumar' },
+        { hanzi: '出差', pinyin: 'chū chāi', translation: 'viaje de negocios' },
+        { hanzi: '出发', pinyin: 'chū fā', translation: 'salir (viaje)' },
+        { hanzi: '出生', pinyin: 'chū shēng', translation: 'nacer' },
+        { hanzi: '传真', pinyin: 'chuán zhēn', translation: 'fax' },
+        { hanzi: '窗户', pinyin: 'chuāng hu', translation: 'ventana' },
+        { hanzi: '词典', pinyin: 'cí diǎn', translation: 'diccionario' },
+        { hanzi: '从来', pinyin: 'cóng lái', translation: 'desde siempre' },
+        { hanzi: '粗心', pinyin: 'cū xīn', translation: 'descuidado' }
+    ],
 
+    // Lección 3 (61-90)
+    [
+        { hanzi: '答案', pinyin: 'dá àn', translation: 'respuesta' },
+        { hanzi: '打扮', pinyin: 'dǎ ban', translation: 'vestirse' },
+        { hanzi: '打扰', pinyin: 'dǎ rǎo', translation: 'molestar' },
+        { hanzi: '打印', pinyin: 'dǎ yìn', translation: 'imprimir' },
+        { hanzi: '打折', pinyin: 'dǎ zhé', translation: 'descuento' },
+        { hanzi: '打针', pinyin: 'dǎ zhēn', translation: 'inyección' },
+        { hanzi: '大概', pinyin: 'dà gài', translation: 'aproximadamente' },
+        { hanzi: '大使馆', pinyin: 'dà shǐ guǎn', translation: 'embajada' },
+        { hanzi: '大约', pinyin: 'dà yuē', translation: 'alrededor de' },
+        { hanzi: '戴', pinyin: 'dài', translation: 'usar (accesorios)' },
+        { hanzi: '当', pinyin: 'dāng', translation: 'cuando' },
+        { hanzi: '当地', pinyin: 'dāng dì', translation: 'local' },
+        { hanzi: '当时', pinyin: 'dāng shí', translation: 'en ese momento' },
+        { hanzi: '刀', pinyin: 'dāo', translation: 'cuchillo' },
+        { hanzi: '导游', pinyin: 'dǎo yóu', translation: 'guía turístico' },
+        { hanzi: '倒', pinyin: 'dǎo', translation: 'caer' },
+        { hanzi: '到处', pinyin: 'dào chù', translation: 'por todas partes' },
+        { hanzi: '到底', pinyin: 'dào dǐ', translation: 'al final' },
+        { hanzi: '道歉', pinyin: 'dào qiàn', translation: 'disculparse' },
+        { hanzi: '得意', pinyin: 'dé yì', translation: 'presumido' },
+        { hanzi: '灯光', pinyin: 'dēng guāng', translation: 'luz' },
+        { hanzi: '登记', pinyin: 'dēng jì', translation: 'registrar' },
+        { hanzi: '等', pinyin: 'děng', translation: 'esperar' },
+        { hanzi: '低调', pinyin: 'dī diào', translation: 'discreto' },
+        { hanzi: '地理', pinyin: 'dì lǐ', translation: 'geografía' },
+        { hanzi: '地铁', pinyin: 'dì tiě', translation: 'metro' },
+        { hanzi: '地址', pinyin: 'dì zhǐ', translation: 'dirección' },
+        { hanzi: '调查', pinyin: 'diào chá', translation: 'investigar' },
+        { hanzi: '丢', pinyin: 'diū', translation: 'perder' },
+        { hanzi: '动作', pinyin: 'dòng zuò', translation: 'movimiento' }
+    ],
 
+    // Lección 4 (91-120)
+    [
+        { hanzi: '堵车', pinyin: 'dǔ chē', translation: 'embotellamiento' },
+        { hanzi: '肚子', pinyin: 'dù zi', translation: 'estómago' },
+        { hanzi: '短信', pinyin: 'duǎn xìn', translation: 'mensaje' },
+        { hanzi: '对话', pinyin: 'duì huà', translation: 'diálogo' },
+        { hanzi: '对面', pinyin: 'duì miàn', translation: 'frente' },
+        { hanzi: '对于', pinyin: 'duì yú', translation: 'respecto a' },
+        { hanzi: '儿童', pinyin: 'ér tóng', translation: 'niño' },
+        { hanzi: '而', pinyin: 'ér', translation: 'pero' },
+        { hanzi: '发生', pinyin: 'fā shēng', translation: 'ocurrir' },
+        { hanzi: '发展', pinyin: 'fā zhǎn', translation: 'desarrollo' },
+        { hanzi: '法律', pinyin: 'fǎ lǜ', translation: 'ley' },
+        { hanzi: '翻译', pinyin: 'fān yì', translation: 'traducir' },
+        { hanzi: '烦恼', pinyin: 'fán nǎo', translation: 'preocupación' },
+        { hanzi: '反对', pinyin: 'fǎn duì', translation: 'oponerse' },
+        { hanzi: '反应', pinyin: 'fǎn yìng', translation: 'reacción' },
+        { hanzi: '方便', pinyin: 'fāng biàn', translation: 'conveniente' },
+        { hanzi: '方向', pinyin: 'fāng xiàng', translation: 'dirección' },
+        { hanzi: '房东', pinyin: 'fáng dōng', translation: 'casero' },
+        { hanzi: '放弃', pinyin: 'fàng qì', translation: 'renunciar' },
+        { hanzi: '放暑假', pinyin: 'fàng shǔ jià', translation: 'vacaciones de verano' },
+        { hanzi: '放松', pinyin: 'fàng sōng', translation: 'relajarse' },
+        { hanzi: '分之', pinyin: 'fēn zhī', translation: 'porcentaje' },
+        { hanzi: '丰富', pinyin: 'fēng fù', translation: 'abundante' },
+        { hanzi: '风景', pinyin: 'fēng jǐng', translation: 'paisaje' },
+        { hanzi: '否则', pinyin: 'fǒu zé', translation: 'de lo contrario' },
+        { hanzi: '符合', pinyin: 'fú hé', translation: 'cumplir' },
+        { hanzi: '父母', pinyin: 'fù mǔ', translation: 'padres' },
+        { hanzi: '复印', pinyin: 'fù yìn', translation: 'fotocopiar' },
+        { hanzi: '复杂', pinyin: 'fù zá', translation: 'complejo' },
+        { hanzi: '富', pinyin: 'fù', translation: 'rico' }
+    ],
+
+    // Lección 5 (121-150)
+    [
+        { hanzi: '改变', pinyin: 'gǎi biàn', translation: 'cambiar' },
+        { hanzi: '干杯', pinyin: 'gān bēi', translation: 'brindar' },
+        { hanzi: '赶', pinyin: 'gǎn', translation: 'apresurarse' },
+        { hanzi: '敢', pinyin: 'gǎn', translation: 'atreverse' },
+        { hanzi: '感动', pinyin: 'gǎn dòng', translation: 'conmoverse' },
+        { hanzi: '感觉', pinyin: 'gǎn jué', translation: 'sensación' },
+        { hanzi: '感情', pinyin: 'gǎn qíng', translation: 'sentimiento' },
+        { hanzi: '感谢', pinyin: 'gǎn xiè', translation: 'agradecer' },
+        { hanzi: '干', pinyin: 'gàn', translation: 'hacer' },
+        { hanzi: '刚', pinyin: 'gāng', translation: 'recién' },
+        { hanzi: '高级', pinyin: 'gāo jí', translation: 'de alta gama' },
+        { hanzi: '各', pinyin: 'gè', translation: 'cada' },
+        { hanzi: '公里', pinyin: 'gōng lǐ', translation: 'kilómetro' },
+        { hanzi: '工资', pinyin: 'gōng zī', translation: 'salario' },
+        { hanzi: '功夫', pinyin: 'gōng fu', translation: 'kung fu' },
+        { hanzi: '共同', pinyin: 'gòng tóng', translation: 'común' },
+        { hanzi: '购物', pinyin: 'gòu wù', translation: 'compras' },
+        { hanzi: '够', pinyin: 'gòu', translation: 'suficiente' },
+        { hanzi: '估计', pinyin: 'gū jì', translation: 'estimar' },
+        { hanzi: '鼓励', pinyin: 'gǔ lì', translation: 'animar' },
+        { hanzi: '故意', pinyin: 'gù yì', translation: 'a propósito' },
+        { hanzi: '顾客', pinyin: 'gù kè', translation: 'cliente' },
+        { hanzi: '挂', pinyin: 'guà', translation: 'colgar' },
+        { hanzi: '关键', pinyin: 'guān jiàn', translation: 'clave' },
+        { hanzi: '观众', pinyin: 'guān zhòng', translation: 'audiencia' },
+        { hanzi: '管理', pinyin: 'guǎn lǐ', translation: 'gestionar' },
+        { hanzi: '光', pinyin: 'guāng', translation: 'luz' },
+        { hanzi: '广播', pinyin: 'guǎng bō', translation: 'transmitir' },
+        { hanzi: '广告', pinyin: 'guǎng gào', translation: 'anuncio' },
+        { hanzi: '逛', pinyin: 'guàng', translation: 'pasear' }
+    ],
+];
+const HSK3_B = [
+    // Lección 6 (151-180)
+    [
+        { hanzi: '规定', pinyin: 'guī dìng', translation: 'regla' },
+        { hanzi: '国际', pinyin: 'guó jì', translation: 'internacional' },
+        { hanzi: '果然', pinyin: 'guǒ rán', translation: 'efectivamente' },
+        { hanzi: '过程', pinyin: 'guò chéng', translation: 'proceso' },
+        { hanzi: '海洋', pinyin: 'hǎi yáng', translation: 'océano' },
+        { hanzi: '害羞', pinyin: 'hài xiū', translation: 'tímido' },
+        { hanzi: '寒假', pinyin: 'hán jià', translation: 'vacaciones de invierno' },
+        { hanzi: '汗', pinyin: 'hàn', translation: 'sudor' },
+        { hanzi: '航班', pinyin: 'háng bān', translation: 'vuelo' },
+        
+	{ hanzi: '好处', pinyin: 'hǎo chu', translation: 'beneficio' },
+	{ hanzi: '好像', pinyin: 'hǎo xiàng', translation: 'parecer' },
+	{ hanzi: '合格', pinyin: 'hé gé', translation: 'calificar' },
+	{ hanzi: '合适', pinyin: 'hé shì', translation: 'apropiado' },
+	{ hanzi: '盒子', pinyin: 'hé zi', translation: 'caja' },
+	{ hanzi: '后悔', pinyin: 'hòu huǐ', translation: 'arrepentirse' },
+	{ hanzi: '厚', pinyin: 'hòu', translation: 'grueso' },
+	{ hanzi: '互联网', pinyin: 'hù lián wǎng', translation: 'internet' },
+	{ hanzi: '护士', pinyin: 'hù shi', translation: 'enfermera' },
+	{ hanzi: '怀疑', pinyin: 'huái yí', translation: 'dudar' },
+	{ hanzi: '回忆', pinyin: 'huí yì', translation: 'recordar' },
+	{ hanzi: '活动', pinyin: 'huó dòng', translation: 'actividad' },
+	{ hanzi: '活泼', pinyin: 'huó po', translation: 'animado' },
+	{ hanzi: '火', pinyin: 'huǒ', translation: 'fuego' },
+	{ hanzi: '获得', pinyin: 'huò dé', translation: 'obtener' },
+	{ hanzi: '基本', pinyin: 'jī běn', translation: 'básico' },
+	{ hanzi: '及时', pinyin: 'jí shí', translation: 'oportuno' },
+	{ hanzi: '即使', pinyin: 'jí shǐ', translation: 'incluso si' },
+	{ hanzi: '技术', pinyin: 'jì shù', translation: 'tecnología' },
+	{ hanzi: '既然', pinyin: 'jì rán', translation: 'ya que' },
+	{ hanzi: '继续', pinyin: 'jì xù', translation: 'continuar' }
+    ],
+    // Lección 7 (181-210)
+    
+    [
+	{ hanzi: '寄', pinyin: 'jì', translation: 'enviar' },
+	{ hanzi: '计划', pinyin: 'jì huà', translation: 'plan' },
+	{ hanzi: '记者', pinyin: 'jì zhě', translation: 'periodista' },
+	{ hanzi: '假装', pinyin: 'jiǎ zhuāng', translation: 'fingir' },
+	{ hanzi: '价格', pinyin: 'jià gé', translation: 'precio' },
+	{ hanzi: '坚持', pinyin: 'jiān chí', translation: 'persistir' },
+	{ hanzi: '减肥', pinyin: 'jiǎn féi', translation: 'adelgazar' },
+	{ hanzi: '减少', pinyin: 'jiǎn shǎo', translation: 'reducir' },
+	{ hanzi: '将来', pinyin: 'jiāng lái', translation: 'futuro' },
+	{ hanzi: '奖金', pinyin: 'jiǎng jīn', translation: 'bono' },
+	{ hanzi: '降低', pinyin: 'jiàng dī', translation: 'bajar' },
+	{ hanzi: '交', pinyin: 'jiāo', translation: 'entregar' },
+	{ hanzi: '交流', pinyin: 'jiāo liú', translation: 'comunicar' },
+	{ hanzi: '交通', pinyin: 'jiāo tōng', translation: 'tráfico' },
+	{ hanzi: '骄傲', pinyin: 'jiāo ào', translation: 'orgulloso' },
+	{ hanzi: '饺子', pinyin: 'jiǎo zi', translation: 'empanadilla china' },
+	{ hanzi: '教授', pinyin: 'jiào shòu', translation: 'profesor' },
+	{ hanzi: '教育', pinyin: 'jiào yù', translation: 'educación' },
+	{ hanzi: '接受', pinyin: 'jiē shòu', translation: 'aceptar' },
+	{ hanzi: '结果', pinyin: 'jié guǒ', translation: 'resultado' },
+	{ hanzi: '节约', pinyin: 'jié yuē', translation: 'ahorrar' },
+	{ hanzi: '解释', pinyin: 'jiě shì', translation: 'explicar' },
+	{ hanzi: '尽管', pinyin: 'jǐn guǎn', translation: 'a pesar de' },
+	{ hanzi: '紧张', pinyin: 'jǐn zhāng', translation: 'nervioso' },
+	{ hanzi: '进行', pinyin: 'jìn xíng', translation: 'llevar a cabo' },
+	{ hanzi: '禁止', pinyin: 'jìn zhǐ', translation: 'prohibir' },
+	{ hanzi: '精彩', pinyin: 'jīng cǎi', translation: 'espectacular' },
+	{ hanzi: '经济', pinyin: 'jīng jì', translation: 'economía' },
+	{ hanzi: '经历', pinyin: 'jīng lì', translation: 'experiencia' },
+	{ hanzi: '经验', pinyin: 'jīng yàn', translation: 'experiencia' }
+    ],
+    // Lección 8 (211-240)
+    
+    [
+	{ hanzi: '警察', pinyin: 'jǐng chá', translation: 'policía' },
+	{ hanzi: '竞争', pinyin: 'jìng zhēng', translation: 'competir' },
+	{ hanzi: '竟然', pinyin: 'jìng rán', translation: 'sorprendentemente' },
+	{ hanzi: '镜子', pinyin: 'jìng zi', translation: 'espejo' },
+	{ hanzi: '究竟', pinyin: 'jiū jìng', translation: 'exactamente' },
+	{ hanzi: '举办', pinyin: 'jǔ bàn', translation: 'organizar' },
+	{ hanzi: '拒绝', pinyin: 'jù jué', translation: 'rechazar' },
+	{ hanzi: '距离', pinyin: 'jù lí', translation: 'distancia' },
+	{ hanzi: '决定', pinyin: 'jué dìng', translation: 'decidir' },
+	{ hanzi: '可爱', pinyin: 'kě ài', translation: 'adorable' },
+	{ hanzi: '可靠', pinyin: 'kě kào', translation: 'confiable' },
+	{ hanzi: '可怕', pinyin: 'kě pà', translation: 'aterrador' },
+	{ hanzi: '克服', pinyin: 'kè fú', translation: 'superar' },
+	{ hanzi: '客观', pinyin: 'kè guān', translation: 'objetivo' },
+	{ hanzi: '肯定', pinyin: 'kěn dìng', translation: 'seguro' },
+	{ hanzi: '空气', pinyin: 'kōng qì', translation: 'aire' },
+	{ hanzi: '恐怕', pinyin: 'kǒng pà', translation: 'temer' },
+	{ hanzi: '苦', pinyin: 'kǔ', translation: 'amargo' },
+	{ hanzi: '会计', pinyin: 'kuài jì', translation: 'contador' },
+	{ hanzi: '宽', pinyin: 'kuān', translation: 'ancho' },
+	{ hanzi: '困', pinyin: 'kùn', translation: 'soñoliento' },
+	{ hanzi: '困难', pinyin: 'kùn nan', translation: 'dificultad' },
+	{ hanzi: '扩大', pinyin: 'kuò dà', translation: 'ampliar' },
+	{ hanzi: '辣椒', pinyin: 'là jiāo', translation: 'chile' },
+	{ hanzi: '来不及', pinyin: 'lái bu jí', translation: 'no dar tiempo' },
+	{ hanzi: '来得及', pinyin: 'lái de jí', translation: 'dar tiempo' },
+	{ hanzi: '老板', pinyin: 'lǎo bǎn', translation: 'jefe' },
+	{ hanzi: '老婆', pinyin: 'lǎo po', translation: 'esposa' },
+	{ hanzi: '老实', pinyin: 'lǎo shi', translation: 'honesto' },
+	{ hanzi: '乐观', pinyin: 'lè guān', translation: 'optimista' }
+    ],
+    // Lección 9 (241-270)
+    
+    [
+	{ hanzi: '累', pinyin: 'lèi', translation: 'cansado' },
+	{ hanzi: '冷静', pinyin: 'lěng jìng', translation: 'calmado' },
+	{ hanzi: '礼貌', pinyin: 'lǐ mào', translation: 'educado' },
+	{ hanzi: '例如', pinyin: 'lì rú', translation: 'por ejemplo' },
+	{ hanzi: '连', pinyin: 'lián', translation: 'incluso' },
+	{ hanzi: '联系', pinyin: 'lián xì', translation: 'contactar' },
+	{ hanzi: '凉快', pinyin: 'liáng kuai', translation: 'fresco' },
+	{ hanzi: '亮', pinyin: 'liàng', translation: 'brillante' },
+	{ hanzi: '另外', pinyin: 'lìng wài', translation: 'además' },
+	{ hanzi: '留', pinyin: 'liú', translation: 'quedarse' },
+	{ hanzi: '流行', pinyin: 'liú xíng', translation: 'de moda' },
+	{ hanzi: '乱', pinyin: 'luàn', translation: 'desordenado' },
+	{ hanzi: '律师', pinyin: 'lǜ shī', translation: 'abogado' },
+	{ hanzi: '麻烦', pinyin: 'má fan', translation: 'molestia' },
+	{ hanzi: '马虎', pinyin: 'mǎ hu', translation: 'descuidado' },
+	{ hanzi: '满', pinyin: 'mǎn', translation: 'lleno' },
+	{ hanzi: '毛', pinyin: 'máo', translation: 'pelo' },
+	{ hanzi: '毛巾', pinyin: 'máo jīn', translation: 'toalla' },
+	{ hanzi: '美丽', pinyin: 'měi lì', translation: 'hermoso' },
+	{ hanzi: '梦', pinyin: 'mèng', translation: 'sueño' },
+	{ hanzi: '密码', pinyin: 'mì mǎ', translation: 'contraseña' },
+	{ hanzi: '免费', pinyin: 'miǎn fèi', translation: 'gratis' },
+	{ hanzi: '民族', pinyin: 'mín zú', translation: 'étnico' },
+	{ hanzi: '母亲', pinyin: 'mǔ qīn', translation: 'madre' },
+	{ hanzi: '目的', pinyin: 'mù dì', translation: 'objetivo' },
+	{ hanzi: '耐心', pinyin: 'nài xīn', translation: 'paciente' },
+	{ hanzi: '难道', pinyin: 'nán dào', translation: '¿acaso?' },
+	{ hanzi: '难受', pinyin: 'nán shòu', translation: 'incómodo' },
+	{ hanzi: '内', pinyin: 'nèi', translation: 'dentro' },
+	{ hanzi: '内容', pinyin: 'nèi róng', translation: 'contenido' }
+    ],
+    
+    [
+	{ hanzi: '能力', pinyin: 'néng lì', translation: 'habilidad' },
+	{ hanzi: '年龄', pinyin: 'nián líng', translation: 'edad' },
+	{ hanzi: '农村', pinyin: 'nóng cūn', translation: 'zona rural' },
+	{ hanzi: '弄', pinyin: 'nòng', translation: 'hacer' },
+	{ hanzi: '暖和', pinyin: 'nuǎn huo', translation: 'cálido' },
+	{ hanzi: '偶尔', pinyin: 'ǒu ěr', translation: 'ocasionalmente' },
+	{ hanzi: '排列', pinyin: 'pái liè', translation: 'organizar' },
+	{ hanzi: '判断', pinyin: 'pàn duàn', translation: 'juzgar' },
+	{ hanzi: '陪', pinyin: 'péi', translation: 'acompañar' },
+	{ hanzi: '批评', pinyin: 'pī píng', translation: 'criticar' },
+	{ hanzi: '皮肤', pinyin: 'pí fū', translation: 'piel' },
+	{ hanzi: '脾气', pinyin: 'pí qi', translation: 'carácter' },
+	{ hanzi: '篇', pinyin: 'piān', translation: 'clas. textos' },
+	{ hanzi: '骗', pinyin: 'piàn', translation: 'engañar' },
+	{ hanzi: '乒乓球', pinyin: 'pīng pāng qiú', translation: 'ping pong' },
+	{ hanzi: '平时', pinyin: 'píng shí', translation: 'habitualmente' },
+	{ hanzi: '破', pinyin: 'pò', translation: 'roto' },
+	{ hanzi: '普遍', pinyin: 'pǔ biàn', translation: 'común' },
+	{ hanzi: '其实', pinyin: 'qí shí', translation: 'en realidad' },
+	{ hanzi: '其他', pinyin: 'qí tā', translation: 'otros' },
+	{ hanzi: '奇怪', pinyin: 'qí guài', translation: 'extraño' },
+	{ hanzi: '企业', pinyin: 'qǐ yè', translation: 'empresa' },
+	{ hanzi: '气候', pinyin: 'qì hòu', translation: 'clima' },
+	{ hanzi: '千万', pinyin: 'qiān wàn', translation: 'por favor (énfasis)' },
+	{ hanzi: '签证', pinyin: 'qiān zhèng', translation: 'visado' },
+	{ hanzi: '敲', pinyin: 'qiāo', translation: 'golpear' },
+	{ hanzi: '桥', pinyin: 'qiáo', translation: 'puente' },
+	{ hanzi: '巧克力', pinyin: 'qiǎo kè lì', translation: 'chocolate' },
+	{ hanzi: '亲戚', pinyin: 'qīn qi', translation: 'pariente' },
+	{ hanzi: '轻', pinyin: 'qīng', translation: 'ligero' }
+    ]
+];
+    
+    
   
 let currentLesson = [];
 let currentQuestionIndex = 0;
@@ -557,8 +900,10 @@ function toggleQuestionMode() {
 }
 
 const VOCABULARY = {
-    hsk1: HSK1_FULL,
-    hsk2: HSK2_FULL
+    HSK1: HSK1_FULL,
+    HSK2: HSK2_FULL,
+    HSK23A: HSK3_A,
+    HSK3B: HSK3_B
 };
   
 function initLesson() {
