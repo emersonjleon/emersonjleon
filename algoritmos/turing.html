@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Máquina de Turing Interactiva</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        .tape-container {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        .tape-cell {
+            width: 50px;
+            height: 50px;
+            border: 2px solid #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 5px;
+            background-color: #fff;
+            position: relative;
+            font-weight: bold;
+        }
+        .current-cell {
+            background-color: #ffeb3b;
+            border-color: #ff9800;
+        }
+        .head-arrow {
+            position: absolute;
+            bottom: -25px;
+            color: #2196F3;
+            font-size: 20px;
+        }
+        .controls {
+            text-align: center;
+            margin: 20px 0;
+        }
+        button {
+            padding: 12px 24px;
+            margin: 5px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .explanation {
+            background-color: #e3f2fd;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .state-info {
+            background-color: #fff8e1;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        h2, h3 {
+            color: #2c3e50;
+	}
+	.transition-table {
+            margin: 20px 0;
+            overflow-x: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .correct {
+            background-color: #e8f5e9;
+        }
+        .incorrect {
+            background-color: #ffebee;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Simulador de Máquina de Turing</h1>
+        
+        <div class="explanation">
+            <h2>¿Qué es una Máquina de Turing?</h2>
+            <p>Es un modelo teórico de computación creado por Alan Turing (1936) que consiste en:</p>
+            <ul>
+                <li>📜 Una <strong>cinta infinita</strong> dividida en celdas</li>
+                <li>👆 Una <strong>cabeza lectora/escritora</strong> que se mueve izquierda/derecha</li>
+                <li>🎚 Un <strong>registro de estado</strong> finito</li>
+                <li>📝 Una <strong>tabla de transiciones</strong> (reglas de operación)</li>
+            </ul>
+            <h3>Ejemplo actual: Suma binaria (+1)</h3>
+            <p>Esta máquina suma 1 a un número binario:</p>
+            <ul>
+                <li>Estado inicial: q0 (buscando el final del número)</li>
+                <li>Estado q1: realizando la suma con acarreo</li>
+                <li>Estado q_accept: operación completada</li>
+            </ul>
+        </div>
+
+        <div class="controls">
+            <button onclick="executeStep()">Siguiente paso</button>
+            <button onclick="resetMachine()">Reiniciar</button>
+        </div>
+
+        <div id="tape" class="tape-container"></div>
+
+        <div class="state-info">
+            <h3>Estado Actual:</h3>
+            <p id="currentState">Estado: q0</p>
+            <p id="currentStep">Paso: 0</p>
+            <p id="executionDetail">Preparado para iniciar...</p>
+        </div>
+
+        <div class="explanation">
+            <h3>¿Cómo funciona esta simulación?</h3>
+            <ol>
+                <li>La cinta contiene el número binario inicial (1011 = 11 en decimal)</li>
+                <li>La cabeza comienza en la posición más a la derecha</li>
+                <li>Cada paso ejecuta una transición según el estado y símbolo actual</li>
+                <li>Las transiciones están definidas por:
+                    <ul>
+                        <li>Estado actual + Símbolo leído → Nuevo símbolo, Movimiento, Nuevo estado</li>
+                    </ul>
+                </li>
+            </ol>
+        </div>
+    </div>
+ <div class="container">
+        <div class="explanation">
+            <h3>Tabla de Transiciones (Reglas de Operación)</h3>
+            <div class="transition-table">
+                <table id="transitionTable">
+                    <thead>
+                        <tr>
+                            <th>Estado Actual</th>
+                            <th>Símbolo Leído</th>
+                            <th>Símbolo Escrito</th>
+                            <th>Movimiento</th>
+                            <th>Nuevo Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody id="transitionBody"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script>
+        class TuringMachine {
+            constructor() {
+                this.tape = ['a', 'b', 'c', ' ']; // Número binario 1011 (11 en decimal)
+                this.headPosition = 0;//this.tape.length - 1;
+                this.currentState = 'q0';
+                this.stepCount = 0;
+                this.done = false;
+                
+                // Tabla de transiciones para sumar 1
+                this.transitions0 = {
+                    'q0': {
+                        '0': { write: '0', move: 'L', next: 'q0', description: "Mover izquierda (manteniendo 0)" },
+                        '1': { write: '1', move: 'L', next: 'q0', description: "Mover izquierda (manteniendo 1)" },
+                        ' ': { write: '1', move: 'R', next: 'q1', description: "Encontró espacio: escribir 1 y cambiar estado" }
+                    },
+                    'q1': {
+                        '0': { write: '1', move: 'R', next: 'q_accept', description: "Cambiar 0 por 1 y finalizar" },
+                        '1': { write: '0', move: 'R', next: 'q1', description: "Cambiar 1 por 0 (acarreo) y continuar" },
+                        ' ': { write: '1', move: 'R', next: 'q_accept', description: "Extender cinta con 1 y finalizar" }
+                    }
+                };
+
+		 // Tabla de transiciones CORREGIDA para suma binaria
+                this.transitions1 = {
+                    'q0': { // Estado de suma
+                        '0': { write: '1', move: 'L', next: 'q_accept', description: "Cambiar 0→1, finalizar" },
+                        '1': { write: '0', move: 'L', next: 'q0', description: "Cambiar 1→0, seguir izquierda" },
+                        ' ': { write: '1', move: 'R', next: 'q_accept', description: "Extender cinta con 1, finalizar" }
+                    }
+                };
+            
+	    
+		// Determinar si una cadena binaria es palíndromo (se lee igual en ambos sentidos).
+	        this.transitions2 = {
+		    'q0': {
+			'0': { write: 'X', move: 'R', next: 'q1', desc: "Marcar 0 e ir a comparar" },
+			'1': { write: 'X', move: 'R', next: 'q2', desc: "Marcar 1 e ir a comparar" },
+			'X': { write: 'X', move: 'R', next: 'q0', desc: "Ignorar ya marcados" },
+			' ': { write: ' ', move: 'S', next: 'q_accept', desc: "Cadena vacía aceptada" }
+    },
+		    'q1': { // Buscar extremo derecho para 0
+			'0': { write: '0', move: 'R', next: 'q1' },
+			'1': { write: '1', move: 'R', next: 'q1' },
+			'X': { write: 'X', move: 'L', next: 'q3' },
+			' ': { write: ' ', move: 'L', next: 'q3' }
+		    },
+		    'q2': { // Buscar extremo derecho para 1
+			'0': { write: '0', move: 'R', next: 'q2' },
+			'1': { write: '1', move: 'R', next: 'q2' },
+			'X': { write: 'X', move: 'L', next: 'q4' },
+			' ': { write: ' ', move: 'L', next: 'q4' }
+		    },
+		    'q3': { // Verificar 0
+			'0': { write: 'X', move: 'L', next: 'q5' },
+			' ': { write: ' ', move: 'S', next: 'q_reject' }
+		    },
+		    'q4': { // Verificar 1
+			'1': { write: 'X', move: 'L', next: 'q5' },
+			' ': { write: ' ', move: 'S', next: 'q_reject' }
+		    },
+		    'q5': { // Volver al inicio
+			'0': { write: '0', move: 'L', next: 'q5' },
+			'1': { write: '1', move: 'L', next: 'q5' },
+			'X': { write: 'X', move: 'R', next: 'q0' }
+		    }
+		};
+
+		// Multiplicar un número binario por 2 (equivalente a desplazamiento izquierdo + 0)
+		this.transitions3 = {
+		    'q0': {
+			'0': { write: '0', move: 'R', next: 'q0' },
+			'1': { write: '1', move: 'R', next: 'q0' },
+			' ': { write: '0', move: 'L', next: 'q_accept' }
+		    }
+		};
+
+		//Copiar una cadena de símbolos separando el original y la copia con un #
+		this.transitions4 = {
+		    'q0': { // Copiar símbolo
+			'a': { write: 'X', move: 'R', next: 'q1' },
+			'b': { write: 'Y', move: 'R', next: 'q2' },
+			'c': { write: 'Z', move: 'R', next: 'q3' },
+			' ': { write: '#', move: 'L', next: 'q4' }
+		    },
+		    'q1': { // Escribir 'a'
+			' ': { write: 'a', move: 'L', next: 'q4' },
+			// ... movimientos similares para q2 (b) y q3 (c)
+		    },
+		    'q2': { // Escribir 'b'
+			' ': { write: 'b', move: 'L', next: 'q4' },
+		    },
+		    'q3': { // Escribir 'c'
+			' ': { write: 'c', move: 'L', next: 'q4' },
+		    },
+		    'q4': { // Volver al inicio
+			'X': { write: 'a', move: 'R', next: 'q0' },
+			'Y': { write: 'b', move: 'R', next: 'q0' },
+			'Z': { write: 'c', move: 'R', next: 'q0' }
+		    }
+		};
+
+		//correcciones al anterior
+		this.transitions = {
+		    'q0': { // Estado inicial - marcar símbolos
+			'a': { write: 'X', move: 'R', next: 'q0', description: "Marcar 'a' y mover derecha" },
+			'b': { write: 'Y', move: 'R', next: 'q0', description: "Marcar 'b' y mover derecha" },
+			'c': { write: 'Z', move: 'R', next: 'q0', description: "Marcar 'c' y mover derecha" },
+			' ': { write: '#', move: 'L', next: 'q1', description: "Insertar separador y mover izquierda" }
+		    },
+		    'q1': { // Buscar final de cadena original
+			'X': { write: 'X', move: 'R', next: 'q1', description: "Mover derecha sobre marcados" },
+			'Y': { write: 'Y', move: 'R', next: 'q1', description: "Mover derecha sobre marcados" },
+			'Z': { write: 'Z', move: 'R', next: 'q1', description: "Mover derecha sobre marcados" },
+			' ': { write: ' ', move: 'L', next: 'q2', description: "Preparar para copiar" }
+		    },
+		    'q2': { // Copiar símbolos
+			'X': { write: 'a', move: 'L', next: 'q3', description: "Restaurar 'a' y mover izquierda" },
+			'Y': { write: 'b', move: 'L', next: 'q3', description: "Restaurar 'b' y mover izquierda" },
+        'Z': { write: 'c', move: 'L', next: 'q3', description: "Restaurar 'c' y mover izquierda" },
+			'#': { write: '#', move: 'S', next: 'q_accept', description: "Fin de la copia" }
+		    },
+		    'q3': { // Retroceder al separador
+			'a': { write: 'a', move: 'L', next: 'q3', description: "Mover izquierda sobre originales" },
+			'b': { write: 'b', move: 'L', next: 'q3', description: "Mover izquierda sobre originales" },
+			'c': { write: 'c', move: 'L', next: 'q3', description: "Mover izquierda sobre originales" },
+			'X': { write: 'X', move: 'R', next: 'q4', description: "Encontrar marcador 'X'" },
+			'Y': { write: 'Y', move: 'R', next: 'q4', description: "Encontrar marcador 'Y'" },
+			'Z': { write: 'Z', move: 'R', next: 'q4', description: "Encontrar marcador 'Z'" }
+		    },
+		    'q4': { // Escribir en área de copia
+			'X': { write: 'a', move: 'R', next: 'q0', description: "Copiar 'a' y reiniciar ciclo" },
+			'Y': { write: 'b', move: 'R', next: 'q0', description: "Copiar 'b' y reiniciar ciclo" },
+			'Z': { write: 'c', move: 'R', next: 'q0', description: "Copiar 'c' y reiniciar ciclo" }
+		    }
+		};
+		// this.transitions = {
+                //     'q0': {  // Marcar símbolo original
+                //         'a': ['A', 'R', 'q0'],
+                //         'b': ['B', 'R', 'q0'],
+                //         'c': ['C', 'R', 'q0'],
+                //         ' ': ['#', 'L', 'q1']
+                //     },
+                //     'q1': {  // Buscar final de cadena original
+                //         'A': ['A', 'R', 'q1'],
+                //         'B': ['B', 'R', 'q1'],
+                //         'C': ['C', 'R', 'q1'],
+                //         ' ': [' ', 'L', 'q2']
+                //     },
+                //     'q2': {  // Copiar símbolo
+                //         'A': ['a', 'L', 'q3'],
+                //         'B': ['b', 'L', 'q3'],
+                //         'C': ['c', 'L', 'q3'],
+                //         '#': ['#', 'S', 'q_accept']
+                //     },
+                //     'q3': {  // Volver al marcador
+                //         'a': ['a', 'L', 'q3'],
+                //         'b': ['b', 'L', 'q3'],
+                //         'c': ['c', 'L', 'q3'],
+                //         'A': ['A', 'R', 'q4'],
+                //         'B': ['B', 'R', 'q4'],
+                //         'C': ['C', 'R', 'q4']
+                //     },
+                //     'q4': {  // Restaurar símbolo original
+                //         'A': ['a', 'R', 'q0'],
+                //         'B': ['b', 'R', 'q0'],
+                //         'C': ['c', 'R', 'q0']
+                //     }
+                // };
+
+		
+		this.transitions5 = {
+		    'q0': { // Buscar 'a'
+			'a': { write: 'X', move: 'R', next: 'q1' },
+			' ': { write: ' ', move: 'S', next: 'q_accept' } // Cadena vacía
+		    },
+		    'q1': { // Buscar más 'a's
+			'a': { write: 'a', move: 'R', next: 'q1' },
+			'b': { write: 'Y', move: 'L', next: 'q2' },
+			'Y': { write: 'Y', move: 'L', next: 'q2' }
+		    },
+		    'q2': { // Retroceder
+			'a': { write: 'a', move: 'L', next: 'q2' },
+			'X': { write: 'X', move: 'R', next: 'q0' }
+		    },
+		    'q_accept': { // Verificar solo 'Y's restantes
+			'Y': { write: 'Y', move: 'R', next: 'q_accept' },
+			' ': { write: ' ', move: 'S', next: 'q_accept' }
+		    }
+		};
+	    }
+
+
+            executeStep() {
+                if (this.done) return false;
+                
+                const currentSymbol = this.tape[this.headPosition] || ' ';
+                const transition = this.transitions[this.currentState][currentSymbol];
+                
+                // Actualizar cinta
+                this.tape[this.headPosition] = transition.write;
+                
+                // Mover cabeza
+                transition.move === 'R' ? this.headPosition++ : this.headPosition--;
+                
+                // Manejar límites de la cinta
+                if (this.headPosition < 0) {
+                    this.tape.unshift(' ');
+                    this.headPosition = 0;
+                }
+                if (this.headPosition >= this.tape.length) {
+                    this.tape.push(' ');
+                }
+                
+                // Actualizar estado y paso
+                this.currentState = transition.next;
+                this.stepCount++;
+                
+                // Verificar estado final
+                if (this.currentState === 'q_accept') {
+                    this.done = true;
+                    return { done: true, description: "¡Operación completada! Resultado: " + this.tape.join('') };
+                }
+                
+                return {
+                    symbol: currentSymbol,
+                    transition: transition,
+                    position: this.headPosition
+                };
+            }
+
+            reset() {
+                this.tape = ['1', '1', '1', '1','1','1'];
+                this.headPosition = 0;//this.tape.length - 1;
+                this.currentState = 'q0';
+                this.stepCount = 0;
+                this.done = false;
+            }
+
+	    getTransitionsTable() {
+                return Object.entries(this.transitions).flatMap(([state, rules]) => 
+                    Object.entries(rules).map(([symbol, rule]) => ({
+                        state,
+                        symbol,
+                        ...rule
+                    }))
+                );
+            }
+        }
+
+        
+        function updateDisplay(result) {
+            // Actualizar cinta
+            const tapeContainer = document.getElementById('tape');
+            tapeContainer.innerHTML = '';
+            
+            tm.tape.forEach((symbol, index) => {
+                const cell = document.createElement('div');
+                cell.className = `tape-cell ${index === tm.headPosition ? 'current-cell' : ''}`;
+                cell.textContent = symbol;
+                
+                if (index === tm.headPosition) {
+                    const arrow = document.createElement('div');
+                    arrow.className = 'head-arrow';
+                    arrow.textContent = '▼';
+                    cell.appendChild(arrow);
+                }
+                
+                tapeContainer.appendChild(cell);
+            });
+
+            // Actualizar información de estado
+            document.getElementById('currentState').textContent = `Estado: ${tm.currentState}`;
+            document.getElementById('currentStep').textContent = `Paso: ${tm.stepCount}`;
+            
+            // Actualizar detalles de ejecución
+            const detailElement = document.getElementById('executionDetail');
+            if (result && result.done) {
+                detailElement.innerHTML = `<strong>${result.description}</strong>`;
+            } else if (result) {
+                detailElement.innerHTML = `
+                    Leyendo símbolo: <strong>${result.symbol}</strong><br>
+                    Acción: ${result.transition.description}<br>
+                    Nuevo símbolo: <strong>${result.transition.write}</strong><br>
+                    Movimiento: <strong>${result.transition.move}</strong><br>
+                    Nuevo estado: <strong>${result.transition.next}</strong>
+                `;
+            }
+
+	    
+        }
+
+
+      
+      // Función nueva para mostrar la tabla de transiciones
+        function updateTransitionTable() {
+            const transitions = tm.getTransitionsTable();
+            const tbody = document.getElementById('transitionBody');
+            tbody.innerHTML = '';
+            
+            transitions.forEach(trans => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${trans.state}</td>
+                    <td>${trans.symbol === ' ' ? '␣' : trans.symbol}</td>
+                    <td>${trans.write === ' ' ? '␣' : trans.write}</td>
+                    <td>${trans.move === 'L' ? 'Izquierda' : 'Derecha'}</td>
+                    <td>${trans.next}</td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+      
+        function executeStep() {
+            const result = tm.executeStep();
+            updateDisplay(result);
+        }
+
+        function resetMachine() {
+            tm.reset();
+            updateDisplay();
+            document.getElementById('executionDetail').textContent = "Máquina reiniciada";
+        }
+
+      // Actualizar la tabla al inicializar
+        let tm = new TuringMachine();
+        updateTransitionTable();
+        updateDisplay();
+
+      
+        // Inicializar
+        //updateDisplay();
+    </script>
+</body>
+</html>

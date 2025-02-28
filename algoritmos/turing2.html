@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simulador Interactivo de Máquina de Turing</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .config-section { margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 5px; }
+        .tape-container { display: flex; gap: 5px; margin: 20px 0; flex-wrap: wrap; }
+        .tape-cell { width: 40px; height: 40px; border: 1px solid #333; text-align: center; line-height: 40px; position: relative; }
+        .current-head { background-color: #ffeb3b; }
+        .transition-table { margin: 20px 0; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        button { padding: 8px 16px; margin: 5px; cursor: pointer; }
+        .error { color: red; }
+    </style>
+</head>
+<body>
+    <div class="config-section">
+        <h2>Configuración Inicial</h2>
+        <div>
+            <label>Cinta (separada por comas): <input type="text" id="tapeInput" value="a,a,b,b"></label>
+            <label>Posición inicial: <input type="number" id="headPos" value="0"></label>
+            <label>Estado inicial: <input type="text" id="initState" value="q0"></label>
+        </div>
+    </div>
+
+    <div class="config-section">
+        <h2>Editor de Transiciones</h2>
+        <div>
+            <label>Estado: <input type="text" id="transState"></label>
+            <label>Símbolo: <input type="text" id="transSymbol"></label>
+            <label>Escribir: <input type="text" id="transWrite"></label>
+            <label>Movimiento: 
+                <select id="transMove">
+                    <option value="L">Izquierda</option>
+                    <option value="R">Derecha</option>
+                    <option value="S">Quedar</option>
+                </select>
+            </label>
+            <label>Próximo estado: <input type="text" id="transNext"></label>
+            <button onclick="addTransition()">Agregar Transición</button>
+        </div>
+        
+        <div class="transition-table">
+            <h3>Tabla de Transiciones Actual</h3>
+            <table id="transTable">
+                <thead>
+                    <tr>
+                        <th>Estado</th>
+                        <th>Símbolo</th>
+                        <th>Escribir</th>
+                        <th>Movimiento</th>
+                        <th>Próximo Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="transBody"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="config-section">
+        <h2>Controles de Ejecución</h2>
+        <button onclick="executeStep()">Paso</button>
+        <button onclick="startExecution()">Iniciar</button>
+        <button onclick="stopExecution()">Detener</button>
+        <button onclick="resetMachine()">Reiniciar</button>
+        <div id="errorMsg" class="error"></div>
+    </div>
+
+    <div class="config-section">
+        <h2>Visualización</h2>
+        <div id="currentState">Estado actual: -</div>
+        <div class="tape-container" id="tapeDisplay"></div>
+    </div>
+
+    <script>
+        class TuringMachine {
+            constructor() {
+                this.tape = [];
+                this.head = 0;
+                this.state = '';
+                this.transitions = {};
+                this.running = false;
+                this.interval = null;
+            }
+
+            initialize(tape, headPos, initialState) {
+                this.tape = tape.split(',').map(s => s.trim());
+                this.head = parseInt(headPos);
+                this.state = initialState;
+                this.running = false;
+            }
+
+            addTransition(state, symbol, write, move, nextState) {
+                if (!this.transitions[state]) this.transitions[state] = {};
+                this.transitions[state][symbol] = { write, move, nextState };
+            }
+
+            executeStep() {
+                if (!this.transitions[this.state]) return false;
+                
+                const currentSymbol = this.tape[this.head] || ' ';
+                const transition = this.transitions[this.state][currentSymbol];
+                
+                if (!transition) return false;
+
+                // Actualizar cinta
+                this.tape[this.head] = transition.write;
+                
+                // Mover cabeza
+                if (transition.move === 'R') this.head++;
+                if (transition.move === 'L') this.head--;
+                
+                // Expandir cinta si es necesario
+                if (this.head >= this.tape.length) this.tape.push(' ');
+                if (this.head < 0) {
+                    this.tape.unshift(' ');
+                    this.head = 0;
+                }
+
+                // Actualizar estado
+                this.state = transition.nextState;
+                return true;
+            }
+        }
+
+        const tm = new TuringMachine();
+        let transitions = {};
+
+        function updateTapeDisplay() {
+            const container = document.getElementById('tapeDisplay');
+            container.innerHTML = '';
+            
+            tm.tape.forEach((symbol, index) => {
+                const cell = document.createElement('div');
+                cell.className = `tape-cell ${index === tm.head ? 'current-head' : ''}`;
+                cell.textContent = symbol;
+                container.appendChild(cell);
+            });
+            
+            document.getElementById('currentState').textContent = 
+                `Estado actual: ${tm.state || '-'}`;
+        }
+
+        function addTransition() {
+            const state = document.getElementById('transState').value;
+            const symbol = document.getElementById('transSymbol').value;
+            const write = document.getElementById('transWrite').value;
+            const move = document.getElementById('transMove').value;
+            const nextState = document.getElementById('transNext').value;
+
+            if (!state || !symbol || !nextState) {
+                showError('Todos los campos son requeridos');
+                return;
+            }
+
+            if (!tm.transitions[state]) tm.transitions[state] = {};
+            tm.transitions[state][symbol] = { write, move, nextState };
+            updateTransitionTable();
+        }
+
+        function updateTransitionTable() {
+            const tbody = document.getElementById('transBody');
+            tbody.innerHTML = '';
+            
+            for (const [state, symbols] of Object.entries(tm.transitions)) {
+                for (const [symbol, trans] of Object.entries(symbols)) {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${state}</td>
+                        <td>${symbol}</td>
+                        <td>${trans.write}</td>
+                        <td>${trans.move}</td>
+                        <td>${trans.nextState}</td>
+                        <td>
+                            <button onclick="deleteTransition('${state}', '${symbol}')">Eliminar</button>
+                        </td>
+                    `;
+                    tbody.appendChild(row);
+                }
+            }
+        }
+
+        function deleteTransition(state, symbol) {
+            if (tm.transitions[state] && tm.transitions[state][symbol]) {
+                delete tm.transitions[state][symbol];
+                if (Object.keys(tm.transitions[state]).length === 0) {
+                    delete tm.transitions[state];
+                }
+                updateTransitionTable();
+            }
+        }
+
+        function executeStep() {
+            if (tm.executeStep()) {
+                updateTapeDisplay();
+            } else {
+                showError('No hay transición definida');
+            }
+        }
+
+        function startExecution() {
+            tm.running = true;
+            tm.interval = setInterval(() => {
+                if (!tm.executeStep()) {
+                    stopExecution();
+                    return;
+                }
+                updateTapeDisplay();
+            }, 1000);
+        }
+
+        function stopExecution() {
+            clearInterval(tm.interval);
+            tm.running = false;
+        }
+
+        function resetMachine() {
+            const tape = document.getElementById('tapeInput').value;
+            const headPos = document.getElementById('headPos').value;
+            const initialState = document.getElementById('initState').value;
+            
+            tm.initialize(tape, headPos, initialState);
+            updateTapeDisplay();
+        }
+
+        function showError(message) {
+            document.getElementById('errorMsg').textContent = message;
+            setTimeout(() => document.getElementById('errorMsg').textContent = '', 3000);
+        }
+
+        // Inicialización
+        resetMachine();
+        updateTransitionTable();
+    </script>
+</body>
+</html>
