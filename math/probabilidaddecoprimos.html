@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Probabilidad de Números Coprimos</title>
+    <style>
+        .container { max-width: 800px; margin: 20px auto; padding: 20px; }
+        .input-group { margin: 10px 0; }
+        .pares-container { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 20px 0; }
+        .par-item { padding: 5px; border: 1px solid #ccc; }
+        .resultados { margin-top: 20px; padding: 15px; background-color: #f0f0f0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Probabilidad de números primos relativos</h2>
+        
+        <div class="input-group">
+            <label for="nValor">N (rango de números 1 a N):</label>
+            <input type="number" id="nValor" min="2" value="100">
+        </div>
+        
+        <div class="input-group">
+            <label for="intentos">Número de experimentos:</label>
+            <input type="number" id="intentos" min="1" value="1000">
+        </div>
+        
+        <button onclick="realizarExperimento()">Calcular</button>
+        
+        <div id="resultados" class="resultados" style="display: none;">
+            <h3>Primeras 20 parejas:</h3>
+            <div class="pares-container" id="pares"></div>
+            
+            <h3>Resultados:</h3>
+            <p>Parejas coprimas: <span id="coprimas">0</span></p>
+            <p>Parejas no coprimas: <span id="noCoprimas">0</span></p>
+            <p>Probabilidad empírica: <span id="probabilidad">0</span></p>
+            <p>Valor teórico (6/π²): ≈<span id="teorico">0</span></p>
+            
+            <h3>Explicación:</h3>
+            <p>La probabilidad teórica de que dos números sean primos relativos está dada por 6/π² (≈60.79%). 
+            Este resultado proviene de la teoría de números y análisis complejo, relacionado con la función zeta de Riemann. 
+            La probabilidad se obtiene considerando la distribución de números primos y la independencia probabilística 
+              de que dos números no compartan cada factor primo.
+	    (The formula is derived from the product over all primes of (1 - 1/p²), which equals 1/ζ(2) where ζ is the Riemann zeta function, and ζ(2) = π²/6, hence the probability 6/π².)</p>
+        </div>
+    </div>
+
+    <script>
+        function gcd(a, b) {
+            return b === 0 ? a : gcd(b, a % b);
+        }
+
+        function realizarExperimento() {
+            const n = parseInt(document.getElementById('nValor').value);
+            const intentos = parseInt(document.getElementById('intentos').value);
+            let coprimas = 0;
+            const pares = [];
+
+            for(let i = 0; i < intentos; i++) {
+                const a = Math.floor(Math.random() * n) + 1;
+                const b = Math.floor(Math.random() * n) + 1;
+                const mcd = gcd(a, b);
+                
+                if(mcd === 1) coprimas++;
+                if(i < 20) pares.push({a, b, mcd});
+            }
+
+            // Mostrar resultados
+            document.getElementById('resultados').style.display = 'block';
+            document.getElementById('coprimas').textContent = coprimas;
+            document.getElementById('noCoprimas').textContent = intentos - coprimas;
+            document.getElementById('probabilidad').textContent = 
+                (coprimas / intentos).toFixed(6);
+            document.getElementById('teorico').textContent = 
+                (6/(Math.PI*Math.PI)).toFixed(6);
+
+            // Mostrar pares
+            const paresHTML = pares.map(par => 
+                `<div class="par-item">
+                    (${par.a}, ${par.b}) → MCD = ${par.mcd}
+                 </div>`
+            ).join('');
+            document.getElementById('pares').innerHTML = paresHTML;
+        }
+    </script>
+</body>
+</html>
