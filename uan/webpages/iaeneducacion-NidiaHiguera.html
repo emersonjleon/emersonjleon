@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Experiencia con IA en Educación</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --sidebar-width: 280px;
+            --transition-speed: 0.3s;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            background-color: #f5f7fa;
+            color: #333;
+        }
+        
+        /* Menú lateral interactivo */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: linear-gradient(135deg, #3a1c71 0%, #d76d77 50%, #ffaf7b 100%);
+            color: white;
+            height: 100vh;
+            position: fixed;
+            padding: 0;
+            box-sizing: border-box;
+            box-shadow: 5px 0 15px rgba(0,0,0,0.2);
+            overflow-y: auto;
+            transition: all var(--transition-speed) ease;
+            z-index: 1000;
+        }
+        
+        .sidebar:hover {
+            box-shadow: 8px 0 20px rgba(0,0,0,0.3);
+        }
+        
+        .sidebar-header {
+            padding: 25px;
+            background-color: rgba(0,0,0,0.2);
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .sidebar-header h2 {
+            margin: 0;
+            font-size: 1.5rem;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            position: relative;
+        }
+        
+        .sidebar-header h2::after {
+            content: "";
+            display: block;
+            width: 50px;
+            height: 3px;
+            background: white;
+            margin: 10px auto;
+            border-radius: 3px;
+        }
+        
+        .nav-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .nav-item {
+            position: relative;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            transition: all var(--transition-speed) ease;
+        }
+        
+        .nav-item:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+        
+        .nav-item.active {
+            background-color: rgba(255,255,255,0.15);
+        }
+        
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            padding: 15px 25px;
+            transition: all var(--transition-speed) ease;
+        }
+        
+        .nav-link i {
+            margin-right: 15px;
+            font-size: 1.2rem;
+            width: 24px;
+            text-align: center;
+        }
+        
+        .nav-link:hover {
+            padding-left: 30px;
+            background-color: rgba(255,255,255,0.05);
+        }
+        
+        .nav-link:hover::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 4px;
+            background: white;
+            animation: navHover 0.5s ease;
+        }
+        
+        @keyframes navHover {
+            from { height: 0; }
+            to { height: 100%; }
+        }
+        
+        .nav-text {
+            flex: 1;
+        }
+        
+        .nav-badge {
+            background-color: rgba(255,255,255,0.2);
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-size: 0.75rem;
+            margin-left: 10px;
+        }
+        
+        /* Contenido principal */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            padding: 30px;
+            flex: 1;
+            min-height: 100vh;
+            transition: margin-left var(--transition-speed) ease;
+        }
+        
+        section {
+            margin-bottom: 40px;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background-color: white;
+        }
+        
+        section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.12);
+        }
+        
+        section::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--section-accent), var(--section-accent-dark));
+        }
+        
+        #descripcion {
+            --section-accent: #ff6b6b;
+            --section-accent-dark: #d63031;
+            border-top: 4px solid #ff6b6b;
+        }
+        
+        #posibilidades {
+            --section-accent: #74b9ff;
+            --section-accent-dark: #0984e3;
+            border-top: 4px solid #74b9ff;
+        }
+        
+        #preocupaciones {
+            --section-accent: #ffbe76;
+            --section-accent-dark: #f39c12;
+            border-top: 4px solid #ffbe76;
+        }
+        
+        #retos {
+            --section-accent: #55efc4;
+            --section-accent-dark: #00b894;
+            border-top: 4px solid #55efc4;
+        }
+        
+        #paginas {
+            --section-accent: #a55eea;
+            --section-accent-dark: #8854d0;
+            border-top: 4px solid #a55eea;
+        }
+        
+        #agradecimientos {
+            --section-accent: #fdcb6e;
+            --section-accent-dark: #e17055;
+            border-top: 4px solid #fdcb6e;
+        }
+        
+        h1, h2, h3 {
+            color: #2d3436;
+            margin-top: 0;
+            position: relative;
+        }
+        
+        h1 {
+            color: var(--section-accent-dark);
+            font-size: 2rem;
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+        }
+        
+        h1::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(to right, var(--section-accent), var(--section-accent-dark));
+            border-radius: 2px;
+        }
+        
+        h2 {
+            font-size: 1.7rem;
+            margin-bottom: 20px;
+            color: #2d3436;
+        }
+        
+        h3 {
+            font-size: 1.3rem;
+            color: #2d3436;
+            margin-bottom: 15px;
+        }
+        
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+        
+        .section-icon {
+            width: 50px;
+            height: 50px;
+            background-color: var(--section-accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+            color: white;
+            font-size: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .content-with-image {
+            display: flex;
+            align-items: flex-start;
+            gap: 30px;
+            margin-bottom: 20px;
+        }
+        
+        .text-content {
+            flex: 1;
+        }
+        
+        .inline-image {
+            width: 250px;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .inline-image:hover {
+            transform: scale(1.05) rotate(2deg);
+        }
+        
+        .link-box {
+            background-color: rgba(255,255,255,0.9);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-left: 4px solid var(--section-accent);
+        }
+        
+        .link-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        .link-box a {
+            color: var(--section-accent-dark);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+        
+        .link-box a:hover {
+            color: #2d3436;
+            text-decoration: underline;
+        }
+        
+        ul, ol {
+            padding-left: 25px;
+        }
+        
+        li {
+            margin-bottom: 12px;
+            line-height: 1.7;
+            position: relative;
+        }
+        
+        li::before {
+            content: "•";
+            color: var(--section-accent);
+            font-weight: bold;
+            display: inline-block;
+            width: 1em;
+            margin-left: -1em;
+        }
+        
+        p {
+            line-height: 1.8;
+            color: #555;
+            font-size: 1.05rem;
+        }
+        
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+        }
+        
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 200px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 10px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -100px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 70px;
+                overflow: hidden;
+            }
+            
+            .sidebar-header h2 span,
+            .nav-text {
+                display: none;
+            }
+            
+            .sidebar-header h2::after {
+                width: 30px;
+            }
+            
+            .nav-link {
+                justify-content: center;
+                padding: 15px 0;
+            }
+            
+            .nav-link i {
+                margin-right: 0;
+                font-size: 1.4rem;
+            }
+            
+            .main-content {
+                margin-left: 70px;
+            }
+            
+            .content-with-image {
+                flex-direction: column;
+            }
+            
+            .inline-image {
+                width: 100%;
+                margin-top: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Menú lateral interactivo -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h2><i class="fas fa-robot"></i> <span>IA en Educación</span></h2>
+        </div>
+        <ul class="nav-menu">
+            <li class="nav-item active">
+                <a href="#descripcion" class="nav-link">
+                    <i class="fas fa-book-open"></i>
+                    <span class="nav-text">Descripción</span>
+                    <span class="nav-badge">1</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#posibilidades" class="nav-link">
+                    <i class="fas fa-lightbulb"></i>
+                    <span class="nav-text">Posibilidades</span>
+                    <span class="nav-badge">4</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#preocupaciones" class="nav-link">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <span class="nav-text">Preocupaciones</span>
+                    <span class="nav-badge">2</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#retos" class="nav-link">
+                    <i class="fas fa-running"></i>
+                    <span class="nav-text">Retos</span>
+                    <span class="nav-badge">3</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#paginas" class="nav-link">
+                    <i class="fas fa-link"></i>
+                    <span class="nav-text">Recursos</span>
+                    <span class="nav-badge">5</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#agradecimientos" class="nav-link">
+                    <i class="fas fa-hands-helping"></i>
+                    <span class="nav-text">Agradecimientos</span>
+                    <span class="nav-badge">1</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    
+    <!-- Contenido principal -->
+    <div class="main-content">
+        <section id="descripcion">
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-book-open"></i>
+                </div>
+                <h1>DESCRIPCIÓN DE LA EXPERIENCIA CON IA</h1>
+            </div>
+            
+            <div class="content-with-image">
+                <div class="text-content">
+                    <p>Este curso denominado "La Inteligencia artificial en el contexto Educativo", desde el momento en que lo inicié se convirtió en un reto, dado que desconocía muchas de las aplicaciones.</p>
+                    
+                    <p>Inicialmente conocí gracias a la explicación de los encuentros sincrónicos con los docentes del curso el uso de herramientas como DeepSeek, chat GPT, con los cuales no había interactuado; seguido de ello, las lecturas y material de apoyo proporcionado para el desarrollo del curso coadyuvo en la comprensión de estas herramientas y la importancia de conocerlas y usarlas como apoyo en el proceso de aprendizaje de los estudiantes, dada las condiciones actuales del entorno y la necesidad de incursionar y reconocer que las cosas y la tecnología día a día evolucionan y nos invitan a estar actualizados y de manera consiente hacer uso de ellas.</p>
+                </div>
+                <img src="https://images.unsplash.com/photo-1677442135136-760c813a743d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="IA en educación" class="inline-image">
+            </div>
+            
+            <div class="content-with-image">
+                <img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="GitHub y programación" class="inline-image">
+                <div class="text-content">
+                    <p>Otro reto importante fue conocer el uso de GitHub ya que, desconocía totalmente el uso de la aplicación.</p>
+                    
+                    <p>También es importante entender que estas herramientas ayudan a mejorar la productividad a hacer un manejo más óptimo del tiempo y resolver problemas con mayor celeridad. Importante resaltar que la IA no debe reemplazar la creatividad humana si no servir de apoyo en la realización de varias tareas teniendo en cuenta la importancia de revisar de manera critica las respuestas dadas, ya que si se desconoce el tema, pueden surgir resultados no esperados.</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="posibilidades">
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-lightbulb"></i>
+                </div>
+                <h1>Cosas sorprendentes de las posibilidades de la IA</h1>
+            </div>
+            
+            <div class="content-with-image">
+                <div class="text-content">
+                    <ol>
+                        <li><strong>Interacción humana:</strong> La interacción es como si se estuviera haciendo con un humano.</li>
+                        <li><strong>Respuestas rápidas:</strong> Las respuestas al prompt son muy rápidas, pero depende de la forma como se haga.</li>
+                        <li><strong>Corrección de errores:</strong> Corrige los errores cuando se solicita y lo hace de manera rápida.</li>
+                        <li><strong>Creación de contenido:</strong> Da opciones de hacer cosas inimaginables como creación de una página web, que requiere conocimientos específicos, que sin la ayuda de IA no hubiese podido lograr dado el área de conocimiento que exige.</li>
+                    </ol>
+                    
+                    <div class="tooltip" style="margin-top: 20px; display: inline-block;">
+                        <i class="fas fa-info-circle" style="color: var(--section-accent); font-size: 1.2rem;"></i>
+                        <span class="tooltiptext">La IA está revolucionando la forma en que aprendemos y creamos contenido</span>
+                    </div>
+                </div>
+                <img src="https://images.unsplash.com/photo-1677442135205-8c5fa0a9727f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Posibilidades IA" class="inline-image">
+            </div>
+        </section>
+        
+        <section id="preocupaciones">
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <h1>Preocupaciones y sugerencias en el uso de la IA</h1>
+            </div>
+            
+            <div class="content-with-image">
+                <img src="https://images.unsplash.com/photo-1677442135139-3e5b5343b8f6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Preocupaciones IA" class="inline-image">
+                <div class="text-content">
+                    <p>La IA es una herramienta muy útil en el entorno educativo; sin embargo es preocupante que se genere una dependencia y pérdida de la autonomía humana. Los estudiantes presenten los informes y trabajos solo con ayuda de la IA y olviden la parte crítica y argumentativa que las actividades académicas demandan tales como ensayos, investigaciones, entre otras. El plagio, otro aspecto importante a tener en cuenta ya que, en varias oportunidades solo se copia la respuesta emitida por IA.</p>
+                    
+                    <p>Las sugerencias en el uso de IA para un futuro es establecer unas reglas claras de uso especialmente en el entorno educativo, que permita que los estudiantes hagan uso de IA pero con un pensamiento crítico, argumentativo y responsable.</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="retos">
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-running"></i>
+                </div>
+                <h1>Principales retos personales de aprendizaje y adaptación a este nuevo mundo de la IA</h1>
+            </div>
+            
+            <div class="content-with-image">
+                <div class="text-content">
+                    <p>En cuanto a los retos continuar explorando todas herramientas que hoy día permiten optimizar tiempo, estar a la vanguardia de los cambios tecnológicos, usarla solamente como herramienta que agregue valor al desarrollo de un tema, es decir no volverse dependiente de la misma; y por supuesto adaptarnos a este nuevo contexto que hoy día es una realidad.</p>
+                </div>
+                <img src="https://images.unsplash.com/photo-1677442135139-3e5b5343b8f6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Retos IA" class="inline-image">
+            </div>
+        </section>
+        
+        <section id="paginas">
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-link"></i>
+                </div>
+                <h1>Páginas relevantes para creatividad de IA en educación</h1>
+            </div>
+            
+            <div class="content-with-image">
+                <img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Recursos IA" class="inline-image">
+                <div class="text-content">
+                    <div class="link-box">
+                        <h3><i class="fas fa-user-circle"></i> Página personal creada en la actividad del módulo 2</h3>
+                        <a href="https://Maris-123.github.io" target="_blank">Maris-123.github.io</a>
+                    </div>
+                    
+                    <div class="link-box">
+                        <h3><i class="fas fa-laptop-code"></i> Página de ejemplo</h3>
+                        <a href="https://emersonuan.github.io/firstwebpage/" target="_blank">https://emersonuan.github.io/firstwebpage/</a>
+                    </div>
+                    
+                    <div class="link-box">
+                        <h3><i class="fas fa-star"></i> Otras páginas relevantes</h3>
+                        <ul>
+                            <li><a href="https://www.canva.com/magic-studio/" target="_blank">Canva Magic Studio</a> - Genera imágenes, videos y diseños educativos con IA a partir de texto. Ideal para proyectos visuales.</li>
+                            <li><a href="https://www.eduaide.ai/" target="_blank">Eduaide.ai</a> - Crea planes de lecciones, rúbricas y actividades personalizadas en segundos.</li>
+                            <li><a href="https://web.diffit.me/" target="_blank">Diffit</a> - Convierte textos complejos en materiales accesibles para diferentes niveles educativos usando IA.</li>
+                            <li><a href="https://curipod.com/" target="_blank">Curipod</a> - Diseña lecciones con preguntas generadas por IA y actividades colaborativas.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="agradecimientos">
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-hands-helping"></i>
+                </div>
+                <h1>Agradecimientos</h1>
+            </div>
+            
+            <div class="content-with-image">
+                <div class="text-content">
+                    <p>Quiero expresar mi gratitud a los docentes y compañeros del curso "La Inteligencia artificial en el contexto Educativo" por compartir sus conocimientos y experiencias, lo cual ha enriquecido mi aprendizaje en el uso de estas herramientas tecnológicas.</p>
+                    
+                    <p>También agradezco a los desarrolladores de las diferentes plataformas de IA mencionadas, que con su innovación están transformando el panorama educativo.</p>
+                </div>
+                <img src="https://images.unsplash.com/photo-1579389083078-4e7018379f7e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Agradecimientos" class="inline-image">
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Hacer el menú interactivo
+        document.addEventListener('DOMContentLoaded', function() {
+            const navItems = document.querySelectorAll('.nav-item');
+            const sections = document.querySelectorAll('section');
+            
+            // Cambiar clase activa al hacer clic
+            navItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    navItems.forEach(i => i.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+            
+            // Cambiar clase activa al hacer scroll
+            window.addEventListener('scroll', function() {
+                let current = '';
+                
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    
+                    if (pageYOffset >= (sectionTop - 200)) {
+                        current = section.getAttribute('id');
+                    }
+                });
+                
+                navItems.forEach(item => {
+                    item.classList.remove('active');
+                    if (item.querySelector('a').getAttribute('href') === `#${current}`) {
+                        item.classList.add('active');
+                    }
+                });
+            });
+            
+            // Efecto hover para imágenes
+            const images = document.querySelectorAll('.inline-image');
+            images.forEach(img => {
+                img.addEventListener('mouseenter', function() {
+                    this.style.transition = 'transform 0.3s ease';
+                });
+                
+                img.addEventListener('mouseleave', function() {
+                    this.style.transition = 'transform 0.5s ease';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
