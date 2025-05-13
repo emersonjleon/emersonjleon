@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mi Experiencia con la IA</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f4f4f4;
+      color: #333;
+    }
+    header {
+      background-color: #1a73e8;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    main {
+      padding: 20px;
+      max-width: 1000px;
+      margin: auto;
+    }
+    section {
+      margin-bottom: 40px;
+    }
+    h2 {
+      color: #1a73e8;
+    }
+    .carousel img {
+      width: 300px;
+      height: auto;
+      margin-right: 10px;
+      border-radius: 8px;
+    }
+    .carousel {
+      display: flex;
+      overflow-x: auto;
+    }
+    footer {
+      background-color: #ddd;
+      padding: 20px;
+      text-align: center;
+    }
+    ul {
+      list-style: none;
+      padding-left: 0;
+    }
+    ul li {
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Mi Experiencia con la Inteligencia Artificial</h1>
+  <p>Reflexiones y creatividad con IA</p>
+</header>
+
+<main>
+  <section>
+    <h2>Mi experiencia en este curso</h2>
+    <p>Durante este curso, he aprendido a usar herramientas de inteligencia artificial como ChatGPT para generar ideas, crear textos, imágenes, código y mucho más. La experiencia ha sido transformadora, no solo por lo que puedo hacer ahora, sino por lo que imagino que podré hacer en el futuro. He explorado nuevas formas de aprender y enseñar, y he visto cómo la IA puede ser un gran compañero de creatividad.</p>
+  </section>
+
+  <section>
+    <h2>Reflexiones</h2>
+    <h3>¿Qué cosas te parecen sorprendentes?</h3>
+    <p>Me sorprende cómo la IA puede escribir, razonar, dibujar, programar, traducir y hasta conversar con empatía. Es impresionante su capacidad para adaptarse a diferentes contextos y resolver problemas complejos en segundos.</p>
+
+    <h3>¿Qué cosas te preocupan y qué sugerencias das?</h3>
+    <p>Me preocupa el mal uso de la IA, la desinformación, la pérdida de empleos y la falta de ética. Sugiero fomentar la educación crítica, enseñar a usar IA de forma responsable y asegurar la inclusión digital para todos.</p>
+
+    <h3>¿Cuáles son tus retos personales?</h3>
+    <p>Mis principales retos son mantenerme actualizado, diferenciar entre contenido humano y generado por IA, y usar estas herramientas de manera ética. También quiero encontrar un equilibrio entre la automatización y el desarrollo personal.</p>
+  </section>
+
+  <section>
+    <h2>Enlaces útiles</h2>
+    <ul>
+      <li><a href="https://emersonuan.github.io/firstwebpage/" target="_blank">Página del módulo 2</a></li>
+      <li><a href="https://www.teachthought.com/the-future-of-learning/ai-in-education/" target="_blank">Creatividad con IA en la educación (TeachThought)</a></li>
+      <li><a href="https://experiments.withgoogle.com/collection/ai" target="_blank">Proyectos creativos con IA - Google</a></li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Imágenes generadas con IA</h2>
+    <div class="carousel">
+      <img src="https://via.placeholder.com/300x200?text=Imagen+IA+1" alt="IA Imagen 1">
+      <img src="https://via.placeholder.com/300x200?text=Imagen+IA+2" alt="IA Imagen 2">
+      <img src="https://via.placeholder.com/300x200?text=Imagen+IA+3" alt="IA Imagen 3">
+    </div>
+  </section>
+
+  <section>
+    <h2>Ideas creativas para proyectos educativos con IA</h2>
+    <ul>
+      <li>Creación de tutores virtuales personalizados.</li>
+      <li>Generación automática de ejercicios y retroalimentación.</li>
+      <li>Diseño de mundos 3D para simulaciones educativas con IA y realidad aumentada.</li>
+      <li>Evaluación emocional y motivacional en tiempo real para adaptar el contenido.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Mini Test interactivo (con JavaScript)</h2>
+    <p>¿Qué hace la inteligencia artificial?</p>
+    <select id="respuesta">
+      <option value="">--Selecciona una opción--</option>
+      <option value="1">Hace café</option>
+      <option value="2">Genera contenido, responde preguntas y más</option>
+      <option value="3">Vuela</option>
+    </select>
+    <button onclick="verificar()">Verificar</button>
+    <p id="resultado"></p>
+
+    <script>
+      function verificar() {
+        const respuesta = document.getElementById('respuesta').value;
+        const resultado = document.getElementById('resultado');
+        if (respuesta === "2") {
+          resultado.textContent = "¡Correcto! La IA puede generar contenido, responder y mucho más.";
+          resultado.style.color = "green";
+        } else {
+          resultado.textContent = "Incorrecto. Intenta de nuevo.";
+          resultado.style.color = "red";
+        }
+      }
+    </script>
+  </section>
+</main>
+
+<footer>
+  <p>Hecho con creatividad y curiosidad en el curso de IA educativa.</p>
+</footer>
+
+</body>
+</html>
