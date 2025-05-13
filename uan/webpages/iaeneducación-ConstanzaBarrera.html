@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+
+<html lang="es">
+
+<head>
+
+  <meta charset="UTF-8" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <title>Derechos Sexuales y Reproductivos</title>
+
+  <style>
+
+    :root {
+
+      --primary: #6a1b9a;
+
+      --secondary: #f3e5f5;
+
+      --text: #333;
+
+      --white: #fff;
+
+    }
+
+ 
+
+    * {
+
+      margin: 0;
+
+      padding: 0;
+
+      box-sizing: border-box;
+
+    }
+
+ 
+
+    body {
+
+      font-family: 'Segoe UI', sans-serif;
+
+      background-color: var(--secondary);
+
+      color: var(--text);
+
+      display: flex;
+
+      min-height: 100vh;
+
+    }
+
+ 
+
+    /* Sidebar */
+
+    .sidebar {
+
+      background-color: var(--primary);
+
+      color: var(--white);
+
+      width: 250px;
+
+      position: fixed;
+
+      height: 100%;
+
+      top: 0;
+
+      left: -250px;
+
+      transition: left 0.3s ease;
+
+      padding: 40px 20px;
+
+      z-index: 999;
+
+    }
+
+ 
+
+    .sidebar.active {
+
+      left: 0;
+
+    }
+
+ 
+
+    .sidebar h2 {
+
+      margin-bottom: 20px;
+
+    }
+
+ 
+
+    .sidebar a {
+
+      display: block;
+
+      color: var(--white);
+
+      text-decoration: none;
+
+      margin: 15px 0;
+
+      font-weight: 500;
+
+      transition: color 0.3s ease;
+
+    }
+
+ 
+
+    .sidebar a:hover {
+
+      color: #ce93d8;
+
+    }
+
+ 
+
+    /* Hamburger */
+
+    .hamburger {
+
+      position: fixed;
+
+      top: 20px;
+
+      left: 20px;
+
+      z-index: 1000;
+
+      cursor: pointer;
+
+      display: flex;
+
+      flex-direction: column;
+
+      gap: 6px;
+
+    }
+
+ 
+
+    .hamburger span {
+
+      width: 30px;
+
+      height: 3px;
+
+      background-color: var(--primary);
+
+      border-radius: 3px;
+
+      transition: all 0.3s ease;
+
+    }
+
+ 
+
+    /* Main content */
+
+    .main {
+
+      margin-left: 0;
+
+      padding: 60px 20px;
+
+      width: 100%;
+
+      transition: margin-left 0.3s ease;
+
+    }
+
+ 
+
+    .main.active {
+
+      margin-left: 250px;
+
+    }
+
+ 
+
+    section {
+
+      max-width: 1000px;
+
+      margin: 40px auto;
+
+      padding: 20px;
+
+      background-color: var(--white);
+
+      border-radius: 10px;
+
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+
+    }
+
+ 
+
+    section h2 {
+
+      color: var(--primary);
+
+      margin-bottom: 15px;
+
+    }
+
+ 
+
+    .btn {
+
+      display: inline-block;
+
+      background-color: var(--primary);
+
+      color: white;
+
+      padding: 10px 20px;
+
+      border-radius: 5px;
+
+      text-decoration: none;
+
+      margin-top: 15px;
+
+    }
+
+ 
+
+    .btn:hover {
+
+      background-color: #4a148c;
+
+    }
+
+ 
+
+    .faq {
+
+      margin-top: 20px;
+
+    }
+
+ 
+
+    .faq-item {
+
+      margin-bottom: 15px;
+
+    }
+
+ 
+
+    .faq-item h3 {
+
+      color: var(--primary);
+
+      cursor: pointer;
+
+    }
+
+ 
+
+    .faq-item p {
+
+      display: none;
+
+      margin-top: 10px;
+
+      color: #555;
+
+    }
+
+ 
+
+    .faq-item.active p {
+
+      display: block;
+
+    }
+
+ 
+
+    .contact-form input, .contact-form textarea {
+
+      width: 100%;
+
+      padding: 10px;
+
+      margin-bottom: 15px;
+
+      border: 1px solid #ccc;
+
+      border-radius: 5px;
+
+    }
+
+ 
+
+    .contact-form button {
+
+      background-color: var(--primary);
+
+      color: white;
+
+      padding: 10px 20px;
+
+      border: none;
+
+      border-radius: 5px;
+
+      cursor: pointer;
+
+    }
+
+ 
+
+    .contact-form button:hover {
+
+      background-color: #4a148c;
+
+    }
+
+ 
+
+    /* Chatbot */
+
+    #chatbot {
+
+      position: fixed;
+
+      bottom: 20px;
+
+      right: 20px;
+
+      background-color: #fff;
+
+      padding: 20px;
+
+      border-radius: 10px;
+
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+
+      width: 300px;
+
+      z-index: 1000;
+
+    }
+
+ 
+
+    #chatbox {
+
+      max-height: 300px;
+
+      overflow-y: auto;
+
+      border: 1px solid #ddd;
+
+      padding: 10px;
+
+      margin-bottom: 10px;
+
+    }
+
+ 
+
+    #chatbox div {
+
+      margin-bottom: 10px;
+
+    }
+
+ 
+
+    #chatbox .user-message {
+
+      color: #333;
+
+      font-weight: bold;
+
+    }
+
+ 
+
+    #chatbox .bot-response {
+
+      color: #6a1b9a;
+
+    }
+
+ 
+
+    #user-input {
+
+      width: 100%;
+
+      padding: 10px;
+
+      border-radius: 5px;
+
+      border: 1px solid #ccc;
+
+      margin-bottom: 10px;
+
+    }
+
+ 
+
+    #chatbot button {
+
+      background-color: var(--primary);
+
+      color: white;
+
+      padding: 10px;
+
+      border-radius: 5px;
+
+      width: 100%;
+
+      border: none;
+
+      cursor: pointer;
+
+    }
+
+ 
+
+    #chatbot button:hover {
+
+      background-color: #4a148c;
+
+    }
+
+ 
+
+    @media (max-width: 768px) {
+
+      .main.active {
+
+        margin-left: 0;
+
+      }
+
+ 
+
+      .sidebar {
+
+        width: 100%;
+
+      }
+
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+ 
+
+  <!-- Botón Hamburguesa -->
+
+  <div class="hamburger" id="hamburger">
+
+    <span></span>
+
+    <span></span>
+
+    <span></span>
+
+  </div>
+
+ 
+
+  <!-- Menú Lateral -->
+
+  <nav class="sidebar" id="sidebar">
+
+    <h2>Menú</h2>
+
+    <a href="#intro">Inicio</a>
+
+    <a href="#ia">IA y educación</a>
+
+    <a href="#derechos">Derechos sexuales</a>
+
+    <a href="#faq">FAQ</a>
+
+    <a href="#contacto">Contacto</a>
+
+  </nav>
+
+ 
+
+  <!-- Contenido Principal -->
+
+  <div class="main" id="main">
+
+    <section id="intro">
+
+      <h2>Bienvenidos/as</h2>
+
+      <p>Esta plataforma está diseñada para informar y educar a adolescentes sobre sus derechos sexuales y reproductivos, integrando herramientas de inteligencia artificial para el aprendizaje crítico y seguro.</p>
+
+    </section>
+
+ 
+
+    <section id="ia">
+
+      <h2>Uso de IA en la Educación Sexual</h2>
+
+      <p>La inteligencia artificial puede ser una aliada para generar contenidos interactivos, responder preguntas frecuentes y personalizar la educación sexual. Sin embargo, su uso debe estar acompañado de supervisión, reflexión ética y enfoque inclusivo.</p>
+
+      <a href="#" class="btn">Ver ejemplos de IA</a>
+
+    </section>
+
+ 
+
+    <section id="derechos">
+
+      <h2>¿Cuáles son mis derechos?</h2>
+
+      <p>Los adolescentes tienen derecho a recibir educación sexual integral, a decidir sobre su cuerpo, a acceder a servicios de salud sin discriminación y a ser escuchados. Promover estos derechos contribuye a su bienestar y autonomía.</p>
+
+    </section>
+
+ 
+
+    <section id="faq" class="faq">
+
+      <h2>Preguntas Frecuentes</h2>
+
+      <div class="faq-item">
+
+        <h3>¿Qué son los derechos sexuales y reproductivos?</h3>
+
+        <p>Los derechos sexuales y reproductivos son los derechos que permiten a las personas decidir de manera libre y responsable sobre su sexualidad, sin discriminación, coerción ni violencia. Incluye el acceso a información, servicios de salud y la igualdad de género.</p>
+
+      </div>
+
+      <div class="faq-item">
+
+        <h3>¿Cómo puedo acceder a servicios de salud sexual?</h3>
+
+        <p>En la mayoría de los países, los adolescentes tienen derecho a acceder a servicios de salud sexual y reproductiva sin necesidad de autorización parental. Esto incluye anticonceptivos, pruebas de ETS, consejería y apoyo emocional.</p>
+
+      </div>
+
+      <!-- Más preguntas aquí -->
+
+    </section>
+
+ 
+
+    <section id="contacto">
+
+      <h2>Contacto</h2>
+
+      <p>¿Tienes dudas o sugerencias? Escríbenos para recibir más información o participar en nuestras charlas educativas.</p>
+
+      <form class="contact-form" action="https://formspree.io/f/mwkwzgoq" method="POST">
+
+        <input type="text" name="name" placeholder="Tu nombre" required />
+
+        <input type="email" name="email" placeholder="Tu correo" required />
+
+        <textarea name="message" placeholder="Escribe tu mensaje" required></textarea>
+
+        <button type="submit">Enviar mensaje</button>
+
+      </form>
+
+    </section>
+
+  </div>
+
+ 
+
+  <!-- Chatbot IA -->
+
+  <section id="chatbot">
+
+    <h2>Consulta con nuestro chatbot</h2>
+
+    <div id="chatbox">
+
+      <!-- Mensajes de chat -->
+
+    </div>
+
+    <input type="text" id="user-input" placeholder="Escribe tu pregunta..." />
+
+    <button onclick="sendMessage()">Enviar</button>
+
+  </section>
+
+ 
+
+  <!-- Script para Menú -->
+
+  <script>
+
+    const hamburger = document.getElementById('hamburger');
+
+    const sidebar = document.getElementById('sidebar');
+
+    const main = document.getElementById('main');
+
+ 
+
+    hamburger.addEventListener('click', () => {
+
+      sidebar.classList.toggle('active');
+
+      main.classList.toggle('active');
+
+    });
+
+ 
+
+    // Toggle FAQ items
+
+    const faqItems = document.querySelectorAll('.faq-item');
+
+    faqItems.forEach(item => {
+
+      item.querySelector('h3').addEventListener('click', () => {
+
+        item.classList.toggle('active');
+
+      });
+
+    });
+
+ 
+
+    // Chatbot IA
+
+    const chatContent = document.getElementById('chatbox');
+
+    const userInput = document.getElementById('user-input');
+
+ 
+
+    // Función para enviar mensaje
+
+    function sendMessage() {
+
+      const userMessage = userInput.value;
+
+      if (userMessage.trim() === '') return;
+
+ 
+
+      chatContent.innerHTML += `<div class="user-message"><strong>Tú:</strong> ${userMessage}</div>`;
+
+ 
+
+      // Simulación de respuesta del chatbot
+
+      const botResponse = getBotResponse(userMessage);
+
+      chatContent.innerHTML += `<div class="bot-response"><strong>Bot:</strong> ${botResponse}</div>`;
+
+ 
+
+      // Desplazar al final
+
+      chatContent.scrollTop = chatContent.scrollHeight;
+
+ 
+
+      userInput.value = '';
+
+    }
+
+ 
+
+    // Función
