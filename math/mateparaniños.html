@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Práctica de Matemáticas</title>
+  <style>
+    :root{
+      --bg:#f5fbff;
+      --card:#ffffff;
+      --accent:#7c4dff; /* violeta suave */
+      --accent-2:#00c2a8; /* turquesa */
+      --accent-3:#ffb300; /* dorado */
+      --text:#243043;
+      --muted:#6b7a90;
+      --ok:#2dbf77;
+      --bad:#ff5a5f;
+    }
+    html,body{height:100%}
+    body{
+      margin:0; font-family: ui-rounded, system-ui, -apple-system, Segoe UI, Roboto, Inter, "Noto Sans", sans-serif;
+      background: radial-gradient(1200px 800px at 20% 10%, #97959f 0%, #6f9ff8 60%, var(--bg) 100%);
+      color:var(--text);
+    }
+    .wrap{ max-width:980px; margin:0 auto; padding:24px; }
+
+    header{ display:flex; align-items:center; gap:16px; }
+    header h1{ font-size: clamp(28px, 4vw, 40px); margin:0; line-height:1.1 }
+    header p{ margin:0; color:var(--muted) }
+
+    .card{ background:var(--card); border-radius:24px; box-shadow: 0 10px 30px rgba(0,0,0,.08); padding:24px; }
+
+    .controls{ display:flex; flex-wrap:wrap; gap:12px; align-items:center; margin-top:8px }
+    .chip{ display:inline-flex; align-items:center; gap:8px; background:#f0f4ff; padding:10px 14px; border-radius:999px; font-size:16px }
+    .chip select, .chip input[type="number"]{ font-size:16px; border:none; background:transparent; outline:none; color:var(--text) }
+
+    .problem{ margin-top:20px; display:grid; grid-template-columns: 1fr auto 1fr; gap:8px; align-items:end; justify-items:center; font-weight:700; font-size: clamp(42px, 7vw, 72px); }
+    .op{ color:var(--accent); }
+    .equals{ color:var(--accent-2); }
+
+    .answer{ display:flex; justify-content:center; margin-top:10px; gap:10px; }
+    .answer input{ font-size: clamp(28px, 4.5vw, 40px); text-align:center; width:min(280px, 60%); padding:14px 18px; border-radius:16px; border:2px solid #dbe6ff; outline:none; }
+    .btn{ font-size: clamp(18px, 3.2vw, 22px); padding:14px 18px; border:none; border-radius:16px; cursor:pointer; font-weight:700; background:linear-gradient(135deg, var(--accent), #9b7bff); color:white; box-shadow:0 6px 18px rgba(124,77,255,.35); transition: transform .05s ease; user-select:none; }
+    .btn:active{ transform:translateY(1px) }
+    .btn.secondary{ background:linear-gradient(135deg, #00c2a8, #39e0c8); box-shadow:0 6px 18px rgba(0,194,168,.35) }
+    .btn.ghost{ background:#eef3ff; color:var(--text); box-shadow:none }
+
+    .feedback{ text-align:center; min-height:32px; margin-top:8px; font-size: clamp(20px, 3.2vw, 28px); font-weight:800 }
+    .feedback.ok{ color:var(--ok) }
+    .feedback.bad{ color:var(--bad) }
+
+    .scorebar{ height:14px; background:#ecf2ff; border-radius:999px; overflow:hidden; margin:14px 0 6px }
+    .scorebar > div{ height:100%; width:0%; background:linear-gradient(90deg, var(--accent-2), var(--accent-3)); transition:width .35s ease }
+    .tiny{ color:var(--muted); font-size:14px; text-align:right }
+
+    /* Mascota divertida (monstruito) */
+    .pet{ position:relative; width:min(340px, 90vw); margin:18px auto 8px; }
+    .pet svg{ width:100%; height:auto; display:block; }
+    .pet .wink{ transform-origin: center; transform: scaleY(1); transition: transform .15s ease }
+    .pet.happy .wink{ transform: scaleY(0.1) }
+    .pet.sad .face{ transform:translateY(3px) }
+    .float{ animation: floaty 3s ease-in-out infinite }
+    @keyframes floaty{ 0%{ transform:translateY(0) } 50%{ transform:translateY(-6px) } 100%{ transform:translateY(0) } }
+
+    /* Confeti */
+    .confetti{ position:fixed; top:-10px; width:8px; height:14px; opacity:0.95; pointer-events:none; border-radius:2px; animation: fall 1.8s linear forwards }
+    @keyframes fall{ to{ transform: translateY(110vh) rotate(720deg); opacity:0 } }
+
+    footer{ text-align:center; color:var(--muted); margin-top:18px; font-size:14px }
+
+    .row{ display:flex; gap:12px; flex-wrap:wrap; align-items:center }
+    .grow{ flex:1 }
+    .right{ text-align:right }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <!-- Mascota divertida -->
+      <div class="pet float" id="pet" aria-hidden="true">
+        <svg viewBox="0 0 360 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Monstruo amistoso">
+          <defs>
+            <linearGradient id="g1" x1="0" x2="1">
+              <stop offset="0%" stop-color="#7c4dff"/>
+              <stop offset="100%" stop-color="#39e0c8"/>
+            </linearGradient>
+          </defs>
+          <ellipse cx="180" cy="150" rx="140" ry="90" fill="#444" opacity="0.25"/>
+          <g class="body">
+            <rect x="70" y="30" rx="70" ry="70" width="220" height="170" fill="url(#g1)"/>
+            <circle cx="140" cy="100" r="20" fill="#fff"/>
+            <circle cx="220" cy="100" r="20" fill="#fff"/>
+            <circle id="eyeL" cx="140" cy="100" r="7" fill="#243043"/>
+            <circle id="eyeR" cx="220" cy="100" r="7" fill="#243043"/>
+            <rect class="wink" x="210" y="93" width="60" height="8" rx="4" ry="4" fill="#243043" opacity="0" />
+            <g class="face">
+              <path id="mouth" d="M120 145 Q180 175 240 145" stroke="#243043" stroke-width="8" fill="none" stroke-linecap="round"/>
+            </g>
+            <circle cx="110" cy="65" r="10" fill="#ffb300"/>
+            <circle cx="250" cy="65" r="10" fill="#ffb300"/>
+          </g>
+        </svg>
+      </div>
+      <div>
+        <h1>¡Practiquemos Matemáticas!</h1>
+        <p id="subtitle">¡Practica y diviértete con sumas y restas para volverte cada día más fuerte! 💪✨</p>
+      </div>
+    </header>
+
+    <!-- Panel de configuración -->
+    <div class="card" role="region" aria-labelledby="cfg-title" id="config">
+      <h2 id="cfg-title" style="margin-top:0">¿Cómo quieres practicar?</h2>
+      <div class="controls">
+        <label class="chip" for="digitsA">Dígitos 1er número
+          <select id="digitsA" aria-label="Dígitos del primer número">
+            <option value="1">1 dígito</option>
+            <option value="2" selected>2 dígitos</option>
+            <option value="3">3 dígitos</option>
+            <option value="4">4 dígitos</option>
+            <option value="all">Todos</option>
+          </select>
+        </label>
+        <label class="chip" for="digitsB">Dígitos 2do número
+          <select id="digitsB" aria-label="Dígitos del segundo número">
+            <option value="1" selected>1 dígito</option>
+            <option value="2">2 dígitos</option>
+            <option value="3">3 dígitos</option>
+            <option value="4">4 dígitos</option>
+            <option value="all">Todos</option>
+          </select>
+        </label>
+        <label class="chip" for="opMode">Operación
+          <select id="opMode" aria-label="Tipo de operación">
+            <option value="+">Sumas (+)</option>
+            <option value="-">Restas (-)</option>
+            <option value="+-" selected>Sumas y Restas (+/−)</option>
+            <option value="×">Multiplicaciones (×)</option>
+            <option value="÷">Divisiones (÷)</option>
+            <option value="*/">Multiplicaciones y Divisiones (×/÷)</option>
+            <option value="all">Todas (mezcla)</option>
+          </select>
+        </label>
+        <label class="chip" for="level">Dificultad
+          <select id="level" aria-label="Nivel de dificultad">
+            <option value="easy" selected>Fácil</option>
+            <option value="medium">Medio</option>
+            <option value="hard">Difícil</option>
+          </select>
+        </label>
+        <button class="btn secondary" id="btnStart">Iniciar juego</button>
+        <button class="btn ghost" id="soundBtn" aria-pressed="false" title="Activar/Desactivar sonido">🔊 Sonido: ON</button>
+      </div>
+    </div>
+
+    <!-- Panel del juego -->
+    <div class="card" role="region" aria-labelledby="game-title" id="game" style="display:none">
+      <div class="row">
+        <h2 id="game-title" class="grow" style="margin:0">¡A jugar!</h2>
+        <div class="right tiny"><span id="progress">Pregunta 0/0</span></div>
+      </div>
+      <div class="row" style="margin-top:6px">
+        <div id="timer" class="tiny" style="font-size:16px"></div>
+      </div>
+
+      <div class="problem" aria-live="polite">
+        <div id="a">—</div>
+        <div class="op" id="opView">+</div>
+        <div id="b">—</div>
+      </div>
+      <div class="problem" style="grid-template-columns:auto auto auto; align-items:center">
+        <div class="equals">=</div>
+        <div class="answer">
+          <input id="ans" type="number" inputmode="numeric" placeholder="Tu respuesta" aria-label="Respuesta" />
+          <button class="btn" id="btnCheck">Comprobar</button>
+        </div>
+        <div></div>
+      </div>
+
+      <div class="feedback" id="feedback" aria-live="polite"></div>
+      <div class="scorebar" aria-hidden="true"><div id="bar"></div></div>
+      <div class="tiny right">Completado: <span id="pct">0%</span></div>
+    </div>
+
+    <!-- Resultados -->
+    <div class="card" id="result" style="display:none">
+      <h2>🎉 ¡Has terminado! 🎉</h2>
+      <p id="summary"></p>
+      <p id="motivation"></p>
+      <div style="display:flex; gap:12px; flex-wrap:wrap">
+        <button class="btn secondary" id="btnReplay">Jugar de nuevo</button>
+        <button class="btn ghost" id="btnBack">Volver a configuración</button>
+      </div>
+    </div>
+
+    <footer>Tip: usa la tecla <strong>Enter</strong> para comprobar rápido.</footer>
+  </div>
+
+  <script>
+    // ====== Estado y utilidades ======
+    const pet = document.getElementById('pet');
+
+    const digitsA = document.getElementById('digitsA');
+    const digitsB = document.getElementById('digitsB');
+    const opMode  = document.getElementById('opMode');
+    const level   = document.getElementById('level');
+    const btnStart= document.getElementById('btnStart');
+    const soundBtn= document.getElementById('soundBtn');
+
+    const game    = document.getElementById('game');
+    const config  = document.getElementById('config');
+    const result  = document.getElementById('result');
+
+    const aEl = document.getElementById('a');
+    const bEl = document.getElementById('b');
+    const opView = document.getElementById('opView');
+    const ans = document.getElementById('ans');
+    const btnCheck = document.getElementById('btnCheck');
+    const feedback = document.getElementById('feedback');
+
+    const bar = document.getElementById('bar');
+    const pctEl = document.getElementById('pct');
+    const progressEl = document.getElementById('progress');
+    const timerEl = document.getElementById('timer');
+
+    const summary = document.getElementById('summary');
+    const motivation = document.getElementById('motivation');
+    const btnReplay = document.getElementById('btnReplay');
+    const btnBack = document.getElementById('btnBack');
+
+    let soundOn = true;
+    let ctx = null; // WebAudio
+    function ensureCtx(){ if(!ctx) ctx = new (window.AudioContext||window.webkitAudioContext)(); }
+    function playDing(){ if(!soundOn) return; ensureCtx(); const o=ctx.createOscillator(); const g=ctx.createGain(); o.type='sine'; o.frequency.value=880; g.gain.setValueAtTime(0, ctx.currentTime); g.gain.linearRampToValueAtTime(0.3, ctx.currentTime+0.01); g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime+0.15); o.connect(g).connect(ctx.destination); o.start(); o.stop(ctx.currentTime+0.16); }
+    function playBuzz(){ if(!soundOn) return; ensureCtx(); const o1=ctx.createOscillator(); const o2=ctx.createOscillator(); const g=ctx.createGain(); o1.type='square'; o2.type='square'; o1.frequency.value=110; o2.frequency.value=130; g.gain.setValueAtTime(0, ctx.currentTime); g.gain.linearRampToValueAtTime(0.25, ctx.currentTime+0.01); g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime+0.25); o1.connect(g); o2.connect(g); g.connect(ctx.destination); o1.start(); o2.start(); o1.stop(ctx.currentTime+0.26); o2.stop(ctx.currentTime+0.26); }
+
+    function randInt(min,max){ return Math.floor(Math.random()*(max-min+1))+min }
+    function pickDigits(sel){ if(sel==='all') return randInt(1,4); return parseInt(sel,10); }
+    function numWithDigits(d){ const lo = d===1?1:10**(d-1); const hi = 10**d - 1; return randInt(lo,hi); }
+
+    function pickOp(mode){
+      const map = {
+        '+':['+'], '-':['-'], '×':['×'], '÷':['÷'],
+        '+-':['+','-'], '*/':['×','÷'], 'all':['+','-','×','÷']
+      };
+      const list = map[mode] || map['all'];
+      return list[randInt(0,list.length-1)];
+    }
+
+    // ====== Juego ======
+    let total = 0, timePer = null, q = 0, correct = 0, timerId = null, timerVal = 0;
+    let current = {a:0,b:0,op:'+'};
+
+    function startGame(){
+      // Ajusta subtítulo si eligen operaciones más allá de sumas/restas
+      const sub = document.getElementById('subtitle');
+      sub.textContent = '¡Prueba tus habilidades y suma puntos con cada respuesta! 🚀';
+
+      const lvl = level.value;
+      if(lvl==='easy'){ total=5; timePer=null; }
+      else if(lvl==='medium'){ total=10; timePer=30; }
+      else{ total=15; timePer=15; }
+      q = 0; correct = 0;
+      bar.style.width = '0%'; pctEl.textContent='0%';
+      progressEl.textContent = `Pregunta ${q}/${total}`;
+      feedback.textContent=''; feedback.className='feedback';
+      config.style.display='none'; result.style.display='none'; game.style.display='block';
+      newProblem();
+    }
+
+    function newProblem(){
+      clearInterval(timerId); timerId = null;
+      if(q>=total){ return endGame(); }
+
+      const dA = pickDigits(digitsA.value);
+      const dB = pickDigits(digitsB.value);
+      const op = pickOp(opMode.value);
+
+      let a = numWithDigits(dA);
+      let b = numWithDigits(dB);
+
+      // Asegurar condiciones por operación
+      if(op==='-'){
+        // forzar a>=b manteniendo dA si es posible
+        let tries=0;
+        while(a<b && tries<40){ b = numWithDigits(dB); tries++; }
+        if(a<b){ [a,b] = [b,a]; } // último recurso
+      } else if(op==='÷'){
+        // Asegurar división exacta y que a tenga dA dígitos
+        let tries=0;
+        while(tries<60){
+          a = numWithDigits(dA); b = numWithDigits(dB);
+          if(b===0) continue;
+          const rem = a % b;
+          a = a - rem; // hacerlo múltiplo
+          if(a===0){ a = b * randInt(1,9); }
+          const len = String(a).length;
+          if(len===dA){ break; }
+          tries++;
+        }
+        if(String(a).length!==dA){ // fallback si no se logra
+          b = Math.max(1, b);
+          const qGuess = randInt(1, 10**Math.max(1, dA-1));
+          a = b * qGuess;
+        }
+      }
+
+      current = {a,b,op};
+      aEl.textContent = a;
+      bEl.textContent = b;
+      opView.textContent = op;
+      ans.value=''; ans.focus();
+      feedback.textContent=''; feedback.className='feedback';
+
+      q++;
+      progressEl.textContent = `Pregunta ${q}/${total}`;
+
+      if(timePer){
+        timerVal = timePer;
+        timerEl.textContent = `⏰ Tiempo: ${timerVal}s`;
+        timerId = setInterval(()=>{
+          timerVal--; timerEl.textContent = `⏰ Tiempo: ${timerVal}s`;
+          if(timerVal<=0){
+            clearInterval(timerId); timerId=null;
+            // tiempo agotado, marcar como incorrecto
+            feedback.textContent = `⏳ Tiempo agotado. La respuesta era ${correctAnswer()}.`;
+            feedback.className='feedback bad';
+            pet.classList.remove('happy'); pet.classList.add('sad');
+            playBuzz();
+            setTimeout(()=>{ updateBar(); newProblem(); }, 2000);
+          }
+        },1000);
+      }else{
+        timerEl.textContent='';
+      }
+    }
+
+    function correctAnswer(){
+      const {a,b,op} = current;
+      if(op==='+') return a+b;
+      if(op==='-') return a-b;
+      if(op==='×') return a*b;
+      return Math.floor(a/b); // siempre exacta
+    }
+
+    function updateBar(){
+      const pct = Math.round(( (q>=total?total:q) / total) * 100);
+      bar.style.width = pct + '%';
+      pctEl.textContent = pct + '%';
+    }
+
+    function check(){
+      if(ans.value==='') return;
+      const want = correctAnswer();
+      const user = Number(ans.value);
+      clearInterval(timerId); timerId=null;
+
+      if(user===want){
+        feedback.textContent = '¡Muy bien! ✅';
+        feedback.className = 'feedback ok';
+        pet.classList.remove('sad'); pet.classList.add('happy');
+        correct++; playDing();
+      }else{
+        feedback.textContent = `Ups… la respuesta era ${want}.`;
+        feedback.className = 'feedback bad';
+        pet.classList.remove('happy'); pet.classList.add('sad');
+        playBuzz();
+      }
+      updateBar();
+      setTimeout(newProblem, 700);
+    }
+
+    function endGame(){
+      game.style.display='none'; result.style.display='block';
+      const percent = Math.round((correct/total)*100);
+      summary.textContent = `Tu puntaje: ${correct} de ${total} (${percent}%).`;
+      let msg = '¡Buen esfuerzo! Sigue practicando y verás tu progreso.';
+      if(correct===total){ msg='¡Excelente! ¡Puntaje perfecto! 🎯'; confettiBurst(); }
+      else if(percent>=60){ msg='¡Muy bien! Estás avanzando, sigue así. 👍'; }
+      else{ msg='¡No te rindas! Cada intento te hace mejor. 💪'; }
+      motivation.textContent = msg;
+    }
+
+    function confettiBurst(){
+      const colors = ['#7c4dff','#39e0c8','#ffb300','#ff5a5f','#2dbf77'];
+      for(let i=0;i<60;i++){
+        const c = document.createElement('div');
+        c.className='confetti';
+        c.style.left = Math.random()*100+'vw';
+        c.style.background = colors[Math.floor(Math.random()*colors.length)];
+        c.style.transform = `translateY(-10px) rotate(${Math.random()*360}deg)`;
+        c.style.animationDuration = (1.2 + Math.random()*1.2)+'s';
+        c.style.width = (6+Math.random()*6)+'px';
+        c.style.height = (8+Math.random()*12)+'px';
+        document.body.appendChild(c);
+        setTimeout(()=>c.remove(), 2200);
+      }
+    }
+
+    btnStart.addEventListener('click', startGame);
+    btnCheck.addEventListener('click', check);
+    ans.addEventListener('keydown', (e)=>{ if(e.key==='Enter') check(); });
+
+    btnReplay.addEventListener('click', startGame);
+    btnBack.addEventListener('click', ()=>{ result.style.display='none'; config.style.display='block'; });
+
+    soundBtn.addEventListener('click', ()=>{
+      soundOn = !soundOn;
+      soundBtn.textContent = (soundOn? '🔊':'🔇') + ' Sonido: ' + (soundOn? 'ON':'OFF');
+      soundBtn.setAttribute('aria-pressed', soundOn? 'false':'true');
+      try{ ensureCtx(); ctx.resume && ctx.resume(); }catch(e){}
+    });
+  </script>
+</body>
+</html>
