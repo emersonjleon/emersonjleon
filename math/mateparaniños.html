@@ -48,7 +48,7 @@
     .btn{ font-size: clamp(18px, 3.2vw, 22px); padding:14px 18px; border:none; border-radius:16px; cursor:pointer; font-weight:700; background:linear-gradient(135deg, var(--accent), #9b7bff); color:white; box-shadow:0 6px 18px rgba(124,77,255,.35); transition: transform .05s ease; user-select:none; }
     .btn:active{ transform:translateY(1px) }
     .btn.secondary{ background:linear-gradient(135deg, #00c2a8, #39e0c8); box-shadow:0 6px 18px rgba(0,194,168,.35) }
-    .btn.ghost{ background:#eef3ff; color:var(--text); box-shadow:none }
+    .btn.ghost{ font-size: clamp(16px, 1.2vw, 18px); background:#eef3ff; color:var(--text); box-shadow:none }
 
     .feedback{ text-align:center; min-height:32px; margin-top:8px; font-size: clamp(20px, 3.2vw, 28px); font-weight:800 }
     .feedback.ok{ color:var(--ok) }
@@ -152,8 +152,9 @@
             <option value="hard">Difícil</option>
           </select>
         </label>
-        <button class="btn secondary" id="btnStart">Iniciar juego</button>
         <button class="btn ghost" id="soundBtn" aria-pressed="false" title="Activar/Desactivar sonido">🔊 Sonido: ON</button>
+        <button class="btn secondary" id="btnStart">Iniciar juego</button>
+        
       </div>
     </div>
 
