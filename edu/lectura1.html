@@ -1,0 +1,536 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Lecturas para Sacha</title>
+  <style>
+    :root{
+      --bg:#fffbe8; --card:#ffffff; --accent:#6c63ff; --accent-2:#ff7ab6; --text:#2b2b2b;
+    }
+    *{box-sizing:border-box}
+    body{font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; margin:0; background:linear-gradient(180deg,var(--bg),#f6f8ff); color:var(--text);}
+    header{display:flex;align-items:center;gap:12px;padding:18px 20px}
+    .logo{width:64px;height:64px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:22px;box-shadow:0 6px 18px rgba(108,99,255,0.18)}
+    .title{font-size:20px;font-weight:700}
+    .subtitle{font-size:13px;color:#4b4b4b}
+
+    main{padding:20px;display:grid;grid-template-columns:1fr 320px;gap:18px}
+    @media(max-width:900px){main{grid-template-columns:1fr;padding:14px} .sidebar{order:2}}
+
+    .card{background:var(--card);border-radius:14px;padding:18px;box-shadow:0 6px 18px rgba(11,24,55,0.06)}
+
+    .word-area{display:flex;flex-direction:column;gap:12px;align-items:center;justify-content:center;min-height:260px}
+    .word{font-size:48px;font-weight:800;letter-spacing:1px}
+    .phon{font-size:16px;color:#666}
+
+    .controls{display:flex;gap:10px;flex-wrap:wrap}
+    button{background:var(--accent);color:white;border:none;padding:10px 14px;border-radius:10px;font-weight:700;cursor:pointer;box-shadow:0 6px 12px rgba(108,99,255,0.16)}
+    button.secondary{background:transparent;color:var(--accent);border:2px solid rgba(108,99,255,0.12)}
+    button.small{padding:8px 10px;font-size:14px}
+
+    .level-select{display:flex;gap:8px}
+    .level{padding:8px 12px;border-radius:10px;background:#f3f5ff;cursor:pointer;font-weight:700}
+    .level.active{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:white}
+
+    .progress{margin-top:10px;background:#f1f3ff;height:12px;border-radius:8px;overflow:hidden}
+    .progress > i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent-2));width:0%}
+
+    .sidebar{display:flex;flex-direction:column;gap:12px}
+    .list{display:grid;gap:8px}
+    .list button{display:flex;align-items:center;justify-content:space-between;padding:10px;border-radius:10px;background:#fbfbff;border:1px solid #f0f3ff;transition:all 0.2s ease}
+    .list button:hover{background:#747474;transform:translateY(-1px)}
+    .list button.completed{background:#48b95b;border-color:#03481c;position:relative}
+    .list button.completed:hover{background:#20848b;transform:translateY(-1px)}
+    .list button.current{background:linear-gradient(135deg,#6c63ff,#ff7ab6);color:white;border-color:transparent}
+    .list button.current small{color:rgba(255,255,255,0.8)}
+
+    .stars{display:flex;gap:6px}
+    .star{width:26px;height:26px;border-radius:6px;background:#fff0;display:inline-grid;place-items:center;border:1px dashed #ddd}
+
+    footer{padding:18px;text-align:center;color:#6d6d6d}
+
+    .hint{font-size:13px;color:#555}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">S</div>
+    <div>
+      <div class="title">Lecturas para Sacha</div>
+      <div class="subtitle">Palabras y frases para practicar lectura — divertido y progresivo</div>
+    </div>
+  </header>
+
+  <main>
+    <section class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+        <div style="display:flex;gap:12px;align-items:center">
+          <div class="level-select" id="levelSelect"></div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <div class="hint">Nivel actual: <strong id="levelName">Nivel 1</strong></div>
+        </div>
+      </div>
+
+      <div class="word-area card" style="margin-top:12px">
+        <div style="text-align:center">
+          <div class="word" id="mainWord">pal</div>
+          <div class="phon" id="phonetic">/pal/</div>
+        </div>
+
+        <div class="controls">
+          <button id="playBtn">Escuchar</button>
+          <button class="secondary small" id="showBtn">Mostrar frase</button>
+          <button class="secondary small" id="readAloudBtn">Leer todo</button>
+        </div>
+
+        <div id="sentence" style="margin-top:8px;color:#444;font-weight:600"></div>
+        <div id="feedback" style="margin-top:8px;color:#2d8a4d;font-weight:700"></div>
+
+        <div style="margin-top:10px;display:flex;gap:8px;align-items:center">
+          <button class="small" id="iReadBtn">Yo lo leí</button>
+          <button class="small secondary" id="nextBtn">Siguiente</button>
+        </div>
+
+        <div class="progress" aria-hidden="true" style="width:70%">
+          <i id="progressBar"></i>
+        </div>
+      </div>
+
+      <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap">
+        <div class="card" style="flex:1;min-width:180px">
+          <div style="font-weight:800">Cómo usar</div>
+          <div style="margin-top:6px;color:#555;line-height:1.4">
+            1) Elige un nivel. 2) Escucha la palabra y trata de leerla en voz alta. 3) Pulsa "Yo lo leí" si la leíste. 4) Gana estrellas y avanza.
+          </div>
+        </div>
+
+        <div class="card" style="width:240px;min-width:160px">
+          <div style="font-weight:800">Consejo para el adulto</div>
+          <div style="margin-top:6px;color:#555;line-height:1.4">
+            Acompaña a Sacha: escucha con él, corrige suavemente y celebra los aciertos. Usa el botón "Leer todo" para mostrar ritmo y entonación.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <aside class="sidebar">
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <strong>Lista de palabras</strong>
+          <div class="stars" id="stars"></div>
+        </div>
+        <div style="margin-top:8px;font-size:13px;color:#666">
+          Progreso: <span id="levelProgress">0/0</span> completadas
+          <div style="margin-top:4px;font-size:11px;color:#888">
+            💡 Haz clic en cualquier palabra para practicarla
+          </div>
+        </div>
+        <div class="list" id="wordList" style="margin-top:10px;max-height:320px;overflow:auto"></div>
+      </div>
+
+      <div class="card">
+        <div style="font-weight:800">Configuración</div>
+        <div style="margin-top:8px;display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+          <label><input type="checkbox" id="autoPlay"> Auto-reproducir</label>
+          <label><input type="checkbox" id="showPhon"> Mostrar fonética</label>
+          <label><input type="checkbox" id="randomOrder"> Orden aleatorio</label>
+        </div>
+        <div style="margin-top:12px">
+          <button class="small secondary" id="resetProgress" style="width:100%">Reiniciar progreso del nivel</button>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <footer>
+    <div>Hecho con cariño 💜 — Progreso guardado en el navegador</div>
+  </footer>
+
+  <script>
+    // Contenido por niveles
+    const levels = [
+      {name:'Nivel 1', desc:'Sílabas y palabras cortas', items:[
+              { word: "sol", phon: "sol", sentence: "El sol brilla." },
+      { word: "pan", phon: "pan", sentence: "Como pan." },
+      { word: "luz", phon: "luz", sentence: "Veo la luz." },
+      { word: "mar", phon: "mar", sentence: "El mar es azul." },
+      { word: "casa", phon: "ca-sa", sentence: "La casa es grande." },
+      { word: "gato", phon: "ga-to", sentence: "El gato duerme." },
+      { word: "perro", phon: "pe-rro", sentence: "El perro ladra." },
+      { word: "mamá", phon: "ma-má", sentence: "Mi mamá sonríe." },
+      { word: "papá", phon: "pa-pá", sentence: "Papá trabaja." },
+      { word: "flor", phon: "flor", sentence: "La flor huele bien." },
+      { word: "pez", phon: "pez", sentence: "El pez nada." },
+      { word: "sola", phon: "so-la", sentence: "Ella está sola." },
+      { word: "uva", phon: "u-va", sentence: "Como uvas dulces." },
+      { word: "niño", phon: "ni-ño", sentence: "El niño ríe." },
+      { word: "niña", phon: "ni-ña", sentence: "La niña canta." },
+      { word: "tren", phon: "tren", sentence: "El tren pasa." },
+      { word: "lago", phon: "la-go", sentence: "El lago es grande." },
+      { word: "silla", phon: "si-lla", sentence: "La silla es roja." },
+      { word: "mano", phon: "ma-no", sentence: "Tengo una mano." },
+      { word: "pato", phon: "pa-to", sentence: "El pato nada." },
+      { word: "oso", phon: "o-so", sentence: "El oso come miel." },
+      { word: "cielo", phon: "cie-lo", sentence: "El cielo es azul." },
+      { word: "paz", phon: "paz", sentence: "Quiero paz." },
+      { word: "soles", phon: "so-les", sentence: "Veo dos soles." },
+      { word: "nube", phon: "nu-be", sentence: "La nube es blanca." },
+      { word: "dedo", phon: "de-do", sentence: "Me corté un dedo." },
+      { word: "río", phon: "rí-o", sentence: "El río corre." },
+      { word: "hoja", phon: "ho-ja", sentence: "La hoja cae." },
+      { word: "vino", phon: "vi-no", sentence: "El vino es rojo." },
+      { word: "foca", phon: "fo-ca", sentence: "La foca salta." },
+      { word: "bola", phon: "bo-la", sentence: "La bola rueda." },
+      { word: "dado", phon: "da-do", sentence: "El dado gira." },
+      { word: "león", phon: "le-ón", sentence: "El león ruge." },
+      { word: "rana", phon: "ra-na", sentence: "La rana salta." },
+      { word: "araña", phon: "a-ra-ña", sentence: "La araña teje." },
+      { word: "luna", phon: "lu-na", sentence: "La luna brilla." },
+      { word: "piedra", phon: "pie-dra", sentence: "La piedra pesa." },
+      { word: "sal", phon: "sal", sentence: "La sal es blanca." },
+      { word: "camino", phon: "ca-mi-no", sentence: "El camino es largo." },
+      { word: "mesa", phon: "me-sa", sentence: "La mesa es verde." }
+      ]},
+      {name:'Nivel 2', desc:'Palabras con más letras y frases cortas', items:[
+        { word: "camisa", phon: "ca-mi-sa", sentence: "La camisa es azul." },
+      { word: "pelota", phon: "pe-lo-ta", sentence: "La pelota rueda." },
+      { word: "escuela", phon: "es-cue-la", sentence: "Voy a la escuela." },
+      { word: "amigos", phon: "a-mi-gos", sentence: "Tengo amigos nuevos." },
+      { word: "familia", phon: "fa-mi-lia", sentence: "Mi familia es feliz." },
+      { word: "hermano", phon: "her-ma-no", sentence: "Mi hermano juega." },
+      { word: "hermana", phon: "her-ma-na", sentence: "Mi hermana canta." },
+      { word: "zapato", phon: "za-pa-to", sentence: "El zapato es rojo." },
+      { word: "carro", phon: "ca-rro", sentence: "El carro corre." },
+      { word: "camino", phon: "ca-mi-no", sentence: "El camino es largo." },
+      { word: "sombrero", phon: "som-bre-ro", sentence: "Tengo un sombrero." },
+      { word: "ventana", phon: "ven-ta-na", sentence: "La ventana está abierta." },
+      { word: "puerta", phon: "puer-ta", sentence: "La puerta se abre." },
+      { word: "caminar", phon: "ca-mi-nar", sentence: "Me gusta caminar." },
+      { word: "jugar", phon: "ju-gar", sentence: "Voy a jugar." },
+      { word: "leer", phon: "le-er", sentence: "Quiero leer." },
+      { word: "correr", phon: "co-rrer", sentence: "Puedo correr." },
+      { word: "bailar", phon: "bai-lar", sentence: "Me gusta bailar." },
+      { word: "comer", phon: "co-mer", sentence: "Voy a comer." },
+      { word: "beber", phon: "be-ber", sentence: "Voy a beber agua." },
+      { word: "plato", phon: "pla-to", sentence: "El plato es blanco." },
+      { word: "árbol", phon: "ár-bol", sentence: "El árbol es alto." },
+      { word: "camión", phon: "ca-mión", sentence: "El camión es grande." },
+      { word: "florero", phon: "flo-re-ro", sentence: "El florero es bonito." },
+      { word: "pintar", phon: "pin-tar", sentence: "Me gusta pintar." },
+      { word: "escribir", phon: "es-cri-bir", sentence: "Voy a escribir." },
+      { word: "cantar", phon: "can-tar", sentence: "Ella canta." },
+      { word: "dibujar", phon: "di-bu-jar", sentence: "Voy a dibujar." },
+      { word: "peluche", phon: "pe-lu-che", sentence: "Tengo un peluche." },
+      { word: "reloj", phon: "re-loj", sentence: "El reloj marca la hora." },
+      { word: "parque", phon: "par-que", sentence: "Vamos al parque." },
+      { word: "jardín", phon: "jar-dín", sentence: "El jardín tiene flores." },
+      { word: "ropa", phon: "ro-pa", sentence: "La ropa está limpia." },
+      { word: "playa", phon: "pla-ya", sentence: "La playa es bonita." },
+      { word: "cocina", phon: "co-ci-na", sentence: "La cocina es amplia." },
+      { word: "silla", phon: "si-lla", sentence: "Me siento en la silla." },
+      { word: "ratón", phon: "ra-tón", sentence: "El ratón corre." },
+      { word: "queso", phon: "que-so", sentence: "El queso es rico." },
+      { word: "pelo", phon: "pe-lo", sentence: "Tengo el pelo largo." },
+      { word: "agua", phon: "a-gua", sentence: "El agua es clara." }
+      ]},
+      {name:'Nivel 3', desc:'Oraciones y palabras compuestas', items:[
+        { word: "mariposa", phon: "ma-ri-po-sa", sentence: "La mariposa vuela sobre las flores." },
+        { word: "computadora", phon: "com-pu-ta-do-ra", sentence: "La computadora está encendida." },
+        { word: "bicicleta", phon: "bi-ci-cle-ta", sentence: "Sacha monta su bicicleta en el parque." },
+        { word: "elefante", phon: "e-le-fan-te", sentence: "El elefante bebe agua del río." },
+        { word: "cangrejo", phon: "can-gre-jo", sentence: "El cangrejo camina por la arena." },
+        { word: "ventilador", phon: "ven-ti-la-dor", sentence: "El ventilador refresca la habitación." },
+        { word: "jirafa", phon: "ji-ra-fa", sentence: "La jirafa come hojas de los árboles." },
+        { word: "hipopótamo", phon: "hi-po-pó-ta-mo", sentence: "El hipopótamo nada en el lago." },
+        { word: "universidad", phon: "u-ni-ver-si-dad", sentence: "Voy a la universidad por la mañana." },
+        { word: "matemáticas", phon: "ma-te-má-ti-cas", sentence: "Estudiamos matemáticas en clase." },
+        { word: "teléfono", phon: "te-lé-fo-no", sentence: "El teléfono suena fuerte." },
+        { word: "tecnología", phon: "tec-no-lo-gí-a", sentence: "La tecnología nos ayuda a aprender." },
+        { word: "microscopio", phon: "mi-cro-sco-pio", sentence: "Miro células con el microscopio." },
+        { word: "espectáculo", phon: "es-pec-tá-cu-lo", sentence: "Fuimos al espectáculo de magia." },
+        { word: "profesora", phon: "pro-fe-so-ra", sentence: "La profesora explica muy bien." },
+        { word: "cascabel", phon: "cas-ca-bel", sentence: "El cascabel suena al moverlo." },
+        { word: "murciélago", phon: "mur-cié-la-go", sentence: "El murciélago sale de noche." },
+        { word: "enciclopedia", phon: "en-ci-clo-pe-dia", sentence: "Busco información en la enciclopedia." },
+        { word: "astronauta", phon: "as-tro-nau-ta", sentence: "El astronauta viaja al espacio." },
+        { word: "laboratorio", phon: "la-bo-ra-to-rio", sentence: "El laboratorio tiene muchos experimentos." },
+        { word: "electricidad", phon: "e-lec-tri-ci-dad", sentence: "La electricidad enciende las luces." },
+        { word: "chocolate", phon: "cho-co-la-te", sentence: "Me gusta el chocolate con leche." },
+        { word: "televisión", phon: "te-le-vi-sión", sentence: "Veo dibujos en la televisión." },
+        { word: "aeropuerto", phon: "ae-ro-puer-to", sentence: "El avión sale del aeropuerto." },
+        { word: "carretera", phon: "ca-rre-te-ra", sentence: "La carretera es muy larga." },
+        { word: "fotografía", phon: "fo-to-gra-fí-a", sentence: "Tomo una fotografía del paisaje." },
+        { word: "aniversario", phon: "a-ni-ver-sa-rio", sentence: "Celebramos nuestro aniversario hoy." },
+        { word: "calculadora", phon: "cal-cu-la-do-ra", sentence: "Uso la calculadora para sumar." },
+        { word: "imaginación", phon: "i-ma-gi-na-ción", sentence: "La imaginación nos hace creativos." },
+        { word: "biblioteca", phon: "bi-blio-te-ca", sentence: "Voy a la biblioteca a leer." },
+        { word: "experimento", phon: "ex-pe-ri-men-to", sentence: "El experimento salió muy bien." },
+        { word: "filosofía", phon: "fi-lo-so-fí-a", sentence: "Estudiamos filosofía en la universidad." },
+        { word: "literatura", phon: "li-te-ra-tu-ra", sentence: "Me gusta la literatura clásica." },
+        { word: "naturaleza", phon: "na-tu-ra-le-za", sentence: "Disfruto caminar por la naturaleza." },
+        { word: "investigación", phon: "in-ves-ti-ga-ción", sentence: "La investigación es importante." },
+        { word: "colectivo", phon: "co-lec-ti-vo", sentence: "El colectivo trabaja unido." },
+        { word: "esqueleto", phon: "es-que-le-to", sentence: "El esqueleto es parte del cuerpo humano." },
+        { word: "pentágono", phon: "pen-tá-go-no", sentence: "El pentágono tiene cinco lados." },
+        { word: "dinamita", phon: "di-na-mi-ta", sentence: "La dinamita es muy peligrosa." },
+        { word: "helicóptero", phon: "he-li-cóp-te-ro", sentence: "El helicóptero vuela sobre la ciudad." },
+        { word: "ventana", phon: "ven-ta-na", sentence: "Abre la ventana por favor." },
+        { word: "libertad", phon: "li-ber-tad", sentence: "La libertad es un derecho." },
+        { word: "aventura", phon: "a-ven-tu-ra", sentence: "Sacha vive una aventura en el bosque." },
+        { word: "historia", phon: "his-to-ria", sentence: "Cuenta una historia divertida." },
+        { word: "descubrir", phon: "des-cu-brir", sentence: "Vamos a descubrir cosas nuevas." }
+      ]},
+      {name:'Nivel 4', desc:'Frases cortas', items:[
+        { word: "El gato duerme en la cama.", phon: "El ga-to duer-me en la ca-ma.", sentence: "Un gato en la cama." },
+      { word: "La niña canta en el jardín.", phon: "La ni-ña can-ta en el jar-dín.", sentence: "Una niña canta." },
+      { word: "El perro ladra muy fuerte.", phon: "El pe-rro la-dra muy fuer-te.", sentence: "Un perro hace ruido." },
+      { word: "El sol brilla en el cielo.", phon: "El sol bri-lla en el cie-lo.", sentence: "El día está soleado." },
+      { word: "Vamos al parque a jugar.", phon: "Va-mos al par-que a ju-gar.", sentence: "Jugamos en el parque." },
+      { word: "La casa tiene una puerta roja.", phon: "La ca-sa tie-ne u-na puer-ta ro-ja.", sentence: "La puerta es roja." },
+      { word: "El pez nada en el río.", phon: "El pez na-da en el rí-o.", sentence: "Un pez en el agua." },
+      { word: "La flor es de color azul.", phon: "La flor es de co-lor a-zul.", sentence: "Una flor azul." },
+      { word: "Tengo un hermano menor.", phon: "Ten-go un her-ma-no me-nor.", sentence: "Mi hermano pequeño." },
+      { word: "Ella bebe agua fría.", phon: "E-lla be-be a-gua frí-a.", sentence: "Bebe agua." },
+      { word: "El tren pasa por la estación.", phon: "El tren pa-sa por la es-ta-ción.", sentence: "El tren en la estación." },
+      { word: "El niño corre rápido.", phon: "El ni-ño co-rre rá-pi-do.", sentence: "Corre deprisa." },
+      { word: "La maestra escribe en la pizarra.", phon: "La maes-tra es-cri-be en la pi-za-rra.", sentence: "Escribe en la pizarra." },
+      { word: "El pájaro canta en la rama.", phon: "El pá-ja-ro can-ta en la ra-ma.", sentence: "Un pájaro canta." },
+      { word: "Papá cocina sopa caliente.", phon: "Pa-pá co-ci-na so-pa ca-lien-te.", sentence: "Papá hace sopa." },
+      { word: "La luna brilla en la noche.", phon: "La lu-na bri-lla en la no-che.", sentence: "Se ve la luna." },
+      { word: "El coche es muy rápido.", phon: "El co-che es muy rá-pi-do.", sentence: "Un coche veloz." },
+      { word: "La niña dibuja una casa.", phon: "La ni-ña di-bu-ja u-na ca-sa.", sentence: "Dibuja una casa." },
+      { word: "El perro juega con la pelota.", phon: "El pe-rro jue-ga con la pe-lo-ta.", sentence: "El perro juega." },
+      { word: "El abuelo lee un libro.", phon: "El a-bue-lo lee un li-bro.", sentence: "Un abuelo lee." },
+      { word: "El jardín tiene flores rojas.", phon: "El jar-dín tie-ne flo-res ro-jas.", sentence: "Flores en el jardín." },
+      { word: "La niña salta la cuerda.", phon: "La ni-ña sal-ta la cuer-da.", sentence: "Salta la cuerda." },
+      { word: "El gato bebe leche.", phon: "El ga-to be-be le-che.", sentence: "Un gato toma leche." },
+      { word: "El oso duerme en la cueva.", phon: "El o-so duer-me en la cue-va.", sentence: "Un oso duerme." },
+      { word: "La familia cena junta.", phon: "La fa-mi-lia ce-na jun-ta.", sentence: "Cenan juntos." },
+      { word: "El niño pinta con colores.", phon: "El ni-ño pin-ta con co-lo-res.", sentence: "Pinta con colores." },
+      { word: "La maestra lee un cuento.", phon: "La maes-tra lee un cuen-to.", sentence: "Lee un cuento." },
+      { word: "Vamos de paseo al río.", phon: "Va-mos de pa-se-o al rí-o.", sentence: "Paseo en el río." },
+      { word: "El perro corre en el patio.", phon: "El pe-rro co-rre en el pa-tio.", sentence: "Corre en el patio." },
+      { word: "La casa tiene un techo azul.", phon: "La ca-sa tie-ne un te-cho a-zul.", sentence: "Un techo azul." },
+      { word: "El niño canta una canción.", phon: "El ni-ño can-ta u-na can-ción.", sentence: "Canta una canción." },
+      { word: "La abuela prepara pan dulce.", phon: "La a-bue-la pre-pa-ra pan dul-ce.", sentence: "Pan de la abuela." },
+      { word: "El sol calienta la tierra.", phon: "El sol ca-lien-ta la tie-rra.", sentence: "Hace calor." },
+      { word: "El gato corre tras el ratón.", phon: "El ga-to co-rre tras el ra-tón.", sentence: "Corre tras el ratón." },
+      { word: "La niña mira la luna.", phon: "La ni-ña mi-ra la lu-na.", sentence: "Mira la luna." },
+      { word: "El perro salta en el parque.", phon: "El pe-rro sal-ta en el par-que.", sentence: "Salta en el parque." },
+      { word: "El niño abre la puerta.", phon: "El ni-ño a-bre la puer-ta.", sentence: "Abre la puerta." },
+      { word: "La maestra enseña números.", phon: "La maes-tra en-se-ña nú-me-ros.", sentence: "Números en clase." },
+      { word: "El tren suena fuerte.", phon: "El tren sue-na fuer-te.", sentence: "Un tren suena." }
+     ]}
+    ];
+
+    // Estado
+    let state = {level:0,index:0,stars:0,auto:false,showPhon:false,randomOrder:false,completedWords:{}};
+
+    // Inicializar UI
+    const levelSelect = document.getElementById('levelSelect');
+    const levelName = document.getElementById('levelName');
+    const mainWord = document.getElementById('mainWord');
+    const phonetic = document.getElementById('phonetic');
+    const playBtn = document.getElementById('playBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const showBtn = document.getElementById('showBtn');
+    const readAloudBtn = document.getElementById('readAloudBtn');
+    const sentenceDiv = document.getElementById('sentence');
+    const iReadBtn = document.getElementById('iReadBtn');
+    const progressBar = document.getElementById('progressBar');
+    const wordList = document.getElementById('wordList');
+    const starsDiv = document.getElementById('stars');
+
+    const autoPlayCheckbox = document.getElementById('autoPlay');
+    const showPhonCheckbox = document.getElementById('showPhon');
+    const randomOrderCheckbox = document.getElementById('randomOrder');
+
+    function buildLevels(){
+      levels.forEach((lv,i)=>{
+        const btn = document.createElement('button');
+        btn.className='level'+(i===0?' active':'');
+        btn.textContent = lv.name;
+        btn.addEventListener('click',()=>{setLevel(i)});
+        levelSelect.appendChild(btn);
+      });
+    }
+
+    function setLevel(i){
+      state.level = i; state.index = 0; saveState();
+      [...levelSelect.children].forEach((c,idx)=>c.classList.toggle('active',idx===i));
+      levelName.textContent = levels[i].name;
+      renderList();
+      loadItem();
+    }
+
+    function renderList(){
+      wordList.innerHTML='';
+      
+      // Obtener palabras en orden aleatorio o normal
+      let itemsToShow = [...levels[state.level].items];
+      if(state.randomOrder) {
+        // Crear una copia y mezclar manteniendo el índice original
+        itemsToShow = itemsToShow.map((item, idx) => ({...item, originalIndex: idx}));
+        // Mezclar usando el algoritmo Fisher-Yates
+        for (let i = itemsToShow.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [itemsToShow[i], itemsToShow[j]] = [itemsToShow[j], itemsToShow[i]];
+        }
+      }
+      
+      // Contar palabras completadas
+      let completedCount = 0;
+      levels[state.level].items.forEach((it,idx)=>{
+        if(state.completedWords[`${state.level}-${idx}`]) completedCount++;
+      });
+      
+      // Actualizar contador de progreso
+      const levelProgress = document.getElementById('levelProgress');
+      if(levelProgress) {
+        levelProgress.textContent = `${completedCount}/${levels[state.level].items.length}`;
+      }
+      
+      itemsToShow.forEach((it,displayIdx)=>{
+        const originalIdx = state.randomOrder ? it.originalIndex : displayIdx;
+        const isCompleted = state.completedWords[`${state.level}-${originalIdx}`];
+        const isCurrent = originalIdx === state.index;
+        
+        const b = document.createElement('button');
+        b.className = `list-item ${isCompleted ? 'completed' : ''} ${isCurrent ? 'current' : ''}`;
+        b.innerHTML = `
+          <div style="display:flex;justify-content:space-between;align-items:center;width:100%">
+            <div>
+              <span style="font-weight:${isCurrent ? '800' : '600'}">${it.word}</span>
+              <small style="opacity:.6;display:block;margin-top:2px">"${it.sentence.replace(/\./,'')}"</small>
+            </div>
+            ${isCompleted ? '<span style="color:#2d8a4d;font-size:18px">✓</span>' : ''}
+          </div>
+        `;
+        b.addEventListener('click',()=>{ 
+          state.index=originalIdx; 
+          saveState(); // Save the current selection first
+          loadItem(); 
+          renderList(); // Refresh to show current selection
+        });
+        wordList.appendChild(b);
+      });
+      renderStars();
+    }
+
+    function renderStars(){
+      starsDiv.innerHTML='';
+      for(let i=0;i<5;i++){ const s=document.createElement('div'); s.className='star'; s.textContent = i<state.stars? '★':''; starsDiv.appendChild(s);}    }
+
+    function loadItem(){
+      const item = levels[state.level].items[state.index];
+      mainWord.textContent = item.word;
+      phonetic.textContent = state.showPhon? item.phon : '';
+      sentenceDiv.textContent = '';
+      progressBar.style.width = `${Math.round((state.index+1)/levels[state.level].items.length*100)}%`;
+      
+      // Limpiar feedback anterior
+      document.getElementById('feedback').textContent = '';
+      
+      // Mostrar indicador si la palabra ya está completada
+      const isCompleted = state.completedWords[`${state.level}-${state.index}`];
+      if(isCompleted) {
+        document.getElementById('feedback').textContent = 'Palabra completada ✓ - Puedes practicarla de nuevo';
+        document.getElementById('feedback').style.color = '#2d8a4d';
+      }
+      
+      if(state.auto) speak(item.word);
+    }
+
+    function nextItem(){
+      state.index = (state.index+1) % levels[state.level].items.length; saveState(); loadItem();
+    }
+
+    function speak(text,opts={rate:0.9,lang:'es-ES'}){
+      if('speechSynthesis' in window){
+        speechSynthesis.cancel();
+        const u = new SpeechSynthesisUtterance(text);
+        u.lang = opts.lang; u.rate = opts.rate; u.pitch = 1.05;
+        speechSynthesis.speak(u);
+      } else {
+        alert('Tu navegador no soporta SpeechSynthesis.');
+      }
+    }
+
+    // Eventos
+    playBtn.addEventListener('click',()=>{ speak(levels[state.level].items[state.index].word); });
+    nextBtn.addEventListener('click',()=>{ nextItem(); });
+    showBtn.addEventListener('click',()=>{ sentenceDiv.textContent = levels[state.level].items[state.index].sentence; });
+        //speak(levels[state.level].items[state.index].sentence, {rate:0.95}); });
+    readAloudBtn.addEventListener('click',()=>{ const it = levels[state.level].items[state.index]; speak(it.word + '. ' + it.sentence, {rate:0.9}); });
+
+    iReadBtn.addEventListener('click',()=>{
+      // recompensa simple
+      state.stars = Math.min(5, state.stars+1); 
+      
+      // Marcar palabra como completada
+      const wordKey = `${state.level}-${state.index}`;
+      state.completedWords[wordKey] = true;
+      
+      saveState(); 
+      renderStars();
+      renderList(); // Refresh the word list to show completion
+      
+      document.getElementById('feedback').textContent = '¡Bien hecho! ⭐';
+      setTimeout(()=>document.getElementById('feedback').textContent='',1200);
+      if(state.auto) nextItem();
+    });
+
+
+
+    autoPlayCheckbox.addEventListener('change',(e)=>{ state.auto = e.target.checked; saveState(); });
+    showPhonCheckbox.addEventListener('change',(e)=>{ state.showPhon = e.target.checked; saveState(); loadItem(); });
+    randomOrderCheckbox.addEventListener('change',(e)=>{ 
+      state.randomOrder = e.target.checked; 
+      saveState(); 
+      renderList(); // Refresh the list to show new order
+    });
+    
+    // Botón para reiniciar progreso del nivel actual
+    document.getElementById('resetProgress').addEventListener('click',()=>{
+      if(confirm('¿Estás seguro de que quieres reiniciar el progreso de este nivel?')) {
+        // Eliminar solo las palabras completadas del nivel actual
+        Object.keys(state.completedWords).forEach(key => {
+          if(key.startsWith(`${state.level}-`)) {
+            delete state.completedWords[key];
+          }
+        });
+        state.stars = Math.max(0, state.stars - 1); // Reducir estrellas
+        saveState();
+        renderList();
+        renderStars();
+        document.getElementById('feedback').textContent = 'Progreso reiniciado';
+        setTimeout(()=>document.getElementById('feedback').textContent='',1500);
+      }
+    });
+
+    // Guardar/leer estado simple en localStorage
+    function saveState(){ localStorage.setItem('sacha-lectura',JSON.stringify(state)); }
+    function loadState(){ const s = localStorage.getItem('sacha-lectura'); if(s) state = Object.assign(state, JSON.parse(s)); }
+
+    // Inicio
+    buildLevels(); loadState();
+    // Aplicar settings a checkboxes
+    autoPlayCheckbox.checked = state.auto;
+    showPhonCheckbox.checked = state.showPhon;
+    randomOrderCheckbox.checked = state.randomOrder;
+    setLevel(state.level);
+
+    // pequeñas mejoras: teclas
+    document.addEventListener('keydown',(e)=>{
+      if(e.key===' ' || e.key==='Enter') { playBtn.click(); e.preventDefault(); }
+      if(e.key=='>') nextBtn.click();
+    });
+
+    // Guardar cuando cambia
+    window.addEventListener('beforeunload',saveState);
+
+  </script>
+</body>
+</html>
