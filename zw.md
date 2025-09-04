@@ -259,3 +259,7 @@ Cada color me pertenece
 
 [https://suno.com/song/2e03459d-3a54-41a5-a4c5-51f51baf156b](https://suno.com/song/2e03459d-3a54-41a5-a4c5-51f51baf156b)
 [https://suno.com/song/fe55a316-9388-4768-b3be-59cd64a789b1](https://suno.com/song/fe55a316-9388-4768-b3be-59cd64a789b1)
+
+### More Links
+[https://lyricstranslate.com/en/jay-chou-lyrics.html](Jay Chow Lyrics)
+[https://emersonjleon.github.io/emersonjleon/zw/hskgame.html](hskgame)
