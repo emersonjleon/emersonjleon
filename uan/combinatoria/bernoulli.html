@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Visualizador Bernoulli / Binomial</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;margin:18px;background:#0f172a;color:#e6eef8}
+    .card{background:#0b1220;border-radius:12px;padding:16px;margin-bottom:12px;box-shadow:0 6px 18px rgba(2,6,23,0.6)}
+    label{display:block;margin-bottom:6px;font-weight:600}
+    .row{display:flex;gap:12px;flex-wrap:wrap}
+    .col{flex:1;min-width:220px}
+    input[type=range]{width:100%}
+    button{background:#2563eb;color:white;border:0;padding:8px 12px;border-radius:8px;cursor:pointer}
+    .stats{display:flex;gap:12px;flex-wrap:wrap;margin-top:10px}
+    .stat{background:#071029;padding:10px;border-radius:8px;min-width:120px}
+    footer{font-size:13px;margin-top:12px;color:#9fb0d8}
+  </style>
+</head>
+<body>
+  <h1>Visualizador: ensayo Bernoulli (Binomial)</h1>
+  <p>Simula <strong>m</strong> experimentos, cada uno con <strong>n</strong> lanzamientos Bernoulli (prob. de éxito <strong>p</strong>) y muestra la distribución de número de éxitos. También se dibuja la distribución teórica (Binomial).</p>
+
+  <div class="card">
+    <div class="row">
+      <div class="col">
+        <label for="n">n (lanzamientos por experimento)</label>
+        <input id="n" type="number" min="1" max="200" value="10" />
+      </div>
+      <div class="col">
+        <label for="p">p (probabilidad de éxito)</label>
+        <input id="p" type="number" step="0.01" min="0" max="1" value="0.5" />
+        <input id="p_range" type="range" min="0" max="1" step="0.01" value="0.5" />
+      </div>
+      <div class="col">
+        <label for="m">m (número de experimentos)</label>
+        <input id="m" type="number" min="1" max="200000" value="2000" />
+      </div>
+      <div class="col" style="align-self:end">
+        <button id="run">Correr simulación</button>
+        <button id="clear">Limpiar</button>
+      </div>
+    </div>
+
+    <div class="stats" id="stats">
+      <!-- estadísticas se llenan aquí -->
+    </div>
+  </div>
+
+  <div class="card">
+    <canvas id="chart" height="120"></canvas>
+  </div>
+
+  <footer>Hecho para enseñar principios de probabilidad — puedes ajustar <em>n</em>, <em>p</em> y <em>m</em>. La línea naranja es la distribución teórica Binomial, las barras azules la distribución empírica (frecuencias / probabilidades).
+<em>Creado con IA:</em> ChatGPT (2025), <em>prompt: </em >Me gustaría crear una página web que ilustre principios básicos de probabilidad y estadistica, en particular que puedan recrear el exprimento de distribución de bernoulli con n lanzamientos y m experimentos, mostrando diagramas de barras que ilustren los resultados  </footer>
+
+<script>
+// Utilidades combinatorias
+function comb(n,k){
+  if(k<0||k>n) return 0;
+  k = Math.min(k, n-k);
+  let res = 1;
+  for(let i=1;i<=k;i++){
+    res = res * (n - (k - i)) / i;
+  }
+  return Math.round(res);
+}
+
+function binomialPMF(n,p){
+  const pmf = [];
+  for(let k=0;k<=n;k++){
+    pmf[k] = comb(n,k) * Math.pow(p,k) * Math.pow(1-p, n-k);
+  }
+  return pmf;
+}
+
+// Simula m experimentos; cada uno suma n Bernoulli(p)
+function simulate(n,p,m){
+  const counts = new Array(n+1).fill(0);
+  for(let i=0;i<m;i++){
+    let successes = 0;
+    for(let j=0;j<n;j++){
+      if(Math.random() < p) successes++;
+    }
+    counts[successes]++;
+  }
+  return counts;
+}
+
+// DOM elementos
+const nInput = document.getElementById('n');
+const pInput = document.getElementById('p');
+const pRange = document.getElementById('p_range');
+const mInput = document.getElementById('m');
+const runBtn = document.getElementById('run');
+const clearBtn = document.getElementById('clear');
+const statsDiv = document.getElementById('stats');
+
+// sincronizar p inputs
+pInput.addEventListener('input', ()=>{ pRange.value = pInput.value; });
+pRange.addEventListener('input', ()=>{ pInput.value = pRange.value; });
+
+// Chart.js setup
+const ctx = document.getElementById('chart').getContext('2d');
+let chart = null;
+
+function createChart(labels, empirical, theoretical){
+  if(chart) chart.destroy();
+  chart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: labels,
+      datasets: [
+        { label: 'Empírico (frecuencia)', data: empirical, yAxisID: 'y', categoryPercentage: 0.9, barPercentage: 0.9 },
+        { label: 'Teórico (Binomial)', type: 'line', data: theoretical, fill: false, tension: 0.2, pointRadius: 4 }
+      ]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: { beginAtZero: true, title: {display:true, text:'Probabilidad / Frecuencia relativa'} }
+      },
+      plugins: { tooltip: { mode: 'index', intersect: false } }
+    }
+  });
+}
+
+function showStats(n,p,m,counts){
+  const probs = counts.map(c=>c/m);
+  const mean_emp = probs.reduce((acc,v,i)=>acc + i*v, 0);
+  const var_emp = probs.reduce((acc,v,i)=>acc + (i - mean_emp)**2 * v, 0);
+  const mean_theo = n * p;
+  const var_theo = n * p * (1 - p);
+
+  statsDiv.innerHTML = `
+    <div class="stat"><strong>n</strong><div>${n}</div></div>
+    <div class="stat"><strong>m</strong><div>${m}</div></div>
+    <div class="stat"><strong>p</strong><div>${p}</div></div>
+    <div class="stat"><strong>Media empírica</strong><div>${mean_emp.toFixed(4)}</div></div>
+    <div class="stat"><strong>Var empírica</strong><div>${var_emp.toFixed(4)}</div></div>
+    <div class="stat"><strong>Media teórica</strong><div>${mean_theo.toFixed(4)}</div></div>
+    <div class="stat"><strong>Var teórica</strong><div>${var_theo.toFixed(4)}</div></div>
+  `;
+}
+
+runBtn.addEventListener('click', ()=>{
+  const n = Math.max(1, Math.min(200, parseInt(nInput.value) || 10));
+  const p = Math.max(0, Math.min(1, parseFloat(pInput.value) || 0.5));
+  const m = Math.max(1, Math.min(200000, parseInt(mInput.value) || 1000));
+
+  // ejecutar simulación
+  runBtn.disabled = true;
+  runBtn.textContent = 'Ejecutando...';
+  setTimeout(()=>{
+    const counts = simulate(n,p,m);
+    const empirical = counts.map(c=>c / m);
+    const theoretical = binomialPMF(n,p);
+    const labels = Array.from({length: n+1}, (_,i)=>String(i));
+    createChart(labels, empirical, theoretical);
+    showStats(n,p,m,counts);
+    runBtn.disabled = false;
+    runBtn.textContent = 'Correr simulación';
+  }, 10);
+});
+
+clearBtn.addEventListener('click', ()=>{
+  if(chart) chart.destroy(); chart = null; statsDiv.innerHTML = '';
+});
+
+// correr una simulación por defecto al cargar
+window.addEventListener('load', ()=> runBtn.click());
+</script>
+</body>
+</html>
