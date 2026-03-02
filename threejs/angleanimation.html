@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Three.js OrbitControls Example</title>
+  <title>Three.js Angle Animation</title>
   <style>
     body { margin: 0; overflow: hidden; }
     #ui {
@@ -12,6 +12,7 @@
       padding: 10px;
       border-radius: 6px;
       font-family: sans-serif;
+      z-index: 2;
     }
   </style>
 </head>
@@ -24,105 +25,111 @@
   <button id="animateButton">Animate</button>
 </div>
 
-<script type="module">
-  import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.module.js";
-  import { OrbitControls } from "https://cdn.jsdelivr.net/npm/three@0.161.0/examples/jsm/controls/OrbitControls.js";
+<!-- THREE.js UMD build (global THREE) -->
+<script src="https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.min.js"></script>
 
-  // === Scene ===
-  const scene = new THREE.Scene();
-  scene.background = new THREE.Color(0xf0f0f0);
+<!-- OrbitControls UMD -->
+<script src="https://cdn.jsdelivr.net/npm/three@0.161.0/examples/js/controls/OrbitControls.js"></script>
 
-  // === Camera (top view, looking along +Z) ===
-  const camera = new THREE.PerspectiveCamera(45, window.innerWidth/window.innerHeight, 0.1, 1000);
-  camera.position.set(0, 0, 30);
-  camera.lookAt(0,0,0);
+<script>
+// === Scene ===
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0xf0f0f0);
 
-  // === Renderer ===
-  const renderer = new THREE.WebGLRenderer({antialias:true});
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  document.body.appendChild(renderer.domElement);
+// === Camera ===
+const camera = new THREE.PerspectiveCamera(
+  45,
+  window.innerWidth / window.innerHeight,
+  0.1,
+  1000
+);
+camera.position.set(0, 0, 30);
+camera.lookAt(0, 0, 0);
 
-  // === Orbit Controls ===
-  const controls = new OrbitControls(camera, renderer.domElement);
+// === Renderer ===
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
 
-  // === Arrow Creation (Cylinder + Cone) ===
-  function createArrow(color=0x156289) {
-    const group = new THREE.Group();
+// === Controls ===
+const controls = new THREE.OrbitControls(camera, renderer.domElement);
 
-    const shaft = new THREE.Mesh(
-      new THREE.CylinderGeometry(0.15, 0.15, 8, 16),
-      new THREE.MeshPhongMaterial({color})
-    );
-    shaft.position.y = 4;
-    group.add(shaft);
+// === Arrow creation ===
+function createArrow(color = 0x156289) {
+  const group = new THREE.Group();
 
-    const head = new THREE.Mesh(
-      new THREE.ConeGeometry(0.4, 1.2, 16),
-      new THREE.MeshPhongMaterial({color})
-    );
-    head.position.y = 8.6;
-    group.add(head);
+  const shaft = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.15, 0.15, 8, 16),
+    new THREE.MeshPhongMaterial({ color })
+  );
+  shaft.position.y = 4;
+  group.add(shaft);
 
-    // point the arrow along +X initially
-    group.rotation.z = -Math.PI/2;
+  const head = new THREE.Mesh(
+    new THREE.ConeGeometry(0.4, 1.2, 16),
+    new THREE.MeshPhongMaterial({ color })
+  );
+  head.position.y = 8.6;
+  group.add(head);
 
-    return group;
-  }
+  group.rotation.z = -Math.PI / 2; // Point right initially
+  return group;
+}
 
-  const arrow = createArrow();
-  scene.add(arrow);
+const arrow = createArrow();
+scene.add(arrow);
 
-  // === Lights ===
-  scene.add(new THREE.AmbientLight(0xffffff, 0.6));
-  const dir = new THREE.DirectionalLight(0xffffff, 0.7);
-  dir.position.set(15,20,10);
-  scene.add(dir);
+// === Lights ===
+scene.add(new THREE.AmbientLight(0xffffff, 0.6));
+const dir = new THREE.DirectionalLight(0xffffff, 0.7);
+dir.position.set(15, 20, 10);
+scene.add(dir);
 
-  // === UI Elements ===
-  const slider = document.getElementById("angleSlider");
-  const angleText = document.getElementById("angleValue");
-  const animateButton = document.getElementById("animateButton");
+// === UI ===
+const slider = document.getElementById("angleSlider");
+const angleText = document.getElementById("angleValue");
+const animateButton = document.getElementById("animateButton");
 
-  // === Set angle instantly ===
-  slider.oninput = () => {
-    const deg = Number(slider.value);
-    angleText.textContent = deg.toString();
-    arrow.rotation.z = -Math.PI/2 + THREE.MathUtils.degToRad(deg);
-  };
+slider.oninput = () => {
+  const deg = Number(slider.value);
+  angleText.textContent = deg;
+  arrow.rotation.z = -Math.PI / 2 + THREE.Math.degToRad(deg);
+};
 
-  // === Animate to 110° ===
-  animateButton.onclick = () => {
-    let start = arrow.rotation.z;
-    let end = -Math.PI/2 + THREE.MathUtils.degToRad(110);
-    let duration = 1000;
-    let t0 = performance.now();
+// === Animate to 110° ===
+animateButton.onclick = () => {
+  let start = arrow.rotation.z;
+  let end = -Math.PI / 2 + THREE.Math.degToRad(110);
+  let duration = 1000;
+  let t0 = performance.now();
 
-    function animate(time) {
-      let t = (time - t0) / duration;
-      if (t < 1) {
-        arrow.rotation.z = start + (end - start) * t;
-        requestAnimationFrame(animate);
-      } else {
-        arrow.rotation.z = end;
-      }
+  function step(time) {
+    let t = (time - t0) / duration;
+    if (t < 1) {
+      arrow.rotation.z = start + (end - start) * t;
+      requestAnimationFrame(step);
+    } else {
+      arrow.rotation.z = end;
     }
-    requestAnimationFrame(animate);
-  };
-
-  // === Render Loop ===
-  function animate() {
-    controls.update();
-    renderer.render(scene, camera);
-    requestAnimationFrame(animate);
   }
-  animate();
 
-  // === Resize ===
-  window.addEventListener("resize", () => {
-    camera.aspect = window.innerWidth/window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-  });
+  requestAnimationFrame(step);
+};
+
+// === Render loop ===
+function animate() {
+  controls.update();
+  renderer.render(scene, camera);
+  requestAnimationFrame(animate);
+}
+animate();
+
+// === Resize ===
+window.addEventListener("resize", () => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
 </script>
 
 </body>
