@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prueba de Inteligencia Artificial y Programación</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 40px;
+        }
+        .question-card {
+            background: #ffffff;
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border-left: 5px solid #3498db;
+        }
+        .question-text {
+            font-size: 1.15em;
+            font-weight: 600;
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+        .options {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        .option {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 5px;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+        }
+        .correct {
+            font-weight: bold;
+            color: #27ae60;
+            border-color: #27ae60;
+            background: #eafaf1;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 0.9em;
+            color: #7f8c8d;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Prueba de Inteligencia Artificial para Estudiantes</h1>
+    <div id="quiz-container"></div>
+
+    <script>
+        // Datos del cuestionario
+        const questions = [
+            { q: "¿Qué es, en términos sencillos, la Inteligencia Artificial (IA)?", opts: ["Un robot físico con forma humana que puede moverse.", "La simulación de procesos de inteligencia humana por parte de sistemas informáticos.", "Un sistema operativo moderno como Windows 11 o macOS.", "Una base de datos de internet que contiene toda la información del mundo."], ans: 1 },
+            { q: "Cuando ves un video en TikTok o YouTube y la aplicación te sugiere otro video que te encanta, ¿qué tecnología está actuando detrás de escena?", opts: ["Un algoritmo de Inteligencia Artificial llamado Sistema de Recomendación.", "Un equipo de personas revisando tus gustos en tiempo real.", "Una memoria RAM expandida en los servidores de la empresa.", "Un virus informático que lee tu mente."], ans: 0 },
+            { q: "¿Qué evalúa el famoso 'Test de Turing', propuesto por Alan Turing en 1950?", opts: ["La velocidad a la que una computadora puede resolver ecuaciones matemáticas complejas.", "Si una máquina puede exhibir un comportamiento inteligente indistinguible del de un ser humano.", "La capacidad de un robot para caminar sobre dos piernas sin caerse.", "Cuánta energía eléctrica consume un servidor de Inteligencia Artificial."], ans: 1 },
+            { q: "En 1997, la IA 'Deep Blue' de IBM hizo historia al lograr un hito impresionante. ¿Cuál fue?", opts: ["Pintó un cuadro que se vendió por un millón de dólares.", "Derrotó al campeón mundial humano en el juego de Ajedrez, Garry Kasparov.", "Escribió el primer libro de ciencia ficción exitoso sin ayuda humana.", "Condujo el primer coche autónomo a través de Estados Unidos."], ans: 1 },
+            { q: "Programas como ChatGPT, Claude o Midjourney son capaces de crear texto, imágenes o código desde cero. ¿A qué categoría de IA pertenecen?", opts: ["IA Descriptiva", "IA Generativa", "Robótica Industrial", "Bases de Datos Relacionales"], ans: 1 },
+            { q: "Entramos a Machine Learning (Aprendizaje Automático). ¿Qué significa 'Aprendizaje Supervisado'?", opts: ["Cuando un humano vigila a la computadora físicamente mientras procesa datos.", "Entrenar al algoritmo usando datos que ya tienen la respuesta correcta (etiquetas).", "Cuando la IA aprende por sí sola explorando internet sin reglas.", "Un método donde la IA castiga a otros programas si cometen errores."], ans: 1 },
+            { q: "¿En qué estructura biológica están inspiradas las 'Redes Neuronales Artificiales' utilizadas en Deep Learning?", opts: ["En el sistema digestivo.", "En la doble hélice del ADN.", "En el cerebro humano y sus neuronas interconectadas.", "En el sistema circulatorio del corazón."], ans: 2 },
+            { q: "En el desarrollo de Inteligencia Artificial, ¿qué es un 'Dataset' (conjunto de datos)?", opts: ["El código fuente escrito en Python que ejecuta el programa.", "El chip físico o procesador (como una GPU) donde corre la IA.", "Una recopilación estructurada de información usada para entrenar o evaluar un modelo.", "La contraseña de seguridad para acceder al servidor en la nube."], ans: 2 },
+            { q: "¿Cuál es el lenguaje de programación más popular y el estándar de la industria actualmente para desarrollar Machine Learning e IA?", opts: ["HTML", "Python", "CSS", "Scratch"], ans: 1 },
+            { q: "En el contexto de modelos como ChatGPT, ¿qué es un 'Prompt'?", opts: ["Un mensaje de error fatal en el código.", "La instrucción o texto de entrada que el usuario le da a la IA para obtener una respuesta.", "El botón de encendido del servidor de la IA.", "La tarifa mensual que se paga por usar el servicio."], ans: 1 },
+            { q: "Pasando a Python: Observa esta lista de datos `mi_lista = ['gato', 'perro', 'ave', 'pez']`. Si imprimo `mi_lista[2]`, ¿qué aparecerá en la pantalla?", opts: ["perro", "gato", "ave", "Da un error"], ans: 2 },
+            { q: "En Python, ¿qué elemento de la sintaxis es OBLIGATORIO para definir qué líneas de código pertenecen al bloque de una función o a un ciclo (loop)?", opts: ["Usar corchetes [ ] al inicio y al final.", "Usar la palabra fin_ciclo al terminar.", "La indentación (los espacios o sangría al inicio de la línea).", "Poner punto y coma (;) al final de cada línea."], ans: 2 },
+            { q: "Para crear proyectos serios de Machine Learning en Python, importamos 'librerías'. ¿Cuál de estas opciones contiene tres de las librerías más importantes para manipulación de datos y ML?", opts: ["Pandas, Scikit-learn, TensorFlow", "Pygame, Tkinter, BeautifulSoup", "Photoshop, Excel, Word", "Django, Flask, React"], ans: 0 },
+            { q: "¿Qué es el 'Overfitting' (sobreajuste), uno de los mayores dolores de cabeza al entrenar modelos de IA?", opts: ["Cuando la computadora se recalienta por procesar demasiados datos.", "Cuando el modelo memoriza perfectamente los datos de entrenamiento pero falla miserablemente al predecir datos nuevos.", "Cuando el modelo es tan rápido que termina el trabajo antes de tiempo.", "Cuando los datos de entrenamiento son eliminados por accidente."], ans: 1 },
+            { q: "Durante el entrenamiento de una red neuronal, el algoritmo calcula el 'Loss' (Pérdida) o 'Error'. ¿Cuál es el objetivo de la red con respecto a este número?", opts: ["Aumentarlo hasta el infinito.", "Mantenerlo exactamente igual desde el principio.", "Hacer que varíe aleatoriamente.", "Minimizarlo lo más posible."], ans: 3 },
+            { q: "En una red neuronal, ¿qué función cumplen los 'Pesos' (Weights)?", opts: ["Son la medida de cuántos Gigabytes ocupa el modelo en el disco duro.", "Representan la importancia matemática o la fuerza de la conexión entre diferentes neuronas.", "Indican el tiempo exacto que tarda en ejecutarse el código.", "Es el nombre que se le da a la contraseña del servidor."], ans: 1 },
+            { q: "Llegas a la capa final de tu modelo de IA en Python, el cual clasifica imágenes en 'Perro' o 'Gato'. Para que el modelo exprese su respuesta como un porcentaje de probabilidad (ej. 90% perro, 10% gato), ¿qué elemento matemático aplicas al final?", opts: ["Una función de activación como Sigmoide o Softmax.", "Una función de apagado de sistema temporal.", "Un bucle 'while' infinito.", "Un comando de impresión en pantalla simple como 'print(perro)'."], ans: 0 },
+            { q: "(Pregunta de Ingenio 1): Observa esta función en Python:\n<pre>def entrenar(modelo, datos=[]):\n    datos.append(modelo)\n    return len(datos)</pre>Si primero llamas entrenar('Modelo_1') y en una línea separada luego llamas entrenar('Modelo_2'), ¿qué número devolverá la SEGUNDA llamada?", opts: ["1", "2", "0", "Da un error"], ans: 1 },
+            { q: "(Pregunta de Ingenio 2): Tienes un dataset médico donde el 99% de los pacientes están completamente sanos y el 1% tiene un virus raro. Construyes un código tonto en Python que SIEMPRE hace return 'Sano', sin importar los datos de entrada. Matemáticamente, ¿cuál será el porcentaje de 'Exactitud' (Accuracy) de tu modelo?", opts: ["0%", "50%", "99%", "Da un error porque no usa Machine Learning real."], ans: 2 },
+            { q: "(Pregunta de Ingenio 3): Entrenas una red neuronal de visión usando 5 millones de fotos, enseñándole EXCLUSIVAMENTE a clasificar entre dos opciones: 'Manzana' y 'Naranja'. Su capa final usa una función Softmax estricta. Si pasas por la red la foto de un 'Plátano' amarillo y perfecto, ¿qué arrojará matemáticamente la capa final?", opts: ["Devolverá un error del sistema que diga 'Clase no reconocida: Plátano'.", "Entrará en un bucle infinito buscando la característica del color amarillo.", "Creará dinámicamente una tercera categoría llamada 'Desconocido' o 'Plátano'.", "Asignará porcentajes que, sumados, darán el 100%, divididos forzosamente entre 'Manzana' y 'Naranja'."], ans: 3 }
+        ];
+
+        const container = document.getElementById('quiz-container');
+
+        questions.forEach((item, index) => {
+            let card = document.createElement('div');
+            card.className = 'question-card';
+            
+            let title = document.createElement('p');
+            title.className = 'question-text';
+            title.innerHTML = `<strong>${index + 1}.</strong> ${item.q}`;
+            card.appendChild(title);
+
+            let ul = document.createElement('ul');
+            ul.className = 'options';
+
+            item.opts.forEach((opt, optIndex) => {
+                let li = document.createElement('li');
+                // Resalta la respuesta correcta
+                li.className = optIndex === item.ans ? 'option correct' : 'option';
+                
+                // Si quieres que el HTML no muestre la respuesta correcta por defecto, 
+                // cambia la línea de arriba por: li.className = 'option';
+                
+                li.textContent = opt;
+                ul.appendChild(li);
+            });
+
+            card.appendChild(ul);
+            container.appendChild(card);
+        });
+    </script>
+    <div class="footer">Generado por  la inteligencia artificial (gemini 3.1) como material didáctico</div>
+</body>
+</html>
+
