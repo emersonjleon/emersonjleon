@@ -5,39 +5,84 @@
   <title>3D Chipfiring Sandpile Visualizer</title>
   <style>
     body {
-      background-color: #111;
-      color: #eee;
+      background-color: #ffffff;
+      color: #222;
       font-family: sans-serif;
       margin: 0;
       padding: 0;
     }
     #controls {
-      padding: 10px;
-      background-color: #222;
+      padding: 10px 16px;
+      background-color: #f7f7f7;
       display: flex;
-      flex-wrap: wrap;
+      flex-direction: column;
       gap: 10px;
-      align-items: center;
-      border-bottom: 1px solid #444;
+      align-items: stretch;
+      border-bottom: 1px solid #ddd;
     }
     #controls label {
       margin-right: 4px;
     }
+    .controls-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      justify-content: flex-start;
+    }
+    .controls-row.small {
+      font-size: 0.9rem;
+    }
+    .primary-actions {
+      display: flex;
+      justify-content: center;
+      margin-top: 4px;
+    }
     #canvas {
-      background-color: #000;
-      width: 1000px;
-      height: 700px;
-      border: 1px solid #444;
-      margin: 10px;
+      background-color: #eee;
+      width: 100%;
+      max-width: 1000px;
+      height: min(70vh, 600px);
+      border: 1px solid #ccc;
+      margin: 10px auto 20px;
     }
     button {
       cursor: pointer;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      background-color: #ffffff;
+      padding: 4px 10px;
+    }
+    #relaxBtn {
+      padding: 10px 28px;
+      font-weight: bold;
+      font-size: 1rem;
+      background: linear-gradient(135deg, #007bff, #00a3ff);
+      color: #ffffff;
+      border: none;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+    }
+    #relaxBtn:hover {
+      filter: brightness(1.05);
+    }
+    #relaxBtn:active {
+      transform: translateY(1px);
+      box-shadow: 0 1px 2px rgba(0,0,0,0.2);
     }
     input, select {
-      background-color: #333;
-      color: #eee;
-      border: 1px solid #555;
-      padding: 2px 4px;
+      background-color: #fff;
+      color: #222;
+      border: 1px solid #ccc;
+      padding: 2px 6px;
+    }
+    @media (max-width: 768px) {
+      #controls {
+        padding: 8px;
+        gap: 6px;
+      }
+      #canvas {
+        height: 60vh;
+      }
     }
   </style>
 </head>
@@ -45,69 +90,84 @@
 
 <div id="controls">
   <!-- Parámetros de configuración -->
-  <label>Size:
-    <input id="sizeInput" type="number" min="5" max="51" step="2" value="25">
-  </label>
+  <div class="controls-row">
+    <label>Chips:
+      <input id="chipsInput" type="number" min="1" max="50000" value="10000">
+    </label>
 
-  <label>Chips:
-    <input id="chipsInput" type="number" min="1" max="50000" value="10000">
-  </label>
+    <label>Random radius:
+      <input id="radiusInput" type="number" min="0" max="10" value="3">
+    </label>
 
-  <label>Random radius:
-    <input id="radiusInput" type="number" min="0" max="10" value="3">
-  </label>
+    <button id="randomConfigBtn">Random near center</button>
+    <button id="centerConfigBtn">Central config</button>
 
-  <button id="centerConfigBtn">Central config</button>
-  <button id="randomConfigBtn">Random near center</button>
+    <label>Max relax steps:
+      <input id="stepsInput" type="number" min="1" max="20000" value="5000">
+    </label>
+  </div>
 
-  <label>Max relax steps:
-    <input id="stepsInput" type="number" min="1" max="20000" value="5000">
-  </label>
-  <button id="relaxBtn">Relax chipfiring</button>
+  <div class="controls-row">
+    <label>Sphere radius:
+      <input id="sphereRadiusInput" type="number" min="1" max="50" value="10">
+    </label>
 
-  <button id="toggleRotationBtn" style="margin-left: 10px;">Pause rotation</button>
+    <label>Shape:
+      <select id="shapeSelect">
+        <option value="sphere">Spheres</option>
+        <option value="cube">Cubes</option>
+      </select>
+    </label>
 
-  <!-- Controles de filtrado -->
-  <span style="margin-left: 20px;">Filter:</span>
-  <label for="coordSelect">coord</label>
-  <select id="coordSelect">
-    <option value="0">x</option>
-    <option value="1">y</option>
-    <option value="2">z</option>
-  </select>
+    <label>
+      <input id="showZerosInput" type="checkbox">
+      Show 0-values as blue
+    </label>
 
-  <label for="thresholdInput">threshold</label>
-  <input id="thresholdInput" type="range" min="-200" max="200" step="10" value="0">
-  <span id="thresholdValue">0</span>
+    <button id="toggleRotationBtn">Resume rotation</button>
+  </div>
+
+  <div class="controls-row small">
+    <!-- Controles de filtrado -->
+    <span>Filter:</span>
+    <label for="coordSelect">coord</label>
+    <select id="coordSelect">
+      <option value="0">x</option>
+      <option value="1">y</option>
+      <option value="2">z</option>
+    </select>
+
+    <label for="thresholdInput">threshold</label>
+    <input id="thresholdInput" type="range" min="-200" max="200" step="10" value="0">
+    <span id="thresholdValue">0</span>
+  </div>
+
+  <div class="primary-actions">
+    <button id="relaxBtn">Display</button>
+  </div>
 </div>
 
 <div id="canvas"></div>
 
-
-
-<script src="https://ajax.googleapis.com/ajax/libs/threejs/r76/three.min.js"></script>
-<script src="https://threejs.org/examples/js/controls/OrbitControls.js"></script>
-
-
-<!-- Three.js y OrbitControls (misma versión r76 desde CDNJS) -->
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r76/three.min.js"></script> -->
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r76/controls/OrbitControls.js"></script> -->
-
-
+<script src="https://unpkg.com/three@0.128.0/build/three.min.js"></script>
+<script src="https://unpkg.com/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 
 <script>
   // =========================
   //  Parámetros globales
   // =========================
-  var size = 25;      // tamaño de la matriz (cubo size x size x size)
+  var size = 25;      // tamaño de la matriz (se recalcula automáticamente a partir de chips)
   var chips = 10000;  // número total de chips
-  var radiusRandom = 3; // radio (en celdas) para distribución aleatoria
+  var radiusRandom = 40; // radio (en celdas) para distribución aleatoria
   var spacing = 20;   // distancia entre celdas en la visualización
+  var sphereRadius = 10; // radio de las esferas (por defecto, para que se toquen con spacing=20)
 
   var matrix = null;      // matriz 3D de chips
   var mySpheres = null;   // THREE.Object3D con todas las esferas
   var scene, camera, renderer, controls;
-  var rotateEnabled = true;
+  var rotateEnabled = false;
+  var useCubes = false;            // si true, usar cubos en lugar de esferas
+  var showZerosAsBackground = false; // si true, dibujar también las celdas con valor 0 en azul de fondo
 
   // Colores para alturas de 0..5 (0 = sin esfera)
   var chipColors = [
@@ -122,6 +182,17 @@
   // =========================
   //  Utilidades de matriz 3D
   // =========================
+  function autoSizeForChips(totalChips) {
+    // Estimación basada en volumen de bola 3D y altura máxima ~5
+    var chips = Math.max(1, totalChips);
+    var R = Math.cbrt((3 * chips) / (20 * Math.PI)); // (3 * chips) / (20π) ^(1/3)
+    var baseSize = Math.ceil(2 * R + 1 + 4); // +4 de margen
+    if (baseSize % 2 === 0) baseSize += 1;   // forzamos impar para centro claro
+    // Acotamos a un rango razonable
+    baseSize = Math.max(5, Math.min(baseSize, 101));
+    return baseSize;
+  }
+
   function createEmptyMatrix(n) {
     var m = new Array(n);
     for (var i = 0; i < n; i++) {
@@ -215,7 +286,8 @@
     canvasDiv.appendChild(renderer.domElement);
 
     scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x000000);
+    // Fondo azul claro para el lienzo 3D (coherente con chipColors[1])
+    scene.background = new THREE.Color(0x3333bb);
 
     var VIEW_ANGLE = 65;
     var ASPECT = w / h;
@@ -261,9 +333,9 @@
   }
 
   // =========================
-  //  Creación de esferas
+  //  Creación de objetos (esferas o cubos)
   // =========================
-  function createSpheresFromMatrix(m) {
+  function createObjectsFromMatrix(m) {
     var n = m.length;
     if (mySpheres) {
       scene.remove(mySpheres);
@@ -271,29 +343,38 @@
     mySpheres = new THREE.Object3D();
     scene.add(mySpheres);
 
-    var radius = 4;
+    var radius = sphereRadius || (spacing / 2);
     var segments = 16;
     var rings = 12;
     var sphereGeometry = new THREE.SphereGeometry(radius, segments, rings);
+    var cubeSize = radius * 2;
+    var cubeGeometry = new THREE.BoxGeometry(cubeSize, cubeSize, cubeSize);
 
     var center = (n - 1) / 2;
     for (var i = 0; i < n; i++) {
       for (var j = 0; j < n; j++) {
         for (var k = 0; k < n; k++) {
           var h = m[i][j][k];
-          if (h > 0) {
+          if (h === 0 && !showZerosAsBackground) {
+            continue;
+          }
+          var color;
+          if (h === 0) {
+            // mismo color que el fondo
+            color = 0x3333bb;
+          } else {
             // Escogemos un color según h (mod número de colores-1)
             var idx = (h % (chipColors.length - 1)) + 1;
-            var color = chipColors[idx];
-            var material = new THREE.MeshLambertMaterial({ color: color });
-            var sphere = new THREE.Mesh(sphereGeometry, material);
-            sphere.position.set(
-              spacing * (i - center),
-              spacing * (j - center),
-              spacing * (k - center)
-            );
-            mySpheres.add(sphere);
+            color = chipColors[idx];
           }
+          var material = new THREE.MeshLambertMaterial({ color: color });
+          var mesh = new THREE.Mesh(useCubes ? cubeGeometry : sphereGeometry, material);
+          mesh.position.set(
+            spacing * (i - center),
+            spacing * (j - center),
+            spacing * (k - center)
+          );
+          mySpheres.add(mesh);
         }
       }
     }
@@ -346,17 +427,16 @@
   //  Hooks de UI / Eventos
   // =========================
   function readUIParams() {
-    var sizeInput   = document.getElementById('sizeInput');
     var chipsInput  = document.getElementById('chipsInput');
     var radiusInput = document.getElementById('radiusInput');
+    var sphereRadiusInput = document.getElementById('sphereRadiusInput');
     var stepsInput  = document.getElementById('stepsInput');
 
-    size = parseInt(sizeInput.value, 10);
-    if (size % 2 === 0) size += 1; // forzamos impar para centro claro
-    sizeInput.value = size;
-
     chips = parseInt(chipsInput.value, 10);
+    // tamaño automático a partir del número de chips
+    size = autoSizeForChips(chips);
     radiusRandom = parseInt(radiusInput.value, 10);
+    sphereRadius = parseInt(sphereRadiusInput.value, 10);
     // steps se lee en el botón de relax
   }
 
@@ -364,14 +444,14 @@
     readUIParams();
     matrix = createEmptyMatrix(size);
     addChipsCenter(matrix, chips);
-    createSpheresFromMatrix(matrix);
+    createObjectsFromMatrix(matrix);
   }
 
   function createRandomConfig() {
     readUIParams();
     matrix = createEmptyMatrix(size);
     addChipsRandomNearCenter(matrix, chips, radiusRandom);
-    createSpheresFromMatrix(matrix);
+    createObjectsFromMatrix(matrix);
   }
 
   function relaxCurrentMatrix() {
@@ -383,7 +463,7 @@
     var maxSteps = parseInt(stepsInput.value, 10);
     console.log("Relajando con maxSteps =", maxSteps);
     relaxChipfiring(matrix, maxSteps);
-    createSpheresFromMatrix(matrix);
+    createObjectsFromMatrix(matrix);
   }
 
   function setupUI() {
@@ -405,6 +485,8 @@
     var coordSelect = document.getElementById('coordSelect');
     var thresholdInput = document.getElementById('thresholdInput');
     var thresholdValue = document.getElementById('thresholdValue');
+    var shapeSelect = document.getElementById('shapeSelect');
+    var showZerosInput = document.getElementById('showZerosInput');
 
     coordSelect.addEventListener('change', function () {
       var idx = parseInt(this.value, 10);
@@ -415,6 +497,20 @@
       var t = parseFloat(this.value);
       thresholdValue.textContent = t;
       setFilterThreshold(t);
+    });
+
+    shapeSelect.addEventListener('change', function () {
+      useCubes = (this.value === 'cube');
+      if (matrix) {
+        createObjectsFromMatrix(matrix);
+      }
+    });
+
+    showZerosInput.addEventListener('change', function () {
+      showZerosAsBackground = this.checked;
+      if (matrix) {
+        createObjectsFromMatrix(matrix);
+      }
     });
 
     // Valores iniciales
