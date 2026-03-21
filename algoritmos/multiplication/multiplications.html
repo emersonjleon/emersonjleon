@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>20x20 Logarithmic Rainbow Multiplication Table</title>
+    <title> Rainbow Multiplication Table</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -18,7 +18,7 @@
         #table-container {
             display: grid;
             /* Creates a 20x20 grid */
-            grid-template-columns: repeat(20, 1fr);
+            grid-template-columns: repeat(30, 1fr);
             gap: 2px;
             width: 95vmin; /* Scales with the viewport so it always fits */
             max-width: 900px;
@@ -60,7 +60,7 @@
 
     <script>
         const container = document.getElementById('table-container');
-        const tableSize = 20;
+        const tableSize = 30;
 
         for (let row = 1; row <= tableSize; row++) {
             for (let col = 1; col <= tableSize; col++) {
