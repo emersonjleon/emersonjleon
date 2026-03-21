@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>20x20 Logarithmic Rainbow Multiplication Table</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #222; /* Dark background to make colors pop */
+        }
+
+        #table-container {
+            display: grid;
+            /* Creates a 20x20 grid */
+            grid-template-columns: repeat(20, 1fr);
+            gap: 2px;
+            width: 95vmin; /* Scales with the viewport so it always fits */
+            max-width: 900px;
+            background-color: #111;
+            padding: 4px;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .cell {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            aspect-ratio: 1; /* Forces the box to remain a perfect square */
+            font-size: clamp(8px, 1.5vw, 14px);
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8); /* Ensures text is readable over any color */
+            cursor: pointer;
+            border-radius: 3px;
+            user-select: none;
+            transition: transform 0.1s ease, filter 0.2s;
+        }
+
+        .cell:hover {
+            filter: brightness(1.2);
+            transform: scale(1.1);
+            z-index: 10;
+        }
+
+        .cell:active {
+            transform: scale(0.95);
+        }
+    </style>
+</head>
+<body>
+
+    <div id="table-container"></div>
+
+    <script>
+        const container = document.getElementById('table-container');
+        const tableSize = 20;
+
+        for (let row = 1; row <= tableSize; row++) {
+            for (let col = 1; col <= tableSize; col++) {
+                const cell = document.createElement('div');
+                cell.className = 'cell';
+                
+                const product = row * col;
+                
+                // The math for the color:
+                // Math.log10(1) = 0   * 360 = 0   (Red)
+                // Math.log10(10) = 1  * 360 = 360 (Red)
+                // Math.log10(100) = 2 * 360 = 720 (Red)
+                const hue = (Math.log10(product) * 360) % 360;
+                
+                // Set the background color using HSL (Hue, Saturation, Lightness)
+                cell.style.backgroundColor = `hsl(${hue}, 85%, 55%)`;
+                
+                // Initial text (the equation)
+                const equationText = `${row}x${col}`;
+                cell.textContent = equationText;
+                
+                // Click event to toggle between the equation and the answer
+                cell.addEventListener('click', function() {
+                    if (this.textContent === equationText) {
+                        this.textContent = product;
+                    } else {
+                        this.textContent = equationText;
+                    }
+                });
+                
+                container.appendChild(cell);
+            }
+        }
+    </script>
+</body>
+</html>

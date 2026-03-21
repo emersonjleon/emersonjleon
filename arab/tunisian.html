@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tounsi: Learn Tunisian Derja!</title>
+    <style>
+        /* 1. TRADITIONAL-MODERN COLOR PALETTE */
+        :root {
+            --deep-sea: #004D8C;   /* Azul profundo Mediterráneo */
+            --ochre-sand: #E3A857; /* Ocre arena */
+            --terracotta: #E2725B;   /* Terracota arcilla */
+            --jasmine-cream: #FDFBF4; /* Crema suave (fondo) */
+            --zellige-pattern: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80"><path fill="%23e3a857" fill-opacity="0.1" d="M14 16H0v60h14V16zM10 20H4v52h6V20zM66 16H80v60H66V16zM70 20h6v52h-6V20zM40 0l-8 8H16v16L8 32v16l8 8h16v16l8-8 8 8h16V56l8-8V32l-8-8V8H48l-8-8zM36 12h8v8h-8v-8zM12 36h8v8h-8v-8zM60 36h8v8h-8v-8zM36 60h8v8h-8v-8zM40 36a4 4 0 1 1 0 8 4 4 0 0 1 0-8z"/></svg>');
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            line-height: 1.7;
+            background-color: var(--jasmine-cream);
+            color: #333;
+        }
+
+        /* 2. NAVIGATION & HEADER (Sticky) */
+        nav {
+            background-color: var(--deep-sea);
+            padding: 1rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        nav .logo { font-size: 1.8rem; font-weight: bold; }
+        nav .logo span { color: var(--terracotta); }
+        nav .links a { color: white; text-decoration: none; margin-left: 25px; font-weight: bold; }
+        nav .links a:hover { color: var(--ochre-sand); }
+
+        /* 3. HERO SECTION (WITH IMAGE) */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url('image.png');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 150px 20px;
+            text-align: center;
+            border-bottom: 8px solid var(--terracotta);
+        }
+
+        .hero h1 { font-size: 3.5rem; margin-bottom: 10px; }
+        .hero p { font-size: 1.5rem; max-width: 600px; margin: 20px auto; font-weight: 300; }
+
+        /* 4. MAIN CONTAINER & PAGE SECTIONS */
+        .main-wrapper {
+            max-width: 1300px;
+            margin: 50px auto;
+            padding: 0 20px;
+        }
+
+        .page-section {
+            display: none;
+        }
+
+        .page-section.active {
+            display: block;
+        }
+
+        .section-header {
+            background-color: var(--deep-sea);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 8px 8px 0 0;
+            margin: 0;
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background-image: var(--zellige-pattern);
+        }
+
+        /* 5. CARD DESIGN (Traditional-modern style) */
+        .lesson-block, .practice-block {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+            margin-bottom: 40px;
+            overflow: hidden;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .lesson-content { padding: 30px; }
+
+        /* Sound table styles */
+        .sound-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .sound-table th, .sound-table td {
+            border: 1px solid #eee;
+            padding: 15px;
+            text-align: left;
+        }
+
+        .sound-table th { background-color: var(--jasmine-cream); color: var(--deep-sea); }
+        .sound-table .arabic { font-size: 1.8rem; direction: rtl; text-align: center; color: var(--terracotta); }
+        .sound-table .num { font-size: 1.5rem; font-weight: bold; text-align: center; color: var(--ochre-sand); }
+
+        /* 6. BUTTONS & PRACTICE (Reusable) */
+        .btn {
+            background-color: var(--terracotta);
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-weight: bold;
+            transition: background 0.3s, transform 0.1s;
+        }
+
+        .btn:hover { background-color: #c2162a; }
+        .btn:active { transform: scale(0.95); }
+
+        /* Quiz and Word of the Day styles */
+        .wotd-card {
+            background: var(--jasmine-cream);
+            border-left: 8px solid var(--deep-sea);
+            padding: 25px;
+            text-align: center;
+        }
+
+        .wotd-card .arabic-text {
+            font-size: 2.5rem;
+            color: var(--deep-sea);
+            margin: 10px 0;
+            direction: rtl;
+        }
+
+        .wotd-card .pronunciation { font-style: italic; color: #666; margin-bottom: 15px;}
+
+        input[type="text"] {
+            padding: 12px;
+            width: 90%;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            margin-bottom: 15px;
+        }
+
+        input[type="text"]:focus { border-color: var(--ochre-sand); outline: none; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">Toun<span>si</span>!</div>
+        <div class="links">
+            <a href="#pronunciation" data-page-target="page-pronunciation">Pronunciation</a>
+            <a href="#lessons" data-page-target="page-lessons">Vocabulary</a>
+            <a href="#sentences" data-page-target="page-sentences">Sentences</a>
+            <a href="#practice" data-page-target="page-practice">Practice</a>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <h1>Welcome to Derja World</h1>
+        <p>Learn the vibrant, poetic, and sun-drenched dialect of Tunisia.</p>
+    </header>
+
+    <div class="main-wrapper">
+        
+        <main>
+            <!-- PRONUNCIATION PAGE -->
+            <section id="page-pronunciation" class="page-section active">
+            <h2 id="pronunciation" style="color: var(--deep-sea); margin-bottom: 30px;">Pronunciation</h2>
+
+            <section class="lesson-block">
+                <h3 class="section-header">Lesson 0: The Arabic Alphabet</h3>
+                <div class="lesson-content">
+                    <p>Modern Standard Arabic and Tunisian Derja are written with the Arabic alphabet, which has <strong>28 basic letters</strong> written from <strong>right to left</strong>. Each letter can have up to four shapes: <em>isolated</em>, <em>initial</em>, <em>medial</em>, and <em>final</em>, depending on its position in the word.</p>
+                    <p>The table below shows each letter in its <strong>isolated</strong> form, and its typical shapes at the <strong>beginning</strong>, <strong>middle</strong>, and <strong>end</strong> of a word, together with its common name and approximate sound.</p>
+
+                    <table class="sound-table">
+                        <tr>
+                            <th>Letter (isolated)</th>
+                            <th>Initial</th>
+                            <th>Medial</th>
+                            <th>Final</th>
+                            <th>Name</th>
+                            <th>Approximate Sound</th>
+                        </tr>
+                        <tr><td class="arabic">ا</td><td class="arabic">ا</td><td class="arabic">ـا</td><td class="arabic">ـا</td><td>Alif</td><td>Long “aa” as in “father”; also used as a support letter.</td></tr>
+                        <tr><td class="arabic">ب</td><td class="arabic">بـ</td><td class="arabic">ـبـ</td><td class="arabic">ـب</td><td>Ba</td><td>“b” as in “bed”.</td></tr>
+                        <tr><td class="arabic">ت</td><td class="arabic">تـ</td><td class="arabic">ـتـ</td><td class="arabic">ـت</td><td>Ta</td><td>“t” as in “tea”.</td></tr>
+                        <tr><td class="arabic">ث</td><td class="arabic">ثـ</td><td class="arabic">ـثـ</td><td class="arabic">ـث</td><td>Tha</td><td>“th” as in “think” (in Tunisian often closer to “t”).</td></tr>
+                        <tr><td class="arabic">ج</td><td class="arabic">جـ</td><td class="arabic">ـجـ</td><td class="arabic">ـج</td><td>Jim</td><td>“j” as in “jam” (often like French “j” in “jour”).</td></tr>
+                        <tr><td class="arabic">ح</td><td class="arabic">حـ</td><td class="arabic">ـحـ</td><td class="arabic">ـح</td><td>Ha (deep)</td><td>Strong deep “h” from the throat, no exact English equivalent.</td></tr>
+                        <tr><td class="arabic">خ</td><td class="arabic">خـ</td><td class="arabic">ـخـ</td><td class="arabic">ـخ</td><td>Kha</td><td>Harsh “kh” as in Spanish “jamón” or German “Bach”.</td></tr>
+                        <tr><td class="arabic">د</td><td class="arabic">د</td><td class="arabic">ـد</td><td class="arabic">ـد</td><td>Dal</td><td>“d” as in “day”.</td></tr>
+                        <tr><td class="arabic">ذ</td><td class="arabic">ذ</td><td class="arabic">ـذ</td><td class="arabic">ـذ</td><td>Dhal</td><td>“th” as in “this” (often closer to “d”).</td></tr>
+                        <tr><td class="arabic">ر</td><td class="arabic">ر</td><td class="arabic">ـر</td><td class="arabic">ـر</td><td>Ra</td><td>Rolled or tapped “r”, similar to Spanish “r”.</td></tr>
+                        <tr><td class="arabic">ز</td><td class="arabic">ز</td><td class="arabic">ـز</td><td class="arabic">ـز</td><td>Zay</td><td>“z” as in “zoo”.</td></tr>
+                        <tr><td class="arabic">س</td><td class="arabic">سـ</td><td class="arabic">ـسـ</td><td class="arabic">ـس</td><td>Sin</td><td>“s” as in “sun”.</td></tr>
+                        <tr><td class="arabic">ش</td><td class="arabic">شـ</td><td class="arabic">ـشـ</td><td class="arabic">ـش</td><td>Shin</td><td>“sh” as in “shoe”.</td></tr>
+                        <tr><td class="arabic">ص</td><td class="arabic">صـ</td><td class="arabic">ـصـ</td><td class="arabic">ـص</td><td>Sad</td><td>Emphatic “s”, heavier and darker than normal “s”.</td></tr>
+                        <tr><td class="arabic">ض</td><td class="arabic">ضـ</td><td class="arabic">ـضـ</td><td class="arabic">ـض</td><td>Dad</td><td>Emphatic “d”, unique Arabic sound; heavier “d”.</td></tr>
+                        <tr><td class="arabic">ط</td><td class="arabic">طـ</td><td class="arabic">ـطـ</td><td class="arabic">ـط</td><td>Ta (emphatic)</td><td>Emphatic “t”, stronger and darker than normal “t”.</td></tr>
+                        <tr><td class="arabic">ظ</td><td class="arabic">ظـ</td><td class="arabic">ـظـ</td><td class="arabic">ـظ</td><td>Za / Dha (emphatic)</td><td>Emphatic “th/z”, like a heavy “th” in “this”.</td></tr>
+                        <tr><td class="arabic">ع</td><td class="arabic">عـ</td><td class="arabic">ـعـ</td><td class="arabic">ـع</td><td>Ayn</td><td>Guttural consonant deep in the throat, no direct English sound.</td></tr>
+                        <tr><td class="arabic">غ</td><td class="arabic">غـ</td><td class="arabic">ـغـ</td><td class="arabic">ـغ</td><td>Ghayn</td><td>Voiced gargling sound, similar to French “r” in “Paris”.</td></tr>
+                        <tr><td class="arabic">ف</td><td class="arabic">فـ</td><td class="arabic">ـفـ</td><td class="arabic">ـف</td><td>Fa</td><td>“f” as in “food”.</td></tr>
+                        <tr><td class="arabic">ق</td><td class="arabic">قـ</td><td class="arabic">ـقـ</td><td class="arabic">ـق</td><td>Qaf</td><td>Deep “k” produced in the back of the throat (often written as “9” in chat).</td></tr>
+                        <tr><td class="arabic">ك</td><td class="arabic">كـ</td><td class="arabic">ـكـ</td><td class="arabic">ـك</td><td>Kaf</td><td>“k” as in “kite”.</td></tr>
+                        <tr><td class="arabic">ل</td><td class="arabic">لـ</td><td class="arabic">ـلـ</td><td class="arabic">ـل</td><td>Lam</td><td>“l” as in “love”.</td></tr>
+                        <tr><td class="arabic">م</td><td class="arabic">مـ</td><td class="arabic">ـمـ</td><td class="arabic">ـم</td><td>Mim</td><td>“m” as in “moon”.</td></tr>
+                        <tr><td class="arabic">ن</td><td class="arabic">نـ</td><td class="arabic">ـنـ</td><td class="arabic">ـن</td><td>Nun</td><td>“n” as in “no”.</td></tr>
+                        <tr><td class="arabic">ه</td><td class="arabic">هـ</td><td class="arabic">ـهـ</td><td class="arabic">ـه</td><td>Ha (light)</td><td>Soft “h” as in “house”.</td></tr>
+                        <tr><td class="arabic">و</td><td class="arabic">و</td><td class="arabic">ـو</td><td class="arabic">ـو</td><td>Waw</td><td>“w” as in “water”; also long “uu” as in “boot”.</td></tr>
+                        <tr><td class="arabic">ي</td><td class="arabic">يـ</td><td class="arabic">ـيـ</td><td class="arabic">ـي</td><td>Ya</td><td>“y” as in “yes”; also long “ii” as in “machine”.</td></tr>
+                    </table>
+
+                    <p style="margin-top: 20px;">Tunisians often mix Arabic script and the Latin “chat alphabet” (Arabizi). The next pronunciation lessons show how these special sounds are written and typed.</p>
+                    <button class="btn" onclick="speakText('Arabic alphabet letters and their sounds.', 'en-US')">🔊 Read explanation</button>
+                </div>
+            </section>
+
+            <section class="lesson-block">
+                <h3 class="section-header">Lesson 1: Difficult Arabic Sounds</h3>
+                <div class="lesson-content">
+                    <p>Derja shares many sounds with Standard Arabic, but also has unique Mediterranean influences. Mastering these “difficult” sounds is the key to speaking naturally.</p>
+                    
+                    <table class="sound-table">
+                        <tr>
+                            <th>Sound/Letter</th>
+                            <th>Description</th>
+                            <th>Example</th>
+                        </tr>
+                        <tr>
+                            <td class="arabic">ح</td>
+                            <td><strong>Deep H (Ha).</strong> Stronger and deeper than a standard H. Exhale strongly from the throat.</td>
+                            <td><strong>H</strong>mema (Pigeon)</td>
+                        </tr>
+                        <tr>
+                            <td class="arabic">ع</td>
+                            <td><strong>'Ayn.</strong> A guttural sound formed deep in the throat. A very distinct Arabic sound.</td>
+                            <td><strong>'A</strong>yshek (Thank you)</td>
+                        </tr>
+                        <tr>
+                            <td class="arabic">ق</td>
+                            <td><strong>Qaf.</strong> A deep guttural K sound. Sometimes sounds like a powerful “glottal stop”.</td>
+                            <td><strong>Q</strong>ahwa (Coffee)</td>
+                        </tr>
+                        <tr>
+                            <td class="arabic">غ</td>
+                            <td><strong>Ghayn.</strong> Sounds like the French “r”, a gargling sound.</td>
+                            <td><strong>Gh</strong>eli (Expensive)</td>
+                        </tr>
+                    </table>
+                </div>
+            </section>
+
+            <section class="lesson-block">
+                <h3 class="section-header">Lesson 2: The Chat Alphabet (Arabizi)</h3>
+                <div class="lesson-content">
+                    <p>When Tunisians text or use social media, they rarely use Arabic script. Instead, they use a clever mix of Latin letters and <strong>numbers</strong> to represent distinct Arabic sounds that do not exist in English or French. This is called <em>Arabizi</em> or the “Chat Alphabet”.</p>
+                    
+                    <p style="background-color: var(--jasmine-cream); padding: 15px; border-radius: 5px; border: 1px solid #ddd;">
+                        <strong>Important note:</strong> The word <strong>S7i7</strong> that appears in the quiz is a perfect example. The number <strong>7</strong> represents the letter <strong>ح</strong> (deep <em>Ha</em>), because the shape of the number 7 resembles the Arabic letter.
+                    </p>
+
+                    <table class="sound-table">
+                        <tr>
+                            <th>Number</th>
+                            <th>Arabic Sound</th>
+                            <th>Use Example</th>
+                        </tr>
+                        <tr>
+                            <td class="num">3</td>
+                            <td class="arabic">ع</td>
+                            <td><strong>3</strong>aslema (Hello)</td>
+                        </tr>
+                        <tr>
+                            <td class="num">5</td>
+                            <td class="arabic">خ</td>
+                            <td><strong>5</strong>obz (Bread)</td>
+                        </tr>
+                        <tr>
+                            <td class="num">7</td>
+                            <td class="arabic">ح</td>
+                            <td>S<strong>7</strong>i7 (Correct)</td>
+                        </tr>
+                        <tr>
+                            <td class="num">9</td>
+                            <td class="arabic">ق</td>
+                            <td><strong>9</strong>ahwa (Coffee)</td>
+                        </tr>
+                    </table>
+                    <button class="btn" style="margin-top: 10px;" onclick="speakText('In chat, Tunisians use numbers like 3, 5, 7 and 9 to write special Arabic sounds.', 'en-US')">🔊 Read explanation</button>
+                </div>
+            </section>
+            </section>
+
+            <!-- VOCABULARY PAGE -->
+            <section id="page-lessons" class="page-section">
+            <h2 id="lessons" style="color: var(--deep-sea); margin: 0 0 30px;">Vocabulary Lessons</h2>
+
+            <section class="lesson-block">
+                <h3 class="section-header">Lesson 1: Greetings & Basics</h3>
+                <div class="lesson-content">
+                    <p>Start with the most common greetings and small-talk expressions that you will hear in every Tunisian street, café, or taxi.</p>
+                    <table class="sound-table">
+                        <tr>
+                            <th>Arabic</th>
+                            <th>Arabizi / Latin</th>
+                            <th>Meaning</th>
+                        </tr>
+                        <tr>
+                            <td class="arabic">عسلامة</td>
+                            <td>3aslema</td>
+                            <td>Hello (informal greeting)</td>
+                        </tr>
+                        <tr>
+                            <td class="arabic">مرحبا</td>
+                            <td>mar7ba</td>
+                            <td>Welcome / Hi</td>
+                        </tr>
+                        <tr>
+                            <td class="arabic">صباح الخير</td>
+                            <td>sbah el-khir</td>
+                            <td>Good morning</td>
+                        </tr>
+                        <tr>
+                            <td class="arabic">مساء الخير</td>
+                            <td>msa el-khir</td>
+                            <td>Good evening</td>
+                        </tr>
+                        <tr>
+                            <td class="arabic">بسلامة</td>
+                            <td>bslema</td>
+                            <td>Goodbye</td>
+                        </tr>
+                        <tr>
+                            <td class="arabic">شبيك؟</td>
+                            <td>chbik?</td>
+                            <td>What is wrong? / What is up?</td>
+                        </tr>
+                        <tr>
+                            <td class="arabic">شنية أحوالك؟</td>
+                            <td>chniya a7walek?</td>
+                            <td>How are you? (to a man)</td>
+                        </tr>
+                        <tr>
+                            <td class="arabic">إن شاء الله لباس</td>
+                            <td>inshallah labes</td>
+                            <td>Hopefully fine / I hope all is good</td>
+                        </tr>
+                    </table>
+                    <button class="btn" style="margin-top: 10px;" onclick="speakText('Greetings in Tunisian Derja like 3aslema and mar7ba.', 'en-US')">🔊 Read vocabulary title</button>
+                </div>
+            </section>
+
+            <section class="lesson-block">
+                <h3 class="section-header">Lesson 2: Politeness & Reactions</h3>
+                <div class="lesson-content">
+                    <p>Use these phrases to be kind, polite, and expressive when reacting to good news, help, or surprises.</p>
+                    <table class="sound-table">
+                        <tr>
+                            <th>Arabic</th>
+                            <th>Arabizi / Latin</th>
+                            <th>Meaning</th>
+                        </tr>
+                        <tr>
+                            <td class="arabic">يعطيك الصحة</td>
+                            <td>ya3tik essa7a</td>
+                            <td>Thank you (literally: may it give you health)</td>
+                        </tr>
+                        <tr>
+                            <td class="arabic">يعيشك</td>
+                            <td>ya3ishik / aayshek</td>
+                            <td>Thank you / Please (very Tunisian)</td>
+                        </tr>
+                        <tr>
+                            <td class="arabic">برشا</td>
+                            <td>barsha</td>
+                            <td>A lot / very much</td>
+                        </tr>
+                        <tr>
+                            <td class="arabic">مبروك</td>
+                            <td>mabrouk</td>
+                            <td>Congratulations</td>
+                        </tr>
+                        <tr>
+                            <td class="arabic">إن شاء الله</td>
+                            <td>inshallah</td>
+                            <td>If God wills / hopefully</td>
+                        </tr>
+                        <tr>
+                            <td class="arabic">انعم</td>
+                            <td>na3m / ey</td>
+                            <td>Yes</td>
+                        </tr>
+                        <tr>
+                            <td class="arabic">لا</td>
+                            <td>la</td>
+                            <td>No</td>
+                        </tr>
+                        <tr>
+                            <td class="arabic">سحيح</td>
+                            <td>s7i7</td>
+                            <td>Correct / true</td>
+                        </tr>
+                    </table>
+                </div>
+            </section>
+
+            <section class="lesson-block">
+                <h3 class="section-header">Lesson 3: Food & Daily Life</h3>
+                <div class="lesson-content">
+                    <p>Food is at the heart of Tunisian culture. Learn the most useful food and money words for markets, cafés, and family tables.</p>
+                    <table class="sound-table">
+                        <tr>
+                            <th>Arabic</th>
+                            <th>Arabizi / Latin</th>
+                            <th>Meaning</th>
+                        </tr>
+                        <tr>
+                            <td class="arabic">قهوة</td>
+                            <td>9ahwa</td>
+                            <td>Coffee</td>
+                        </tr>
+                        <tr>
+                            <td class="arabic">خبز</td>
+                            <td>5obz</td>
+                            <td>Bread</td>
+                        </tr>
+                        <tr>
+                            <td class="arabic">كسكسي</td>
+                            <td>koskosi / couscous</td>
+                            <td>Couscous (national dish)</td>
+                        </tr>
+                        <tr>
+                            <td class="arabic">حريرة</td>
+                            <td>7rira</td>
+                            <td>Traditional soup</td>
+                        </tr>
+                        <tr>
+                            <td class="arabic">ماكلة</td>
+                            <td>makla</td>
+                            <td>Food / meal</td>
+                        </tr>
+                        <tr>
+                            <td class="arabic">فلوس</td>
+                            <td>flous</td>
+                            <td>Money</td>
+                        </tr>
+                        <tr>
+                            <td class="arabic">غالي</td>
+                            <td>ghali</td>
+                            <td>Expensive</td>
+                        </tr>
+                        <tr>
+                            <td class="arabic">رخيص</td>
+                            <td>rkhis</td>
+                            <td>Cheap</td>
+                        </tr>
+                    </table>
+                </div>
+            </section>
+
+            <section class="lesson-block">
+                <h3 class="section-header">Lesson 4: Numbers & Time</h3>
+                <div class="lesson-content">
+                    <p>Numbers and time expressions help you handle prices, appointments, and everyday schedules.</p>
+                    <table class="sound-table">
+                        <tr>
+                            <th>Arabic</th>
+                            <th>Arabizi / Latin</th>
+                            <th>Meaning</th>
+                        </tr>
+                        <tr><td class="arabic">واحد</td><td>wa7ed</td><td>One</td></tr>
+                        <tr><td class="arabic">اثنين</td><td>ethnayn</td><td>Two</td></tr>
+                        <tr><td class="arabic">ثلاثة</td><td>thletha / tletha</td><td>Three</td></tr>
+                        <tr><td class="arabic">أربعة</td><td>arba3a</td><td>Four</td></tr>
+                        <tr><td class="arabic">خمسة</td><td>5amsa</td><td>Five</td></tr>
+                        <tr><td class="arabic">عشرة</td><td>3achra</td><td>Ten</td></tr>
+                        <tr><td class="arabic">ساعة</td><td>sa3a</td><td>Hour / o’clock</td></tr>
+                        <tr><td class="arabic">دقيقة</td><td>d9i9a</td><td>Minute</td></tr>
+                        <tr><td class="arabic">اليوم</td><td>elyoum</td><td>Today</td></tr>
+                        <tr><td class="arabic">غدوة</td><td>ghodwa</td><td>Tomorrow</td></tr>
+                    </table>
+                </div>
+            </section>
+
+            <section class="lesson-block">
+                <h3 class="section-header">Lesson 5: Places & Directions</h3>
+                <div class="lesson-content">
+                    <p>Use these words to move around the city, ask for directions, and talk about locations.</p>
+                    <table class="sound-table">
+                        <tr>
+                            <th>Arabic</th>
+                            <th>Arabizi / Latin</th>
+                            <th>Meaning</th>
+                        </tr>
+                        <tr><td class="arabic">دار</td><td>dar</td><td>House / home</td></tr>
+                        <tr><td class="arabic">زنقة</td><td>zen9a</td><td>Street / alley</td></tr>
+                        <tr><td class="arabic">مدينة</td><td>mdina</td><td>Old city / downtown</td></tr>
+                        <tr><td class="arabic">بحر</td><td>b7ar</td><td>Sea / beach</td></tr>
+                        <tr><td class="arabic">محطة</td><td>ma7ta</td><td>Station / stop</td></tr>
+                        <tr><td class="arabic">يمين</td><td>ymin</td><td>Right (direction)</td></tr>
+                        <tr><td class="arabic">يسار</td><td>ysar</td><td>Left (direction)</td></tr>
+                        <tr><td class="arabic">قدّام</td><td>9oddem</td><td>In front of / ahead</td></tr>
+                    </table>
+                </div>
+            </section>
+            </section>
+
+            <!-- SENTENCES PAGE -->
+            <section id="page-sentences" class="page-section">
+            <h2 id="sentences" style="color: var(--deep-sea); margin: 0 0 30px;">Sentences</h2>
+
+            <section class="lesson-block">
+                <h3 class="section-header">Lesson 1: Mini Dialogues</h3>
+                <div class="lesson-content">
+                    <p>Now put your vocabulary into action with simple everyday sentences. Try to read them in Arabic, then with Arabizi, and finally say the English meaning.</p>
+                    <table class="sound-table">
+                        <tr>
+                            <th>Arabic</th>
+                            <th>Arabizi</th>
+                            <th>English</th>
+                            <th>Audio</th>
+                        </tr>
+                        <tr>
+                            <td class="arabic">عسلامة، شنية أحوالك؟</td>
+                            <td>3aslema, chniya a7walek?</td>
+                            <td>Hello, how are you?</td>
+                            <td><button class="btn" onclick="speakText('3aslema, chniya a7walek?', 'ar-TN')">🔊</button></td>
+                        </tr>
+                        <tr>
+                            <td class="arabic">لاباس، الحمد لله. وانتي؟</td>
+                            <td>labes, el7amdullah. w enti?</td>
+                            <td>I am fine, thanks God. And you?</td>
+                            <td><button class="btn" onclick="speakText('labes, elhamdu lillah, w enti?', 'ar-TN')">🔊</button></td>
+                        </tr>
+                        <tr>
+                            <td class="arabic">يعطيك الصحة، برشا شكراً.</td>
+                            <td>ya3tik essa7a, barsha chokran.</td>
+                            <td>Thank you so much.</td>
+                            <td><button class="btn" onclick="speakText('ya3tik essa7a, barsha chokran.', 'ar-TN')">🔊</button></td>
+                        </tr>
+                        <tr>
+                            <td class="arabic">قدّام الكافي، على يمين الزنقة.</td>
+                            <td>9oddem el-kafi, 3la ymin ez-zen9a.</td>
+                            <td>In front of the café, on the right side of the street.</td>
+                            <td><button class="btn" onclick="speakText('9oddem el kafi, 3la ymin ez zen9a.', 'ar-TN')">🔊</button></td>
+                        </tr>
+                        <tr>
+                            <td class="arabic">نستناك غدوة على ثلاثة متاع العشية.</td>
+                            <td>nestennik ghodwa 3la thletha mta3 l3shiya.</td>
+                            <td>I will wait for you tomorrow at three in the afternoon.</td>
+                            <td><button class="btn" onclick="speakText('nestennik ghodwa 3la thletha mta3 l3shiya.', 'ar-TN')">🔊</button></td>
+                        </tr>
+                    </table>
+                </div>
+            </section>
+            </section>
+        </main>
+        
+        <!-- PRACTICE PAGE -->
+        <section id="page-practice" class="page-section">
+            <h2 id="practice" style="color: var(--terracotta); margin-bottom: 30px;">Practice</h2>
+
+            <section class="practice-block">
+                <h3 class="section-header">Choose a Lesson to Practice</h3>
+                <div class="lesson-content">
+                    <label for="practice-lesson-select" style="font-weight: bold;">Lesson:</label>
+                    <select id="practice-lesson-select" style="margin-left: 10px; padding: 8px;">
+                        <option value="pron-0">Pronunciation – Lesson 0 (Alphabet)</option>
+                        <option value="pron-1">Pronunciation – Lesson 1 (Difficult sounds)</option>
+                        <option value="pron-2">Pronunciation – Lesson 2 (Arabizi)</option>
+                        <option value="vocab-1">Vocabulary – Lesson 1 (Greetings)</option>
+                        <option value="vocab-2">Vocabulary – Lesson 2 (Politeness)</option>
+                        <option value="vocab-3">Vocabulary – Lesson 3 (Food & Life)</option>
+                        <option value="vocab-4">Vocabulary – Lesson 4 (Numbers & Time)</option>
+                        <option value="vocab-5">Vocabulary – Lesson 5 (Places & Directions)</option>
+                        <option value="sent-1">Sentences – Lesson 1 (Mini Dialogues)</option>
+                    </select>
+                </div>
+            </section>
+
+            <section class="practice-block">
+                <h3 class="section-header">Interactive Quiz</h3>
+                <div class="lesson-content text-center" style="text-align: center;">
+                    <h4 id="practice-quiz-title">Multiple Choice – Question 1</h4>
+                    <p id="practice-quiz-question" style="font-size: 1.1rem; margin: 15px 0; font-weight: bold;"></p>
+                    <button class="btn" style="margin-bottom: 15px;" onclick="playCurrentQuestionAudio()">🔊 Play question audio</button>
+
+                    <div id="practice-quiz-options" style="text-align: left; max-width: 500px; margin: 0 auto 15px;"></div>
+
+                    <div id="practice-open-question-container" style="display: none; margin-top: 20px;">
+                        <h4>Open Question</h4>
+                        <p id="practice-open-question-text" style="font-weight: bold;"></p>
+                        <textarea id="practice-open-answer" rows="3" style="width: 100%; padding: 10px; margin-top: 10px; border-radius: 5px; border: 1px solid #ddd;" placeholder="Type your answer in Derja or Arabizi..."></textarea>
+                    </div>
+
+                    <p id="practice-quiz-feedback" style="font-weight: bold; margin-top: 15px; min-height: 20px;"></p>
+
+                    <button class="btn" id="practice-check-btn" onclick="checkPracticeAnswer()">Check Answer</button>
+                    <button class="btn" id="practice-next-btn" onclick="nextPracticeQuestion()" style="display: none; background-color: var(--deep-sea); margin-left: 10px;">Next</button>
+                </div>
+            </section>
+        </section>
+    </div>
+
+    <script>
+        // Audio helpers (text-to-speech)
+        let speechSynthesisUtterance = null;
+        function speakText(text, lang = 'ar-TN') {
+            if (!window.speechSynthesis) { return; }
+            if (speechSynthesisUtterance) {
+                window.speechSynthesis.cancel();
+            }
+            speechSynthesisUtterance = new SpeechSynthesisUtterance(text);
+            speechSynthesisUtterance.lang = lang;
+            window.speechSynthesis.speak(speechSynthesisUtterance);
+        }
+
+        function stopSpeech() {
+            if (window.speechSynthesis) {
+                window.speechSynthesis.cancel();
+            }
+        }
+
+        // Simple page navigation (like separate pages)
+        function showPage(pageId) {
+            const sections = document.querySelectorAll('.page-section');
+            sections.forEach(sec => {
+                sec.classList.toggle('active', sec.id === pageId);
+            });
+        }
+
+        function initNavigation() {
+            const links = document.querySelectorAll('nav .links a[data-page-target]');
+            links.forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = this.getAttribute('data-page-target');
+                    if (target) {
+                        showPage(target);
+                        const hash = this.getAttribute('href');
+                        if (hash) {
+                            history.replaceState(null, '', hash);
+                        }
+                    }
+                });
+            });
+        }
+
+        // Practice quiz data and logic
+        const practiceLessons = {
+            'pron-0': {
+                mc: [
+                    {
+                        question: "How many basic letters are in the Arabic alphabet?",
+                        options: ["22", "26", "28", "30"],
+                        correctIndex: 2
+                    },
+                    {
+                        question: "In which direction is Arabic written?",
+                        options: ["Left to right", "Right to left", "Top to bottom"],
+                        correctIndex: 1
+                    }
+                ],
+                open: {
+                    question: "Name one Arabic letter and describe roughly how it sounds in your own words.",
+                    lang: "en-US"
+                }
+            },
+            'pron-1': {
+                mc: [
+                    {
+                        question: "Which sound is represented by the letter ح in Derja?",
+                        options: ["Soft h like in 'house'", "Deep h from the throat", "English j as in 'jam'"],
+                        correctIndex: 1
+                    },
+                    {
+                        question: "The sound غ is closest to which foreign language sound?",
+                        options: ["French 'r' in 'Paris'", "Spanish 'll' in 'llama'", "German 'w' in 'Wasser'"],
+                        correctIndex: 0
+                    }
+                ],
+                open: {
+                    question: "Try to describe how you would produce the sound ق (Qaf) using your throat and tongue.",
+                    lang: "en-US"
+                }
+            },
+            'pron-2': {
+                mc: [
+                    {
+                        question: "In Arabizi, which number usually represents the sound ح?",
+                        options: ["3", "5", "7", "9"],
+                        correctIndex: 2
+                    },
+                    {
+                        question: "Which number is commonly used for the letter ق (Qaf)?",
+                        options: ["2", "5", "7", "9"],
+                        correctIndex: 3
+                    }
+                ],
+                open: {
+                    question: "Write a short Arabizi word that uses at least one number (for example, S7i7) and explain what it means.",
+                    lang: "en-US"
+                }
+            },
+            'vocab-1': {
+                mc: [
+                    {
+                        question: "What does '3aslema' mean?",
+                        options: ["Goodbye", "Hello", "Thank you"],
+                        correctIndex: 1
+                    },
+                    {
+                        question: "Which expression means 'Good morning'?",
+                        options: ["msa el-khir", "sbah el-khir", "bslema"],
+                        correctIndex: 1
+                    }
+                ],
+                open: {
+                    question: "Create your own greeting sentence in Derja using at least one word from this lesson.",
+                    lang: "ar-TN"
+                }
+            },
+            'vocab-2': {
+                mc: [
+                    {
+                        question: "Which phrase literally means 'may it give you health'?",
+                        options: ["ya3tik essa7a", "mabrouk", "barsha"],
+                        correctIndex: 0
+                    },
+                    {
+                        question: "Which word means 'a lot / very much'?",
+                        options: ["barsha", "s7i7", "la"],
+                        correctIndex: 0
+                    }
+                ],
+                open: {
+                    question: "Write a short thank-you sentence in Derja using 'ya3tik essa7a' or 'y3ishik'.",
+                    lang: "ar-TN"
+                }
+            },
+            'vocab-3': {
+                mc: [
+                    {
+                        question: "What does '9ahwa' mean?",
+                        options: ["Soup", "Bread", "Coffee"],
+                        correctIndex: 2
+                    },
+                    {
+                        question: "Which word means 'Money'?",
+                        options: ["makla", "flous", "ghali"],
+                        correctIndex: 1
+                    }
+                ],
+                open: {
+                    question: "Describe your favourite Tunisian food or drink in one or two short Derja sentences.",
+                    lang: "ar-TN"
+                }
+            },
+            'vocab-4': {
+                mc: [
+                    {
+                        question: "Which word means 'Tomorrow'?",
+                        options: ["elyoum", "ghodwa", "sa3a"],
+                        correctIndex: 1
+                    },
+                    {
+                        question: "What does 'sa3a' mean?",
+                        options: ["Minute", "Hour / o’clock", "Today"],
+                        correctIndex: 1
+                    }
+                ],
+                open: {
+                    question: "Write a short sentence in Arabizi saying what time you will meet a friend tomorrow.",
+                    lang: "ar-TN"
+                }
+            },
+            'vocab-5': {
+                mc: [
+                    {
+                        question: "Which word means 'House / home'?",
+                        options: ["dar", "b7ar", "zen9a"],
+                        correctIndex: 0
+                    },
+                    {
+                        question: "What does '9oddem' mean?",
+                        options: ["Behind", "In front of / ahead", "On the left"],
+                        correctIndex: 1
+                    }
+                ],
+                open: {
+                    question: "Describe in Derja where your house is using at least one place or direction word.",
+                    lang: "ar-TN"
+                }
+            },
+            'sent-1': {
+                mc: [
+                    {
+                        question: "In the dialogue, which expression means 'Hello, how are you?'",
+                        options: [
+                            "3aslema, chniya a7walek?",
+                            "labes, el7amdullah. w enti?",
+                            "ya3tik essa7a, barsha chokran."
+                        ],
+                        correctIndex: 0
+                    },
+                    {
+                        question: "Which sentence means 'I will wait for you tomorrow at three in the afternoon'?",
+                        options: [
+                            "9oddem el-kafi, 3la ymin ez-zen9a.",
+                            "nestennik ghodwa 3la thletha mta3 l3shiya.",
+                            "labes, el7amdullah. w enti?"
+                        ],
+                        correctIndex: 1
+                    }
+                ],
+                open: {
+                    question: "Write your own two-line mini dialogue in Derja (Arabizi) using at least one greeting and one time expression.",
+                    lang: "ar-TN"
+                }
+            }
+        };
+
+        let practiceState = {
+            currentLessonKey: 'pron-0',
+            currentIndex: 0,
+            inOpenQuestion: false
+        };
+
+        function renderPracticeQuestion() {
+            const data = practiceLessons[practiceState.currentLessonKey];
+            const titleEl = document.getElementById('practice-quiz-title');
+            const questionEl = document.getElementById('practice-quiz-question');
+            const optionsEl = document.getElementById('practice-quiz-options');
+            const feedbackEl = document.getElementById('practice-quiz-feedback');
+            const openContainer = document.getElementById('practice-open-question-container');
+            const openText = document.getElementById('practice-open-question-text');
+            const openAnswer = document.getElementById('practice-open-answer');
+            const checkBtn = document.getElementById('practice-check-btn');
+            const nextBtn = document.getElementById('practice-next-btn');
+
+            feedbackEl.textContent = '';
+
+            if (!practiceState.inOpenQuestion) {
+                // Multiple choice phase
+                titleEl.textContent = `Multiple Choice – Question ${practiceState.currentIndex + 1}`;
+                const q = data.mc[practiceState.currentIndex];
+                questionEl.textContent = q.question;
+                optionsEl.innerHTML = '';
+                q.options.forEach((opt, idx) => {
+                    const id = `practice-option-${idx}`;
+                    const wrapper = document.createElement('div');
+                    wrapper.style.marginBottom = '8px';
+                    wrapper.innerHTML = `
+                        <label>
+                            <input type="radio" name="practice-option" value="${idx}" id="${id}" style="margin-right: 8px;">
+                            ${opt}
+                        </label>
+                    `;
+                    optionsEl.appendChild(wrapper);
+                });
+                openContainer.style.display = 'none';
+                openAnswer.value = '';
+                checkBtn.style.display = 'inline-block';
+                nextBtn.style.display = 'none';
+            } else {
+                // Open question phase
+                titleEl.textContent = 'Open Question';
+                questionEl.textContent = '';
+                optionsEl.innerHTML = '';
+                openContainer.style.display = 'block';
+                openText.textContent = data.open.question;
+                openAnswer.value = '';
+                checkBtn.style.display = 'inline-block';
+                nextBtn.style.display = 'none';
+            }
+        }
+
+        function checkPracticeAnswer() {
+            const data = practiceLessons[practiceState.currentLessonKey];
+            const feedbackEl = document.getElementById('practice-quiz-feedback');
+            const nextBtn = document.getElementById('practice-next-btn');
+
+            if (!practiceState.inOpenQuestion) {
+                const q = data.mc[practiceState.currentIndex];
+                const selected = document.querySelector('input[name="practice-option"]:checked');
+                if (!selected) {
+                    feedbackEl.textContent = 'Please choose an option.';
+                    feedbackEl.style.color = '#E71D36';
+                    return;
+                }
+                const idx = parseInt(selected.value, 10);
+                if (idx === q.correctIndex) {
+                    feedbackEl.textContent = 'Correct! ✅';
+                    feedbackEl.style.color = '#28a745';
+                } else {
+                    feedbackEl.textContent = 'Not quite, try again or click Next to see another question.';
+                    feedbackEl.style.color = '#E71D36';
+                }
+                nextBtn.style.display = 'inline-block';
+            } else {
+                const openAnswer = document.getElementById('practice-open-answer').value.trim();
+                if (!openAnswer) {
+                    feedbackEl.textContent = 'Write something in the box first.';
+                    feedbackEl.style.color = '#E71D36';
+                    return;
+                }
+                feedbackEl.textContent = 'Nice! You created your own Derja sentence. 🎉';
+                feedbackEl.style.color = '#28a745';
+            }
+        }
+
+        function nextPracticeQuestion() {
+            const data = practiceLessons[practiceState.currentLessonKey];
+            if (!practiceState.inOpenQuestion) {
+                if (practiceState.currentIndex < data.mc.length - 1) {
+                    practiceState.currentIndex += 1;
+                } else {
+                    practiceState.inOpenQuestion = true;
+                }
+            } else {
+                // Restart lesson
+                practiceState.currentIndex = 0;
+                practiceState.inOpenQuestion = false;
+            }
+            renderPracticeQuestion();
+        }
+
+        function initPractice() {
+            const select = document.getElementById('practice-lesson-select');
+            select.addEventListener('change', function () {
+                practiceState.currentLessonKey = this.value;
+                practiceState.currentIndex = 0;
+                practiceState.inOpenQuestion = false;
+                renderPracticeQuestion();
+            });
+            renderPracticeQuestion();
+        }
+
+        function playCurrentQuestionAudio() {
+            const data = practiceLessons[practiceState.currentLessonKey];
+            let text = '';
+            if (!practiceState.inOpenQuestion) {
+                text = data.mc[practiceState.currentIndex].question;
+            } else {
+                text = data.open.question;
+            }
+            const lang = data.open.lang || 'en-US';
+            speakText(text, lang);
+        }
+
+        window.addEventListener('load', function () {
+            initNavigation();
+            initPractice();
+        });
+    </script>
+</body>
+</html>
