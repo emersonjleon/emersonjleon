@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Polyhedron Graph Visualizer - Pro Edition</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #121212;
+            color: #e0e0e0;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .panel {
+            background: #1e1e1e;
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.5);
+            margin-bottom: 20px;
+            width: 100%;
+            max-width: 1200px;
+            box-sizing: border-box;
+            border: 1px solid #333;
+        }
+        .controls-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .controls-row:last-child {
+            margin-bottom: 0;
+        }
+        .slider-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            background: #2d2d2d;
+            padding: 10px;
+            border-radius: 6px;
+            flex: 1;
+            min-width: 200px;
+        }
+        .slider-group label {
+            font-size: 13px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .custom-graph-group {
+            display: flex;
+            gap: 10px;
+            width: 100%;
+            align-items: flex-start;
+        }
+        textarea {
+            flex: 1;
+            background-color: #2d2d2d;
+            color: #fff;
+            border: 1px solid #444;
+            border-radius: 4px;
+            padding: 8px;
+            font-family: monospace;
+            font-size: 12px;
+            resize: vertical;
+        }
+        select, button {
+            padding: 8px 12px;
+            font-size: 14px;
+            background-color: #2d2d2d;
+            color: #fff;
+            border: 1px solid #444;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.2s, border-color 0.2s;
+        }
+        button:hover, select:hover {
+            background-color: #3d3d3d;
+            border-color: #666;
+        }
+        button.active {
+            background-color: #00d2d3;
+            color: #000;
+            font-weight: bold;
+            border-color: #00d2d3;
+        }
+        button.active:hover {
+            background-color: #01b1b1;
+        }
+        button.danger {
+            background-color: #ff4757;
+            color: #fff;
+            border-color: #ff4757;
+        }
+        button.danger:hover {
+            background-color: #ff2a3d;
+        }
+        button.action {
+            background-color: #3742fa;
+            border-color: #3742fa;
+            font-weight: bold;
+        }
+        button.action:hover {
+            background-color: #5352ed;
+        }
+        .svg-container {
+            width: 100%;
+            max-width: 1400px;
+            background-color: #1e1e1e;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+            overflow: hidden;
+            border: 1px solid #333;
+        }
+        svg {
+            display: block;
+            width: 100%;
+            height: 800px;
+        }
+        .link {
+            stroke: #555;
+            stroke-opacity: 0.8;
+            stroke-width: 2.5px;
+        }
+        .node {
+            stroke: #1e1e1e;
+            stroke-width: 2px;
+            cursor: grab;
+        }
+        .node:active {
+            cursor: grabbing;
+        }
+        .node text {
+            pointer-events: none;
+            font-size: 13px;
+            fill: #1e1e1e;
+            font-weight: 800;
+            text-anchor: middle;
+            dominant-baseline: central;
+            font-family: monospace;
+        }
+        svg.hide-labels .node text {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="panel">
+        <div class="controls-row">
+            <label for="graph-select"><strong>Preset:</strong></label>
+            <select id="graph-select">
+                <option value="dodecahedron">Regular Dodecahedron</option>
+                <option value="cube">Cube</option>
+                <option value="tetrahedron">Tetrahedron</option>
+                <option value="custom">Custom (from JSON)</option>
+            </select>
+            
+            <button id="toggle-physics" class="danger">Deactivate Global Physics</button>
+            <button id="toggle-labels">Hide Vertex Numbers</button>
+        </div>
+
+        <hr style="border-color: #333; margin: 15px 0;">
+
+        <div class="controls-row">
+            <div class="slider-group">
+                <label>Link Distance: <span id="dist-val">100</span></label>
+                <input type="range" id="force-link" min="10" max="300" value="100">
+            </div>
+            <div class="slider-group">
+                <label>Charge (Repulsion): <span id="charge-val">-400</span></label>
+                <input type="range" id="force-charge" min="-1500" max="0" value="-400">
+            </div>
+            <div class="slider-group">
+                <label>Collision Radius: <span id="collide-val">30</span></label>
+                <input type="range" id="force-collide" min="0" max="100" value="30">
+            </div>
+        </div>
+
+        <hr style="border-color: #333; margin: 15px 0;">
+
+        <div class="custom-graph-group">
+            <textarea id="custom-json" rows="3" placeholder='Paste JSON here. Example: {"nodes": [{"id": "A"}, {"id": "B"}], "links": [{"source": "A", "target": "B"}]}'></textarea>
+            <button id="load-custom" class="action">Load JSON</button>
+        </div>
+    </div>
+
+    <div class="svg-container">
+        <svg id="graph-svg"></svg>
+    </div>
+
+    <script>
+        // --- Graph Data Definitions ---
+        const graphs = {
+            dodecahedron: {
+                nodes: Array.from({length: 20}, (_, i) => ({id: i})),
+                links: [
+                    {source: 0, target: 1}, {source: 1, target: 2}, {source: 2, target: 3}, {source: 3, target: 4}, {source: 4, target: 0},
+                    {source: 0, target: 5}, {source: 1, target: 6}, {source: 2, target: 7}, {source: 3, target: 8}, {source: 4, target: 9},
+                    {source: 5, target: 10}, {source: 5, target: 14}, {source: 6, target: 10}, {source: 6, target: 11},
+                    {source: 7, target: 11}, {source: 7, target: 12}, {source: 8, target: 12}, {source: 8, target: 13},
+                    {source: 9, target: 13}, {source: 9, target: 14},
+                    {source: 10, target: 15}, {source: 11, target: 16}, {source: 12, target: 17}, {source: 13, target: 18}, {source: 14, target: 19},
+                    {source: 15, target: 16}, {source: 16, target: 17}, {source: 17, target: 18}, {source: 18, target: 19}, {source: 19, target: 15}
+                ]
+            },
+            cube: {
+                nodes: Array.from({length: 8}, (_, i) => ({id: i})),
+                links: [
+                    {source: 0, target: 1}, {source: 1, target: 2}, {source: 2, target: 3}, {source: 3, target: 0},
+                    {source: 4, target: 5}, {source: 5, target: 6}, {source: 6, target: 7}, {source: 7, target: 4},
+                    {source: 0, target: 4}, {source: 1, target: 5}, {source: 2, target: 6}, {source: 3, target: 7}
+                ]
+            },
+            tetrahedron: {
+                nodes: Array.from({length: 4}, (_, i) => ({id: i})),
+                links: [
+                    {source: 0, target: 1}, {source: 0, target: 2}, {source: 0, target: 3},
+                    {source: 1, target: 2}, {source: 1, target: 3}, {source: 2, target: 3}
+                ]
+            },
+            custom: { nodes: [], links: [] } // Placeholder for user input
+        };
+
+        // --- D3 Setup ---
+        const svg = d3.select("#graph-svg");
+        let width = svg.node().getBoundingClientRect().width;
+        let height = 800;
+        
+        let simulation;
+        let physicsEnabled = true;
+        let labelsVisible = true;
+
+        let linkSelection, nodeSelection;
+
+        const defaultColor = "#00d2d3"; 
+        const pinnedColor = "#ff4757";  
+
+        function updatePositions() {
+            linkSelection
+                .attr("x1", d => d.source.x)
+                .attr("y1", d => d.source.y)
+                .attr("x2", d => d.target.x)
+                .attr("y2", d => d.target.y);
+
+            nodeSelection
+                .attr("transform", d => `translate(${d.x},${d.y})`);
+        }
+
+        function drawGraph(graphKey) {
+            svg.selectAll("*").remove();
+            width = svg.node().getBoundingClientRect().width;
+
+            const data = {
+                nodes: graphs[graphKey].nodes.map(d => Object.assign({}, d)),
+                links: graphs[graphKey].links.map(d => Object.assign({}, d))
+            };
+
+            // Read current slider values
+            const linkDist = +d3.select("#force-link").property("value");
+            const chargeStr = +d3.select("#force-charge").property("value");
+            const collideRad = +d3.select("#force-collide").property("value");
+
+            simulation = d3.forceSimulation(data.nodes)
+                .force("link", d3.forceLink(data.links).id(d => d.id).distance(linkDist))
+                .force("charge", d3.forceManyBody().strength(chargeStr))
+                .force("center", d3.forceCenter(width / 2, height / 2))
+                .force("collide", d3.forceCollide().radius(collideRad));
+
+            linkSelection = svg.append("g")
+                .attr("class", "links")
+                .selectAll("line")
+                .data(data.links)
+                .join("line")
+                .attr("class", "link");
+
+            nodeSelection = svg.append("g")
+                .attr("class", "nodes")
+                .selectAll("g")
+                .data(data.nodes)
+                .join("g")
+                .attr("class", "node")
+                .call(drag(simulation))
+                .on("click", togglePin);
+
+            nodeSelection.append("circle")
+                .attr("r", 16)
+                .attr("fill", d => d.pinned ? pinnedColor : defaultColor);
+
+            nodeSelection.append("text")
+                .text(d => d.id);
+
+            simulation.on("tick", updatePositions);
+
+            if (!physicsEnabled) simulation.stop();
+        }
+
+        // --- Interaction Logic ---
+        function drag(simulation) {
+            function dragstarted(event, d) {
+                if (physicsEnabled && !event.active) simulation.alphaTarget(0.3).restart();
+                d.fx = d.x;
+                d.fy = d.y;
+            }
+            function dragged(event, d) {
+                d.fx = event.x;
+                d.fy = event.y;
+                if (!physicsEnabled) {
+                    d.x = event.x;
+                    d.y = event.y;
+                    updatePositions();
+                }
+            }
+            function dragended(event, d) {
+                if (physicsEnabled && !event.active) simulation.alphaTarget(0);
+                if (!d.pinned) {
+                    d.fx = null;
+                    d.fy = null;
+                }
+            }
+            return d3.drag().on("start", dragstarted).on("drag", dragged).on("end", dragended);
+        }
+
+        function togglePin(event, d) {
+            if (event.defaultPrevented) return; 
+            d.pinned = !d.pinned;
+            if (d.pinned) {
+                d.fx = d.x;
+                d.fy = d.y;
+            } else {
+                d.fx = null;
+                d.fy = null;
+                if (physicsEnabled) simulation.alpha(0.1).restart();
+            }
+            d3.select(this).select("circle")
+                .attr("fill", d.pinned ? pinnedColor : defaultColor)
+                .transition().duration(200)
+                .attr("r", d.pinned ? 20 : 16); 
+        }
+
+        // --- UI Event Listeners ---
+
+        // Dropdown
+        d3.select("#graph-select").on("change", function() {
+            drawGraph(this.value);
+        });
+
+        // Sliders
+        d3.select("#force-link").on("input", function() {
+            d3.select("#dist-val").text(this.value);
+            if (simulation) {
+                simulation.force("link").distance(+this.value);
+                if (physicsEnabled) simulation.alpha(0.3).restart();
+            }
+        });
+
+        d3.select("#force-charge").on("input", function() {
+            d3.select("#charge-val").text(this.value);
+            if (simulation) {
+                simulation.force("charge").strength(+this.value);
+                if (physicsEnabled) simulation.alpha(0.3).restart();
+            }
+        });
+
+        d3.select("#force-collide").on("input", function() {
+            d3.select("#collide-val").text(this.value);
+            if (simulation) {
+                simulation.force("collide").radius(+this.value);
+                if (physicsEnabled) simulation.alpha(0.3).restart();
+            }
+        });
+
+        // Load Custom JSON
+        d3.select("#load-custom").on("click", function() {
+            try {
+                const rawVal = d3.select("#custom-json").property("value");
+                if (!rawVal.trim()) throw new Error("Input is empty");
+                
+                const customData = JSON.parse(rawVal);
+                if (!customData.nodes || !customData.links) throw new Error("Missing 'nodes' or 'links' array");
+
+                graphs["custom"] = customData;
+                d3.select("#graph-select").property("value", "custom");
+                drawGraph("custom");
+            } catch (err) {
+                alert("Error parsing graph data:\n" + err.message + "\n\nPlease ensure it is valid JSON.");
+            }
+        });
+
+        // Toggles
+        d3.select("#toggle-physics").on("click", function() {
+            physicsEnabled = !physicsEnabled;
+            const btn = d3.select(this);
+            if (physicsEnabled) {
+                simulation.alphaTarget(0.3).restart();
+                btn.text("Deactivate Global Physics").classed("danger", true).classed("active", false);
+            } else {
+                simulation.stop();
+                btn.text("Activate Global Physics").classed("danger", false).classed("active", true);
+            }
+        });
+
+        d3.select("#toggle-labels").on("click", function() {
+            labelsVisible = !labelsVisible;
+            const btn = d3.select(this);
+            if (labelsVisible) {
+                svg.classed("hide-labels", false);
+                btn.text("Hide Vertex Numbers").classed("active", false);
+            } else {
+                svg.classed("hide-labels", true);
+                btn.text("Show Vertex Numbers").classed("active", true);
+            }
+        });
+
+        // Window Resize
+        window.addEventListener('resize', () => {
+            if (physicsEnabled && simulation) {
+                width = svg.node().getBoundingClientRect().width;
+                simulation.force("center", d3.forceCenter(width / 2, height / 2));
+                simulation.alpha(0.3).restart();
+            }
+        });
+
+        // Initialize
+        drawGraph("dodecahedron");
+
+    </script>
+</body>
+</html>
+
