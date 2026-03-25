@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Web Workshop: From Zero to Interactive</title>
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-light: #e0e7ff;
+            --text-dark: #1e293b;
+            --text-light: #64748b;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --accent: #10b981;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary), #7c3aed);
+            color: white;
+            text-align: center;
+            padding: 4rem 1rem;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 1rem auto 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: -2rem auto 2rem;
+            padding: 0 1rem;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .intro {
+            font-size: 1.1rem;
+            text-align: center;
+            border-left: 4px solid var(--primary);
+            background-color: var(--primary-light);
+            padding: 1rem 2rem;
+            border-radius: 0 8px 8px 0;
+            margin-bottom: 2rem;
+        }
+
+        .phase {
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .phase:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .phase-badge {
+            display: inline-block;
+            background-color: var(--primary-light);
+            color: var(--primary);
+            font-weight: bold;
+            padding: 0.25rem 0.75rem;
+            border-radius: 999px;
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+        }
+
+        h2 { margin-top: 0; color: var(--text-dark); }
+        h3 { margin-top: 0; }
+
+        /* Interactive Generator Styles */
+        .interactive-section {
+            background-color: #f0fdf4;
+            border: 2px solid var(--accent);
+        }
+
+        .interactive-section h2 {
+            color: #047857;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        input[type="text"], select, textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-family: inherit;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            resize: vertical;
+            height: 100px;
+        }
+
+        .output-box {
+            background-color: #1e293b;
+            color: #f8fafc;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-top: 1.5rem;
+            font-family: monospace;
+            font-size: 1rem;
+            line-height: 1.5;
+            white-space: pre-wrap;
+        }
+
+        .btn-copy {
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 1rem;
+            transition: background-color 0.2s;
+            width: 100%;
+        }
+
+        .btn-copy:hover {
+            background-color: #059669;
+        }
+
+        .tips-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .tips-list li {
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .tips-list li::before {
+            content: "💡";
+            position: absolute;
+            left: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>AI for Educators</h1>
+        <p>Turn your lesson ideas into interactive webpages without writing a single line of code.</p>
+    </header>
+
+    <div class="container">
+        <div class="intro">
+            <strong>Think of it like this:</strong> You are the Head Chef (the subject matter expert), and the AI is your lightning-fast Sous-Chef. You don't need to learn how to code today; you just need to practice writing a great recipe!
+        </div>
+
+        <div class="card">
+            <h2>The 5-Step Workflow</h2>
+            
+            <div class="phase">
+                <span class="phase-badge">Phase 1</span>
+                <h3>The Hook & Demystification</h3>
+                <p>Don't panic! We aren't learning HTML today. AI tools like Claude (using Artifacts) or v0.dev have turned web design into a simple conversation. Your job is simply to be a clear communicator.</p>
+            </div>
+
+            <div class="phase">
+                <span class="phase-badge">Phase 2</span>
+                <h3>Define the Educational Goal</h3>
+                <p>Start small. Don't build an entire course. Pick one of these three options to build today:</p>
+                <ul>
+                    <li>A 5-question interactive quiz.</li>
+                    <li>A set of digital flashcards.</li>
+                    <li>A drag-and-drop matching game.</li>
+                </ul>
+                <p><em>Action:</em> Take 10 minutes to write your questions, answers, or terms on a piece of paper.</p>
+            </div>
+
+            <div class="phase">
+                <span class="phase-badge">Phase 4</span>
+                <h3>Generate and Tweak</h3>
+                <p>Paste your prompt into your AI tool. If it's not perfect on the first try, just tell the AI what to fix, exactly like talking to an assistant! (e.g., "Make the text larger" or "Make the background blue").</p>
+            </div>
+
+            <div class="phase">
+                <span class="phase-badge">Phase 5</span>
+                <h3>Publish and Share</h3>
+                <p>Once you are happy, click the "Share" or "Publish" button in your AI tool to get a link. You can immediately email this link to your students or post it in your learning management system.</p>
+            </div>
+        </div>
+
+        <div class="card interactive-section">
+            <h2>✨ Interactive Prompt Builder</h2>
+            <p>Don't guess what to say to the AI. Fill out the blanks below, and we will generate the perfect prompt for you to copy and paste.</p>
+            
+            <div class="form-group">
+                <label for="pageType">1. What do you want to build?</label>
+                <select id="pageType">
+                    <option value="flashcard app">Flashcard App</option>
+                    <option value="5-question interactive quiz">5-Question Quiz</option>
+                    <option value="drag-and-drop matching game">Matching Game</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="gradeLevel">2. Who are your students? (e.g., 5th Grade, High School Biology)</label>
+                <input type="text" id="gradeLevel" placeholder="e.g., 5th Grade">
+            </div>
+
+            <div class="form-group">
+                <label for="topic">3. What is the topic?</label>
+                <input type="text" id="topic" placeholder="e.g., The Water Cycle">
+            </div>
+
+            <div class="form-group">
+                <label for="vibe">4. What is the design style/vibe?</label>
+                <input type="text" id="vibe" placeholder="e.g., colorful, playful, space-themed, minimalist">
+            </div>
+
+            <div class="form-group">
+                <label for="content">5. Paste your content here (Questions, terms, facts):</label>
+                <textarea id="content" placeholder="E.g., 1. Evaporation: Water turning to gas. 2. Condensation: Gas turning to water..."></textarea>
+            </div>
+
+            <div class="output-box" id="promptOutput">
+                </div>
+            
+            <button class="btn-copy" onclick="copyPrompt()">📋 Copy Prompt to Clipboard</button>
+        </div>
+
+        <div class="card">
+            <h2>Troubleshooting Tips</h2>
+            <ul class="tips-list">
+                <li><strong>Expect things to break:</strong> If the AI generates a weird glitch, embrace it! Just type: <em>"There is a bug, the [element] isn't working correctly. Please fix it."</em></li>
+                <li><strong>Don't refresh:</strong> Keep all your requests in the same chat thread so the AI remembers the context of your lesson.</li>
+                <li><strong>Ask for options:</strong> If you don't like the colors, say: <em>"I don't love the colors. Give me 3 different color palette options to choose from."</em></li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript to power the interactive prompt builder
+        const inputs = ['pageType', 'gradeLevel', 'topic', 'vibe', 'content'];
+        const output = document.getElementById('promptOutput');
+
+        function updatePrompt() {
+            const type = document.getElementById('pageType').value || '[Type of page]';
+            const grade = document.getElementById('gradeLevel').value || '[Grade level/Subject]';
+            const topic = document.getElementById('topic').value || '[Topic]';
+            const vibe = document.getElementById('vibe').value || '[Design style]';
+            const content = document.getElementById('content').value || '[Paste your content here]';
+
+            const promptText = `Act as an expert web developer and educational designer. Create an interactive ${type} for my ${grade} students. 
+
+The topic is: ${topic}. 
+
+Here is the content to include: 
+${content}
+
+Make the design ${vibe}. It should be fully responsive. When a student successfully completes a task or gets an answer right, please show a fun celebration animation. Provide the complete, working code in a single file if possible.`;
+
+            output.textContent = promptText;
+        }
+
+        // Add event listeners to all inputs to update text in real-time
+        inputs.forEach(id => {
+            document.getElementById(id).addEventListener('input', updatePrompt);
+            document.getElementById(id).addEventListener('change', updatePrompt);
+        });
+
+        // Initialize the prompt on page load
+        updatePrompt();
+
+        // Copy to clipboard function
+        function copyPrompt() {
+            const textToCopy = output.textContent;
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                const btn = document.querySelector('.btn-copy');
+                const originalText = btn.textContent;
+                btn.textContent = '✅ Copied!';
+                btn.style.backgroundColor = '#059669';
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.style.backgroundColor = 'var(--accent)';
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
